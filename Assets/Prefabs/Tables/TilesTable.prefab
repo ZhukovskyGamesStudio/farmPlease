@@ -1,0 +1,2121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6464801070664477607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2056452862680651377}
+  - component: {fileID: 5479262302028550781}
+  m_Layer: 0
+  m_Name: TilesTable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2056452862680651377
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6464801070664477607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 304.51477, y: 165.04814, z: -64.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5479262302028550781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6464801070664477607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29946c38806a39d49abe3670fff26846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groups:
+  - name: Common
+    isBuilding: 0
+    CropType: -1
+    BuildingType: -1
+    tiledatas:
+    - type: 1
+      TileBase: {fileID: 11400000, guid: a3bad16867bc1d044a0d02e3a3962583, type: 2}
+      CanBeHoed: 1
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 2
+      TileBase: {fileID: 11400000, guid: fdfa934cef2d7f747bdc02e9c34e5daf, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 1
+      CanBeWatered: 1
+      WaterSwitch: 4
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 1
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 3
+      TileBase: {fileID: 11400000, guid: fd57bf33c9408724e89c392de0d43d1b, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 4
+      TileBase: {fileID: 11400000, guid: b921331b5d2cc44439d039c6a56add35, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 1
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 5
+      TileBase: {fileID: 11400000, guid: 5a888dd15ae440148acd9d744f5e90a8, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Tomato
+    isBuilding: 0
+    CropType: 0
+    BuildingType: -1
+    tiledatas:
+    - type: 6
+      TileBase: {fileID: 11400000, guid: 777367e2a53123349a2ed528d2e4edb3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 7
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 0
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 7
+      TileBase: {fileID: 11400000, guid: b564f5325826abf4091124cab83ac9d9, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 0
+      CanBeNewDayed: 1
+      NewDaySwitch: 8
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 8
+      TileBase: {fileID: 11400000, guid: 02d30b82045d77543a5d9efca52d987e, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 9
+      CanBeCollected: 1
+      CropCollected: 0
+      collectAmount: 1
+      CropType: 0
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 9
+      TileBase: {fileID: 11400000, guid: d568bfb27ace30e408ed4c1ae724df50, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 10
+      CanBeCollected: 1
+      CropCollected: 0
+      collectAmount: 2
+      CropType: 0
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 10
+      TileBase: {fileID: 11400000, guid: b535487fb93a6ec4cb15a4702099e933, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 0
+      collectAmount: 3
+      CropType: 0
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Eggplant
+    isBuilding: 0
+    CropType: 2
+    BuildingType: -1
+    tiledatas:
+    - type: 11
+      TileBase: {fileID: 11400000, guid: 087f91006e6fb6845950a82598741456, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 12
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 2
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 12
+      TileBase: {fileID: 11400000, guid: 9696d1b4e04f8fa408f46a510d90c921, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 2
+      CanBeNewDayed: 1
+      NewDaySwitch: 13
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 13
+      TileBase: {fileID: 11400000, guid: d888668fda3cc1f4698d1ca9eb26fbf0, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 1
+      collectAmount: 1
+      CropType: 2
+      CanBeNewDayed: 1
+      NewDaySwitch: 14
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 14
+      TileBase: {fileID: 11400000, guid: 674b54f29bc9e6c44ac1cbb7fbb555ac, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 1
+      collectAmount: 1
+      CropType: 2
+      CanBeNewDayed: 1
+      NewDaySwitch: 15
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 15
+      TileBase: {fileID: 11400000, guid: 865c153494e8aca4c838889ad1d937e0, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 1
+      collectAmount: 3
+      CropType: 2
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Corn
+    isBuilding: 0
+    CropType: 2
+    BuildingType: -1
+    tiledatas:
+    - type: 16
+      TileBase: {fileID: 11400000, guid: d79dba28e6ef4e748a021e6eb0ee3e84, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 17
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 2
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 17
+      TileBase: {fileID: 11400000, guid: e2498a640d68b7d4192063ff7b04f176, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 2
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 18
+      TileBase: {fileID: 11400000, guid: 2ded4b3039d97aa4a8f7fb2e91ce51b9, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 2
+      collectAmount: 1
+      CropType: 2
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Dandelion
+    isBuilding: 0
+    CropType: 3
+    BuildingType: -1
+    tiledatas:
+    - type: 19
+      TileBase: {fileID: 11400000, guid: 6afc479c5b8169342b2343cdeb2042a8, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 20
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 3
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 20
+      TileBase: {fileID: 11400000, guid: 65bf3c50aaedc4c4eab02652014acc52, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 3
+      CanBeNewDayed: 1
+      NewDaySwitch: 21
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 21
+      TileBase: {fileID: 11400000, guid: ddbfb769c299ab245ad8b8158124b4cc, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 3
+      collectAmount: 1
+      CropType: 3
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Strawberry
+    isBuilding: 0
+    CropType: 4
+    BuildingType: -1
+    tiledatas:
+    - type: 22
+      TileBase: {fileID: 11400000, guid: 31b472f499b628248bfdd938798d072b, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 23
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 4
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 23
+      TileBase: {fileID: 11400000, guid: ccaaaa46978ed3441acf7af150824d76, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 4
+      CanBeNewDayed: 1
+      NewDaySwitch: 24
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 24
+      TileBase: {fileID: 11400000, guid: 7d7ce52c2c446294d9b675f449df2939, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 4
+      collectAmount: 1
+      CropType: 4
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Cactus
+    isBuilding: 0
+    CropType: 6
+    BuildingType: -1
+    tiledatas:
+    - type: 25
+      TileBase: {fileID: 11400000, guid: 62929f879c22dec4d816db47b4d4e9ce, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 2
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 6
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 1
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 26
+      TileBase: {fileID: 11400000, guid: aa507c9ae3d015446b2e8a67dcf3e404, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 2
+      CanBeCollected: 1
+      CropCollected: 6
+      collectAmount: 4
+      CropType: 6
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Fern
+    isBuilding: 0
+    CropType: 5
+    BuildingType: -1
+    tiledatas:
+    - type: 27
+      TileBase: {fileID: 11400000, guid: bd91e9c75eb1b694989ba0dccb4079aa, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 28
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 5
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 28
+      TileBase: {fileID: 11400000, guid: 4b0fd95f783628c4d95082e44f42e60c, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 5
+      CanBeNewDayed: 1
+      NewDaySwitch: 29
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 29
+      TileBase: {fileID: 11400000, guid: a3ba6715a77b66341bb05e003b302be6, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 30
+      CanBeCollected: 1
+      CropCollected: 5
+      collectAmount: 1
+      CropType: 5
+      CanBeNewDayed: 1
+      NewDaySwitch: 31
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 30
+      TileBase: {fileID: 11400000, guid: 3c5c216bbc74e5240813c3b3b394c3c0, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 5
+      collectAmount: 1
+      CropType: 5
+      CanBeNewDayed: 1
+      NewDaySwitch: 29
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 31
+      TileBase: {fileID: 11400000, guid: 2d2eede267c223d45bfa3e18d327e1c9, type: 2}
+      CanBeHoed: 1
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 5
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: BeautyFlower
+    isBuilding: 0
+    CropType: 7
+    BuildingType: -1
+    tiledatas:
+    - type: 32
+      TileBase: {fileID: 11400000, guid: 7f295e7acd5dbca47baf6f83d524c78a, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 39
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 47
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 33
+      TileBase: {fileID: 11400000, guid: aa72ff0208e63484ab2fd4856db59622, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 40
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 47
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 34
+      TileBase: {fileID: 11400000, guid: c802ba28c8dc160458d4c7864c624d68, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 41
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 47
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 35
+      TileBase: {fileID: 11400000, guid: d40b211d5c1f456428274e78d64c72e9, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 42
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 47
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 36
+      TileBase: {fileID: 11400000, guid: 04c4bdf8bee540248b3719c850441b86, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 43
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 47
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 37
+      TileBase: {fileID: 11400000, guid: 94e8c66ed986c5b4689c6577d4e21610, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 44
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 47
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 38
+      TileBase: {fileID: 11400000, guid: 195b89b861ce08840a60a0285f9d2a88, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 45
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 47
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 39
+      TileBase: {fileID: 11400000, guid: 60bec4131926ced4cb0efe2a5ebcff49, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 33
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 40
+      TileBase: {fileID: 11400000, guid: aee11967909993146986b13cd57ed5e9, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 34
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 41
+      TileBase: {fileID: 11400000, guid: 8249e2f6688f3e3498d344aa65e40d14, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 35
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 42
+      TileBase: {fileID: 11400000, guid: e537b56766e04194da392ed49fa2c4fe, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 36
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 43
+      TileBase: {fileID: 11400000, guid: 510d724e00c7dcc48851a38880ce866f, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 37
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 44
+      TileBase: {fileID: 11400000, guid: e28ccfe46fbc35f4eacfccf38dd5d345, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 38
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 45
+      TileBase: {fileID: 11400000, guid: b074b0a74a488614595e8d787e94f065, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 46
+      TileBase: {fileID: 11400000, guid: 42b9bad8fc539ec4182d80362ec2504d, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 7
+      collectAmount: 1
+      CropType: 7
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 47
+      TileBase: {fileID: 11400000, guid: ed0a1210a4abb7d4aa90d040489dd6a9, type: 2}
+      CanBeHoed: 1
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 7
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 48
+      TileBase: {fileID: 11400000, guid: 85d992d6f30a2b5429f09f2b552ca776, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 7
+      collectAmount: 1
+      CropType: 7
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Flycathcer
+    isBuilding: 0
+    CropType: 8
+    BuildingType: -1
+    tiledatas:
+    - type: 49
+      TileBase: {fileID: 11400000, guid: 89ade840e3baa3249b25a8539d99014f, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 2
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 8
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 50
+      TileBase: {fileID: 11400000, guid: a590dbf663e76fa47bc24cac16310f69, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 2
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 8
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 51
+      TileBase: {fileID: 11400000, guid: 911e3de52dc141a4a92d5c2c6de51340, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 2
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 8
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 52
+      TileBase: {fileID: 11400000, guid: 8462cfa5c381fa645a6fda4a08caf45a, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 2
+      CanBeCollected: 1
+      CropCollected: 8
+      collectAmount: 1
+      CropType: 8
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Onion
+    isBuilding: 0
+    CropType: 9
+    BuildingType: -1
+    tiledatas:
+    - type: 53
+      TileBase: {fileID: 11400000, guid: 9e05df1ef121c7144a34d3c7f307bbb7, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 54
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 9
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 54
+      TileBase: {fileID: 11400000, guid: 908f5397b39c36f44bfaf4fe269b71fc, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 9
+      CanBeNewDayed: 1
+      NewDaySwitch: 55
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 55
+      TileBase: {fileID: 11400000, guid: e6aa64757a2a63d4ab115a0a865bfcd0, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 9
+      collectAmount: 0
+      CropType: 9
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Pumpkin
+    isBuilding: 0
+    CropType: 11
+    BuildingType: -1
+    tiledatas:
+    - type: 98
+      TileBase: {fileID: 11400000, guid: 70565b80eef08434ea77421c269c12c3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 101
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 99
+      TileBase: {fileID: 11400000, guid: 5b9bf041517022144a1ce873089ca2a7, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 102
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 100
+      TileBase: {fileID: 11400000, guid: c0f1d1a8626c6da418e02a23441f03be, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 103
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 101
+      TileBase: {fileID: 11400000, guid: b9648f233a25d614b9106f462e0ac109, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 1
+      NewDaySwitch: 104
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 102
+      TileBase: {fileID: 11400000, guid: 55c5e2301622e37409f5238b24d74e2d, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 1
+      NewDaySwitch: 105
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 103
+      TileBase: {fileID: 11400000, guid: 455f62c5c6a8f5040a66afbbabaef499, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 1
+      NewDaySwitch: 106
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 104
+      TileBase: {fileID: 11400000, guid: 704960a30f8577049b04221a4ee271f5, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 1
+      NewDaySwitch: 107
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 105
+      TileBase: {fileID: 11400000, guid: 3de580f866f39524787db29bc1599f9b, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 1
+      NewDaySwitch: 108
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 106
+      TileBase: {fileID: 11400000, guid: edb1df22315db234d9845db65716dc47, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 11
+      CanBeNewDayed: 1
+      NewDaySwitch: 109
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 107
+      TileBase: {fileID: 11400000, guid: 6e59cdb700d983c48acf09d926786266, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 11
+      collectAmount: 1
+      CropType: 11
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 108
+      TileBase: {fileID: 11400000, guid: a61bde8e83345114c9c2172b4423c4e6, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 11
+      collectAmount: 2
+      CropType: 11
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 109
+      TileBase: {fileID: 11400000, guid: 455c46844989f4b4bb3395cae80b297c, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 11
+      collectAmount: 3
+      CropType: 11
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Radish
+    isBuilding: 0
+    CropType: 12
+    BuildingType: -1
+    tiledatas:
+    - type: 110
+      TileBase: {fileID: 11400000, guid: 7965375bfd35c6c418e49a4de85ed575, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 111
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 12
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 111
+      TileBase: {fileID: 11400000, guid: be865a916fab0cf4a9d78619006d0637, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 12
+      CanBeNewDayed: 1
+      NewDaySwitch: 112
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 112
+      TileBase: {fileID: 11400000, guid: 1be507d6f0c820e439243180f5c50f86, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 12
+      collectAmount: 1
+      CropType: 12
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  - name: Peanut
+    isBuilding: 0
+    CropType: 13
+    BuildingType: -1
+    tiledatas:
+    - type: 113
+      TileBase: {fileID: 11400000, guid: c4634cc875ffbd144ae1e9fa3c12412e, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 114
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 13
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 114
+      TileBase: {fileID: 11400000, guid: d4062e6eec71dc3488a29895cabd4fbe, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 13
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 115
+      TileBase: {fileID: 11400000, guid: 752c0174be61212458911f7b7721c102, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 1
+      CropCollected: 13
+      collectAmount: 0
+      CropType: 13
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+    - type: 116
+      TileBase: {fileID: 11400000, guid: 8bef9de8e508cdf46ad027ad62975491, type: 2}
+      CanBeHoed: 1
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: 13
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 0
+      BuildingType: -1
+  BuildingGroups:
+  - name: Biogenerator
+    isBuilding: 0
+    CropType: -1
+    BuildingType: 0
+    tiledatas:
+    - type: 56
+      TileBase: {fileID: 11400000, guid: d25b07b9643c0404ab5a5b8781bae8ea, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 1
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 57
+      TileBase: {fileID: 11400000, guid: 535c4954f949e2e40acdb953595766a1, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 58
+      TileBase: {fileID: 11400000, guid: abe9f33108197984995c98e8a9f2d826, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 1
+      TIndex: 1
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 59
+      TileBase: {fileID: 11400000, guid: a8ae65afc9cbb644eae61567ab259f64, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 1
+      TIndex: 2
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 60
+      TileBase: {fileID: 11400000, guid: 7977321520ba0c1469ed3326df5508ab, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 1
+      TIndex: 3
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 61
+      TileBase: {fileID: 11400000, guid: fd3299ecc56f75c4e95c5c2813ec0f62, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 56
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+  - name: Freshener
+    isBuilding: 0
+    CropType: -1
+    BuildingType: 1
+    tiledatas:
+    - type: 62
+      TileBase: {fileID: 11400000, guid: 7bcec5bc3a7f4794f83a194a6a4949bb, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 63
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 63
+      TileBase: {fileID: 11400000, guid: 2a937310b25d6174999b0b5cd8ed8eb3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 64
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 64
+      TileBase: {fileID: 11400000, guid: 2a937310b25d6174999b0b5cd8ed8eb3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 65
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 65
+      TileBase: {fileID: 11400000, guid: 2a937310b25d6174999b0b5cd8ed8eb3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 66
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 66
+      TileBase: {fileID: 11400000, guid: 1bde23445df1d954f8b9f7b0b7e745e7, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 67
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 67
+      TileBase: {fileID: 11400000, guid: 1bde23445df1d954f8b9f7b0b7e745e7, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 68
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 68
+      TileBase: {fileID: 11400000, guid: 1bde23445df1d954f8b9f7b0b7e745e7, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 69
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 69
+      TileBase: {fileID: 11400000, guid: 8eda279e477964649ae818516c3981ee, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 1
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 70
+      TileBase: {fileID: 11400000, guid: 76adedb5614a40d47890b3b158ac9f19, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 62
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 71
+      TileBase: {fileID: 11400000, guid: 3cb2a826a0cd311489290fc6f2a63ae8, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 1
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 72
+      TileBase: {fileID: 11400000, guid: 531d1bd9b63952e4a8aef2f6514b12e1, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 2
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 73
+      TileBase: {fileID: 11400000, guid: b13b9e22163ab0049a07b36d1248064b, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 3
+      IsBuilding: 1
+      BuildingType: -1
+  - name: Sprinkler
+    isBuilding: 0
+    CropType: -1
+    BuildingType: 2
+    tiledatas:
+    - type: 74
+      TileBase: {fileID: 11400000, guid: 1b68d244224bcd14bad6347b3ea7a4b3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 76
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 75
+      TileBase: {fileID: 11400000, guid: 68334e5c4c8cf994e8c5e29fabb60308, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 77
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 74
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 76
+      TileBase: {fileID: 11400000, guid: 68334e5c4c8cf994e8c5e29fabb60308, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 78
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 75
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 77
+      TileBase: {fileID: 11400000, guid: 44d5f75a1d5b00f4d873448c96deaafa, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 79
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 76
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 78
+      TileBase: {fileID: 11400000, guid: 44d5f75a1d5b00f4d873448c96deaafa, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 1
+      WaterSwitch: 80
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 77
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 79
+      TileBase: {fileID: 11400000, guid: f32638907e65d474d8774d1d9ea06f95, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 78
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 80
+      TileBase: {fileID: 11400000, guid: f32638907e65d474d8774d1d9ea06f95, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 79
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 82
+      TileBase: {fileID: 11400000, guid: c7874665d18f2e446a83f5ac32317648, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 74
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 83
+      TileBase: {fileID: 11400000, guid: be9a1665d5a07894da69429a92df26d4, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 1
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 84
+      TileBase: {fileID: 11400000, guid: 613b25c7d9e46464eb6294f34a5381e7, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 2
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 85
+      TileBase: {fileID: 11400000, guid: 864c34a277b15174eac91fe47dae4f62, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 3
+      IsBuilding: 1
+      BuildingType: -1
+  - name: Sprinkler Target
+    isBuilding: 0
+    CropType: -1
+    BuildingType: 3
+    tiledatas:
+    - type: 81
+      TileBase: {fileID: 11400000, guid: c2acd536d54c49243802857d7eab1409, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+  - name: SeedDoubler
+    isBuilding: 0
+    CropType: -1
+    BuildingType: 4
+    tiledatas:
+    - type: 86
+      TileBase: {fileID: 11400000, guid: b9383bb38780b3647afc4e2738c6e919, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 1
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 87
+      TileBase: {fileID: 11400000, guid: 8102e6fb3e250924b92e1b4eae93eaa3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 1
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 89
+      TileBase: {fileID: 11400000, guid: 0487e86721ccd764aae8e80dcac3b885, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 1
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 1
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 90
+      TileBase: {fileID: 11400000, guid: 5045b917130e4b341a48e36af9c77146, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 2
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 91
+      TileBase: {fileID: 11400000, guid: 92bb4d526e1172844beb7e2e1aa2c88c, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 3
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 3
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 88
+      TileBase: {fileID: 11400000, guid: 22510d1c50feafd43b2c5e403a00d1d3, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 86
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+  - name: Tractor
+    isBuilding: 0
+    CropType: -1
+    BuildingType: 5
+    tiledatas:
+    - type: 92
+      TileBase: {fileID: 11400000, guid: 7ef305b1a034c4646897caf7e99755df, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 93
+      TileBase: {fileID: 11400000, guid: 4b772cfe4a26fcf4fa965bcb0326d6a7, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 94
+      TileBase: {fileID: 11400000, guid: 8ed6a1d67ec3830488469e26ac3f4916, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 1
+      NewDaySwitch: 92
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 0
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 95
+      TileBase: {fileID: 11400000, guid: 4bb17da64be7fa747b8c0c64d889e3b6, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 1
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 96
+      TileBase: {fileID: 11400000, guid: 25bc579dcd9631a4db6c344869a982ba, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 2
+      IsBuilding: 1
+      BuildingType: -1
+    - type: 97
+      TileBase: {fileID: 11400000, guid: f3403ddeb1f9a7b4991ead0f8168d1b5, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      CropCollected: 0
+      collectAmount: 0
+      CropType: -1
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 0
+      TIndex: 3
+      IsBuilding: 1
+      BuildingType: -1
+  DictionaryEntrancies: 116
+  RecreateDictionary: 0

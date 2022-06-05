@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8252645107134170263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8252645107134170257}
+  - component: {fileID: 8252645107134170256}
+  m_Layer: 0
+  m_Name: WeatherTable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8252645107134170257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252645107134170263}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8252645107134170256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252645107134170263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf7968c0fb3db346bc4f1e8bcbde5d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeathersSO:
+  - {fileID: 11400000, guid: da3f00dcb884e39458628f9fe989e71f, type: 2}
+  - {fileID: 11400000, guid: 7f9f7b3cf424d244194e20229582369b, type: 2}
+  - {fileID: 11400000, guid: 8c8d9f2d740403541afe9acc8cac1a49, type: 2}
+  - {fileID: 11400000, guid: 38cf3009121f049468274a61d8d25abd, type: 2}
+  - {fileID: 11400000, guid: e32e6c3c942c39545abcd1e555a51e90, type: 2}
+  - {fileID: 11400000, guid: 4d03246cb1f3104478a9cf36a3ef8948, type: 2}
+  - {fileID: 11400000, guid: 4d5ae5470abc570469381878994def50, type: 2}
+  - {fileID: 11400000, guid: 5088433fb130f8f4e94f634151c1ae0e, type: 2}
