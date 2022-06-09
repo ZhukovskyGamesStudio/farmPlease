@@ -1,54 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugManager : MonoBehaviour
-{
-    public Text ErrorText;
+public class DebugManager : MonoBehaviour {
     public static DebugManager instance;
+    public Text ErrorText;
     public GameObject DebugPanel, LogButton;
 
     public bool IsDevelopmentBuild = true;
     public bool IsPrintingInConsole = true;
 
-    public void Awake()
-    {
-        if (instance == null)
-        {
+    public void Awake() {
+        if (instance == null) {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
-            if (IsDevelopmentBuild)
-            {
+            DontDestroyOnLoad(gameObject);
+            if (IsDevelopmentBuild) {
                 LogButton.SetActive(true);
                 instance.Clear();
-            }
-
-            else
+            } else {
                 LogButton.SetActive(false);
-
-        }
-        else
+            }
+        } else {
             Destroy(gameObject);
+        }
     }
 
-
-    public void Log(string textToShow)
-    {
+    public void Log(string textToShow) {
         ErrorText.text += "\n- " + textToShow;
         if (IsPrintingInConsole)
             Debug.Log(textToShow);
     }
 
-    public void Clear()
-    {
+    public void Clear() {
         ErrorText.text = "";
     }
 
-
-    public void OnOffDebugPanel()
-    {
+    public void OnOffDebugPanel() {
         DebugPanel.SetActive(!DebugPanel.activeSelf);
     }
-
 }

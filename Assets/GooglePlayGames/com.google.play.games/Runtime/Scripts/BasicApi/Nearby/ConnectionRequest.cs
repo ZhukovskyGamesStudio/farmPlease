@@ -14,31 +14,19 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.Nearby
-{
-    using GooglePlayGames.OurUtils;
+using GooglePlayGames.OurUtils;
 
-    public struct ConnectionRequest
-    {
-        private readonly EndpointDetails mRemoteEndpoint;
-        private readonly byte[] mPayload;
-
+namespace GooglePlayGames.BasicApi.Nearby {
+    public struct ConnectionRequest {
         public ConnectionRequest(string remoteEndpointId,
-            string remoteEndpointName, string serviceId, byte[] payload)
-        {
+            string remoteEndpointName, string serviceId, byte[] payload) {
             Logger.d("Constructing ConnectionRequest");
-            mRemoteEndpoint = new EndpointDetails(remoteEndpointId, remoteEndpointName, serviceId);
-            this.mPayload = Misc.CheckNotNull(payload);
+            RemoteEndpoint = new EndpointDetails(remoteEndpointId, remoteEndpointName, serviceId);
+            Payload = Misc.CheckNotNull(payload);
         }
 
-        public EndpointDetails RemoteEndpoint
-        {
-            get { return mRemoteEndpoint; }
-        }
+        public EndpointDetails RemoteEndpoint { get; }
 
-        public byte[] Payload
-        {
-            get { return mPayload; }
-        }
+        public byte[] Payload { get; }
     }
 }

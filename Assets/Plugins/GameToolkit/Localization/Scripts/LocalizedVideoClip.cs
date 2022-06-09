@@ -5,20 +5,18 @@ using System;
 using UnityEngine;
 using UnityEngine.Video;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
     [CreateAssetMenu(fileName = "LocalizedVideoClip", menuName = "GameToolkit/Localization/VideoClip")]
-    public class LocalizedVideoClip : LocalizedAsset<VideoClip>
-    {
-        [Serializable]
-        private class VideoClipLocaleItem : LocaleItem<VideoClip> { };
-
+    public class LocalizedVideoClip : LocalizedAsset<VideoClip> {
         [SerializeField]
         private VideoClipLocaleItem[] m_LocaleItems = new VideoClipLocaleItem[1];
 
-        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems => m_LocaleItems;
+
+        [Serializable]
+        private class VideoClipLocaleItem : LocaleItem<VideoClip> {
+        }
     }
 }

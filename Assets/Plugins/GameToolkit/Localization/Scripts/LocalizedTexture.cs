@@ -4,20 +4,18 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
     [CreateAssetMenu(fileName = "LocalizedTexture", menuName = "GameToolkit/Localization/Texture")]
-    public class LocalizedTexture : LocalizedAsset<Texture>
-    {
-        [Serializable]
-        private class TextureLocaleItem : LocaleItem<Texture> { };
-
+    public class LocalizedTexture : LocalizedAsset<Texture> {
         [SerializeField]
         private TextureLocaleItem[] m_LocaleItems = new TextureLocaleItem[1];
 
-        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems => m_LocaleItems;
+
+        [Serializable]
+        private class TextureLocaleItem : LocaleItem<Texture> {
+        }
     }
 }

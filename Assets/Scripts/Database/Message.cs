@@ -1,7 +1,7 @@
 ﻿using System;
-[System.Serializable]
-public class Message 
-{
+
+[Serializable]
+public class Message {
     public int Id;
     public int FarmId;
 

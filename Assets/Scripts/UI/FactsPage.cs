@@ -18,13 +18,15 @@ public class FactsPage : MonoBehaviour {
         if (pageData.firstSprite != null) {
             FactsFirstImage.enabled = true;
             FactsFirstImage.sprite = pageData.firstSprite;
-        } else
+        } else {
             FactsFirstImage.enabled = false;
+        }
 
         if (pageData.secondSprite != null) {
             FactsSecondImage.enabled = true;
             FactsSecondImage.sprite = pageData.secondSprite;
-        } else
+        } else {
             FactsSecondImage.enabled = false;
+        }
     }
 }

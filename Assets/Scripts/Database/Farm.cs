@@ -1,6 +1,7 @@
-﻿[System.Serializable]
-public class Farm
-{
+﻿using System;
+
+[Serializable]
+public class Farm {
     public int Id;
     public string Name;
     public string Password;

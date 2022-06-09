@@ -16,14 +16,12 @@
 
 #if UNITY_ANDROID
 
-namespace GooglePlayGames.BasicApi
-{
+namespace GooglePlayGames.BasicApi {
     /// <summary>
-    /// Common status codes.
-    /// See https://developers.google.com/android/reference/com/google/android/gms/common/api/CommonStatusCodes
+    ///     Common status codes.
+    ///     See https://developers.google.com/android/reference/com/google/android/gms/common/api/CommonStatusCodes
     /// </summary>
-    public enum CommonStatusCodes
-    {
+    public enum CommonStatusCodes {
         /// <summary>The operation was successful, but the device's cache was used.</summary>
         SuccessCached = -1,
 

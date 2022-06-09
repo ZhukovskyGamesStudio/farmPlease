@@ -4,20 +4,18 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
     [CreateAssetMenu(fileName = "LocalizedFont", menuName = "GameToolkit/Localization/Font")]
-    public class LocalizedFont : LocalizedAsset<Font>
-    {
-        [Serializable]
-        private class FontLocaleItem : LocaleItem<Font> { };
-
+    public class LocalizedFont : LocalizedAsset<Font> {
         [SerializeField]
         private FontLocaleItem[] m_LocaleItems = new FontLocaleItem[1];
 
-        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems => m_LocaleItems;
+
+        [Serializable]
+        private class FontLocaleItem : LocaleItem<Font> {
+        }
     }
 }

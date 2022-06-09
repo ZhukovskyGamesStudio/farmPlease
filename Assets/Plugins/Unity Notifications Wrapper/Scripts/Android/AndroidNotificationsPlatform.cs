@@ -2,153 +2,130 @@
 using System;
 using Unity.Notifications.Android;
 
-namespace NotificationSamples.Android
-{
+namespace NotificationSamples.Android {
 	/// <summary>
-	/// Android implementation of <see cref="IGameNotificationsPlatform"/>.
+	///     Android implementation of <see cref="IGameNotificationsPlatform" />.
 	/// </summary>
 	public class AndroidNotificationsPlatform : IGameNotificationsPlatform<AndroidGameNotification>,
-		IDisposable
-	{
-		/// <inheritdoc />
-		public event Action<IGameNotification> NotificationReceived;
+        IDisposable {
+		/// <summary>
+		///     Instantiate a new instance of <see cref="AndroidNotificationsPlatform" />.
+		/// </summary>
+		public AndroidNotificationsPlatform() {
+            AndroidNotificationCenter.OnNotificationReceived += OnLocalNotificationReceived;
+        }
 
 		/// <summary>
-		/// Gets or sets the default channel ID for notifications.
+		///     Gets or sets the default channel ID for notifications.
 		/// </summary>
 		/// <value>The default channel ID for new notifications, or null.</value>
 		public string DefaultChannelId { get; set; }
 
 		/// <summary>
-		/// Instantiate a new instance of <see cref="AndroidNotificationsPlatform"/>.
+		///     Unregister delegates.
 		/// </summary>
-		public AndroidNotificationsPlatform()
-		{
-			AndroidNotificationCenter.OnNotificationReceived += OnLocalNotificationReceived;
-		}
+		public void Dispose() {
+            AndroidNotificationCenter.OnNotificationReceived -= OnLocalNotificationReceived;
+        }
 
-		/// <inheritdoc />
-		/// <remarks>
-		/// Will set the <see cref="AndroidGameNotification.Id"/> field of <paramref name="gameNotification"/>.
-		/// </remarks>
-		public void ScheduleNotification(AndroidGameNotification gameNotification)
-		{
-			if (gameNotification == null)
-			{
-				throw new ArgumentNullException(nameof(gameNotification));
-			}
+        /// <inheritdoc />
+        public event Action<IGameNotification> NotificationReceived;
 
-			if (gameNotification.Id.HasValue)
-			{
-				AndroidNotificationCenter.SendNotificationWithExplicitID(gameNotification.InternalNotification,
-				                                                         gameNotification.DeliveredChannel,
-				                                                         gameNotification.Id.Value);
-			}
-			else
-			{
-				int notificationId = AndroidNotificationCenter.SendNotification(gameNotification.InternalNotification,
-				                                                                gameNotification.DeliveredChannel);
-				gameNotification.Id = notificationId;
-			}
+        /// <inheritdoc />
+        /// <remarks>
+        ///     Will set the <see cref="AndroidGameNotification.Id" /> field of <paramref name="gameNotification" />.
+        /// </remarks>
+        public void ScheduleNotification(AndroidGameNotification gameNotification) {
+            if (gameNotification == null) throw new ArgumentNullException(nameof(gameNotification));
 
-			gameNotification.OnScheduled();
-		}
+            if (gameNotification.Id.HasValue) {
+                AndroidNotificationCenter.SendNotificationWithExplicitID(gameNotification.InternalNotification,
+                    gameNotification.DeliveredChannel,
+                    gameNotification.Id.Value);
+            } else {
+                int notificationId = AndroidNotificationCenter.SendNotification(gameNotification.InternalNotification,
+                    gameNotification.DeliveredChannel);
+                gameNotification.Id = notificationId;
+            }
 
-		/// <inheritdoc />
-		/// <remarks>
-		/// Will set the <see cref="AndroidGameNotification.Id"/> field of <paramref name="gameNotification"/>.
-		/// </remarks>
-		public void ScheduleNotification(IGameNotification gameNotification)
-		{
-			if (gameNotification == null)
-			{
-				throw new ArgumentNullException(nameof(gameNotification));
-			}
+            gameNotification.OnScheduled();
+        }
 
-			if (!(gameNotification is AndroidGameNotification androidNotification))
-			{
-				throw new InvalidOperationException(
-					"Notification provided to ScheduleNotification isn't an AndroidGameNotification.");
-			}
+        /// <inheritdoc />
+        /// <remarks>
+        ///     Will set the <see cref="AndroidGameNotification.Id" /> field of <paramref name="gameNotification" />.
+        /// </remarks>
+        public void ScheduleNotification(IGameNotification gameNotification) {
+            if (gameNotification == null) throw new ArgumentNullException(nameof(gameNotification));
 
-			ScheduleNotification(androidNotification);
-		}
+            if (!(gameNotification is AndroidGameNotification androidNotification))
+                throw new InvalidOperationException(
+                    "Notification provided to ScheduleNotification isn't an AndroidGameNotification.");
 
-		/// <inheritdoc />
-		/// <summary>
-		/// Create a new <see cref="AndroidGameNotification" />.
-		/// </summary>
-		public AndroidGameNotification CreateNotification()
-		{
-			var notification = new AndroidGameNotification()
-			{
-				DeliveredChannel = DefaultChannelId
-			};
+            ScheduleNotification(androidNotification);
+        }
 
-			return notification;
-		}
+        /// <inheritdoc />
+        /// <summary>
+        ///     Create a new <see cref="AndroidGameNotification" />.
+        /// </summary>
+        public AndroidGameNotification CreateNotification() {
+            AndroidGameNotification notification = new AndroidGameNotification {
+                DeliveredChannel = DefaultChannelId
+            };
 
-		/// <inheritdoc />
-		/// <summary>
-		/// Create a new <see cref="AndroidGameNotification" />.
-		/// </summary>
-		IGameNotification IGameNotificationsPlatform.CreateNotification()
-		{
-			return CreateNotification();
-		}
+            return notification;
+        }
 
-		/// <inheritdoc />
-		public void CancelNotification(int notificationId)
-		{
-			AndroidNotificationCenter.CancelScheduledNotification(notificationId);
-		}
+        /// <inheritdoc />
+        /// <summary>
+        ///     Create a new <see cref="AndroidGameNotification" />.
+        /// </summary>
+        IGameNotification IGameNotificationsPlatform.CreateNotification() {
+            return CreateNotification();
+        }
 
-		/// <inheritdoc />
-		/// <summary>
-		/// Not currently implemented on Android
-		/// </summary>
-		public void DismissNotification(int notificationId)
-		{
-			AndroidNotificationCenter.CancelDisplayedNotification(notificationId);
-		}
+        /// <inheritdoc />
+        public void CancelNotification(int notificationId) {
+            AndroidNotificationCenter.CancelScheduledNotification(notificationId);
+        }
 
-		/// <inheritdoc />
-		public void CancelAllScheduledNotifications()
-		{
-			AndroidNotificationCenter.CancelAllScheduledNotifications();
-		}
+        /// <inheritdoc />
+        /// <summary>
+        ///     Not currently implemented on Android
+        /// </summary>
+        public void DismissNotification(int notificationId) {
+            AndroidNotificationCenter.CancelDisplayedNotification(notificationId);
+        }
 
-		/// <inheritdoc />
-		public void DismissAllDisplayedNotifications()
-		{
-			AndroidNotificationCenter.CancelAllDisplayedNotifications();
-		}
+        /// <inheritdoc />
+        public void CancelAllScheduledNotifications() {
+            AndroidNotificationCenter.CancelAllScheduledNotifications();
+        }
 
-		/// <summary>
-		/// Does nothing on Android.
-		/// </summary>
-		public void OnForeground() { }
+        /// <inheritdoc />
+        public void DismissAllDisplayedNotifications() {
+            AndroidNotificationCenter.CancelAllDisplayedNotifications();
+        }
 
-		/// <summary>
-		/// Does nothing on Android.
-		/// </summary>
-		public void OnBackground() { }
+        /// <summary>
+        ///     Does nothing on Android.
+        /// </summary>
+        public void OnForeground() {
+        }
 
-		/// <summary>
-		/// Unregister delegates.
-		/// </summary>
-		public void Dispose()
-		{
-			AndroidNotificationCenter.OnNotificationReceived -= OnLocalNotificationReceived;
-		}
+        /// <summary>
+        ///     Does nothing on Android.
+        /// </summary>
+        public void OnBackground() {
+        }
 
-		// Event handler for receiving local notifications.
-		private void OnLocalNotificationReceived(AndroidNotificationIntentData data)
-		{
-			// Create a new AndroidGameNotification out of the delivered notification, but only
-			// if the event is registered
-			NotificationReceived?.Invoke(new AndroidGameNotification(data.Notification, data.Id, data.Channel));
-		}
-	}
+        // Event handler for receiving local notifications.
+        private void OnLocalNotificationReceived(AndroidNotificationIntentData data) {
+            // Create a new AndroidGameNotification out of the delivered notification, but only
+            // if the event is registered
+            NotificationReceived?.Invoke(new AndroidGameNotification(data.Notification, data.Id, data.Channel));
+        }
+    }
 }
 #endif

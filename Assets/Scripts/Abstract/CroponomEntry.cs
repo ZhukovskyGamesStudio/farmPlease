@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CroponomEntry 
-{
-	[Header("CroponomEntry")]
-	public string header;
-	public string firstText;
-	public Sprite firstSprite;
-	public string secondText;
-	public Sprite secondSprite;
+public class CroponomEntry {
+    public Sprite firstSprite;
+    public string firstText;
 
+    [Header("CroponomEntry")]
+    public string header;
+
+    public Sprite secondSprite;
+    public string secondText;
 }

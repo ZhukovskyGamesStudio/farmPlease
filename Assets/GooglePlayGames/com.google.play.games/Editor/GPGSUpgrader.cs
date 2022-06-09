@@ -14,25 +14,21 @@
 //    limitations under the License.
 // </copyright>
 
+using UnityEditor;
+using UnityEngine;
+
 #if UNITY_ANDROID
 
-namespace GooglePlayGames.Editor
-{
-    using System.IO;
-    using UnityEditor;
-    using UnityEngine;
-
+namespace GooglePlayGames.Editor {
     /// <summary>
-    /// GPGS upgrader handles performing and upgrade tasks.
+    ///     GPGS upgrader handles performing and upgrade tasks.
     /// </summary>
     [InitializeOnLoad]
-    public class GPGSUpgrader
-    {
+    public class GPGSUpgrader {
         /// <summary>
-        /// Initializes static members of the <see cref="GooglePlayGames.GPGSUpgrader"/> class.
+        ///     Initializes static members of the <see cref="GooglePlayGames.GPGSUpgrader" /> class.
         /// </summary>
-        static GPGSUpgrader()
-        {
+        static GPGSUpgrader() {
             if (EditorApplication.isPlayingOrWillChangePlaymode)
                 return;
             Debug.Log("GPGSUpgrader start");
@@ -44,16 +40,12 @@ namespace GooglePlayGames.Editor
 
             bool isChanged = false;
             // Check that there is a AndroidManifest.xml file
-            if (!GPGSUtil.AndroidManifestExists())
-            {
+            if (!GPGSUtil.AndroidManifestExists()) {
                 isChanged = true;
                 GPGSUtil.GenerateAndroidManifest();
             }
 
-            if (isChanged)
-            {
-                AssetDatabase.Refresh();
-            }
+            if (isChanged) AssetDatabase.Refresh();
             Debug.Log("GPGSUpgrader done");
         }
     }

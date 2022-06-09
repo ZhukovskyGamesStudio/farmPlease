@@ -4,18 +4,12 @@
 using UnityEngine;
 using UnityEngine.Video;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     [AddComponentMenu(ComponentMenuRoot + "Localized Video Clip")]
-    public class LocalizedVideoClipBehaviour : LocalizedGenericAssetBehaviour<LocalizedVideoClip, VideoClip>
-    {
-        private void Reset()
-        {
+    public class LocalizedVideoClipBehaviour : LocalizedGenericAssetBehaviour<LocalizedVideoClip, VideoClip> {
+        private void Reset() {
             m_Component = GetComponent<VideoPlayer>();
-            if (m_Component)
-            {
-                m_Property = "clip";
-            }
+            if (m_Component) m_Property = "clip";
         }
     }
 }

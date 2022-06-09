@@ -5,50 +5,30 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
-    public abstract class LocalizedAsset<T> : LocalizedAssetBase where T : class
-    {
+    public abstract class LocalizedAsset<T> : LocalizedAssetBase where T : class {
         /// <summary>
-        /// Gets the value type.
+        ///     Gets the value type.
         /// </summary>
-        public override Type ValueType
-        {
-            get { return GetValueType(); }
-        }
+        public override Type ValueType => GetValueType();
 
         /// <summary>
-        /// Gets the value type.
+        ///     Gets the defined locale items of the localized asset with concrete type.
         /// </summary>
-        public static Type GetValueType()
-        {
-            return typeof(T);
-        }
+        public LocaleItem<T>[] TypedLocaleItems => (LocaleItem<T>[]) LocaleItems;
 
         /// <summary>
-        /// Gets the defined locale items of the localized asset with concrete type.
+        ///     Gets localized asset value regarding to <see cref="Localization.CurrentLanguage" /> if available.
+        ///     Gets first value of the asset if application is not playing.
         /// </summary>
-        public LocaleItem<T>[] TypedLocaleItems
-        {
-            get { return (LocaleItem<T>[]) LocaleItems; }
-        }
-
-        /// <summary>
-        /// Gets localized asset value regarding to <see cref="Localization.CurrentLanguage"/> if available.
-        /// Gets first value of the asset if application is not playing.
-        /// </summary>
-        /// <seealso cref="Application.isPlaying"/>
-        public T Value
-        {
-            get
-            {
+        /// <seealso cref="Application.isPlaying" />
+        public T Value {
+            get {
                 T value = null;
 #if UNITY_EDITOR
-                if (Application.isPlaying)
-                {
+                if (Application.isPlaying) {
 #endif
                     value = GetLocaleValue(Localization.Instance.CurrentLanguage);
 #if UNITY_EDITOR
@@ -60,48 +40,47 @@ namespace GameToolkit.Localization
         }
 
         /// <summary>
-        /// Gets the first locale value of the asset.
+        ///     Gets the first locale value of the asset.
         /// </summary>
-        public T FirstValue
-        {
-            get
-            {
-                var localeItem = TypedLocaleItems.FirstOrDefault();
-                return localeItem != null ? localeItem.Value : default(T);
+        public T FirstValue {
+            get {
+                LocaleItem<T> localeItem = TypedLocaleItems.FirstOrDefault();
+                return localeItem != null ? localeItem.Value : default;
             }
         }
 
         /// <summary>
-        /// Returns the language given is whether exist or not.
+        ///     Gets the value type.
         /// </summary>
-        public bool HasLocale(SystemLanguage language)
-        {
-            var localeItem = LocaleItems.FirstOrDefault(x => x.Language == language);
+        public static Type GetValueType() {
+            return typeof(T);
+        }
+
+        /// <summary>
+        ///     Returns the language given is whether exist or not.
+        /// </summary>
+        public bool HasLocale(SystemLanguage language) {
+            LocaleItemBase localeItem = LocaleItems.FirstOrDefault(x => x.Language == language);
             return localeItem != null;
         }
 
         /// <summary>
-        /// Returns localized text regarding to language given; otherwise, null.
+        ///     Returns localized text regarding to language given; otherwise, null.
         /// </summary>
         /// <returns>Localized text.</returns>
-        public T GetLocaleValue(SystemLanguage language)
-        {
-            var localeItem = TypedLocaleItems.FirstOrDefault(x => x.Language == language);
-            if (localeItem != null)
-            {
-                return localeItem.Value;
-            }
+        public T GetLocaleValue(SystemLanguage language) {
+            LocaleItem<T> localeItem = TypedLocaleItems.FirstOrDefault(x => x.Language == language);
+            if (localeItem != null) return localeItem.Value;
 
             return null;
         }
 
         /// <summary>
-        /// Returns LocalizedAsset value.
+        ///     Returns LocalizedAsset value.
         /// </summary>
         /// <param name="asset">LocalizedAsset</param>
-        public static implicit operator T(LocalizedAsset<T> asset)
-        {
-            return asset ? asset.Value : default(T);
+        public static implicit operator T(LocalizedAsset<T> asset) {
+            return asset ? asset.Value : default;
         }
     }
 }

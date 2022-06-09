@@ -2,22 +2,17 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
-
+using UnityEngine;
 #if UNITY_IOS
 using UnityEditor.iOS.Xcode;
 #endif
 
-namespace GameToolkit.Localization.Editor
-{
-    public class LocalizationBuildPostprocessor
-    {
+namespace GameToolkit.Localization.Editor {
+    public class LocalizationBuildPostprocessor {
         [PostProcessBuild(9999)]
-        public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject)
-        {
+        public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject) {
 #if UNITY_IOS
             if (buildTarget == BuildTarget.iOS)
             {
@@ -50,17 +45,12 @@ namespace GameToolkit.Localization.Editor
 #endif
         }
 
-        private static List<string> GetLocalizations()
-        {
-            var localizations = new List<string>();
-            var localizationSettings = LocalizationSettings.Instance;
+        private static List<string> GetLocalizations() {
+            List<string> localizations = new List<string>();
+            LocalizationSettings localizationSettings = LocalizationSettings.Instance;
             if (localizationSettings)
-            {
-                foreach (var language in localizationSettings.AvailableLanguages)
-                {
+                foreach (SystemLanguage language in localizationSettings.AvailableLanguages)
                     localizations.Add(Localization.GetLanguageCode(language));
-                }
-            }
             return localizations;
         }
     }

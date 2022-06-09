@@ -1,27 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
-public class OnlineFarm : MonoBehaviour
-{
-    #region Singleton
-    public static OnlineFarm instance;
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance == this)
-            Destroy(gameObject);
-    }
-    #endregion
-
-
-
+public class OnlineFarm : MonoBehaviour {
     public Text FarmIdText;
 
     public Text ChatText;
@@ -31,11 +13,11 @@ public class OnlineFarm : MonoBehaviour
     public Player curPlayer;
     public Farm curFarm;
 
+    private bool isPutting;
 
-    bool NeedToUpdateFarm;
+    private bool NeedToUpdateFarm;
 
-    void Start()
-    {
+    private void Start() {
         curPlayer = DBManager.instance.tmpPlayer;
         curFarm = DBManager.instance.tmpFarm;
 
@@ -43,76 +25,59 @@ public class OnlineFarm : MonoBehaviour
             Debug.Log("Player is not loaded");
         ChatText.text = "";
 
-       
-
         FarmIdText.text = "Ферма номер #" + curFarm.Id;
 
         StartCoroutine(FarmUpdater());
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && ChatInput.text != "")
-        {
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape) && ChatInput.text != "") {
             ChatInput.text = "";
             ChatInput.DeactivateInputField();
         }
     }
 
-    public IEnumerator FarmUpdater()
-    {
-        yield return StartCoroutine(DBManager.instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer, UpdateLocalFarm));
-        for (; ; )
-        {
+    public IEnumerator FarmUpdater() {
+        yield return StartCoroutine(
+            DBManager.instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer, UpdateLocalFarm));
+        for (;;) {
             yield return StartCoroutine(DBManager.instance.GetDates(curFarm.Id, curFarm.Password, IsNeedToUpdate));
 
             if (NeedToUpdateFarm && !isPutting)
-                yield return StartCoroutine(DBManager.instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer, UpdateLocalFarm));
+                yield return StartCoroutine(DBManager.instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer,
+                    UpdateLocalFarm));
             else
                 yield return new WaitForEndOfFrame();
         }
-
     }
 
-    void IsNeedToUpdate(Farm datesHolder)
-    {
-        NeedToUpdateFarm = (curFarm.FarmPostDate != datesHolder.FarmPostDate);
-        curFarm.FarmPostDate = datesHolder.FarmPostDate;          
+    private void IsNeedToUpdate(Farm datesHolder) {
+        NeedToUpdateFarm = curFarm.FarmPostDate != datesHolder.FarmPostDate;
+        curFarm.FarmPostDate = datesHolder.FarmPostDate;
     }
 
-
-    void UpdateLocalFarm(Farm newFarm)
-    {
+    private void UpdateLocalFarm(Farm newFarm) {
         NeedToUpdateFarm = false;
         curFarm = newFarm;
 
         //ChatText.text +="\n" + curFarm.LastMessage;
 
-        if (newFarm.JsonString == null || newFarm.JsonString == "")
-        {
+        if (newFarm.JsonString == null || newFarm.JsonString == "") {
             SaveLoadManager.GenerateGame();
             DebugManager.instance.Log("Posting generated online Farm");
             ChangeFarmAndPut(SaveLoadManager.GenerateJsonString());
-        }
-        else
-        {
-           
+        } else {
             SaveLoadManager.LoadGame(newFarm.JsonString);
             DebugManager.instance.Log("Synchronizing local Farm");
         }
     }
 
-    bool isPutting;
-
-
-    public void EndPutting(Farm farm)
-    {
+    public void EndPutting(Farm farm) {
         isPutting = false;
         PlayerController.canInteract = true;
     }
 
-    public void PutChatMessage()
-    {
+    public void PutChatMessage() {
         /* 
          * if (ChatInput.text == "")
             return;
@@ -124,22 +89,30 @@ public class OnlineFarm : MonoBehaviour
         */
     }
 
-
-    public void ChangeFarmAndPut(string JsonString)
-    {
+    public void ChangeFarmAndPut(string JsonString) {
         isPutting = true;
         curFarm.JsonString = JsonString;
         StartCoroutine(DBManager.instance.PutFarm(curFarm, curPlayer, EndPutting));
     }
 
-
-    void DoNothing(Farm farm)
-    {
+    private void DoNothing(Farm farm) {
         //DebugManager.instance.Log("nothing special");
     }
 
-    public void ToMenu()
-    {
+    public void ToMenu() {
         SceneManager.LoadScene(0);
     }
+
+    #region Singleton
+
+    public static OnlineFarm instance;
+
+    private void Awake() {
+        if (instance == null)
+            instance = this;
+        else if (instance == this)
+            Destroy(gameObject);
+    }
+
+    #endregion
 }

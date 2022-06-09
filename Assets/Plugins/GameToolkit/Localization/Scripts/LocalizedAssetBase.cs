@@ -4,20 +4,17 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
-    public abstract class LocalizedAssetBase : ScriptableObject
-    {
+    public abstract class LocalizedAssetBase : ScriptableObject {
         /// <summary>
-        /// Gets the defined locale items of the localized asset.
+        ///     Gets the defined locale items of the localized asset.
         /// </summary>
         public abstract LocaleItemBase[] LocaleItems { get; }
 
         /// <summary>
-        /// Gets the value type.
+        ///     Gets the value type.
         /// </summary>
         public abstract Type ValueType { get; }
     }

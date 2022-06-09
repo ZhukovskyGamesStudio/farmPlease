@@ -14,28 +14,18 @@
 //    limitations under the License.
 // </copyright>
 
-#if UNITY_ANDROID
-namespace GooglePlayGames.Editor
-{
-    using System.Collections.Generic;
-    using System.IO;
-    using UnityEditor.Callbacks;
-    using UnityEditor;
-    using UnityEngine;
+using UnityEditor;
+using UnityEditor.Callbacks;
 
-    public static class GPGSPostBuild
-    {
+#if UNITY_ANDROID
+namespace GooglePlayGames.Editor {
+    public static class GPGSPostBuild {
         [PostProcessBuild(99999)]
-        public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
-        {
+        public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
             if (!GPGSProjectSettings.Instance.GetBool(GPGSUtil.ANDROIDSETUPDONEKEY, false))
-            {
                 EditorUtility.DisplayDialog("Google Play Games not configured!",
                     "Warning!!  Google Play Games was not configured, Game Services will not work correctly.",
                     "OK");
-            }
-
-            return;
         }
     }
 }

@@ -4,20 +4,18 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
     [CreateAssetMenu(fileName = "LocalizedTextAsset", menuName = "GameToolkit/Localization/Text Asset")]
-    public class LocalizedTextAsset : LocalizedAsset<TextAsset>
-    {
-        [Serializable]
-        private class TextAssetLocaleItem : LocaleItem<TextAsset> { };
-
+    public class LocalizedTextAsset : LocalizedAsset<TextAsset> {
         [SerializeField]
         private TextAssetLocaleItem[] m_LocaleItems = new TextAssetLocaleItem[1];
 
-        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems => m_LocaleItems;
+
+        [Serializable]
+        private class TextAssetLocaleItem : LocaleItem<TextAsset> {
+        }
     }
 }

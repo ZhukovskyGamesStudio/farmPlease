@@ -14,201 +14,142 @@
 //    limitations under the License.
 // </copyright>
 
+using System;
+using GooglePlayGames.BasicApi.Events;
+using GooglePlayGames.BasicApi.SavedGame;
+using GooglePlayGames.OurUtils;
+using UnityEngine.SocialPlatforms;
+
 #if UNITY_ANDROID
 
-namespace GooglePlayGames.BasicApi
-{
-    using System;
-    using GooglePlayGames.OurUtils;
-    using UnityEngine.SocialPlatforms;
-
+namespace GooglePlayGames.BasicApi {
     /// <summary>
-    /// Dummy client used in Editor.
+    ///     Dummy client used in Editor.
     /// </summary>
-    /// <remarks>Google Play Game Services are not supported in the Editor
-    /// environment, so this client is used as a placeholder.
+    /// <remarks>
+    ///     Google Play Game Services are not supported in the Editor
+    ///     environment, so this client is used as a placeholder.
     /// </remarks>
-    public class DummyClient : IPlayGamesClient
-    {
-        public void Authenticate(Action<SignInStatus> callback)
-        {
+    public class DummyClient : IPlayGamesClient {
+        public void Authenticate(Action<SignInStatus> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback(SignInStatus.Canceled);
-            }
+            if (callback != null) callback(SignInStatus.Canceled);
         }
 
-        public void ManuallyAuthenticate(Action<SignInStatus> callback)
-        {
+        public void ManuallyAuthenticate(Action<SignInStatus> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback(SignInStatus.Canceled);
-            }
+            if (callback != null) callback(SignInStatus.Canceled);
         }
 
-        public bool IsAuthenticated()
-        {
+        public bool IsAuthenticated() {
             LogUsage();
             return false;
         }
 
-        public void RequestServerSideAccess(bool forceRefreshToken, Action<string> callback)
-        {
+        public void RequestServerSideAccess(bool forceRefreshToken, Action<string> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback(null);
-            }
+            if (callback != null) callback(null);
         }
 
-        public string GetUserId()
-        {
+        public string GetUserId() {
             LogUsage();
             return "DummyID";
         }
 
-        public void GetPlayerStats(Action<CommonStatusCodes, PlayerStats> callback)
-        {
+        public void GetPlayerStats(Action<CommonStatusCodes, PlayerStats> callback) {
             LogUsage();
             callback(CommonStatusCodes.ApiNotConnected, new PlayerStats());
         }
 
-        public string GetUserDisplayName()
-        {
+        public string GetUserDisplayName() {
             LogUsage();
             return "Player";
         }
 
-        public string GetUserImageUrl()
-        {
+        public string GetUserImageUrl() {
             LogUsage();
             return null;
         }
 
-        public void LoadUsers(string[] userIds, Action<IUserProfile[]> callback)
-        {
+        public void LoadUsers(string[] userIds, Action<IUserProfile[]> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(null);
-            }
+            if (callback != null) callback.Invoke(null);
         }
 
-        public void LoadAchievements(Action<Achievement[]> callback)
-        {
+        public void LoadAchievements(Action<Achievement[]> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(null);
-            }
+            if (callback != null) callback.Invoke(null);
         }
 
-        public void UnlockAchievement(string achId, Action<bool> callback)
-        {
+        public void UnlockAchievement(string achId, Action<bool> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(false);
-            }
+            if (callback != null) callback.Invoke(false);
         }
 
-        public void RevealAchievement(string achId, Action<bool> callback)
-        {
+        public void RevealAchievement(string achId, Action<bool> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(false);
-            }
+            if (callback != null) callback.Invoke(false);
         }
 
-        public void IncrementAchievement(string achId, int steps, Action<bool> callback)
-        {
+        public void IncrementAchievement(string achId, int steps, Action<bool> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(false);
-            }
+            if (callback != null) callback.Invoke(false);
         }
 
-        public void SetStepsAtLeast(string achId, int steps, Action<bool> callback)
-        {
+        public void SetStepsAtLeast(string achId, int steps, Action<bool> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(false);
-            }
+            if (callback != null) callback.Invoke(false);
         }
 
-        public void ShowAchievementsUI(Action<UIStatus> callback)
-        {
+        public void ShowAchievementsUI(Action<UIStatus> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(UIStatus.VersionUpdateRequired);
-            }
+            if (callback != null) callback.Invoke(UIStatus.VersionUpdateRequired);
         }
 
         public void AskForLoadFriendsResolution(Action<UIStatus> callback) {
-          LogUsage();
-          if (callback != null) {
-            callback.Invoke(UIStatus.VersionUpdateRequired);
-          }
+            LogUsage();
+            if (callback != null) callback.Invoke(UIStatus.VersionUpdateRequired);
         }
 
         public LoadFriendsStatus GetLastLoadFriendsStatus() {
-          LogUsage();
-          return LoadFriendsStatus.Unknown;
+            LogUsage();
+            return LoadFriendsStatus.Unknown;
         }
 
         public void LoadFriends(int pageSize, bool forceReload,
-                                Action<LoadFriendsStatus> callback) {
-          LogUsage();
-          if (callback != null) {
-            callback.Invoke(LoadFriendsStatus.Unknown);
-          }
+            Action<LoadFriendsStatus> callback) {
+            LogUsage();
+            if (callback != null) callback.Invoke(LoadFriendsStatus.Unknown);
         }
 
         public void LoadMoreFriends(int pageSize, Action<LoadFriendsStatus> callback) {
-          LogUsage();
-          if (callback != null) {
-            callback.Invoke(LoadFriendsStatus.Unknown);
-          }
+            LogUsage();
+            if (callback != null) callback.Invoke(LoadFriendsStatus.Unknown);
         }
 
         public void ShowCompareProfileWithAlternativeNameHintsUI(string userId,
-                                                                 string otherPlayerInGameName,
-                                                                 string currentPlayerInGameName,
-                                                                 Action<UIStatus> callback) {
-          LogUsage();
-          if (callback != null) {
-            callback.Invoke(UIStatus.VersionUpdateRequired);
-          }
+            string otherPlayerInGameName,
+            string currentPlayerInGameName,
+            Action<UIStatus> callback) {
+            LogUsage();
+            if (callback != null) callback.Invoke(UIStatus.VersionUpdateRequired);
         }
 
         public void GetFriendsListVisibility(bool forceReload,
-                                            Action<FriendsListVisibilityStatus> callback) {
-          LogUsage();
-          if (callback != null) {
-            callback.Invoke(FriendsListVisibilityStatus.Unknown);
-          }
+            Action<FriendsListVisibilityStatus> callback) {
+            LogUsage();
+            if (callback != null) callback.Invoke(FriendsListVisibilityStatus.Unknown);
         }
 
         public void ShowLeaderboardUI(
             string leaderboardId,
             LeaderboardTimeSpan span,
-            Action<UIStatus> callback)
-        {
+            Action<UIStatus> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(UIStatus.VersionUpdateRequired);
-            }
+            if (callback != null) callback.Invoke(UIStatus.VersionUpdateRequired);
         }
 
-        public int LeaderboardMaxResults()
-        {
+        public int LeaderboardMaxResults() {
             return 25;
         }
 
@@ -218,79 +159,60 @@ namespace GooglePlayGames.BasicApi
             int rowCount,
             LeaderboardCollection collection,
             LeaderboardTimeSpan timeSpan,
-            Action<LeaderboardScoreData> callback)
-        {
+            Action<LeaderboardScoreData> callback) {
             LogUsage();
             if (callback != null)
-            {
                 callback(new LeaderboardScoreData(
                     leaderboardId,
                     ResponseStatus.LicenseCheckFailed));
-            }
         }
 
         public void LoadMoreScores(
             ScorePageToken token,
             int rowCount,
-            Action<LeaderboardScoreData> callback)
-        {
+            Action<LeaderboardScoreData> callback) {
             LogUsage();
             if (callback != null)
-            {
                 callback(new LeaderboardScoreData(
                     token.LeaderboardId,
                     ResponseStatus.LicenseCheckFailed));
-            }
         }
 
-        public void SubmitScore(string leaderboardId, long score, Action<bool> callback)
-        {
+        public void SubmitScore(string leaderboardId, long score, Action<bool> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(false);
-            }
+            if (callback != null) callback.Invoke(false);
         }
 
         public void SubmitScore(
             string leaderboardId,
             long score,
             string metadata,
-            Action<bool> callback)
-        {
+            Action<bool> callback) {
             LogUsage();
-            if (callback != null)
-            {
-                callback.Invoke(false);
-            }
+            if (callback != null) callback.Invoke(false);
         }
 
-        public SavedGame.ISavedGameClient GetSavedGameClient()
-        {
+        public ISavedGameClient GetSavedGameClient() {
             LogUsage();
             return null;
         }
 
-        public GooglePlayGames.BasicApi.Events.IEventsClient GetEventsClient()
-        {
+        public IEventsClient GetEventsClient() {
             LogUsage();
             return null;
         }
 
-        public void LoadFriends(Action<bool> callback)
-        {
+        public void LoadFriends(Action<bool> callback) {
             LogUsage();
             callback(false);
         }
 
-        public IUserProfile[] GetFriends()
-        {
+        public IUserProfile[] GetFriends() {
             LogUsage();
             return new IUserProfile[0];
         }
 
-        private static void LogUsage()
-        {
+        private static void LogUsage() {
             Logger.d("Received method call on DummyClient - using stub implementation.");
         }
     }

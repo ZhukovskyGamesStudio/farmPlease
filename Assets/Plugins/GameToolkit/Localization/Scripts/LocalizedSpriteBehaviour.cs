@@ -3,10 +3,8 @@
 
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     [AddComponentMenu(ComponentMenuRoot + "Localized Sprite")]
-    public class LocalizedSpriteBehaviour : LocalizedGenericAssetBehaviour<LocalizedSprite, Sprite>
-    {
+    public class LocalizedSpriteBehaviour : LocalizedGenericAssetBehaviour<LocalizedSprite, Sprite> {
     }
 }

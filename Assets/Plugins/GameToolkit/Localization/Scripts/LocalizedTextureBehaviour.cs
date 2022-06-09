@@ -3,10 +3,8 @@
 
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     [AddComponentMenu(ComponentMenuRoot + "Localized Texture")]
-    public class LocalizedTextureBehaviour : LocalizedGenericAssetBehaviour<LocalizedTexture, Texture>
-    {
+    public class LocalizedTextureBehaviour : LocalizedGenericAssetBehaviour<LocalizedTexture, Texture> {
     }
 }

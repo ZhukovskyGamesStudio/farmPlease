@@ -14,101 +14,35 @@
 //    limitations under the License.
 // </copyright>
 
+using System;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
+
 #if UNITY_ANDROID
 
-namespace GooglePlayGames
-{
-    using System;
-    using GooglePlayGames.BasicApi;
-    using UnityEngine.SocialPlatforms;
-
+namespace GooglePlayGames {
     /// <summary>
-    /// Represents the Google Play Games local user.
+    ///     Represents the Google Play Games local user.
     /// </summary>
-    public class PlayGamesLocalUser : PlayGamesUserProfile, ILocalUser
-    {
+    public class PlayGamesLocalUser : PlayGamesUserProfile, ILocalUser {
         internal PlayGamesPlatform mPlatform;
 
         private PlayerStats mStats;
 
         internal PlayGamesLocalUser(PlayGamesPlatform plaf)
-            : base("localUser", string.Empty, string.Empty)
-        {
+            : base("localUser", string.Empty, string.Empty) {
             mPlatform = plaf;
             mStats = null;
         }
 
-        /// <summary>
-        /// Authenticates the local user. Equivalent to calling
-        /// <see cref="PlayGamesPlatform.Authenticate" />.
-        /// </summary>
-        public void Authenticate(Action<bool> callback)
-        {
-            mPlatform.Authenticate(status => callback(status == SignInStatus.Success));
-        }
-
-        /// <summary>
-        /// Authenticates the local user. Equivalent to calling
-        /// <see cref="PlayGamesPlatform.Authenticate" />.
-        /// </summary>
-        public void Authenticate(Action<bool, string> callback)
-        {
-            mPlatform.Authenticate(status => callback(status == SignInStatus.Success, status.ToString()));
-        }
-
-        /// <summary>
-        /// Loads all friends of the authenticated user.
-        /// </summary>
-        public void LoadFriends(Action<bool> callback)
-        {
-            mPlatform.LoadFriends(this, callback);
-        }
-
-        /// <summary>
-        /// Synchronous version of friends, returns null until loaded.
-        /// </summary>
-        public IUserProfile[] friends
-        {
-            get { return mPlatform.GetFriends(); }
-        }
-
-        /// <summary>
-        /// Returns whether or not the local user is authenticated to Google Play Games.
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> if authenticated; otherwise, <c>false</c>.
-        /// </returns>
-        public bool authenticated
-        {
-            get { return mPlatform.IsAuthenticated(); }
-        }
-
-        /// <summary>
-        /// Not implemented. As safety placeholder, returns true.
-        /// </summary>
-        public bool underage
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// Gets the display name of the user.
-        /// </summary>
-        /// <returns>
-        /// The display name of the user.
-        /// </returns>
-        public new string userName
-        {
-            get
-            {
+        public new string AvatarURL {
+            get {
                 string retval = string.Empty;
-                if (authenticated)
-                {
-                    retval = mPlatform.GetUserDisplayName();
-                    if (!base.userName.Equals(retval))
-                    {
-                        ResetIdentity(retval, mPlatform.GetUserId(), mPlatform.GetUserImageUrl());
-                    }
+                if (authenticated) {
+                    retval = mPlatform.GetUserImageUrl();
+                    if (!base.id.Equals(retval))
+                        ResetIdentity(mPlatform.GetUserDisplayName(),
+                            mPlatform.GetUserId(), retval);
                 }
 
                 return retval;
@@ -116,66 +50,84 @@ namespace GooglePlayGames
         }
 
         /// <summary>
-        /// Gets the user's Google id.
+        ///     Authenticates the local user. Equivalent to calling
+        ///     <see cref="PlayGamesPlatform.Authenticate" />.
         /// </summary>
-        /// <remarks> This id is persistent and uniquely identifies the user
+        public void Authenticate(Action<bool> callback) {
+            mPlatform.Authenticate(status => callback(status == SignInStatus.Success));
+        }
+
+        /// <summary>
+        ///     Authenticates the local user. Equivalent to calling
+        ///     <see cref="PlayGamesPlatform.Authenticate" />.
+        /// </summary>
+        public void Authenticate(Action<bool, string> callback) {
+            mPlatform.Authenticate(status => callback(status == SignInStatus.Success, status.ToString()));
+        }
+
+        /// <summary>
+        ///     Loads all friends of the authenticated user.
+        /// </summary>
+        public void LoadFriends(Action<bool> callback) {
+            mPlatform.LoadFriends(this, callback);
+        }
+
+        /// <summary>
+        ///     Synchronous version of friends, returns null until loaded.
+        /// </summary>
+        public IUserProfile[] friends => mPlatform.GetFriends();
+
+        /// <summary>
+        ///     Returns whether or not the local user is authenticated to Google Play Games.
+        /// </summary>
+        /// <returns>
+        ///     <c>true</c> if authenticated; otherwise, <c>false</c>.
+        /// </returns>
+        public bool authenticated => mPlatform.IsAuthenticated();
+
+        /// <summary>
+        ///     Not implemented. As safety placeholder, returns true.
+        /// </summary>
+        public bool underage => true;
+
+        /// <summary>
+        ///     Gets the display name of the user.
+        /// </summary>
+        /// <returns>
+        ///     The display name of the user.
+        /// </returns>
+        public new string userName {
+            get {
+                string retval = string.Empty;
+                if (authenticated) {
+                    retval = mPlatform.GetUserDisplayName();
+                    if (!base.userName.Equals(retval))
+                        ResetIdentity(retval, mPlatform.GetUserId(), mPlatform.GetUserImageUrl());
+                }
+
+                return retval;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the user's Google id.
+        /// </summary>
+        /// <remarks>
+        ///     This id is persistent and uniquely identifies the user
         ///     across all games that use Google Play Game Services.  It is
         ///     the preferred method of uniquely identifying a player instead
         ///     of email address.
         /// </remarks>
         /// <returns>
-        /// The user's Google id.
+        ///     The user's Google id.
         /// </returns>
-        public new string id
-        {
-            get
-            {
+        public new string id {
+            get {
                 string retval = string.Empty;
-                if (authenticated)
-                {
+                if (authenticated) {
                     retval = mPlatform.GetUserId();
                     if (!base.id.Equals(retval))
-                    {
                         ResetIdentity(mPlatform.GetUserDisplayName(), retval, mPlatform.GetUserImageUrl());
-                    }
-                }
-
-                return retval;
-            }
-        }
-
-
-        /// <summary>
-        /// Returns true (since this is the local user).
-        /// </summary>
-        public new bool isFriend
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// Gets the local user's state. This is always <c>UserState.Online</c> for
-        /// the local user.
-        /// </summary>
-        public new UserState state
-        {
-            get { return UserState.Online; }
-        }
-
-
-        public new string AvatarURL
-        {
-            get
-            {
-                string retval = string.Empty;
-                if (authenticated)
-                {
-                    retval = mPlatform.GetUserImageUrl();
-                    if (!base.id.Equals(retval))
-                    {
-                        ResetIdentity(mPlatform.GetUserDisplayName(),
-                            mPlatform.GetUserId(), retval);
-                    }
                 }
 
                 return retval;
@@ -183,24 +135,29 @@ namespace GooglePlayGames
         }
 
         /// <summary>
-        /// Gets the player's stats.
+        ///     Returns true (since this is the local user).
+        /// </summary>
+        public new bool isFriend => true;
+
+        /// <summary>
+        ///     Gets the local user's state. This is always <c>UserState.Online</c> for
+        ///     the local user.
+        /// </summary>
+        public new UserState state => UserState.Online;
+
+        /// <summary>
+        ///     Gets the player's stats.
         /// </summary>
         /// <param name="callback">Callback when they are available.</param>
-        public void GetStats(Action<CommonStatusCodes, PlayerStats> callback)
-        {
+        public void GetStats(Action<CommonStatusCodes, PlayerStats> callback) {
             if (mStats == null || !mStats.Valid)
-            {
-                mPlatform.GetPlayerStats((rc, stats) =>
-                {
+                mPlatform.GetPlayerStats((rc, stats) => {
                     mStats = stats;
                     callback(rc, stats);
                 });
-            }
             else
-            {
                 // 0 = success
                 callback(CommonStatusCodes.Success, mStats);
-            }
         }
     }
 }

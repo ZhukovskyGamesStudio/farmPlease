@@ -1,88 +1,74 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
-{
-    public static PlayerController instance = null;
+public class PlayerController : MonoBehaviour {
+    public static PlayerController instance;
     public static bool canInteract = true;
 
     public KeyCode useToolKey;
-    UIScript UIScript;
-
-    GraphicRaycaster GraphicRaycaster;
-
-    SmartTilemap SmartTilemap;
     public int maxEnergy;
     public int curEnergy;
 
-    [HideInInspector] public CropsType seedBagCrop;
+    [HideInInspector]
+    public CropsType seedBagCrop;
 
-    [Header("Building")]
-    GameObject BuildingPanel;
-    [HideInInspector] public SpriteRenderer currentBuildingSprite;
-    Tilemap BuildingTilemap;
-    [HideInInspector] public bool isBuilding;
-    BuildingShopPanel BuildingShopPanel;
+    [HideInInspector]
+    public SpriteRenderer currentBuildingSprite;
+
+    [HideInInspector]
+    public bool isBuilding;
+
     public Tile[] BuildingTiles;
 
+    [Header("Building")]
+    private GameObject BuildingPanel;
 
-    Tool curTool;
-    Vector3Int newBuildingcoord, oldBuilddingscoord, helpBuildingsCoord;
-    Tile currentTile;
-    BuildingType currentBuilding;
-    bool FromShop;
+    private BuildingShopPanel BuildingShopPanel;
 
-    public void Awake()
-    {
+    private Tilemap BuildingTilemap;
+    private BuildingType currentBuilding;
+    private Tile currentTile;
+
+    private Tool curTool;
+    private bool FromShop;
+
+    private GraphicRaycaster GraphicRaycaster;
+    private Vector3Int newBuildingcoord, oldBuilddingscoord, helpBuildingsCoord;
+
+    private SmartTilemap SmartTilemap;
+    private UIScript UIScript;
+
+    public void Awake() {
         if (instance == null)
-        {
             instance = this;
-        }
         else if (instance != this)
             Destroy(gameObject);
     }
 
-    public void Init()
-    {
-        UIScript = UIScript.instance;
-        GraphicRaycaster = UIScript.GraphicRaycaster;
-        SmartTilemap = SmartTilemap.instance;
-        BuildingShopPanel = UIScript.ShopsPanel.BuildingShopPanel;
-        BuildingPanel = UIScript.BuildingPanel;
-        BuildingTilemap = SmartTilemap.BuildingTilemap;
-
-        ChangeTool(0);
-        isBuilding = false;
-        oldBuilddingscoord = new Vector3Int(1000, 1000, 1000);
-    }
-
-    void Update()
-    {
-        if (canInteract)
-        {
+    private void Update() {
+        if (canInteract) {
             GraphicRaycaster.enabled = true;
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            {
-                int curIndex = (int)curTool;
+            if (Input.GetAxis("Mouse ScrollWheel") < 0) {
+                int curIndex = (int) curTool;
                 curIndex++;
                 curIndex %= 4;
                 ChangeTool(curIndex);
             }
 
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
-            {
-                int curIndex = (int)curTool;
+            if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+                int curIndex = (int) curTool;
                 curIndex--;
                 if (curIndex < 0)
                     curIndex = 3;
                 ChangeTool(curIndex);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !(GameModeManager.instance.GameMode == GameMode.RealTime) && canInteract)
+            if (Input.GetKeyDown(KeyCode.Space) && !(GameModeManager.instance.GameMode == GameMode.RealTime) &&
+                canInteract)
                 TimeManager.instance.AddDay();
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -99,29 +85,37 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
                 ChangeTool(3);
-
-        }
-        else
+        } else {
             GraphicRaycaster.enabled = false;
+        }
 
-        if (isBuilding && currentTile != null)
-        {
+        if (isBuilding && currentTile != null) {
             Vector3Int tmp = BuildingTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            if (tmp != newBuildingcoord)
-            {
+            if (tmp != newBuildingcoord) {
                 BuildingTilemap.ClearAllTiles();
                 BuildingTilemap.SetTile(tmp, currentTile);
 
                 newBuildingcoord = tmp;
             }
         }
+    }
 
+    public void Init() {
+        UIScript = UIScript.instance;
+        GraphicRaycaster = UIScript.GraphicRaycaster;
+        SmartTilemap = SmartTilemap.instance;
+        BuildingShopPanel = UIScript.ShopsPanel.BuildingShopPanel;
+        BuildingPanel = UIScript.BuildingPanel;
+        BuildingTilemap = SmartTilemap.BuildingTilemap;
+
+        ChangeTool(0);
+        isBuilding = false;
+        oldBuilddingscoord = new Vector3Int(1000, 1000, 1000);
     }
 
     /**********/
 
-    public void LoseOneEnergy()
-    {
+    public void LoseOneEnergy() {
         curEnergy--;
         if (curEnergy < 0)
             curEnergy = 0;
@@ -132,8 +126,7 @@ public class PlayerController : MonoBehaviour
         UIScript.ChangeBattery(curEnergy);
     }
 
-    public void SetEnergy(int newEnergy, bool isRefill = false)
-    {
+    public void SetEnergy(int newEnergy, bool isRefill = false) {
         if (isRefill)
             curEnergy = maxEnergy;
         else
@@ -141,60 +134,48 @@ public class PlayerController : MonoBehaviour
         UIScript.ChangeBattery(curEnergy);
     }
 
-    public void RestoreEnergy()
-    {
+    public void RestoreEnergy() {
         curEnergy = maxEnergy;
         UIScript.ChangeBattery(curEnergy);
     }
 
-    public void RestoreEnergy(int amount)
-    {
+    public void RestoreEnergy(int amount) {
         curEnergy += amount;
         if (curEnergy > maxEnergy)
             curEnergy = maxEnergy;
         UIScript.ChangeBattery(curEnergy);
     }
 
-    public void Click()
-    {
-        if (isBuilding)
-        {
-            if (currentTile)
-            {
-                if (SmartTilemap.BuildingCanBePlaced(currentBuilding, SmartTilemap.Playercoord) && SmartTilemap.Playercoord != oldBuilddingscoord)
-                {
+    public void Click() {
+        if (isBuilding) {
+            if (currentTile) {
+                if (SmartTilemap.BuildingCanBePlaced(currentBuilding, SmartTilemap.Playercoord) &&
+                    SmartTilemap.Playercoord != oldBuilddingscoord) {
                     currentTile = null;
                     BuildingTilemap.ClearAllTiles();
-                    if (!FromShop)
-                    {
+                    if (!FromShop) {
                         SmartTilemap.ActiveBuilding(currentBuilding, oldBuilddingscoord);
                         SmartTilemap.RemoveBuilding(currentBuilding, oldBuilddingscoord);
-                    }
-                    else if (currentBuilding == BuildingType.Sprinkler_target)
+                    } else if (currentBuilding == BuildingType.Sprinkler_target) {
                         BuildingShopPanel.BuyBuildingButton(BuildingType.Sprinkler);
-                    else if (currentBuilding != BuildingType.Sprinkler)
+                    } else if (currentBuilding != BuildingType.Sprinkler) {
                         BuildingShopPanel.BuyBuildingButton(currentBuilding);
-
+                    }
 
                     SmartTilemap.PlaceBuilding(currentBuilding, SmartTilemap.Playercoord);
 
                     SaveLoadManager.instance.Sequence(false);
 
                     if (FromShop)
-                        if (currentBuilding == BuildingType.Sprinkler)
-                        {
+                        if (currentBuilding == BuildingType.Sprinkler) {
                             helpBuildingsCoord = SmartTilemap.Playercoord;
                             InitializeBuilding(BuildingType.Sprinkler_target, 1);
-                        }
-                        else
+                        } else {
                             StartStopBuilding();
-
+                        }
                 }
-            }
-            else if (SmartTilemap.AvailabilityCheck("building"))
-            {
-                switch (SmartTilemap.GetPlayerTile().type)
-                {
+            } else if (SmartTilemap.AvailabilityCheck("building")) {
+                switch (SmartTilemap.GetPlayerTile().type) {
                     case TileType.Biogen_empty:
                     case TileType.Biogen_full:
                     case TileType.Biogen_T1:
@@ -206,6 +187,7 @@ public class PlayerController : MonoBehaviour
                         SmartTilemap.DeactiveBuilding(BuildingType.Biogen, oldBuilddingscoord);
                         InitializeBuilding(BuildingType.Biogen);
                         break;
+
                     case TileType.Freshener_Construction:
                     case TileType.Freshener_empty:
                     case TileType.Freshener_full:
@@ -240,12 +222,14 @@ public class PlayerController : MonoBehaviour
                         SmartTilemap.DeactiveBuilding(BuildingType.Sprinkler, oldBuilddingscoord);
                         InitializeBuilding(BuildingType.Sprinkler);
                         break;
+
                     case TileType.Sprinkler_target:
                         oldBuilddingscoord = SmartTilemap.Playercoord;
 
                         SmartTilemap.DeactiveBuilding(BuildingType.Sprinkler_target, oldBuilddingscoord);
                         InitializeBuilding(BuildingType.Sprinkler_target);
                         break;
+
                     case TileType.SeedDoubler_Construction:
                     case TileType.SeedDoubler_empty:
                     case TileType.SeedDoubler_full:
@@ -257,6 +241,7 @@ public class PlayerController : MonoBehaviour
                         SmartTilemap.DeactiveBuilding(BuildingType.SeedDoubler, oldBuilddingscoord);
                         InitializeBuilding(BuildingType.SeedDoubler);
                         break;
+
                     case TileType.Tractor_Construction:
                     case TileType.Tractor_1:
                     case TileType.Tractor_2:
@@ -270,18 +255,14 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
             }
-        }
-        else
-        {
+        } else {
             if (canInteract)
                 StartCoroutine(ClickCoroutine());
         }
     }
 
-    public bool HasEnergy()
-    {
-        if (curEnergy == 0)
-        {
+    public bool HasEnergy() {
+        if (curEnergy == 0) {
             UIScript.NoEnergy();
             AudioManager.instance.PlaySound(Sounds.ZeroEnergy);
         }
@@ -289,80 +270,65 @@ public class PlayerController : MonoBehaviour
         return curEnergy > 0;
     }
 
-
-    public IEnumerator ClickCoroutine()
-    {
+    public IEnumerator ClickCoroutine() {
         SaveLoadManager.instance.Sequence(true);
 
         if (GameModeManager.instance.ShowTileType)
             Debug.Log(SmartTilemap.Playercoord + "   " + SmartTilemap.GetTile(SmartTilemap.Playercoord).type);
 
         if (SmartTilemap.AvailabilityCheck("click"))
-        {
             yield return StartCoroutine(SmartTilemap.ClickTile());
-        }
         else
-            switch (curTool)
-            {
+            switch (curTool) {
                 case Tool.Hoe:
                     if (HasEnergy())
-                    {
-                        if (SmartTilemap.AvailabilityCheck("hoe"))
-                        {
+                        if (SmartTilemap.AvailabilityCheck("hoe")) {
                             LoseOneEnergy();
                             Vector3Int coord = SmartTilemap.Playercoord;
                             yield return StartCoroutine(SmartTilemap.HoeTile());
 
                             if (InventoryManager.instance.IsToolWorking(ToolType.Doublehoe))
                                 yield return StartCoroutine(SmartTilemap.HoeRandomNeighbor(coord));
-
                         }
-                    }
+
                     break;
+
                 case Tool.Watercan:
                     if (HasEnergy() || InventoryManager.instance.IsToolWorking(ToolType.Unlimitedwatercan))
-                    {
-                        if (SmartTilemap.AvailabilityCheck("water"))
-                        {
+                        if (SmartTilemap.AvailabilityCheck("water")) {
                             if (!InventoryManager.instance.IsToolWorking(ToolType.Unlimitedwatercan))
                                 LoseOneEnergy();
                             yield return StartCoroutine(SmartTilemap.WaterTile());
                         }
-                    }
+
                     break;
+
                 case Tool.SeedBag:
                     if (HasEnergy() || InventoryManager.instance.IsToolWorking(ToolType.Carpetseeder))
-                    {
                         if (InventoryManager.instance.seedsInventory[seedBagCrop] > 0)
-                        {
-                            if (SmartTilemap.AvailabilityCheck("seed"))
-                            {
+                            if (SmartTilemap.AvailabilityCheck("seed")) {
                                 InventoryManager.instance.LoseSeed(seedBagCrop);
                                 if (!InventoryManager.instance.IsToolWorking(ToolType.Carpetseeder))
                                     LoseOneEnergy();
                                 yield return StartCoroutine(SmartTilemap.SeedTile(seedBagCrop));
                             }
-                        }
-                    }
-                    break;
-                case Tool.Collect:
-                    if (InventoryManager.instance.IsToolWorking(ToolType.Wetscythe) && (SmartTilemap.AvailabilityCheck("water")))
-                    {
-                        yield return StartCoroutine(SmartTilemap.WaterTile());
-                    }
 
-                    if (HasEnergy() && InventoryManager.instance.IsToolWorking(ToolType.Greenscythe) && SmartTilemap.GetPlayerTile().type == TileType.WateredSoil)
-                    {
+                    break;
+
+                case Tool.Collect:
+                    if (InventoryManager.instance.IsToolWorking(ToolType.Wetscythe) &&
+                        SmartTilemap.AvailabilityCheck("water"))
+                        yield return StartCoroutine(SmartTilemap.WaterTile());
+
+                    if (HasEnergy() && InventoryManager.instance.IsToolWorking(ToolType.Greenscythe) &&
+                        SmartTilemap.GetPlayerTile().type == TileType.WateredSoil) {
                         Vector3Int coord = SmartTilemap.Playercoord;
                         while (SmartTilemap.GetTile(coord).type == TileType.WateredSoil)
-                        {
                             yield return StartCoroutine(SmartTilemap.GetTile(coord).OnNeyDayed(SmartTilemap.animtime));
-                        }
-                    }
-                    else if (SmartTilemap.AvailabilityCheck("collect"))
-                    {
+                    } else if (SmartTilemap.AvailabilityCheck("collect")) {
                         yield return StartCoroutine(SmartTilemap.CollectTile());
                     }
+
                     break;
             }
 
@@ -370,89 +336,75 @@ public class PlayerController : MonoBehaviour
         SaveLoadManager.instance.Sequence(false);
     }
 
-    public void RightClick()
-    {
-        if (isBuilding)
-        {
-            if (currentTile)
-            {
+    public void RightClick() {
+        if (isBuilding) {
+            if (currentTile) {
                 currentTile = null;
                 BuildingTilemap.ClearAllTiles();
 
                 if (!FromShop)
-                {
                     SmartTilemap.ActiveBuilding(currentBuilding, oldBuilddingscoord);
-                }
                 else if (currentBuilding == BuildingType.Sprinkler_target)
                     SmartTilemap.RemoveBuilding(BuildingType.Sprinkler, helpBuildingsCoord);
-
 
                 SaveLoadManager.instance.Sequence(false);
 
                 if (FromShop)
                     StartStopBuilding();
-            }
-            else
+            } else {
                 StartStopBuilding();
-
-        }
-        else if (canInteract)
+            }
+        } else if (canInteract) {
             StartCoroutine(RightClickCoroutine());
+        }
     }
 
-    public IEnumerator RightClickCoroutine()
-    {
+    public IEnumerator RightClickCoroutine() {
         Tool before = curTool;
         curTool = Tool.Collect;
         yield return StartCoroutine(ClickCoroutine());
         curTool = before;
     }
 
-    public void ChangeTool(int index)
-    {
-        curTool = (Tool)index;
+    public void ChangeTool(int index) {
+        curTool = (Tool) index;
         UIScript.ChangeInventoryHover(index);
     }
 
-    public void StartStopBuilding()
-    {
-        if (isBuilding)
-        {
+    public void StartStopBuilding() {
+        if (isBuilding) {
             BuildingPanel.SetActive(false);
             isBuilding = false;
-        }
-        else
-        {
+        } else {
             BuildingPanel.SetActive(true);
-        
+
             BuildingTilemap.ClearAllTiles();
             isBuilding = true;
         }
 
         UIScript.TimePanel.gameObject.SetActive(!isBuilding);
         UIScript.ShopsPanel.gameObject.SetActive(!isBuilding);
-       
+
         for (int i = 0; i < UIScript.FastPanelScript.SlotsImages.Length; i++)
-        {
             UIScript.FastPanelScript.SlotsImages[i].gameObject.SetActive(!isBuilding);
-        }
-        
-        UIScript.CroponomButton.gameObject.SetActive(!isBuilding);  
-        UIScript.Backpack.gameObject.SetActive(!isBuilding);     
-        UIScript.BatteryScript.gameObject.SetActive(!isBuilding);  
+
+        UIScript.CroponomButton.gameObject.SetActive(!isBuilding);
+        UIScript.Backpack.gameObject.SetActive(!isBuilding);
+        UIScript.BatteryScript.gameObject.SetActive(!isBuilding);
     }
 
-    public void InitializeBuilding(BuildingType type, int price = 0)
-    {
+    public void InitializeBuilding(BuildingType type, int price = 0) {
         currentBuilding = type;
         FromShop = price > 0;
 
         currentTile = BuildingsTable.BuildingByType(type).BuildingPanelTile;
     }
 
-    [System.Serializable]
-    enum Tool
-    {
-        Hoe = 0, Watercan, SeedBag, Collect
+    [Serializable]
+    private enum Tool {
+        Hoe = 0,
+        Watercan,
+        SeedBag,
+        Collect
     }
 }

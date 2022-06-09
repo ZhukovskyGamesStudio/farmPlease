@@ -14,114 +14,93 @@
 //  limitations under the License.
 // </copyright>
 
-#if UNITY_ANDROID
-namespace GooglePlayGames.Android
-{
-    using GooglePlayGames.BasicApi;
-    using GooglePlayGames.BasicApi.SavedGame;
-    using OurUtils;
-    using UnityEngine;
-    using System;
-    using System.Collections.Generic;
+using System;
+using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.SavedGame;
+using UnityEngine;
+using Logger = GooglePlayGames.OurUtils.Logger;
 
-    internal class AndroidHelperFragment
-    {
+#if UNITY_ANDROID
+namespace GooglePlayGames.Android {
+    internal class AndroidHelperFragment {
         private const string HelperFragmentClass = "com.google.games.bridge.HelperFragment";
 
-        public static AndroidJavaObject GetActivity()
-        {
-            using (var jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-            {
+        public static AndroidJavaObject GetActivity() {
+            using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) {
                 return jc.GetStatic<AndroidJavaObject>("currentActivity");
             }
         }
 
-        public static AndroidJavaObject GetDefaultPopupView()
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
-            using (var activity = AndroidHelperFragment.GetActivity())
-            {
+        public static AndroidJavaObject GetDefaultPopupView() {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass))
+            using (AndroidJavaObject activity = GetActivity()) {
                 return helperFragment.CallStatic<AndroidJavaObject>("getDecorView", activity);
             }
         }
 
-        public static void ShowAchievementsUI(Action<UIStatus> cb)
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
-            using (var task =
-                helperFragment.CallStatic<AndroidJavaObject>("showAchievementUi", AndroidHelperFragment.GetActivity()))
-            {
+        public static void ShowAchievementsUI(Action<UIStatus> cb) {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass))
+            using (AndroidJavaObject task =
+                   helperFragment.CallStatic<AndroidJavaObject>("showAchievementUi", GetActivity())) {
                 AndroidTaskUtils.AddOnSuccessListener<int>(
                     task,
-                    uiCode =>
-                    {
-                        OurUtils.Logger.d("ShowAchievementsUI result " + uiCode);
+                    uiCode => {
+                        Logger.d("ShowAchievementsUI result " + uiCode);
                         cb.Invoke((UIStatus) uiCode);
                     });
 
                 AndroidTaskUtils.AddOnFailureListener(
                     task,
-                    exception =>
-                    {
-                        OurUtils.Logger.e("ShowAchievementsUI failed with exception");
+                    exception => {
+                        Logger.e("ShowAchievementsUI failed with exception");
                         cb.Invoke(UIStatus.InternalError);
                     });
             }
         }
 
-        public static void ShowCaptureOverlayUI()
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
-            {
-                helperFragment.CallStatic("showCaptureOverlayUi", AndroidHelperFragment.GetActivity());
+        public static void ShowCaptureOverlayUI() {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass)) {
+                helperFragment.CallStatic("showCaptureOverlayUi", GetActivity());
             }
         }
 
-        public static void ShowAllLeaderboardsUI(Action<UIStatus> cb)
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
-            using (var task =
-                helperFragment.CallStatic<AndroidJavaObject>("showAllLeaderboardsUi",
-                    AndroidHelperFragment.GetActivity()))
-            {
+        public static void ShowAllLeaderboardsUI(Action<UIStatus> cb) {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass))
+            using (AndroidJavaObject task =
+                   helperFragment.CallStatic<AndroidJavaObject>("showAllLeaderboardsUi",
+                       GetActivity())) {
                 AndroidTaskUtils.AddOnSuccessListener<int>(
                     task,
-                    uiCode =>
-                    {
-                        OurUtils.Logger.d("ShowAllLeaderboardsUI result " + uiCode);
+                    uiCode => {
+                        Logger.d("ShowAllLeaderboardsUI result " + uiCode);
                         cb.Invoke((UIStatus) uiCode);
                     });
 
                 AndroidTaskUtils.AddOnFailureListener(
                     task,
-                    exception =>
-                    {
-                        OurUtils.Logger.e("ShowAllLeaderboardsUI failed with exception");
+                    exception => {
+                        Logger.e("ShowAllLeaderboardsUI failed with exception");
                         cb.Invoke(UIStatus.InternalError);
                     });
             }
         }
 
-        public static void ShowLeaderboardUI(string leaderboardId, LeaderboardTimeSpan timeSpan, Action<UIStatus> cb)
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
-            using (var task = helperFragment.CallStatic<AndroidJavaObject>("showLeaderboardUi",
-                AndroidHelperFragment.GetActivity(), leaderboardId,
-                AndroidJavaConverter.ToLeaderboardVariantTimeSpan(timeSpan)))
-            {
+        public static void ShowLeaderboardUI(string leaderboardId, LeaderboardTimeSpan timeSpan, Action<UIStatus> cb) {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass))
+            using (AndroidJavaObject task = helperFragment.CallStatic<AndroidJavaObject>("showLeaderboardUi",
+                       GetActivity(), leaderboardId,
+                       AndroidJavaConverter.ToLeaderboardVariantTimeSpan(timeSpan))) {
                 AndroidTaskUtils.AddOnSuccessListener<int>(
                     task,
-                    uiCode =>
-                    {
-                        OurUtils.Logger.d("ShowLeaderboardUI result " + uiCode);
+                    uiCode => {
+                        Logger.d("ShowLeaderboardUI result " + uiCode);
                         cb.Invoke((UIStatus) uiCode);
                     });
 
                 AndroidTaskUtils.AddOnFailureListener(
                     task,
-                    exception =>
-                    {
-                        OurUtils.Logger.e("ShowLeaderboardUI failed with exception");
+                    exception => {
+                        Logger.e("ShowLeaderboardUI failed with exception");
                         cb.Invoke(UIStatus.InternalError);
                     });
             }
@@ -129,76 +108,63 @@ namespace GooglePlayGames.Android
 
         public static void ShowCompareProfileWithAlternativeNameHintsUI(
             string playerId, string otherPlayerInGameName, string currentPlayerInGameName,
-            Action<UIStatus> cb)
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
+            Action<UIStatus> cb) {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass))
             using (
-                var task = helperFragment.CallStatic<AndroidJavaObject>(
+                AndroidJavaObject task = helperFragment.CallStatic<AndroidJavaObject>(
                     "showCompareProfileWithAlternativeNameHintsUI",
-                    AndroidHelperFragment.GetActivity(), playerId, otherPlayerInGameName,
-                    currentPlayerInGameName))
-            {
-                AndroidTaskUtils.AddOnSuccessListener<int>(task, uiCode =>
-                {
-                    OurUtils.Logger.d("ShowCompareProfileWithAlternativeNameHintsUI result " + uiCode);
+                    GetActivity(), playerId, otherPlayerInGameName,
+                    currentPlayerInGameName)) {
+                AndroidTaskUtils.AddOnSuccessListener<int>(task, uiCode => {
+                    Logger.d("ShowCompareProfileWithAlternativeNameHintsUI result " + uiCode);
                     cb.Invoke((UIStatus) uiCode);
                 });
-                AndroidTaskUtils.AddOnFailureListener(task, exception =>
-                {
-                    OurUtils.Logger.e("ShowCompareProfileWithAlternativeNameHintsUI failed with exception");
+                AndroidTaskUtils.AddOnFailureListener(task, exception => {
+                    Logger.e("ShowCompareProfileWithAlternativeNameHintsUI failed with exception");
                     cb.Invoke(UIStatus.InternalError);
                 });
             }
         }
 
         public static void IsResolutionRequired(
-            AndroidJavaObject friendsSharingConsentException, Action<bool> cb)
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
-            {
-                var isResolutionRequired = helperFragment.CallStatic<bool>(
+            AndroidJavaObject friendsSharingConsentException, Action<bool> cb) {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass)) {
+                bool isResolutionRequired = helperFragment.CallStatic<bool>(
                     "isResolutionRequired", friendsSharingConsentException);
                 cb.Invoke(isResolutionRequired);
             }
         }
 
         public static void AskForLoadFriendsResolution(
-            AndroidJavaObject friendsSharingConsentException, Action<UIStatus> cb)
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
+            AndroidJavaObject friendsSharingConsentException, Action<UIStatus> cb) {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass))
             using (
-                var task = helperFragment.CallStatic<AndroidJavaObject>(
-                    "askForLoadFriendsResolution", AndroidHelperFragment.GetActivity(),
-                    friendsSharingConsentException))
-            {
-                AndroidTaskUtils.AddOnSuccessListener<int>(task, uiCode =>
-                {
-                    OurUtils.Logger.d("AskForLoadFriendsResolution result " + uiCode);
+                AndroidJavaObject task = helperFragment.CallStatic<AndroidJavaObject>(
+                    "askForLoadFriendsResolution", GetActivity(),
+                    friendsSharingConsentException)) {
+                AndroidTaskUtils.AddOnSuccessListener<int>(task, uiCode => {
+                    Logger.d("AskForLoadFriendsResolution result " + uiCode);
                     cb.Invoke((UIStatus) uiCode);
                 });
 
-                AndroidTaskUtils.AddOnFailureListener(task, exception =>
-                {
-                    OurUtils.Logger.e("AskForLoadFriendsResolution failed with exception");
+                AndroidTaskUtils.AddOnFailureListener(task, exception => {
+                    Logger.e("AskForLoadFriendsResolution failed with exception");
                     cb.Invoke(UIStatus.InternalError);
                 });
             }
         }
 
         public static void ShowSelectSnapshotUI(bool showCreateSaveUI, bool showDeleteSaveUI,
-            int maxDisplayedSavedGames, string uiTitle, Action<SelectUIStatus, ISavedGameMetadata> cb)
-        {
-            using (var helperFragment = new AndroidJavaClass(HelperFragmentClass))
-            using (var task = helperFragment.CallStatic<AndroidJavaObject>("showSelectSnapshotUi",
-                AndroidHelperFragment.GetActivity(), uiTitle, showCreateSaveUI, showDeleteSaveUI,
-                maxDisplayedSavedGames))
-            {
+            int maxDisplayedSavedGames, string uiTitle, Action<SelectUIStatus, ISavedGameMetadata> cb) {
+            using (AndroidJavaClass helperFragment = new AndroidJavaClass(HelperFragmentClass))
+            using (AndroidJavaObject task = helperFragment.CallStatic<AndroidJavaObject>("showSelectSnapshotUi",
+                       GetActivity(), uiTitle, showCreateSaveUI, showDeleteSaveUI,
+                       maxDisplayedSavedGames)) {
                 AndroidTaskUtils.AddOnSuccessListener<AndroidJavaObject>(
                     task,
-                    result =>
-                    {
+                    result => {
                         SelectUIStatus status = (SelectUIStatus) result.Get<int>("status");
-                        OurUtils.Logger.d("ShowSelectSnapshotUI result " + status);
+                        Logger.d("ShowSelectSnapshotUI result " + status);
 
                         AndroidJavaObject javaMetadata = result.Get<AndroidJavaObject>("metadata");
                         AndroidSnapshotMetadata metadata =
@@ -211,9 +177,8 @@ namespace GooglePlayGames.Android
 
                 AndroidTaskUtils.AddOnFailureListener(
                     task,
-                    exception =>
-                    {
-                        OurUtils.Logger.e("ShowSelectSnapshotUI failed with exception");
+                    exception => {
+                        Logger.e("ShowSelectSnapshotUI failed with exception");
                         cb.Invoke(SelectUIStatus.InternalError, null);
                     });
             }

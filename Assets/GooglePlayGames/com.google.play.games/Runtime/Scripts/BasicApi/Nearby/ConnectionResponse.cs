@@ -14,16 +14,13 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.Nearby
-{
-    using GooglePlayGames.OurUtils;
+using GooglePlayGames.OurUtils;
 
-    public struct ConnectionResponse
-    {
+namespace GooglePlayGames.BasicApi.Nearby {
+    public struct ConnectionResponse {
         private static readonly byte[] EmptyPayload = new byte[0];
 
-        public enum Status
-        {
+        public enum Status {
             Accepted,
             Rejected,
             ErrorInternal,
@@ -32,74 +29,50 @@ namespace GooglePlayGames.BasicApi.Nearby
             ErrorAlreadyConnected
         }
 
-        private readonly long mLocalClientId;
-        private readonly string mRemoteEndpointId;
-        private readonly Status mResponseStatus;
-        private readonly byte[] mPayload;
-
         private ConnectionResponse(long localClientId, string remoteEndpointId, Status code,
-            byte[] payload)
-        {
-            this.mLocalClientId = localClientId;
-            this.mRemoteEndpointId = Misc.CheckNotNull(remoteEndpointId);
-            this.mResponseStatus = code;
-            this.mPayload = Misc.CheckNotNull(payload);
+            byte[] payload) {
+            LocalClientId = localClientId;
+            RemoteEndpointId = Misc.CheckNotNull(remoteEndpointId);
+            ResponseStatus = code;
+            Payload = Misc.CheckNotNull(payload);
         }
 
-        public long LocalClientId
-        {
-            get { return mLocalClientId; }
-        }
+        public long LocalClientId { get; }
 
-        public string RemoteEndpointId
-        {
-            get { return mRemoteEndpointId; }
-        }
+        public string RemoteEndpointId { get; }
 
-        public Status ResponseStatus
-        {
-            get { return mResponseStatus; }
-        }
+        public Status ResponseStatus { get; }
 
-        public byte[] Payload
-        {
-            get { return mPayload; }
-        }
+        public byte[] Payload { get; }
 
-        public static ConnectionResponse Rejected(long localClientId, string remoteEndpointId)
-        {
+        public static ConnectionResponse Rejected(long localClientId, string remoteEndpointId) {
             return new ConnectionResponse(localClientId, remoteEndpointId, Status.Rejected,
                 EmptyPayload);
         }
 
-        public static ConnectionResponse NetworkNotConnected(long localClientId, string remoteEndpointId)
-        {
+        public static ConnectionResponse NetworkNotConnected(long localClientId, string remoteEndpointId) {
             return new ConnectionResponse(localClientId, remoteEndpointId, Status.ErrorNetworkNotConnected,
                 EmptyPayload);
         }
 
-        public static ConnectionResponse InternalError(long localClientId, string remoteEndpointId)
-        {
+        public static ConnectionResponse InternalError(long localClientId, string remoteEndpointId) {
             return new ConnectionResponse(localClientId, remoteEndpointId, Status.ErrorInternal,
                 EmptyPayload);
         }
 
-        public static ConnectionResponse EndpointNotConnected(long localClientId, string remoteEndpointId)
-        {
+        public static ConnectionResponse EndpointNotConnected(long localClientId, string remoteEndpointId) {
             return new ConnectionResponse(localClientId, remoteEndpointId, Status.ErrorEndpointNotConnected,
                 EmptyPayload);
         }
 
         public static ConnectionResponse Accepted(long localClientId, string remoteEndpointId,
-            byte[] payload)
-        {
+            byte[] payload) {
             return new ConnectionResponse(localClientId, remoteEndpointId, Status.Accepted,
                 payload);
         }
 
         public static ConnectionResponse AlreadyConnected(long localClientId,
-            string remoteEndpointId)
-        {
+            string remoteEndpointId) {
             return new ConnectionResponse(localClientId, remoteEndpointId,
                 Status.ErrorAlreadyConnected,
                 EmptyPayload);

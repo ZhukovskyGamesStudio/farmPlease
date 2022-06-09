@@ -25,13 +25,17 @@ public class Encyclopedia : MonoBehaviourSoundStarter {
     public ToolsTable ToolsTablePrefab;
 
     private List<Button> cropsButtons;
-    private List<Button> weatherButtons;
     private List<Button> toolButtons;
+    private List<Button> weatherButtons;
 
     /**********/
     private void Awake() {
         GenerateAllButtons();
         GridButtonPrefab.gameObject.SetActive(false);
+    }
+
+    private void OnDestroy() {
+        ReleaseAllButtons();
     }
 
     private void SubscribeTabButtons() {
@@ -44,17 +48,11 @@ public class Encyclopedia : MonoBehaviourSoundStarter {
         CropsOpenButton.onClick.RemoveListener(() => OpenPage(CropsTablePrefab.Crops[0]));
         WeatherOpenButton.onClick.RemoveListener(() => OpenPage(WeatherTablePrefab.WeathersSO[0]));
         ToolsOpenButton.onClick.RemoveListener(() => OpenPage(ToolsTablePrefab.ToolsSO[0]));
-        foreach (Button button in cropsButtons) {
-            button.onClick.RemoveAllListeners();
-        }
+        foreach (Button button in cropsButtons) button.onClick.RemoveAllListeners();
 
-        foreach (Button button in weatherButtons) {
-            button.onClick.RemoveAllListeners();
-        }
+        foreach (Button button in weatherButtons) button.onClick.RemoveAllListeners();
 
-        foreach (Button button in toolButtons) {
-            button.onClick.RemoveAllListeners();
-        }
+        foreach (Button button in toolButtons) button.onClick.RemoveAllListeners();
     }
 
     private void OpenPage(SOWithCroponomPage pageData) {
@@ -106,9 +104,5 @@ public class Encyclopedia : MonoBehaviourSoundStarter {
 
     public new void PlaySound(int soundIndex) {
         AudioManager.instance.PlaySound((Sounds) soundIndex);
-    }
-
-    private void OnDestroy() {
-        ReleaseAllButtons();
     }
 }

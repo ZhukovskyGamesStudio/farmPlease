@@ -1,6 +1,7 @@
-﻿[System.Serializable]
-public class Player
-{
+﻿using System;
+
+[Serializable]
+public class Player {
     public int Id;
     public string Email;
     public string Password;

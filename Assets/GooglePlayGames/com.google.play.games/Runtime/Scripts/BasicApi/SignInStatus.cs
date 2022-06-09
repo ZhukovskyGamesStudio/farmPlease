@@ -1,7 +1,5 @@
-namespace GooglePlayGames.BasicApi
-{
-    public enum SignInStatus
-    {
+namespace GooglePlayGames.BasicApi {
+    public enum SignInStatus {
         /// <summary>The operation was successful.</summary>
         Success,
 
@@ -9,6 +7,6 @@ namespace GooglePlayGames.BasicApi
         InternalError,
 
         /// <summary>The sign in was canceled.</summary>
-        Canceled,
+        Canceled
     }
 }

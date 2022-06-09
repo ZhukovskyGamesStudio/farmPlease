@@ -3,20 +3,16 @@
 
 using System;
 
-namespace GameToolkit.Localization.Utilities
-{
+namespace GameToolkit.Localization.Utilities {
     [Serializable]
-    public class GoogleTranslateResponse
-    {
+    public class GoogleTranslateResponse {
         public string TranslatedText;
         public string DetectedSourceLanguage;
 
-        public GoogleTranslateResponse()
-        {
+        public GoogleTranslateResponse() {
         }
 
-        public GoogleTranslateResponse(string translatedText)
-        {
+        public GoogleTranslateResponse(string translatedText) {
             TranslatedText = translatedText;
         }
     }

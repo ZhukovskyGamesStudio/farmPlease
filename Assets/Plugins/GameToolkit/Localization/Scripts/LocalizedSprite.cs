@@ -4,20 +4,18 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
     [CreateAssetMenu(fileName = "LocalizedSprite", menuName = "GameToolkit/Localization/Sprite")]
-    public class LocalizedSprite : LocalizedAsset<Sprite>
-    {
-        [Serializable]
-        private class SpriteLocaleItem : LocaleItem<Sprite> { };
-
+    public class LocalizedSprite : LocalizedAsset<Sprite> {
         [SerializeField]
         private SpriteLocaleItem[] m_LocaleItems = new SpriteLocaleItem[1];
 
-        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems => m_LocaleItems;
+
+        [Serializable]
+        private class SpriteLocaleItem : LocaleItem<Sprite> {
+        }
     }
 }

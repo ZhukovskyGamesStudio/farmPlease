@@ -3,21 +3,15 @@
 
 using UnityEditor;
 
-namespace GameToolkit.Localization.Editor
-{
+namespace GameToolkit.Localization.Editor {
     /// <summary>
-    /// Refreshes <see cref="LocalizationWindow"> if opened.
+    ///     Refreshes <see cref="LocalizationWindow"> if opened.
     /// </summary>
-    public class LocaleAssetPostprocessor : AssetPostprocessor
-    {
+    public class LocaleAssetPostprocessor : AssetPostprocessor {
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
-                                                   string[] movedAssets, string[] movedFromAssetPaths)
-        {
-            var localizationWindow = LocalizationWindow.Instance;
-            if (localizationWindow)
-            {
-                localizationWindow.Refresh();
-            }
+            string[] movedAssets, string[] movedFromAssetPaths) {
+            LocalizationWindow localizationWindow = LocalizationWindow.Instance;
+            if (localizationWindow) localizationWindow.Refresh();
         }
     }
 }

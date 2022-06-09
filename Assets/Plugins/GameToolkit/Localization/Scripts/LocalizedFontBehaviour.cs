@@ -3,10 +3,8 @@
 
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     [AddComponentMenu(ComponentMenuRoot + "Localized Font")]
-    public class LocalizedFontBehaviour : LocalizedGenericAssetBehaviour<LocalizedFont, Font>
-    {
+    public class LocalizedFontBehaviour : LocalizedGenericAssetBehaviour<LocalizedFont, Font> {
     }
 }

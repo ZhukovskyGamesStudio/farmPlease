@@ -4,20 +4,18 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
     [CreateAssetMenu(fileName = "LocalizedPrefab", menuName = "GameToolkit/Localization/Prefab")]
-    public class LocalizedPrefab : LocalizedAsset<GameObject>
-    {
-        [Serializable]
-        private class PrefabLocaleItem : LocaleItem<GameObject> { };
-
+    public class LocalizedPrefab : LocalizedAsset<GameObject> {
         [SerializeField]
         private PrefabLocaleItem[] m_LocaleItems = new PrefabLocaleItem[1];
 
-        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems => m_LocaleItems;
+
+        [Serializable]
+        private class PrefabLocaleItem : LocaleItem<GameObject> {
+        }
     }
 }

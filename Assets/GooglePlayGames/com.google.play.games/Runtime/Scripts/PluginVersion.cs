@@ -14,13 +14,11 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames
-{
-    public class PluginVersion
-    {
+namespace GooglePlayGames {
+    public class PluginVersion {
         // Current Version.
         public const int VersionInt = 0x01101;
         public const string VersionString = "0.11.01";
-        public const string VersionKey = "01101" ;
+        public const string VersionKey = "01101";
     }
 }

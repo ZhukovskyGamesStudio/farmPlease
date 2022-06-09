@@ -14,16 +14,14 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.Nearby
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
+namespace GooglePlayGames.BasicApi.Nearby {
     // move this inside IMessageListener and IDiscoveryListener are always declared.
 #if UNITY_ANDROID
 
-    public interface INearbyConnectionClient
-    {
+    public interface INearbyConnectionClient {
         int MaxUnreliableMessagePayloadLength();
 
         int MaxReliableMessagePayloadLength();
@@ -61,16 +59,14 @@ namespace GooglePlayGames.BasicApi.Nearby
     }
 #endif
 
-    public interface IMessageListener
-    {
+    public interface IMessageListener {
         void OnMessageReceived(string remoteEndpointId, byte[] data,
             bool isReliableMessage);
 
         void OnRemoteEndpointDisconnected(string remoteEndpointId);
     }
 
-    public interface IDiscoveryListener
-    {
+    public interface IDiscoveryListener {
         void OnEndpointFound(EndpointDetails discoveredEndpoint);
 
         void OnEndpointLost(string lostEndpointId);

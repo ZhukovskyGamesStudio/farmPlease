@@ -3,10 +3,8 @@
 
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     [AddComponentMenu(ComponentMenuRoot + "Localized Audio Clip")]
-    public class LocalizedAudioClipBehaviour : LocalizedGenericAssetBehaviour<LocalizedAudioClip, AudioClip>
-    {
+    public class LocalizedAudioClipBehaviour : LocalizedGenericAssetBehaviour<LocalizedAudioClip, AudioClip> {
     }
 }

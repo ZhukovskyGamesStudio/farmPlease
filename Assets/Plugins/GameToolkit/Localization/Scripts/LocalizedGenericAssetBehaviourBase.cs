@@ -5,13 +5,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace GameToolkit.Localization
-{
+namespace GameToolkit.Localization {
     /// <summary>
-    /// 
     /// </summary>
-    public abstract class LocalizedGenericAssetBehaviourBase : LocalizedAssetBehaviour
-    {
+    public abstract class LocalizedGenericAssetBehaviourBase : LocalizedAssetBehaviour {
         [SerializeField]
         protected Component m_Component;
 
@@ -20,17 +17,12 @@ namespace GameToolkit.Localization
 
         protected PropertyInfo m_PropertyInfo;
 
-        protected virtual void Awake()
-        {
+        protected virtual void Awake() {
             InitializePropertyIfNeeded();
         }
 
-        protected virtual void InitializePropertyIfNeeded()
-        {
-            if (m_PropertyInfo == null && m_Component)
-            {
-                m_PropertyInfo = FindProperty(m_Component, m_Property);
-            }
+        protected virtual void InitializePropertyIfNeeded() {
+            if (m_PropertyInfo == null && m_Component) m_PropertyInfo = FindProperty(m_Component, m_Property);
         }
 
         public abstract PropertyInfo FindProperty(Component component, string name);

@@ -1,143 +1,117 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 using GooglePlayGames;
-using UnityEngine.SocialPlatforms;
 using NotificationSamples;
-using UnityEngine.UI;
-using System;
+using UnityEngine;
 
-public class GPSManager : MonoBehaviour
-{
-    [SerializeField] GameNotificationsManager NotificationsManager;
+public class GPSManager : MonoBehaviour {
     public static GPSManager instance;
-    [HideInInspector] private static readonly string tutorialLeaderboard = "CgkI1N701sUbEAIQAQ";
+
+    [HideInInspector]
+    private static readonly string tutorialLeaderboard = "CgkI1N701sUbEAIQAQ";
+
     public static bool isAuthenticated;
 
-    public void Awake()
-    {
-        if (instance == null)
-        {
+    [SerializeField]
+    private GameNotificationsManager NotificationsManager;
+
+    public void Awake() {
+        if (instance == null) {
             isAuthenticated = false;
             instance = this;
             DontDestroyOnLoad(gameObject);
-            
-        }
-        else
+        } else {
             Destroy(gameObject);
-
+        }
     }
 
-    public void Initialize()
-    {
+    public void Initialize() {
 #if UNITY_ANDROID
 
-        if (isAuthenticated)
-        {
+        if (isAuthenticated) {
             DebugManager.instance.Log("Google Play Services УЖЕ подключены");
-        }
-        else
-        {
-            
+        } else {
             PlayGamesPlatform.DebugLogEnabled = true;
             PlayGamesPlatform.Activate();
-            Social.localUser.Authenticate(success =>
-            {
+            Social.localUser.Authenticate(success => {
                 isAuthenticated = success;
                 SettingsManager.instance.SettingsPanel.GPGSUpdated(isAuthenticated);
                 if (!success)
-                    DebugManager.instance.Log("Google Play Services не подключены. Глобальная статистика и рекорды могут не работать");
-                
+                    DebugManager.instance.Log(
+                        "Google Play Services не подключены. Глобальная статистика и рекорды могут не работать");
             });
-
-
         }
 #endif
     }
 
-
-    public void InitializeNotifications()
-    {
+    public void InitializeNotifications() {
 #if UNITY_ANDROID
-        GameNotificationChannel channel = new GameNotificationChannel("someId", "New day notifications", "Notify you about starting new ingame day");
+        GameNotificationChannel channel = new("someId", "New day notifications",
+            "Notify you about starting new ingame day");
         NotificationsManager.Initialize(channel);
         NotificationsManager.DismissAllNotifications();
 #endif
     }
 
-
-    public void NewDayNotification(bool isOn = true)
-    {
-        if (!NotificationsManager.Initialized)
-        {
+    public void NewDayNotification(bool isOn = true) {
+        if (!NotificationsManager.Initialized) {
             DebugManager.instance.Log("Notification Manager is not initialized");
             return;
         }
+
         NotificationsManager.CancelNotification(0);
-        if (isOn)
-        {
+        if (isOn) {
             DateTime time = DateTime.Today + SettingsManager.instance.GetDayPoint();
             if (DateTime.Now > time)
                 time = time.AddDays(1);
             //DebugManager.instance.Log("Cancelled and Sheduled new day notification at " + time.ToString());
 
             CreateNotification(0, "Наступил новый день", "Используйте энергию с умом!", time, true);
-        }
-        else
+        } else {
             DebugManager.instance.Log("Cancelled new day notification ");
-
-
+        }
     }
 
-    public void CreateNotification()
-    {
+    public void CreateNotification() {
         CreateNotification(-1, "Test notification", "I'm here", DateTime.Now.AddSeconds(15), false);
     }
 
-    public void CreateNotification(int id, string title, string body, DateTime time, bool isReshedule)
-    {
+    public void CreateNotification(int id, string title, string body, DateTime time, bool isReshedule) {
         IGameNotification notification = NotificationsManager.CreateNotification();
-        if (notification != null)
-        {
+        if (notification != null) {
             notification.Id = id;
             notification.Title = title;
             notification.Body = body;
             notification.DeliveryTime = time;
             notification.LargeIcon = "tomato";
-            var toDisplay = NotificationsManager.ScheduleNotification(notification);
+            PendingNotification toDisplay = NotificationsManager.ScheduleNotification(notification);
             toDisplay.Reschedule = isReshedule;
         }
     }
 
-    public static bool IsInitialized()
-    {
+    public static bool IsInitialized() {
         return isAuthenticated;
     }
 
-    public static void ReportScore(int score, string what)
-    {
+    public static void ReportScore(int score, string what) {
 #if UNITY_ANDROID
         if (isAuthenticated)
-            switch (what)
-            {
+            switch (what) {
                 case "tutorialLeaderboard":
-                    Social.ReportScore(score, tutorialLeaderboard, (bool success) => { }); break;
+                    Social.ReportScore(score, tutorialLeaderboard, success => { });
+                    break;
             }
 #endif
     }
 
-    public void ShowLeaderBoard()
-    {
+    public void ShowLeaderBoard() {
 #if UNITY_ANDROID
         Social.ShowLeaderboardUI();
 #endif
     }
 
-    public static void ExitFromGPS()
-    {
+    public static void ExitFromGPS() {
 /*#if UNITY_ANDROID
         PlayGamesPlatform.Instance.SignOut();
 #endif*/
     }
-
 }
