@@ -1,40 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class FactsPage : MonoBehaviour
-{
-
+public class FactsPage : MonoBehaviour {
     [Header("FactsPage")]
     public Text FactsHeader;
+
     public Text FactsFirstText;
     public Text FactsSecondText;
     public Image FactsFirstImage;
     public Image FactsSecondImage;
 
+    public void UpdatePage(SOWithCroponomPage pageData) {
+        FactsHeader.text = pageData.header;
+        FactsFirstText.text = pageData.firstText;
+        FactsSecondText.text = pageData.secondText;
 
-    public void UpdatePage(string header, string firstText, Sprite firstsprite, string secondText, Sprite secondSprite)
-    {
-        FactsHeader.text = header;
-        FactsFirstText.text = firstText;
-        FactsSecondText.text = secondText;
-
-        if (firstsprite != null)
-        {
+        if (pageData.firstSprite != null) {
             FactsFirstImage.enabled = true;
-            FactsFirstImage.sprite = firstsprite;
-        }
-        else
+            FactsFirstImage.sprite = pageData.firstSprite;
+        } else
             FactsFirstImage.enabled = false;
 
-
-        if (secondSprite != null)
-        {
+        if (pageData.secondSprite != null) {
             FactsSecondImage.enabled = true;
-            FactsSecondImage.sprite = secondSprite;
-        }
-           else
+            FactsSecondImage.sprite = pageData.secondSprite;
+        } else
             FactsSecondImage.enabled = false;
     }
 }

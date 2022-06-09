@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Crop", menuName = "ScriptableObjects/Crop", order = 2)]
-public class CropSO : ScriptableObject
+public class CropSO : SOWithCroponomPage
 {
 	[Header("Crop")]
 	public new string name;
@@ -17,12 +15,5 @@ public class CropSO : ScriptableObject
 	public string explainText;
 	public int buyAmount;
 	public int Rarity;
-
-	[Header("CroponomPage")]
-	public string header;
-	public string firstText;
-	public Sprite firstSprite;
-	public string secondText;
-	public Sprite secondSprite;
 
 }

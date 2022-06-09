@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Tool", menuName = "ScriptableObjects/Tool", order = 3)]
 [System.Serializable]
-public class ToolSO : ScriptableObject
+public class ToolSO : SOWithCroponomPage
 {
+    [Header("Tool")]
     public new string name;
     public ToolType type;
 
@@ -17,13 +16,6 @@ public class ToolSO : ScriptableObject
     [Header("HUDElements")]
     public ToolUIType toolUIType;
     public Sprite buffedIcon;
-
-    [Header("CroponomPage")]
-    public string header;
-    public string firstText;
-    public Sprite firstSprite;
-    public string secondText;
-    public Sprite secondSprite;
 
     [Header("FoodMarketProperties")]
     public bool isAlwaysAvailable;

@@ -1,123 +1,114 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Encyclopedia : MonoBehaviourSoundStarter
-{
+public class Encyclopedia : MonoBehaviourSoundStarter {
     public FactsPage FactsPage;
-	public GameObject GridButtonPrefab;
+    public Button GridButtonPrefab;
 
-	[Header("Crops")]
-	public GameObject CropsGrid;
-	public Button CropsOpenButton;
-	public CropsTable CropsTablePrefab;
+    [Header("Crops")]
+    public GameObject CropsGrid;
 
-	[Header("Weather")]
-	public Button WeatherOpenButton;
-	public GameObject WeatherGrid;
-	public WeatherTable WeatherTablePrefab;
+    public Button CropsOpenButton;
+    public CropsTable CropsTablePrefab;
 
-	[Header("Tools")]
-	public Button ToolsOpenButton;
-	public GameObject ToolsGrid;
-	public ToolsTable ToolsTablePrefab;
+    [Header("Weather")]
+    public Button WeatherOpenButton;
 
-	GameObject[] cropsButtons;
-	GameObject[] weatherButtons;
-	GameObject[] toolButtons;
+    public GameObject WeatherGrid;
+    public WeatherTable WeatherTablePrefab;
 
-	/**********/
+    [Header("Tools")]
+    public Button ToolsOpenButton;
 
-	private void Start()
-	{
-		GenerateAllButtons();
-	}
+    public GameObject ToolsGrid;
+    public ToolsTable ToolsTablePrefab;
 
-	public void GenerateAllButtons()
-    {
-		GenerateCropsButtons();
-		GenerateWeatherButtons();
-		GenerateToolsButtons();
+    private List<Button> cropsButtons;
+    private List<Button> weatherButtons;
+    private List<Button> toolButtons;
 
-		//Кнопке открытия овощей добавляем функцию переключения на первый овощ
-		CropSO crop = CropsTablePrefab.Crops[0];
-		CropsOpenButton.onClick.AddListener(() => FactsPage.UpdatePage(crop.header, crop.firstText, crop.firstSprite, crop.secondText, crop.secondSprite));
+    /**********/
+    private void Awake() {
+        GenerateAllButtons();
+        GridButtonPrefab.gameObject.SetActive(false);
+    }
 
-		//Аналогично для кнопки отыкрытия погоды
-		WeatherSO weather = WeatherTablePrefab.WeathersSO[0];
-		WeatherOpenButton.onClick.AddListener(() => FactsPage.UpdatePage(weather.header, weather.firstText, weather.firstSprite, weather.secondText, weather.secondSprite));
+    private void SubscribeTabButtons() {
+        CropsOpenButton.onClick.AddListener(() => OpenPage(CropsTablePrefab.Crops[0]));
+        WeatherOpenButton.onClick.AddListener(() => OpenPage(WeatherTablePrefab.WeathersSO[0]));
+        ToolsOpenButton.onClick.AddListener(() => OpenPage(ToolsTablePrefab.ToolsSO[0]));
+    }
 
-		ToolSO tool = ToolsTablePrefab.ToolsSO[0];
-		ToolsOpenButton.onClick.AddListener(() => FactsPage.UpdatePage(tool.header, tool.firstText, tool.firstSprite, tool.secondText, tool.secondSprite));
+    private void ReleaseAllButtons() {
+        CropsOpenButton.onClick.RemoveListener(() => OpenPage(CropsTablePrefab.Crops[0]));
+        WeatherOpenButton.onClick.RemoveListener(() => OpenPage(WeatherTablePrefab.WeathersSO[0]));
+        ToolsOpenButton.onClick.RemoveListener(() => OpenPage(ToolsTablePrefab.ToolsSO[0]));
+        foreach (Button button in cropsButtons) {
+            button.onClick.RemoveAllListeners();
+        }
 
-		//Открываем страничку с помидором при старте
-		FactsPage.UpdatePage(crop.header, crop.firstText, crop.firstSprite, crop.secondText, crop.secondSprite);
-	}
+        foreach (Button button in weatherButtons) {
+            button.onClick.RemoveAllListeners();
+        }
 
-	
+        foreach (Button button in toolButtons) {
+            button.onClick.RemoveAllListeners();
+        }
+    }
 
+    private void OpenPage(SOWithCroponomPage pageData) {
+        FactsPage.UpdatePage(pageData);
+    }
 
+    private void GenerateAllButtons() {
+        GenerateCropsButtons();
+        GenerateWeatherButtons();
+        GenerateToolsButtons();
 
-	public void GenerateWeatherButtons()
-	{
-		
-		weatherButtons = new GameObject[WeatherTablePrefab.WeathersSO.Length];
-		for (int i = 0; i < weatherButtons.Length; i++)
-		{
-			weatherButtons[i] = Instantiate(GridButtonPrefab, WeatherGrid.transform);
-			weatherButtons[i].SetActive(true);
+        SubscribeTabButtons();
 
-			WeatherSO weather = WeatherTablePrefab.WeathersSO[i];
-			Button button = weatherButtons[i].GetComponent<Button>();
-			button.onClick.AddListener(() => FactsPage.UpdatePage(weather.header, weather.firstText, weather.firstSprite, weather.secondText, weather.secondSprite));
+        FactsPage.UpdatePage(CropsTablePrefab.Crops[0]);
+    }
 
-			weatherButtons[i].GetComponent<Image>().sprite = weather.icon;
-		}
-		  
-	}
+    private void GenerateWeatherButtons() {
+        weatherButtons = new List<Button>();
+        foreach (WeatherSO weatherData in WeatherTablePrefab.WeathersSO) {
+            Button weatherButton = Instantiate(GridButtonPrefab, WeatherGrid.transform);
+            weatherButton.onClick.AddListener(() => FactsPage.UpdatePage(weatherData));
 
+            weatherButton.GetComponent<Image>().sprite = weatherData.icon;
+            weatherButtons.Add(weatherButton);
+        }
+    }
 
+    private void GenerateCropsButtons() {
+        cropsButtons = new List<Button>();
+        foreach (CropSO cropData in CropsTablePrefab.Crops) {
+            Button cropButton = Instantiate(GridButtonPrefab, CropsGrid.transform);
+            cropButton.onClick.AddListener(() => FactsPage.UpdatePage(cropData));
 
-	public void GenerateCropsButtons()
-    {
-		cropsButtons = new GameObject[CropsTablePrefab.Crops.Length];
-			for (int i = 0; i < cropsButtons.Length; i++)
-			{
-			cropsButtons[i] = Instantiate(GridButtonPrefab, CropsGrid.transform);
-			cropsButtons[i].SetActive(true);
+            cropButton.GetComponent<Image>().sprite = cropData.VegSprite;
+            cropsButtons.Add(cropButton);
+        }
+    }
 
-			CropSO crop = CropsTablePrefab.Crops[i];
-				Button button = cropsButtons[i].GetComponent<Button>();
-				button.onClick.AddListener(()   => FactsPage.UpdatePage(crop.header,crop.firstText,crop.firstSprite,crop.secondText,crop.secondSprite));
+    private void GenerateToolsButtons() {
+        toolButtons = new List<Button>();
+        foreach (ToolSO toolData in ToolsTablePrefab.ToolsSO) {
+            Button toolButton = Instantiate(GridButtonPrefab, ToolsGrid.transform);
+            toolButton.onClick.AddListener(() => FactsPage.UpdatePage(toolData));
 
-				cropsButtons[i].GetComponent<Image>().sprite = crop.VegSprite;
-			}
-		
-	}
+            toolButton.GetComponent<Image>().sprite = toolData.FoodMarketSprite;
+            toolButtons.Add(toolButton);
+        }
+    }
 
-	public void GenerateToolsButtons()
-	{
+    public new void PlaySound(int soundIndex) {
+        AudioManager.instance.PlaySound((Sounds) soundIndex);
+    }
 
-		toolButtons = new GameObject[ToolsTablePrefab.ToolsSO.Length];
-		for (int i = 0; i < toolButtons.Length; i++)
-		{
-			toolButtons[i] = Instantiate(GridButtonPrefab, ToolsGrid.transform);
-			toolButtons[i].SetActive(true);
-
-			ToolSO tool = ToolsTablePrefab.ToolsSO[i];
-			Button button = toolButtons[i].GetComponent<Button>();
-			button.onClick.AddListener(() => FactsPage.UpdatePage(tool.header, tool.firstText, tool.firstSprite, tool.secondText, tool.secondSprite));
-
-			toolButtons[i].GetComponent<Image>().sprite = tool.FoodMarketSprite;
-		}
-
-	}
-
-	public new void PlaySound(int soundIndex)
-	{
-		AudioManager.instance.PlaySound((Sounds)soundIndex);
-	}
-
-
+    private void OnDestroy() {
+        ReleaseAllButtons();
+    }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class SmartTilemap : MonoBehaviour
@@ -20,8 +18,8 @@ public class SmartTilemap : MonoBehaviour
 	Dictionary<Vector3Int, SmartTile> tiles;
 
 	public float animtime = 0.5f;
-	Vector2Int fieldSizeJ = new Vector2Int(-13,13);
-	Vector2Int fieldSizeI = new Vector2Int(-11,9);
+	Vector2Int fieldSizeJ = new(-13,13);
+	Vector2Int fieldSizeI = new(-11,9);
 
 	public int[] tileData;
 
