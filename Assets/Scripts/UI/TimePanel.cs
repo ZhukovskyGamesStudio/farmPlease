@@ -46,7 +46,7 @@ public class TimePanel : MonoBehaviour {
         }
     }
 
-    public void UpdateBigCalendar(int curDay) {
+    private void UpdateBigCalendar(int curDay) {
         for (int i = 0; i < Days.Length; i++) {
             DayScript script = Days[i].GetComponent<DayScript>();
             if (daysHappenings[i] == HappeningType.Love &&
@@ -81,5 +81,8 @@ public class TimePanel : MonoBehaviour {
     public void CalendarPanelOpenClose() {
         isOpen = !isOpen;
         CalendarPanel.SetActive(isOpen);
+        if (isOpen) {
+            UpdateBigCalendar(TimeManager.instance.day);
+        }
     }
 }

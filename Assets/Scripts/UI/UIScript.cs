@@ -46,10 +46,6 @@ public class UIScript : MonoBehaviourSoundStarter {
         CoinsScript.UpdateCoins(amount);
     }
 
-    public void UpdateBigCalendar() {
-        TimePanel.UpdateBigCalendar(TimeManager.instance.day);
-    }
-
     public void ChangeInventoryHover(int index) {
         FastPanelScript.UpdateHover(index);
     }

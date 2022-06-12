@@ -139,9 +139,8 @@ public class TimeManager : MonoBehaviour {
 
         TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
         TimePanel.UpdateLilCalendar(day);
-        TimePanel.UpdateBigCalendar(day);
 
-        if (!(GameModeManager.instance.GameMode == GameMode.Training)) {
+        if (GameModeManager.instance.GameMode != GameMode.Training) {
             if (day == 0)
                 UIScript.OpenBuildingsShop();
             else
@@ -211,7 +210,6 @@ public class TimeManager : MonoBehaviour {
         TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
 
         TimePanel.UpdateLilCalendar(day);
-        TimePanel.UpdateBigCalendar(day);
         if (daysHappenings[day] == HappeningType.Marketplace) {
             UIScript.OpenMarketPlace();
             ToolShop.ChangeTools();
@@ -219,7 +217,7 @@ public class TimeManager : MonoBehaviour {
             UIScript.CloseMarketPlace();
         }
 
-        if (!(GameModeManager.instance.GameMode == GameMode.Training)) {
+        if (GameModeManager.instance.GameMode != GameMode.Training) {
             if (day == 0)
                 UIScript.OpenBuildingsShop();
             else
@@ -250,7 +248,6 @@ public class TimeManager : MonoBehaviour {
         SeedShopScript.ChangeSeedsNewDay();
 
         TimePanel.UpdateLilCalendar(day);
-        TimePanel.UpdateBigCalendar(day);
 
         InventoryManager.instance.BrokeTools();
         FastPanel.UpdateToolsImages();
@@ -262,7 +259,7 @@ public class TimeManager : MonoBehaviour {
             UIScript.CloseMarketPlace();
         }
 
-        if (!(GameModeManager.instance.GameMode == GameMode.Training)) {
+        if (GameModeManager.instance.GameMode != GameMode.Training) {
             if (day == 0)
                 UIScript.OpenBuildingsShop();
             else
@@ -279,7 +276,7 @@ public class TimeManager : MonoBehaviour {
         EndMonth();
     }
 
-    public void EndMonth() {
+    private void EndMonth() {
         InventoryManager.instance.toolsInventory[ToolType.Weatherometr] = 0;
         GenerateDays(false, false);
 
