@@ -139,6 +139,7 @@ public class TimeManager : MonoBehaviour {
 
         TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
         TimePanel.UpdateLilCalendar(day);
+        TimePanel.UpdateBigCalendar(day);
 
         if (!(GameModeManager.instance.GameMode == GameMode.Training)) {
             if (day == 0)
@@ -210,6 +211,7 @@ public class TimeManager : MonoBehaviour {
         TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
 
         TimePanel.UpdateLilCalendar(day);
+        TimePanel.UpdateBigCalendar(day);
         if (daysHappenings[day] == HappeningType.Marketplace) {
             UIScript.OpenMarketPlace();
             ToolShop.ChangeTools();
