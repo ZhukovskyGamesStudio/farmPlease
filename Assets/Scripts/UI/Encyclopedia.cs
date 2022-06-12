@@ -31,7 +31,6 @@ public class Encyclopedia : MonoBehaviourSoundStarter {
     /**********/
     private void Awake() {
         GenerateAllButtons();
-        GridButtonPrefab.gameObject.SetActive(false);
     }
 
     private void OnDestroy() {
