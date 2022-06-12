@@ -18,6 +18,7 @@ public class SaveLoadManager : MonoBehaviour {
     private SmartTilemap SmartTilemap;
     private TimeManager TimeManager;
     private ToolShopPanel ToolShop;
+    public GameSaveProfile currentSave;
 
     private void Start() {
         PlayerController = PlayerController.instance;
@@ -134,7 +135,8 @@ public class SaveLoadManager : MonoBehaviour {
     }
 
     public void SaveGame() {
-        if (GameModeManager.instance.DoNotSave || GameModeManager.instance.GameMode == GameMode.Online)
+        GameModeManager gameModeManager = GameModeManager.instance; 
+        if (gameModeManager.DoNotSave )
             return;
 
         string toSave = GenerateJsonString();
@@ -187,6 +189,7 @@ public class SaveLoadManager : MonoBehaviour {
         instance.TimeManager.SetDaysWithData(currentSave.daysData, dateTime);
 
         //DebugManager.instance.Log("Loading finished.");
+        SaveLoadManager.instance.currentSave = currentSave;
     }
 
     public static void GenerateGame() {

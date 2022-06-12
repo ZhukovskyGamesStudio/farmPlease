@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class TrainingManager : MonoBehaviour {
     public Step[] steps;
     public PlayerController PlayerController;
     private int curStep;
-    private bool isBatteriEmpted, isNextDayBegan;
+    private bool isBatteriEmpted, isNextDayBegan, isSeedBought;
 
     public void Start() {
         if (TimeManager.instance.day > 0)
@@ -27,6 +28,12 @@ public class TrainingManager : MonoBehaviour {
         if (!isNextDayBegan)
             if (TimeManager.instance.day == 1) {
                 isNextDayBegan = true;
+                NextStep();
+            }
+
+        if (!isSeedBought)
+            if (InventoryManager.instance.seedsInventory.Any(crop => crop.Value > 0)) {
+                isSeedBought = true;
                 NextStep();
             }
     }
