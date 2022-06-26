@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using GooglePlayGames;
 using NotificationSamples;
 using UnityEngine;
 
-public class GPSManager : MonoBehaviour {
+public class GPSManager : PreloadedManager {
     public static GPSManager instance;
 
     [HideInInspector]
@@ -14,7 +16,7 @@ public class GPSManager : MonoBehaviour {
     [SerializeField]
     private GameNotificationsManager NotificationsManager;
 
-    public void Awake() {
+    public override IEnumerator Init() {
         if (instance == null) {
             isAuthenticated = false;
             instance = this;
@@ -22,6 +24,8 @@ public class GPSManager : MonoBehaviour {
         } else {
             Destroy(gameObject);
         }
+
+        yield break;
     }
 
     public void Initialize() {

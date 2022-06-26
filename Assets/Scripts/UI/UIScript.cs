@@ -55,12 +55,12 @@ public class UIScript : MonoBehaviourSoundStarter {
     }
 
     public void OpenBuildingsShop() {
-        ShopsPanel.BuildingShopButton.SetActive(true);
+        ShopsPanel.BuildingShopButton.interactable = true;
     }
 
     public void CloseBuildingsShop() {
         if (!GameModeManager.instance.IsBuildingsShopAlwaysOpen)
-            ShopsPanel.BuildingShopButton.SetActive(false);
+            ShopsPanel.BuildingShopButton.interactable = false;
     }
 
     public void OpenMarketPlace() {

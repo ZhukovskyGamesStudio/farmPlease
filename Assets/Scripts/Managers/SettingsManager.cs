@@ -1,27 +1,26 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
-public class SettingsManager : MonoBehaviour {
+public class SettingsManager : PreloadedManager {
     public static SettingsManager instance;
     public SettingsPanel SettingsPanel;
     public SettingsProfile settingsProfile;
 
     /**********/
 
-    private void Awake() {
+    public override IEnumerator Init() {
         if (instance == null) {
             instance = this;
             settingsProfile = new SettingsProfile();
             settingsProfile.Load();
             DontDestroyOnLoad(gameObject);
+            LoadSettings();
         } else {
             Destroy(gameObject);
         }
-    }
 
-    private void Start() {
-        LoadSettings();
-        AudioManager.instance.Initialize();
+        yield break;
     }
 
     public void LoadSettings() {

@@ -141,16 +141,12 @@ public class TimeManager : MonoBehaviour {
         TimePanel.UpdateLilCalendar(day);
 
         if (GameModeManager.instance.GameMode != GameMode.Training) {
-            if (day == 0)
+            if (daysHappenings[day] == HappeningType.Marketplace) {
                 UIScript.OpenBuildingsShop();
-            else
+            } else {
                 UIScript.CloseBuildingsShop();
+            }
         }
-
-        if (daysHappenings[day] == HappeningType.Marketplace)
-            UIScript.OpenMarketPlace();
-        else
-            UIScript.CloseMarketPlace();
 
         tmpDate = date;
         isLoaded = true;
@@ -178,30 +174,20 @@ public class TimeManager : MonoBehaviour {
 
         for (int i = 0; i < MaxDays; i++) {
             int x = i + SkipDaysAmount + 1;
-            if (x % 7 == 0 && x > 0) {
+            if (x % 7 == 0 && x > 0 && GameModeManager.instance.GameMode != GameMode.Training) {
                 daysHappenings[i] = HappeningType.Marketplace;
             } else if ((i + 1) % 5 == 0) {
                 int rnd = Random.Range(0, 4);
                 if (GameModeManager.instance.GameMode == GameMode.Training)
                     rnd = Random.Range(0, 2);
 
-                switch (rnd) {
-                    case 0:
-                        daysHappenings[i] = HappeningType.Rain;
-                        break;
-
-                    case 1:
-                        daysHappenings[i] = HappeningType.Erosion;
-                        break;
-
-                    case 2:
-                        daysHappenings[i] = HappeningType.Wind;
-                        break;
-
-                    case 3:
-                        daysHappenings[i] = HappeningType.Insects;
-                        break;
-                }
+                daysHappenings[i] = rnd switch {
+                    0 => HappeningType.Rain,
+                    1 => HappeningType.Erosion,
+                    2 => HappeningType.Wind,
+                    3 => HappeningType.Insects,
+                    _ => daysHappenings[i]
+                };
             } else if (i == love) {
                 daysHappenings[i] = HappeningType.Love;
             }
@@ -210,18 +196,14 @@ public class TimeManager : MonoBehaviour {
         TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
 
         TimePanel.UpdateLilCalendar(day);
-        if (daysHappenings[day] == HappeningType.Marketplace) {
-            UIScript.OpenMarketPlace();
-            ToolShop.ChangeTools();
-        } else {
-            UIScript.CloseMarketPlace();
-        }
+        ToolShop.ChangeTools();
 
         if (GameModeManager.instance.GameMode != GameMode.Training) {
-            if (day == 0)
+            if (daysHappenings[day] == HappeningType.Marketplace) {
                 UIScript.OpenBuildingsShop();
-            else
+            } else {
                 UIScript.CloseBuildingsShop();
+            }
         }
 
         isLoaded = true;
@@ -251,19 +233,14 @@ public class TimeManager : MonoBehaviour {
 
         InventoryManager.instance.BrokeTools();
         FastPanel.UpdateToolsImages();
-
-        if (daysHappenings[day] == HappeningType.Marketplace) {
-            UIScript.OpenMarketPlace();
-            ToolShop.ChangeTools();
-        } else {
-            UIScript.CloseMarketPlace();
-        }
+        ToolShop.ChangeTools();
 
         if (GameModeManager.instance.GameMode != GameMode.Training) {
-            if (day == 0)
+            if (daysHappenings[day] == HappeningType.Marketplace) {
                 UIScript.OpenBuildingsShop();
-            else
+            } else {
                 UIScript.CloseBuildingsShop();
+            }
         }
 
         if (day > 0)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingsPanel : MonoBehaviourSoundStarter {
@@ -9,11 +10,14 @@ public class SettingsPanel : MonoBehaviourSoundStarter {
     public Dropdown DaypointDropDown;
     public GameObject ResetButton;
     public bool IsMainMenu;
+    public DevlogManager Devlog;
+ 
 
     private SettingsProfile curProfile, UnchangedProfile;
 
     public void Initialize() {
         curProfile = new SettingsProfile();
+        Devlog.Init();
     }
 
     public void UpdateSettingsPanel(SettingsProfile profile) {
@@ -77,6 +81,20 @@ public class SettingsPanel : MonoBehaviourSoundStarter {
             GPGSButton.interactable = false;
             GPGSText.text = "Play Games подключены";
         }
+    }
+
+    public void StartTutorial() {
+        SceneManager.LoadScene("Training");
+        SceneManager.sceneLoaded += ClosePanel;
+    }
+
+    private void ClosePanel(Scene arg0, LoadSceneMode arg1) {
+        SceneManager.sceneLoaded -= ClosePanel;
+        ClosePanel();
+    }
+
+    public void ShowDevlog() {
+        Devlog.gameObject.SetActive(true);
     }
 
     public void ClearSettings() {

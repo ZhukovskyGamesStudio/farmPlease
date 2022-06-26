@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TrainingManager : MonoBehaviour {
     public Step[] steps;
@@ -52,6 +53,7 @@ public class TrainingManager : MonoBehaviour {
             steps[i].Begin();
             yield return new WaitForSeconds(1 - curStep / steps.Length);
         }
+        SceneManager.LoadScene("Game");
     }
 }
 

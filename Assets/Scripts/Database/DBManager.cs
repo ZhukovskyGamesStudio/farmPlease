@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class DBManager : MonoBehaviour {
+public class DBManager : PreloadedManager {
     [SerializeField]
     private const string url = "http://farmplease.somee.com/api/";
 
@@ -15,13 +15,15 @@ public class DBManager : MonoBehaviour {
 
     public static DBManager instance;
 
-    private void Awake() {
+    public override IEnumerator Init() {
         if (instance == null) {
             instance = this;
             DontDestroyOnLoad(gameObject);
         } else if (instance == this) {
             Destroy(gameObject);
         }
+
+        yield break;
     }
 
     #endregion

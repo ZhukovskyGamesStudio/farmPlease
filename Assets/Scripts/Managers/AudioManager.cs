@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioManager : MonoBehaviour {
+public class AudioManager : PreloadedManager {
     public static AudioManager instance;
     public AudioClip[] songs, click, clickWrong, clickButton, nextPage, zeroEnergy;
     public AudioClip[] collect, hoed, watered, seeded;
@@ -12,13 +13,16 @@ public class AudioManager : MonoBehaviour {
     private int curSource;
     private bool isInitialized;
 
-    private void Awake() {
+    public override IEnumerator Init() {
         if (instance == null) {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        } else {
+            Initialize();
+        } else if (instance == this) {
             Destroy(gameObject);
         }
+
+        yield break;
     }
 
     private void Update() {

@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour {
                 ChangeTool(curIndex);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !(GameModeManager.instance.GameMode == GameMode.RealTime) &&
+            if (Input.GetKeyDown(KeyCode.Space) && GameModeManager.instance.GameMode != GameMode.RealTime &&
                 canInteract)
                 TimeManager.instance.AddDay();
 
@@ -320,11 +320,14 @@ public class PlayerController : MonoBehaviour {
                         SmartTilemap.AvailabilityCheck("water"))
                         yield return StartCoroutine(SmartTilemap.WaterTile());
 
-                    if (HasEnergy() && InventoryManager.instance.IsToolWorking(ToolType.Greenscythe) &&
+                    if (InventoryManager.instance.IsToolWorking(ToolType.Greenscythe) &&
                         SmartTilemap.GetPlayerTile().type == TileType.WateredSoil) {
-                        Vector3Int coord = SmartTilemap.Playercoord;
-                        while (SmartTilemap.GetTile(coord).type == TileType.WateredSoil)
-                            yield return StartCoroutine(SmartTilemap.GetTile(coord).OnNeyDayed(SmartTilemap.animtime));
+                        if (HasEnergy()) {
+                            Vector3Int coord = SmartTilemap.Playercoord;
+                            while (SmartTilemap.GetTile(coord).type == TileType.WateredSoil)
+                                yield return StartCoroutine(SmartTilemap.GetTile(coord)
+                                    .OnNeyDayed(SmartTilemap.animtime));
+                        }
                     } else if (SmartTilemap.AvailabilityCheck("collect")) {
                         yield return StartCoroutine(SmartTilemap.CollectTile());
                     }

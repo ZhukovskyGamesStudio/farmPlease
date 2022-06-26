@@ -60,10 +60,6 @@ public class SaveLoadManager : MonoBehaviour {
             LoadGame();
     }
 
-    private void OnApplicationQuit() {
-        // GPSManager.ExitFromGPS();
-    }
-
     public static string GetPath() {
         if (path == null) {
             path = Application.persistentDataPath + "/saves";
@@ -150,6 +146,8 @@ public class SaveLoadManager : MonoBehaviour {
 
         File.WriteAllText(filePath, toSave);
     }
+
+    public static bool IsNewPlayer() => Directory.Exists(GetPath());
 
     public static void LoadGame(string jsonString = null) {
         GameSaveProfile currentSave;

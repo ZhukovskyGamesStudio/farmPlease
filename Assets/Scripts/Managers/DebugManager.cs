@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugManager : MonoBehaviour {
+public class DebugManager : PreloadedManager {
     public static DebugManager instance;
     public Text ErrorText;
     public GameObject DebugPanel, LogButton;
@@ -9,7 +10,7 @@ public class DebugManager : MonoBehaviour {
     public bool IsDevelopmentBuild = true;
     public bool IsPrintingInConsole = true;
 
-    public void Awake() {
+    public override IEnumerator Init() {
         if (instance == null) {
             instance = this;
             DontDestroyOnLoad(gameObject);
@@ -22,6 +23,8 @@ public class DebugManager : MonoBehaviour {
         } else {
             Destroy(gameObject);
         }
+
+        yield break;
     }
 
     public void Log(string textToShow) {
