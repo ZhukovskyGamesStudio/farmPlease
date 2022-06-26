@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildingShopPanel : MonoBehaviourSoundStarter {
+public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
     public Text cropsCollectedText;
 
     [Header("Buildings")]

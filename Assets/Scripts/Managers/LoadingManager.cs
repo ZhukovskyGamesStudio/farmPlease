@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadingManager : MonoBehaviour {
-    public PreloadedManager[] PreloadedManagers;
+    
+    public IPreloaded[] PreloadedManagers;
     private string _sceneName;
     private static bool isGameLoaded;
 
@@ -14,7 +15,7 @@ public class LoadingManager : MonoBehaviour {
     }
 
     private IEnumerator LoadManagers() {
-        foreach (PreloadedManager manager in PreloadedManagers) {
+        foreach (IPreloaded manager in PreloadedManagers) {
             yield return manager.Init();
         }
 

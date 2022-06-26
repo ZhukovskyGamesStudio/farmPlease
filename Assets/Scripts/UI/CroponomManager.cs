@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Encyclopedia : MonoBehaviourSoundStarter {
+public class CroponomManager : IPreloaded, ISoundStarter {
     public FactsPage FactsPage;
     public Button GridButtonPrefab;
 
@@ -28,13 +29,26 @@ public class Encyclopedia : MonoBehaviourSoundStarter {
     private List<Button> toolButtons;
     private List<Button> weatherButtons;
 
+    public static CroponomManager instance;
+
+    [SerializeField]
+    private GameObject Panel;
+
     /**********/
-    private void Awake() {
+
+    public override IEnumerator Init() {
+        if (instance) {
+            Destroy(gameObject);
+            yield break;
+        }
+
         GenerateAllButtons();
+        DontDestroyOnLoad(gameObject);
+        instance = this;
     }
 
-    private void OnDestroy() {
-        ReleaseAllButtons();
+    public void Open() {
+        Panel.SetActive(true);
     }
 
     private void SubscribeTabButtons() {

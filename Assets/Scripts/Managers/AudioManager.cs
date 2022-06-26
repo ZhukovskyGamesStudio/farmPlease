@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioManager : PreloadedManager {
+public class AudioManager : IPreloaded {
     public static AudioManager instance;
     public AudioClip[] songs, click, clickWrong, clickButton, nextPage, zeroEnergy;
     public AudioClip[] collect, hoed, watered, seeded;
@@ -98,10 +98,4 @@ public enum Sounds {
     Hoed = 5,
     Watered = 6,
     Seeded = 7
-}
-
-public class MonoBehaviourSoundStarter : MonoBehaviour {
-    public void PlaySound(int soundIndex) {
-        AudioManager.instance.PlaySound((Sounds) soundIndex);
-    }
 }

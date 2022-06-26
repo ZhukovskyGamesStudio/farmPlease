@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SettingsManager : PreloadedManager {
+public class SettingsManager : IPreloaded {
     public static SettingsManager instance;
     public SettingsPanel SettingsPanel;
     public SettingsProfile settingsProfile;

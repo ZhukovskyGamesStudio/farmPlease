@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class DBManager : PreloadedManager {
+public class DBManager : IPreloaded {
     [SerializeField]
     private const string url = "http://farmplease.somee.com/api/";
 

@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIScript : MonoBehaviourSoundStarter {
+public class UIScript : MonoBehaviour,ISoundStarter {
     public static UIScript instance;
     public Battery BatteryScript;
     public CoinsScript CoinsScript;
@@ -22,8 +22,8 @@ public class UIScript : MonoBehaviourSoundStarter {
     public void ClosePanel() {
         if (SettingsManager.instance.SettingsPanel.gameObject.activeSelf)
             SettingsManager.instance.SettingsPanel.gameObject.SetActive(false);
-        else if (CroponomPanel.activeSelf)
-            CroponomPanel.SetActive(false);
+        //else if (CroponomPanel.activeSelf)
+        //    CroponomPanel.SetActive(false);
         else if (TimePanel.isOpen)
             TimePanel.CalendarPanelOpenClose();
         else if (ShopsPanel.ToolShopPanel.gameObject.activeSelf)
@@ -73,6 +73,10 @@ public class UIScript : MonoBehaviourSoundStarter {
         ShopsPanel.SeedShopButton.GetComponent<Button>().interactable = true;
     }
 
+    public void OpenCroponom() {
+        CroponomManager.instance.Open();
+    }
+    
     public void OpenSettings() {
         SettingsManager.instance.SettingsPanel.gameObject.SetActive(true);
     }

@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenuButtons : MonoBehaviourSoundStarter {
-    public Encyclopedia CroponomButton;
+public class MainMenuButtons : MonoBehaviour, ISoundStarter {
+    public CroponomManager CroponomButton;
     public GameObject DiscordButton;
     public GameObject ExitButton;
 

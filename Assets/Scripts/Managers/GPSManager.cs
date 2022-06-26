@@ -5,7 +5,7 @@ using GooglePlayGames;
 using NotificationSamples;
 using UnityEngine;
 
-public class GPSManager : PreloadedManager {
+public class GPSManager : IPreloaded {
     public static GPSManager instance;
 
     [HideInInspector]

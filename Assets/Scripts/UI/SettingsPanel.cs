@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SettingsPanel : MonoBehaviourSoundStarter {
+public class SettingsPanel : MonoBehaviour,ISoundStarter {
     public Slider masterSoundSlider, musicSoundSlider, effectsSoundSlider;
     public Button GPGSButton;
     public Text GPGSText;

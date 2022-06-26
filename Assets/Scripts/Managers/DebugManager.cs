@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugManager : PreloadedManager {
+public class DebugManager : IPreloaded {
     public static DebugManager instance;
     public Text ErrorText;
     public GameObject DebugPanel, LogButton;
