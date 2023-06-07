@@ -1,18 +1,18 @@
 using System;
 using System.Collections;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TrainingManager : MonoBehaviour {
     public Step[] steps;
-    public PlayerController PlayerController;
     private int curStep;
     private bool isBatteriEmpted, isNextDayBegan, isSeedBought;
 
     public void Start() {
-        if (TimeManager.instance.day > 0)
-            SaveLoadManager.instance.ClearSaveAndReload();
+        if (Time.Instance.day > 0)
+            SaveLoadManager.Instance.ClearSaveAndReload();
         curStep = -1;
         isBatteriEmpted = false;
         for (int i = 0; i < steps.Length; i++) steps[i].Init();
@@ -21,13 +21,13 @@ public class TrainingManager : MonoBehaviour {
 
     public void Update() {
         if (!isBatteriEmpted)
-            if (PlayerController.curEnergy == 0) {
+            if (Energy.Instance.curEnergy == 0) {
                 NextStep();
                 isBatteriEmpted = true;
             }
 
         if (!isNextDayBegan)
-            if (TimeManager.instance.day == 1) {
+            if (Time.Instance.day == 1) {
                 isNextDayBegan = true;
                 NextStep();
             }
@@ -53,6 +53,7 @@ public class TrainingManager : MonoBehaviour {
             steps[i].Begin();
             yield return new WaitForSeconds(1 - curStep / steps.Length);
         }
+
         SceneManager.LoadScene("Game");
     }
 }

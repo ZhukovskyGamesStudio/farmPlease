@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AudioManager : IPreloaded {
-    public static AudioManager instance;
+public class Audio : PreloadableSingleton<Audio> {
+  
     public AudioClip[] songs, click, clickWrong, clickButton, nextPage, zeroEnergy;
     public AudioClip[] collect, hoed, watered, seeded;
 
@@ -12,18 +13,6 @@ public class AudioManager : IPreloaded {
     public AudioSource[] effectsSource;
     private int curSource;
     private bool isInitialized;
-
-    public override IEnumerator Init() {
-        if (instance == null) {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            Initialize();
-        } else if (instance == this) {
-            Destroy(gameObject);
-        }
-
-        yield break;
-    }
 
     private void Update() {
         if (!musicSource.isPlaying && isInitialized) {

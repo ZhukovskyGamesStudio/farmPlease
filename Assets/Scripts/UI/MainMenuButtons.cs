@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuButtons : MonoBehaviour, ISoundStarter {
-    public CroponomManager CroponomButton;
+    public Croponom CroponomButton;
     public GameObject DiscordButton;
     public GameObject ExitButton;
 
@@ -27,7 +27,7 @@ public class MainMenuButtons : MonoBehaviour, ISoundStarter {
         ExitButton.SetActive(true);
 #endif
 
-        if (DebugManager.instance.IsDevelopmentBuild)
+        if (Debug.Instance.IsDevelopmentBuild)
             FakeGameButton.SetActive(true);
         else
             FakeGameButton.SetActive(false);
@@ -86,7 +86,7 @@ public class MainMenuButtons : MonoBehaviour, ISoundStarter {
     }
 
     public void OpenSettings() {
-        SettingsManager.instance.SettingsPanel.gameObject.SetActive(true);
+        Settings.Instance.SettingsPanel.gameObject.SetActive(true);
     }
 
     public void Quit() {

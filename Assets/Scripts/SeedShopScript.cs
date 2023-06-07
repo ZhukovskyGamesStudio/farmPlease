@@ -37,7 +37,7 @@ public class SeedShopScript : MonoBehaviour {
             seedOffer.OfferImage.sprite = crop.SeedSprite;
             seedOffer.BuyButton.onClick.AddListener(() =>
                 InventoryManager.instance.BuySeed(crop.type, crop.cost, crop.buyAmount));
-            seedOffer.BuyButton.onClick.AddListener(() => AudioManager.instance.PlaySound(Sounds.Button));
+            seedOffer.BuyButton.onClick.AddListener(() => Audio.Instance.PlaySound(Sounds.Button));
 
             if (crop.Rarity == 1)
                 seedOffer.RareEdge.SetActive(true);

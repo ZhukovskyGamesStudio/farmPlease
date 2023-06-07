@@ -16,7 +16,7 @@ public class ToolsTable : MonoBehaviour {
         for (int i = 0; i < instance.ToolsSO.Length; i++)
             if (instance.ToolsSO[i].type == type)
                 return instance.ToolsSO[i];
-        Debug.Log("Нет класса Tool под тип " + type);
+        UnityEngine.Debug.Log("Нет класса Tool под тип " + type);
         return null;
     }
 }

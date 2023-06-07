@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -33,7 +34,7 @@ public class InventoryManager : MonoBehaviour {
 
     public Dictionary<ToolType, int> toolsInventory;
 
-    private UIScript UIScript;
+    private UIHud _uiHud;
 
     /**********/
 
@@ -45,21 +46,21 @@ public class InventoryManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (GameModeManager.instance.UnlimitedMoneyCrops && !IsUnlimitedFlag) {
+        if (GameModeManager.Instance.UnlimitedMoneyCrops && !IsUnlimitedFlag) {
             IsUnlimitedFlag = true;
             coins = 1000;
             AllCropsCollected = 100000;
-            UIScript.ChangeCoins(coins);
+            _uiHud.ChangeCoins(coins);
         }
     }
 
     public void Init() {
-        UIScript = UIScript.instance;
-        PlayerController = PlayerController.instance;
+        _uiHud = UIHud.Instance;
+        PlayerController = PlayerController.Instance;
         FastPanelScript = PlayerController.gameObject.GetComponent<FastPanelScript>();
 
-        TimePanel = UIScript.TimePanel;
-        Backpack = UIScript.Backpack;
+        TimePanel = _uiHud.TimePanel;
+        Backpack = _uiHud.Backpack;
     }
 
     /*****Сохранение и загрузка*****/
@@ -71,7 +72,7 @@ public class InventoryManager : MonoBehaviour {
 
         //создаём пустой словарь семян. заполняем его по 100, если включены читы
         for (int i = 0; i < CropsTable.instance.Crops.Length; i++)
-            if (GameModeManager.instance.UnlimitedSeeds && CropsTable.instance.Crops[i].type != CropsType.Weed)
+            if (GameModeManager.Instance.UnlimitedSeeds && CropsTable.instance.Crops[i].type != CropsType.Weed)
                 seedsInventory.Add(CropsTable.instance.Crops[i].type, 100);
             else
                 seedsInventory.Add(CropsTable.instance.Crops[i].type, 0);
@@ -80,7 +81,7 @@ public class InventoryManager : MonoBehaviour {
         for (int i = 0; i < ToolsTable.instance.ToolsSO.Length; i++)
             toolsInventory.Add(ToolsTable.instance.ToolsSO[i].type, 0);
 
-        if (GameModeManager.instance.UnlimitedMoneyCrops) {
+        if (GameModeManager.Instance.UnlimitedMoneyCrops) {
             coins = 1000;
             cropsCollected = 1000;
         } else {
@@ -91,7 +92,7 @@ public class InventoryManager : MonoBehaviour {
         GenerateIsBoughtData();
 
         UpdateInventoryUI();
-        UIScript.ChangeCoins(coins);
+        _uiHud.ChangeCoins(coins);
         FastPanelScript.ChangeSeedFastPanel(CropsType.Tomato, seedsInventory[CropsType.Tomato]);
         FastPanelScript.UpdateToolsImages();
     }
@@ -138,7 +139,7 @@ public class InventoryManager : MonoBehaviour {
 
         UpdateInventoryUI();
 
-        UIScript.ChangeCoins(coins);
+        _uiHud.ChangeCoins(coins);
         FastPanelScript.ChangeSeedFastPanel(CropsType.Tomato, seedsInventory[CropsType.Tomato]);
     }
 
@@ -255,7 +256,7 @@ public class InventoryManager : MonoBehaviour {
         coins += amount;
         if (coins < 0)
             coins = 0;
-        UIScript.ChangeCoins(coins);
+        _uiHud.ChangeCoins(coins);
     }
 
     /*****Семена*****/
@@ -263,8 +264,8 @@ public class InventoryManager : MonoBehaviour {
     public void ChooseSeed(CropsType crop) {
         if (PlayerController.seedBagCrop != crop) {
             if (IsToolWorking(ToolType.Carpetseeder)) {
-                if (PlayerController.HasEnergy())
-                    PlayerController.LoseOneEnergy();
+                if (Energy.Instance.HasEnergy())
+                    Energy.Instance.LoseOneEnergy();
                 else
                     return;
             }
@@ -281,7 +282,7 @@ public class InventoryManager : MonoBehaviour {
 
             UpdateInventoryUI();
             FastPanelScript.UpdateSeedFastPanel(crop, seedsInventory[crop]);
-            SaveLoadManager.instance.SaveGame();
+            SaveLoadManager.Instance.SaveGame();
         }
     }
 
@@ -293,7 +294,7 @@ public class InventoryManager : MonoBehaviour {
     }
 
     public IEnumerator WindyDay(SmartTilemap tilemap) {
-        if (GameModeManager.instance.DisableStrongWind)
+        if (GameModeManager.Instance.DisableStrongWind)
             yield break;
 
         List<CropsType> seedsList = new();
@@ -315,7 +316,7 @@ public class InventoryManager : MonoBehaviour {
         while (seedsList.Count > 0) {
             whileStopper--;
             if (whileStopper < 0) {
-                Debug.Log("never use while!");
+                UnityEngine.Debug.Log("never use while!");
                 break;
             }
 
@@ -354,7 +355,7 @@ public class InventoryManager : MonoBehaviour {
 
     public void BrokeTools() {
         if (toolsInventory == null) {
-            Debug.LogError("dictionary is null");
+            UnityEngine.Debug.LogError("dictionary is null");
             return;
         }
 

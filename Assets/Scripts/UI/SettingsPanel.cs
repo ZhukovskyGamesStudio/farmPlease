@@ -28,7 +28,7 @@ public class SettingsPanel : MonoBehaviour,ISoundStarter {
         musicSoundSlider.SetValueWithoutNotify(profile.musicVolume);
         effectsSoundSlider.SetValueWithoutNotify(profile.effectsVolume);
         NotificationsToggle.SetIsOnWithoutNotify(profile.sendNotifications);
-        GPGSUpdated(GPSManager.isAuthenticated);
+        GPGSUpdated(Gps.isAuthenticated);
 
         ResetButton.SetActive(false);
     }
@@ -41,8 +41,8 @@ public class SettingsPanel : MonoBehaviour,ISoundStarter {
     public void OnNotificationChanged() {
         ResetButton.SetActive(true);
         curProfile.sendNotifications = NotificationsToggle.isOn;
-        SettingsManager.instance.ChangeSettings(curProfile);
-        SettingsManager.instance.NotificationChanged();
+        Settings.Instance.ChangeSettings(curProfile);
+        Settings.Instance.NotificationChanged();
     }
 
     public void OnVolumeChanged() {
@@ -51,29 +51,29 @@ public class SettingsPanel : MonoBehaviour,ISoundStarter {
         curProfile.masterVolume = masterSoundSlider.value;
         curProfile.musicVolume = musicSoundSlider.value;
         curProfile.effectsVolume = effectsSoundSlider.value;
-        SettingsManager.instance.ChangeSettings(curProfile);
-        AudioManager.instance.ChangeVolume(curProfile.masterVolume, curProfile.musicVolume, curProfile.effectsVolume);
+        Settings.Instance.ChangeSettings(curProfile);
+        Audio.Instance.ChangeVolume(curProfile.masterVolume, curProfile.musicVolume, curProfile.effectsVolume);
     }
 
     public void OnDayMomentChanged() {
         ResetButton.SetActive(true);
 
         curProfile.newDayPoint = DaypointDropDown.value;
-        SettingsManager.instance.ChangeSettings(curProfile);
-        SettingsManager.instance.DayMomentChanged();
+        Settings.Instance.ChangeSettings(curProfile);
+        Settings.Instance.DayMomentChanged();
     }
 
     public void ResetChanges() {
         curProfile = UnchangedProfile;
         UpdateSettingsPanel(curProfile);
-        SettingsManager.instance.ChangeSettings(curProfile);
-        SettingsManager.instance.DayMomentChanged();
-        SettingsManager.instance.NotificationChanged();
-        AudioManager.instance.ChangeVolume(curProfile.masterVolume, curProfile.musicVolume, curProfile.effectsVolume);
+        Settings.Instance.ChangeSettings(curProfile);
+        Settings.Instance.DayMomentChanged();
+        Settings.Instance.NotificationChanged();
+        Audio.Instance.ChangeVolume(curProfile.masterVolume, curProfile.musicVolume, curProfile.effectsVolume);
     }
 
     public void ConnectGPGS() {
-        GPSManager.instance.Initialize();
+        Gps.Instance.Initialize();
     }
 
     public void GPGSUpdated(bool isAuthenticated) {
@@ -101,9 +101,9 @@ public class SettingsPanel : MonoBehaviour,ISoundStarter {
         curProfile.Clear();
         curProfile.Load();
         UpdateSettingsPanel(curProfile);
-        SettingsManager.instance.ChangeSettings(curProfile);
-        SettingsManager.instance.DayMomentChanged();
-        SettingsManager.instance.NotificationChanged();
-        AudioManager.instance.ChangeVolume(curProfile.masterVolume, curProfile.musicVolume, curProfile.effectsVolume);
+        Settings.Instance.ChangeSettings(curProfile);
+        Settings.Instance.DayMomentChanged();
+        Settings.Instance.NotificationChanged();
+        Audio.Instance.ChangeVolume(curProfile.masterVolume, curProfile.musicVolume, curProfile.effectsVolume);
     }
 }

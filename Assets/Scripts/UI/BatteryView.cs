@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Battery : MonoBehaviour {
+public class BatteryView : MonoBehaviour {
     public Image[] chargeImages;
     public Sprite green, red;
     private Coroutine coroutine;
@@ -47,7 +47,7 @@ public class Battery : MonoBehaviour {
     public void UpdateCharge(int amount) {
         EndCoroutine();
         if (amount < 0) {
-            Debug.Log("энергии меньше нуля?!");
+            UnityEngine.Debug.Log("энергии меньше нуля?!");
             amount = 0;
         }
 

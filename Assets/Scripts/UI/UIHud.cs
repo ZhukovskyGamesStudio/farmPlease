@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace.Abstract;
+using DefaultNamespace.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIScript : MonoBehaviour,ISoundStarter {
-    public static UIScript instance;
-    public Battery BatteryScript;
+public class UIHud : Singleton<UIHud>, ISoundStarter {
+    public BatteryView BatteryView;
     public CoinsScript CoinsScript;
     public FastPanelScript FastPanelScript;
     public TimePanel TimePanel;
@@ -15,13 +16,11 @@ public class UIScript : MonoBehaviour,ISoundStarter {
     public GameObject BuildingPanel;
     public GraphicRaycaster GraphicRaycaster;
 
-    private void Awake() {
-        instance = this;
-    }
+    public ClockView ClockView;
 
     public void ClosePanel() {
-        if (SettingsManager.instance.SettingsPanel.gameObject.activeSelf)
-            SettingsManager.instance.SettingsPanel.gameObject.SetActive(false);
+        if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
+            Settings.Instance.SettingsPanel.gameObject.SetActive(false);
         //else if (CroponomPanel.activeSelf)
         //    CroponomPanel.SetActive(false);
         else if (TimePanel.isOpen)
@@ -34,12 +33,12 @@ public class UIScript : MonoBehaviour,ISoundStarter {
             Backpack.OpenClose();
     }
 
-    public void ChangeBattery(int amount) {
-        BatteryScript.UpdateCharge(amount);
+    public void SetBattery(int amount) {
+        BatteryView.UpdateCharge(amount);
     }
 
     public void NoEnergy() {
-        BatteryScript.NoEnergy();
+        BatteryView.NoEnergy();
     }
 
     public void ChangeCoins(int amount) {
@@ -59,7 +58,7 @@ public class UIScript : MonoBehaviour,ISoundStarter {
     }
 
     public void CloseBuildingsShop() {
-        if (!GameModeManager.instance.IsBuildingsShopAlwaysOpen)
+        if (!GameModeManager.Instance.IsBuildingsShopAlwaysOpen)
             ShopsPanel.BuildingShopButton.interactable = false;
     }
 
@@ -74,11 +73,11 @@ public class UIScript : MonoBehaviour,ISoundStarter {
     }
 
     public void OpenCroponom() {
-        CroponomManager.instance.Open();
+        Croponom.Instance.Open();
     }
-    
+
     public void OpenSettings() {
-        SettingsManager.instance.SettingsPanel.gameObject.SetActive(true);
+        Settings.Instance.SettingsPanel.gameObject.SetActive(true);
     }
 
     public void LoadLevel(string sceneName) {
@@ -86,6 +85,6 @@ public class UIScript : MonoBehaviour,ISoundStarter {
     }
 
     public void GlobalRecordsButton() {
-        GPSManager.instance.ShowLeaderBoard();
+        Gps.Instance.ShowLeaderBoard();
     }
 }

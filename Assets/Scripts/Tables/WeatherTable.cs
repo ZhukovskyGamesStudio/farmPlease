@@ -15,7 +15,7 @@ public class WeatherTable : MonoBehaviour {
         for (int i = 0; i < instance.WeathersSO.Length; i++)
             if (instance.WeathersSO[i].type == type)
                 return instance.WeathersSO[i];
-        Debug.Log("Нет класса Weather под тип " + type);
+        UnityEngine.Debug.Log("Нет класса Weather под тип " + type);
         return null;
     }
 }

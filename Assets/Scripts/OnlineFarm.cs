@@ -18,11 +18,11 @@ public class OnlineFarm : MonoBehaviour {
     private bool NeedToUpdateFarm;
 
     private void Start() {
-        curPlayer = DBManager.instance.tmpPlayer;
-        curFarm = DBManager.instance.tmpFarm;
+        curPlayer = DB.Instance.tmpPlayer;
+        curFarm = DB.Instance.tmpFarm;
 
         if (curPlayer.Id == -1)
-            Debug.Log("Player is not loaded");
+            UnityEngine.Debug.Log("Player is not loaded");
         ChatText.text = "";
 
         FarmIdText.text = "Ферма номер #" + curFarm.Id;
@@ -39,12 +39,12 @@ public class OnlineFarm : MonoBehaviour {
 
     public IEnumerator FarmUpdater() {
         yield return StartCoroutine(
-            DBManager.instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer, UpdateLocalFarm));
+            DB.Instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer, UpdateLocalFarm));
         for (;;) {
-            yield return StartCoroutine(DBManager.instance.GetDates(curFarm.Id, curFarm.Password, IsNeedToUpdate));
+            yield return StartCoroutine(DB.Instance.GetDates(curFarm.Id, curFarm.Password, IsNeedToUpdate));
 
             if (NeedToUpdateFarm && !isPutting)
-                yield return StartCoroutine(DBManager.instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer,
+                yield return StartCoroutine(DB.Instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer,
                     UpdateLocalFarm));
             else
                 yield return new WaitForEndOfFrame();
@@ -64,11 +64,11 @@ public class OnlineFarm : MonoBehaviour {
 
         if (newFarm.JsonString == null || newFarm.JsonString == "") {
             SaveLoadManager.GenerateGame();
-            DebugManager.instance.Log("Posting generated online Farm");
+            Debug.Instance.Log("Posting generated online Farm");
             ChangeFarmAndPut(SaveLoadManager.GenerateJsonString());
         } else {
             SaveLoadManager.LoadGame(newFarm.JsonString);
-            DebugManager.instance.Log("Synchronizing local Farm");
+            Debug.Instance.Log("Synchronizing local Farm");
         }
     }
 
@@ -92,7 +92,7 @@ public class OnlineFarm : MonoBehaviour {
     public void ChangeFarmAndPut(string JsonString) {
         isPutting = true;
         curFarm.JsonString = JsonString;
-        StartCoroutine(DBManager.instance.PutFarm(curFarm, curPlayer, EndPutting));
+        StartCoroutine(DB.Instance.PutFarm(curFarm, curPlayer, EndPutting));
     }
 
     private void DoNothing(Farm farm) {

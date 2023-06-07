@@ -1,14 +1,16 @@
 ﻿using System;
 using System.IO;
+using DefaultNamespace;
+using DefaultNamespace.Abstract;
+using DefaultNamespace.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SaveLoadManager : MonoBehaviour {
+public class SaveLoadManager : Singleton<SaveLoadManager> {
     public static int profile;
 
     //bool isInitilisationDone;
     /**********/
-    public static string path, filename, filepath;
     private BuildingShopPanel BuildingShopPanel;
     private FastPanelScript FastPanelScript;
 
@@ -16,59 +18,48 @@ public class SaveLoadManager : MonoBehaviour {
     private PlayerController PlayerController;
     private SeedShopScript SeedShop;
     private SmartTilemap SmartTilemap;
-    private TimeManager TimeManager;
+
     private ToolShopPanel ToolShop;
-    public GameSaveProfile currentSave;
+    public static GameSaveProfile CurrentSave;
 
     private void Start() {
-        PlayerController = PlayerController.instance;
+        PlayerController = PlayerController.Instance;
         PlayerController.Init();
 
         FastPanelScript = PlayerController.GetComponent<FastPanelScript>();
         FastPanelScript.Init();
-
-        TimeManager = TimeManager.instance;
-        TimeManager.Init();
         SmartTilemap = SmartTilemap.instance;
 
         InventoryManager = InventoryManager.instance;
         InventoryManager.Init();
 
-        ToolShop = UIScript.instance.ShopsPanel.ToolShopPanel;
-        SeedShop = UIScript.instance.ShopsPanel.seedShopScript;
-        BuildingShopPanel = UIScript.instance.ShopsPanel.BuildingShopPanel;
+        ToolShop = UIHud.Instance.ShopsPanel.ToolShopPanel;
+        SeedShop = UIHud.Instance.ShopsPanel.seedShopScript;
+        BuildingShopPanel = UIHud.Instance.ShopsPanel.BuildingShopPanel;
 
         TilesTable.instance.CreateDictionary();
 
-        if (GameModeManager.instance.GameMode == GameMode.Online)
+        if (GameModeManager.Instance.GameMode == GameMode.Online)
             profile = 2;
-        if (GameModeManager.instance.GameMode == GameMode.RealTime)
+        if (GameModeManager.Instance.GameMode == GameMode.RealTime)
             profile = 1;
-        else if (GameModeManager.instance.GameMode == GameMode.Training)
+        else if (GameModeManager.Instance.GameMode == GameMode.Training)
             profile = -1;
         else
             profile = -2;
 
-        path = Application.persistentDataPath + "/saves";
-        filename = "save" + profile + ".txt";
-        filepath = path + "/" + filename;
-
-        if (GameModeManager.instance.DoNotSave)
+        if (GameModeManager.Instance.DoNotSave)
             ClearSave();
 
-        if (GameModeManager.instance.GameMode != GameMode.Online)
+        if (GameModeManager.Instance.GameMode != GameMode.Online)
             LoadGame();
+        
+        Clock.Instance.TryRefillForRealtimePassed();
     }
 
-    public static string GetPath() {
-        if (path == null) {
-            path = Application.persistentDataPath + "/saves";
-            filename = "save" + profile + ".txt";
-            filepath = path + "/" + filename;
-        }
+    public static string SaveDirectory => $"{Application.persistentDataPath}/saves";
 
-        return path;
-    }
+    public static string SavePath => SaveDirectory + $"/save{profile}.txt";
     /**********/
 
     // Пока в игре происходят какие-то действия, игрок не может ничего сделать
@@ -77,7 +68,7 @@ public class SaveLoadManager : MonoBehaviour {
         if (isStart) {
             PlayerController.canInteract = false;
         } else {
-            if (GameModeManager.instance.GameMode == GameMode.Online) {
+            if (GameModeManager.Instance.GameMode == GameMode.Online) {
                 OnlineFarm.instance.ChangeFarmAndPut(GenerateJsonString());
             } else {
                 PlayerController.canInteract = true;
@@ -90,144 +81,142 @@ public class SaveLoadManager : MonoBehaviour {
         GameSaveProfile gameSave = new();
 
         gameSave.profile = profile;
-        gameSave.money = instance.InventoryManager.coins;
-        gameSave.energy = instance.PlayerController.curEnergy;
-        gameSave.allCrops = instance.InventoryManager.AllCropsCollected;
+        gameSave.money = Instance.InventoryManager.coins;
+        gameSave.energy = Energy.Instance.curEnergy;
+        gameSave.allCrops = Instance.InventoryManager.AllCropsCollected;
 
-        gameSave.currentDay = instance.TimeManager.day;
-        gameSave.dayOfWeek = instance.TimeManager.DayOfWeek;
+        gameSave.currentDay = Time.Instance.day;
+        gameSave.dayOfWeek = Time.Instance.DayOfWeek;
 
-        if (GameModeManager.instance.GameMode == GameMode.Training) {
-            DateTime trainingDate = new(2018, 1, instance.TimeManager.day + 1);
+        if (GameModeManager.Instance.GameMode == GameMode.Training) {
+            DateTime trainingDate = new(2018, 1, Time.Instance.day + 1);
             gameSave.Date = trainingDate.ToString();
         } else {
             gameSave.Date = DateTime.Now.ToString();
         }
 
-        gameSave.crops = instance.InventoryManager.GetCollectedCropsData();
-        gameSave.seedsData = instance.InventoryManager.GetSeedsData();
-        gameSave.toolsData = instance.InventoryManager.GetToolsData();
+        gameSave.crops = Instance.InventoryManager.GetCollectedCropsData();
+        gameSave.seedsData = Instance.InventoryManager.GetSeedsData();
+        gameSave.toolsData = Instance.InventoryManager.GetToolsData();
 
-        gameSave.tilesData = instance.SmartTilemap.GetTilesData();
+        gameSave.tilesData = Instance.SmartTilemap.GetTilesData();
 
-        gameSave.daysData = instance.TimeManager.GetDaysData();
+        gameSave.daysData = Time.Instance.GetDaysData();
 
-        gameSave.seedShopButtonData = instance.SeedShop.GetButtonsData();
-        gameSave.seedShopChangeButton = instance.SeedShop.ChangeSeedsButton.activeSelf;
-        gameSave.ambarCropType = instance.SeedShop.GetAmbarSeedData();
+        gameSave.seedShopButtonData = Instance.SeedShop.GetButtonsData();
+        gameSave.seedShopChangeButton = Instance.SeedShop.ChangeSeedsButton.activeSelf;
+        gameSave.ambarCropType = Instance.SeedShop.GetAmbarSeedData();
 
-        gameSave.toolShopButtonsData = instance.ToolShop.GetButtons();
-        gameSave.toolShopChangeButton = instance.ToolShop.ChangeButton.activeSelf;
+        gameSave.toolShopButtonsData = Instance.ToolShop.GetButtons();
+        gameSave.toolShopChangeButton = Instance.ToolShop.ChangeButton.activeSelf;
 
-        if (GameModeManager.instance.GameMode != GameMode.Training) {
-            gameSave.cropBoughtData = instance.InventoryManager.GetIsBoughtData(0);
-            gameSave.toolBoughtData = instance.InventoryManager.GetIsBoughtData(1);
-            gameSave.buildingBoughtData = instance.InventoryManager.GetIsBoughtData(2);
+        if (GameModeManager.Instance.GameMode != GameMode.Training) {
+            gameSave.cropBoughtData = Instance.InventoryManager.GetIsBoughtData(0);
+            gameSave.toolBoughtData = Instance.InventoryManager.GetIsBoughtData(1);
+            gameSave.buildingBoughtData = Instance.InventoryManager.GetIsBoughtData(2);
 
-            gameSave.buildingPrice = instance.BuildingShopPanel.GetBuildingPrice();
+            gameSave.buildingPrice = Instance.BuildingShopPanel.GetBuildingPrice();
         }
 
         return JsonUtility.ToJson(gameSave, false);
     }
 
     public void SaveGame() {
-        GameModeManager gameModeManager = GameModeManager.instance; 
-        if (gameModeManager.DoNotSave )
+        GameModeManager gameModeManager = GameModeManager.Instance;
+        if (gameModeManager.DoNotSave)
             return;
 
         string toSave = GenerateJsonString();
 
-        string filePath = path + "/save" + profile + ".txt";
+        if (!Directory.Exists(SaveDirectory))
+            Directory.CreateDirectory(SaveDirectory);
+        if (!File.Exists(SavePath))
+            File.Create(SavePath).Close();
 
-        if (!Directory.Exists(path))
-            Directory.CreateDirectory(path);
-        if (!File.Exists(filePath))
-            File.Create(filePath).Close();
-
-        File.WriteAllText(filePath, toSave);
+        File.WriteAllText(SavePath, toSave);
     }
 
-    public static bool IsNewPlayer() => Directory.Exists(GetPath());
+    public static bool IsNewPlayer() => Directory.Exists(SavePath);
 
     public static void LoadGame(string jsonString = null) {
-        GameSaveProfile currentSave;
         if (jsonString != null)
-            currentSave = GameSaveProfile.LoadFromString(jsonString);
+            CurrentSave = GameSaveProfile.LoadFromString(jsonString);
         else
-            currentSave = GameSaveProfile.LoadJson();
+            CurrentSave = GameSaveProfile.LoadJson();
 
-        if (currentSave == null) {
+        if (CurrentSave == null) {
             GenerateGame();
-            DebugManager.instance.Log("Generating finished. Saving started");
-            instance.SaveGame();
-            DebugManager.instance.Log("New profile is saved");
+            Debug.Instance.Log("Generating finished. Saving started");
+            Instance.SaveGame();
+            Debug.Instance.Log("New profile is saved");
             return;
         }
 
         //DebugManager.instance.Log("Started loading of Existing profile");
 
-        instance.SmartTilemap.GenerateTilesWithData(currentSave.tilesData);
+        Instance.SmartTilemap.GenerateTilesWithData(CurrentSave.tilesData);
 
-        instance.InventoryManager.SetInventoryWithData(currentSave.seedsData, currentSave.crops, currentSave.toolsData,
-            currentSave.money, currentSave.allCrops, currentSave.cropBoughtData, currentSave.toolBoughtData,
-            currentSave.buildingBoughtData);
-        instance.FastPanelScript.UpdateToolsImages();
-        instance.PlayerController.SetEnergy(currentSave.energy);
+        Instance.InventoryManager.SetInventoryWithData(CurrentSave.seedsData, CurrentSave.crops, CurrentSave.toolsData,
+            CurrentSave.money, CurrentSave.allCrops, CurrentSave.cropBoughtData, CurrentSave.toolBoughtData,
+            CurrentSave.buildingBoughtData);
+        Instance.FastPanelScript.UpdateToolsImages();
+        Energy.Instance.SetEnergy(CurrentSave.energy);
+        Clock.Instance.SetEnergy(CurrentSave.clockEnergy);
 
-        instance.SeedShop.SetSeedShopWithData(currentSave.seedShopButtonData, currentSave.seedShopChangeButton,
-            currentSave.ambarCropType);
-        instance.ToolShop.SetToolShopWithData(currentSave.toolShopButtonsData, currentSave.toolShopChangeButton);
+        Instance.SeedShop.SetSeedShopWithData(CurrentSave.seedShopButtonData, CurrentSave.seedShopChangeButton,
+            CurrentSave.ambarCropType);
+        Instance.ToolShop.SetToolShopWithData(CurrentSave.toolShopButtonsData, CurrentSave.toolShopChangeButton);
 
-        if (GameModeManager.instance.GameMode != GameMode.Training)
-            instance.BuildingShopPanel.InitializeWithData(currentSave.buildingPrice);
+        if (GameModeManager.Instance.GameMode != GameMode.Training)
+            Instance.BuildingShopPanel.InitializeWithData(CurrentSave.buildingPrice);
 
         // В этом методе запускаете ежесекудный корутин, который подсчитывает кол-во прошедших дней.
 
-        DateTime dateTime = DateTime.Parse(currentSave.Date);
-        instance.TimeManager.SetDaysWithData(currentSave.daysData, dateTime);
-
-        //DebugManager.instance.Log("Loading finished.");
-        SaveLoadManager.instance.currentSave = currentSave;
+        DateTime dateTime = DateTime.Parse(CurrentSave.Date);
+        Time.Instance.SetDaysWithData(CurrentSave.daysData, dateTime);
     }
 
     public static void GenerateGame() {
-        GameSaveProfile currentSave = new();
+        CurrentSave = new GameSaveProfile() {
+            money = 5,
+            allCrops = 0,
+            Date = DateTime.Now.ToString()
+        };
 
-        currentSave.money = 5;
-        currentSave.allCrops = 0;
-        currentSave.Date = DateTime.Now.ToString();
-        if (GameModeManager.instance.GameMode == GameMode.Training)
-            currentSave.Date = new DateTime(2018, 1, instance.TimeManager.day + 1).ToString();
+        if (GameModeManager.Instance.GameMode == GameMode.Training)
+            CurrentSave.Date = new DateTime(2018, 1, Time.Instance.day + 1).ToString();
 
-        instance.SmartTilemap.GenerateTiles();
-        instance.InventoryManager.GenerateInventory();
+        Instance.SmartTilemap.GenerateTiles();
+        Instance.InventoryManager.GenerateInventory();
 
-        instance.PlayerController.SetEnergy(0, true);
-        instance.SeedShop.ChangeSeedsNewDay();
-        instance.ToolShop.ChangeTools();
+        Energy.Instance.RefillEnergy();
+        Clock.Instance.RefillToMaxEnergy();
+        Instance.SeedShop.ChangeSeedsNewDay();
+        Instance.ToolShop.ChangeTools();
 
-        if (GameModeManager.instance.GameMode != GameMode.Training)
-            instance.BuildingShopPanel.Initialize();
-        instance.TimeManager.GenerateDays(GameModeManager.instance.GameMode == GameMode.Training, true);
+        if (GameModeManager.Instance.GameMode != GameMode.Training)
+            Instance.BuildingShopPanel.Initialize();
+        Time.Instance.GenerateDays(GameModeManager.Instance.GameMode == GameMode.Training, true);
     }
 
     public static void FakeGenerateGame() {
-        DebugManager.instance.Log("Fake generating all except tiles");
-        GameSaveProfile currentSave = new();
+        Debug.Instance.Log("Fake generating all except tiles");
+        CurrentSave = new GameSaveProfile() {
+            money = 5,
+            allCrops = 0,
+            Date = DateTime.Now.ToString()
+        };
 
-        currentSave.money = 5;
-        currentSave.allCrops = 0;
-        currentSave.Date = DateTime.Now.ToString();
+        Instance.InventoryManager.GenerateInventory();
 
-        instance.InventoryManager.GenerateInventory();
+        Energy.Instance.RefillEnergy();
+        Clock.Instance.RefillToMaxEnergy();
+        Instance.SeedShop.ChangeSeedsNewDay();
+        Instance.ToolShop.ChangeTools();
 
-        instance.PlayerController.SetEnergy(7, true);
-        instance.SeedShop.ChangeSeedsNewDay();
-        instance.ToolShop.ChangeTools();
-
-        if (GameModeManager.instance.GameMode != GameMode.Training)
-            instance.BuildingShopPanel.Initialize();
-        instance.TimeManager.GenerateDays(GameModeManager.instance.GameMode == GameMode.Training, true);
+        if (GameModeManager.Instance.GameMode != GameMode.Training)
+            Instance.BuildingShopPanel.Initialize();
+        Time.Instance.GenerateDays(GameModeManager.Instance.GameMode == GameMode.Training, true);
     }
 
     public void Reload() {
@@ -249,22 +238,9 @@ public class SaveLoadManager : MonoBehaviour {
     }
 
     public void ClearSave() {
-        if (File.Exists(filepath))
-            File.Delete(filepath);
+        if (File.Exists(SavePath))
+            File.Delete(SavePath);
     }
-
-    #region Singleton
-
-    public static SaveLoadManager instance;
-
-    private void Awake() {
-        if (instance == null)
-            instance = this;
-        else if (instance == this)
-            Destroy(gameObject);
-    }
-
-    #endregion
 
     #region MySaveMthods
 
@@ -349,27 +325,23 @@ public class SaveLoadManager : MonoBehaviour {
 
     #region FarmStruct
 
-    /*public static Farm LoadFarmStruct()
-    {
-        if (!PlayerPrefs.HasKey("farm_id"))
-        {
-            return new Farm { Id = 0 };
+    public static Farm LoadFarmStruct() {
+        if (!PlayerPrefs.HasKey("farm_id")) {
+            return new Farm {Id = 0};
         }
 
-        return new Farm
-        {
+        return new Farm {
             Id = PlayerPrefs.GetInt("farm_id"),
             Password = PlayerPrefs.GetString("farm_password")
         };
     }
 
-    public static void SaveFarmStruct(Farm tosave)
-    {
+    public static void SaveFarmStruct(Farm tosave) {
         PlayerPrefs.SetInt("farm_id", tosave.Id);
         PlayerPrefs.SetString("farm_password", tosave.Password);
-    }  
-    */
+    }
 
+/*
     public static void SaveFarmStruct(Farm tosave) {
         string path = GetPath();
         string filepath = path + "/online.txt";
@@ -393,9 +365,10 @@ public class SaveLoadManager : MonoBehaviour {
             return res;
         }
 
-        Debug.LogWarning("File " + filepath + " Does Not Exists");
+        UnityEngine.Debug.LogWarning("File " + filepath + " Does Not Exists");
         return null;
     }
+*/
 
     #endregion
 }
@@ -405,6 +378,8 @@ public class GameSaveProfile {
     public int profile;
     public int money;
     public int energy;
+    public int clockEnergy;
+    public long lastClockRefilledTimestamp = Clock.NowTotalMilliseconds;
     public int allCrops;
 
     public string Date;
@@ -431,33 +406,18 @@ public class GameSaveProfile {
     public bool[] buildingBoughtData;
     public int buildingPrice;
 
-    public string SaveJson() {
-        string path = SaveLoadManager.path;
-        string filePath = path + "/save" + profile + ".txt";
-
-        string toSave = JsonUtility.ToJson(this, true);
-        if (!Directory.Exists(path))
-            Directory.CreateDirectory(path);
-        if (!File.Exists(filePath))
-            File.Create(filePath).Close();
-
-        File.WriteAllText(filePath, toSave);
-        return toSave;
-    }
-
     public static GameSaveProfile LoadFromString(string loadFrom) {
         try {
             GameSaveProfile res = (GameSaveProfile) JsonUtility.FromJson(loadFrom, typeof(GameSaveProfile));
             return res;
-        }
-        catch {
-            Debug.LogError("Wrong Format");
+        } catch {
+            UnityEngine.Debug.LogError("Wrong Format");
             return null;
         }
     }
 
     public static GameSaveProfile LoadJson() {
-        string filepath = SaveLoadManager.filepath;
+        string filepath = SaveLoadManager.SavePath;
 
         if (File.Exists(filepath)) {
             string save = File.ReadAllText(filepath);
@@ -465,7 +425,7 @@ public class GameSaveProfile {
             return res;
         }
 
-        Debug.Log("File " + filepath + " Does Not Exists");
+        UnityEngine.Debug.Log("File " + filepath + " Does Not Exists");
         return null;
     }
 }

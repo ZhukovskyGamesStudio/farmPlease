@@ -1,46 +1,36 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace.Abstract;
 using GooglePlayGames;
 using NotificationSamples;
 using UnityEngine;
 
-public class GPSManager : IPreloaded {
-    public static GPSManager instance;
+public class Gps : PreloadableSingleton<Gps> {
 
-    [HideInInspector]
-    private static readonly string tutorialLeaderboard = "CgkI1N701sUbEAIQAQ";
+    [HideInInspector] private static readonly string tutorialLeaderboard = "CgkI1N701sUbEAIQAQ";
 
     public static bool isAuthenticated;
 
-    [SerializeField]
-    private GameNotificationsManager NotificationsManager;
+    [SerializeField] private GameNotificationsManager NotificationsManager;
 
-    public override IEnumerator Init() {
-        if (instance == null) {
-            isAuthenticated = false;
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        } else {
-            Destroy(gameObject);
-        }
-
-        yield break;
+    protected override void OnFirstInit() {
+        isAuthenticated = false;
     }
 
     public void Initialize() {
 #if UNITY_ANDROID
 
         if (isAuthenticated) {
-            DebugManager.instance.Log("Google Play Services УЖЕ подключены");
+            Debug.Instance.Log("Google Play Services УЖЕ подключены");
         } else {
             PlayGamesPlatform.DebugLogEnabled = true;
             PlayGamesPlatform.Activate();
             Social.localUser.Authenticate(success => {
                 isAuthenticated = success;
-                SettingsManager.instance.SettingsPanel.GPGSUpdated(isAuthenticated);
+                Settings.Instance.SettingsPanel.GPGSUpdated(isAuthenticated);
                 if (!success)
-                    DebugManager.instance.Log(
+                    Debug.Instance.Log(
                         "Google Play Services не подключены. Глобальная статистика и рекорды могут не работать");
             });
         }
@@ -58,20 +48,20 @@ public class GPSManager : IPreloaded {
 
     public void NewDayNotification(bool isOn = true) {
         if (!NotificationsManager.Initialized) {
-            DebugManager.instance.Log("Notification Manager is not initialized");
+            Debug.Instance.Log("Notification Manager is not initialized");
             return;
         }
 
         NotificationsManager.CancelNotification(0);
         if (isOn) {
-            DateTime time = DateTime.Today + SettingsManager.instance.GetDayPoint();
+            DateTime time = DateTime.Today + Settings.Instance.GetDayPoint();
             if (DateTime.Now > time)
                 time = time.AddDays(1);
             //DebugManager.instance.Log("Cancelled and Sheduled new day notification at " + time.ToString());
 
             CreateNotification(0, "Наступил новый день", "Используйте энергию с умом!", time, true);
         } else {
-            DebugManager.instance.Log("Cancelled new day notification ");
+            Debug.Instance.Log("Cancelled new day notification ");
         }
     }
 

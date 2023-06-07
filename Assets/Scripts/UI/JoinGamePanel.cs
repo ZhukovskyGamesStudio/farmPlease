@@ -38,9 +38,9 @@ public class JoinGamePanel : MonoBehaviour {
         if (curPlayer.Id == 0) {
             RegisterPanel.SetActive(true);
         } else {
-            DebugManager.instance.Log("CurPlayerId: " + curPlayer.Id);
+            Debug.Instance.Log("CurPlayerId: " + curPlayer.Id);
             RegisterPanel.SetActive(false);
-            StartCoroutine(DBManager.instance.GetPlayer(curPlayer, EndGetPlayer));
+            StartCoroutine(DB.Instance.GetPlayer(curPlayer, EndGetPlayer));
         }
     }
 
@@ -51,11 +51,11 @@ public class JoinGamePanel : MonoBehaviour {
     }
 
     public void DeletePlayer() {
-        StartCoroutine(DBManager.instance.DeletePlayer(curPlayer, EndDeletingPlayer));
+        StartCoroutine(DB.Instance.DeletePlayer(curPlayer, EndDeletingPlayer));
     }
 
     public void EndDeletingPlayer(string statusCode) {
-        DebugManager.instance.Log("Deleting player is " + statusCode);
+        Debug.Instance.Log("Deleting player is " + statusCode);
         PlayerPrefs.DeleteKey("player_id");
         curPlayer.Id = -1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -64,7 +64,7 @@ public class JoinGamePanel : MonoBehaviour {
     private void EndGetPlayer(Player player) {
         if (player.Id == -1) {
             PlayerNameText.text = "wname";
-            DebugManager.instance.Log("player is null");
+            Debug.Instance.Log("player is null");
             return;
         }
 
@@ -94,7 +94,7 @@ public class JoinGamePanel : MonoBehaviour {
     public void Confirm() {
         if (ConfirmInput.text == "true") {
             curPlayer.IsConfirmed = true;
-            StartCoroutine(DBManager.instance.PutPlayer(curPlayer, curPlayer.Id, EndGetPlayer));
+            StartCoroutine(DB.Instance.PutPlayer(curPlayer, curPlayer.Id, EndGetPlayer));
         }
     }
 
@@ -105,7 +105,7 @@ public class JoinGamePanel : MonoBehaviour {
                 Password = password
             };
 
-            StartCoroutine(DBManager.instance.PostFarm(farm, curPlayer, EndCreatingFarm));
+            StartCoroutine(DB.Instance.PostFarm(farm, curPlayer, EndCreatingFarm));
         }
     }
 
@@ -116,8 +116,8 @@ public class JoinGamePanel : MonoBehaviour {
         CreateFarmButton.GetComponent<Button>().interactable = false;
         DeleteFarmButton.GetComponent<Button>().interactable = true;
 
-        DebugManager.instance.Log("newFarm id: " + newFarm.Id);
-        DebugManager.instance.Log("newFarm password: " + newFarm.Password);
+        Debug.Instance.Log("newFarm id: " + newFarm.Id);
+        Debug.Instance.Log("newFarm password: " + newFarm.Password);
 
         curFarm = newFarm;
         SaveLoadManager.SaveFarmStruct(curFarm);
@@ -128,7 +128,7 @@ public class JoinGamePanel : MonoBehaviour {
     }
 
     public void DeleteFarm() {
-        StartCoroutine(DBManager.instance.DeleteFarm(curPlayer, EndDeleting));
+        StartCoroutine(DB.Instance.DeleteFarm(curPlayer, EndDeleting));
     }
 
     public void EndDeleting(string statusCode) {
@@ -141,14 +141,14 @@ public class JoinGamePanel : MonoBehaviour {
         ConnectIdInput.text = "";
         ConnectPasswordInput.text = "";
 
-        DebugManager.instance.Log("Deleting farm is " + statusCode);
+        Debug.Instance.Log("Deleting farm is " + statusCode);
     }
 
     public void Connect() {
         int id = int.Parse(ConnectIdInput.text);
         string password = ConnectPasswordInput.text;
 
-        StartCoroutine(DBManager.instance.GetFarm(id, password, curPlayer, EndConnecting));
+        StartCoroutine(DB.Instance.GetFarm(id, password, curPlayer, EndConnecting));
     }
 
     public void EndConnecting(Farm farm) {
@@ -177,17 +177,17 @@ public class JoinGamePanel : MonoBehaviour {
             Password = password1,
             IsConfirmed = false
         };
-        if (DebugManager.instance.IsDevelopmentBuild)
+        if (Debug.Instance.IsDevelopmentBuild)
             curPlayer.IsConfirmed = true;
 
-        Debug.LogWarning(curPlayer.Email);
-        StartCoroutine(DBManager.instance.PostPlayer(curPlayer, EndRegister));
+        UnityEngine.Debug.LogWarning(curPlayer.Email);
+        StartCoroutine(DB.Instance.PostPlayer(curPlayer, EndRegister));
     }
 
     public void EndRegister(Player player) {
         RegisterButton.interactable = true;
         SaveLoadManager.SavePlayerStruct(player);
-        DebugManager.instance.Log("Player is registered. Now Confirm your email");
+        Debug.Instance.Log("Player is registered. Now Confirm your email");
         EndGetPlayer(player);
         RegisterPanel.SetActive(false);
     }

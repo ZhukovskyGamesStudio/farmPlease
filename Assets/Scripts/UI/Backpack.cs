@@ -21,7 +21,7 @@ public class Backpack : MonoBehaviour {
     private GameObject[] seeds;
 
     private void Start() {
-        PlayerController = PlayerController.instance;
+        PlayerController = PlayerController.Instance;
     }
 
     public void OpenClose() {

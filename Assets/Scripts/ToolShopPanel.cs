@@ -26,7 +26,7 @@ public class ToolShopPanel : MonoBehaviour {
             toolOffer.explainText.text = tool.explainText;
 
             toolOffer.BuyButton.onClick.AddListener(() => BuyTool(tool, toolOffer.gameObject));
-            toolOffer.BuyButton.onClick.AddListener(() => AudioManager.instance.PlaySound(Sounds.Button));
+            toolOffer.BuyButton.onClick.AddListener(() => Audio.Instance.PlaySound(Sounds.Button));
 
             toolOffer.OfferImage.sprite = tool.firstSprite;
             buttonD.Add(tool.type, ToolButtons[i]);
@@ -45,7 +45,7 @@ public class ToolShopPanel : MonoBehaviour {
                     counter++;
                 } else {
                     ToolButtons[i].SetActive(false);
-                    Debug.LogWarning("Лишняя активная кнопка");
+                    UnityEngine.Debug.LogWarning("Лишняя активная кнопка");
                 }
             }
         }
@@ -92,7 +92,7 @@ public class ToolShopPanel : MonoBehaviour {
 
             ChangeTools();
             ChangeButton.SetActive(false);
-            SaveLoadManager.instance.SaveGame();
+            SaveLoadManager.Instance.SaveGame();
         }
     }
 
@@ -101,7 +101,7 @@ public class ToolShopPanel : MonoBehaviour {
             InventoryManager.instance.BuyTool(tool.type, tool.cost, tool.buyAmount);
 
             button.SetActive(false);
-            SaveLoadManager.instance.SaveGame();
+            SaveLoadManager.Instance.SaveGame();
         }
     }
 }

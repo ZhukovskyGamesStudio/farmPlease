@@ -1,26 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CroponomManager : IPreloaded, ISoundStarter {
+public class Croponom : PreloadableSingleton<Croponom>, ISoundStarter {
     public FactsPage FactsPage;
     public Button GridButtonPrefab;
 
-    [Header("Crops")]
-    public GameObject CropsGrid;
+    [Header("Crops")] public GameObject CropsGrid;
 
     public Button CropsOpenButton;
     public CropsTable CropsTablePrefab;
 
-    [Header("Weather")]
-    public Button WeatherOpenButton;
+    [Header("Weather")] public Button WeatherOpenButton;
 
     public GameObject WeatherGrid;
     public WeatherTable WeatherTablePrefab;
 
-    [Header("Tools")]
-    public Button ToolsOpenButton;
+    [Header("Tools")] public Button ToolsOpenButton;
 
     public GameObject ToolsGrid;
     public ToolsTable ToolsTablePrefab;
@@ -29,22 +27,12 @@ public class CroponomManager : IPreloaded, ISoundStarter {
     private List<Button> toolButtons;
     private List<Button> weatherButtons;
 
-    public static CroponomManager instance;
-
-    [SerializeField]
-    private GameObject Panel;
+    [SerializeField] private GameObject Panel;
 
     /**********/
 
-    public override IEnumerator Init() {
-        if (instance) {
-            Destroy(gameObject);
-            yield break;
-        }
-
+    protected override void OnFirstInit() {
         GenerateAllButtons();
-        DontDestroyOnLoad(gameObject);
-        instance = this;
     }
 
     public void Open() {
@@ -116,6 +104,6 @@ public class CroponomManager : IPreloaded, ISoundStarter {
     }
 
     public new void PlaySound(int soundIndex) {
-        AudioManager.instance.PlaySound((Sounds) soundIndex);
+        Audio.Instance.PlaySound((Sounds) soundIndex);
     }
 }

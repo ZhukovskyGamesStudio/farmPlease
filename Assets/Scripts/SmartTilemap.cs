@@ -33,7 +33,7 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     private void Start() {
-        seedShop = UIScript.instance.ShopsPanel.seedShopScript;
+        seedShop = UIHud.Instance.ShopsPanel.seedShopScript;
     }
 
     public void Update() {
@@ -81,7 +81,7 @@ public class SmartTilemap : MonoBehaviour {
             }
 
             if (i > 10000) {
-                Debug.LogError("spent too much in while. Instant Break");
+                UnityEngine.Debug.LogError("spent too much in while. Instant Break");
                 break;
             }
         }
@@ -185,7 +185,7 @@ public class SmartTilemap : MonoBehaviour {
     /**********/
 
     public IEnumerator NewDay() {
-        SaveLoadManager.instance.Sequence(true);
+        SaveLoadManager.Instance.Sequence(true);
         Dictionary<Vector3Int, SmartTile> tempTiles = new(tiles);
         List<SmartTile> toNewDay = new();
 
@@ -193,11 +193,11 @@ public class SmartTilemap : MonoBehaviour {
             if (smartTile.Value.CanbeNewDayed())
                 toNewDay.Add(smartTile.Value);
         for (int i = 0; i < toNewDay.Count; i++) yield return StartCoroutine(toNewDay[i].OnNeyDayed(animtime / 5));
-        SaveLoadManager.instance.Sequence(false);
+        SaveLoadManager.Instance.Sequence(false);
     }
 
     public IEnumerator EndDayEvent(HappeningType happeningType) {
-        SaveLoadManager.instance.Sequence(true);
+        SaveLoadManager.Instance.Sequence(true);
         switch (happeningType) {
             case HappeningType.Erosion:
                 yield return StartCoroutine(Erosion());
@@ -216,7 +216,7 @@ public class SmartTilemap : MonoBehaviour {
                 break;
         }
 
-        SaveLoadManager.instance.Sequence(false);
+        SaveLoadManager.Instance.Sequence(false);
     }
 
     public void PlaceTile(Vector3Int coord, TileType type) {
@@ -242,7 +242,7 @@ public class SmartTilemap : MonoBehaviour {
                 return !tiles[coord].IsBuilding() && !(tiles[coord].type == TileType.Rocks);
 
             default:
-                Debug.Log("Wrong");
+                UnityEngine.Debug.Log("Wrong");
                 return false;
         }
     }
@@ -377,7 +377,7 @@ public class SmartTilemap : MonoBehaviour {
                 return tiles[Playercoord].CanBeCollected();
         }
 
-        Debug.Log("Error here " + actionName);
+        UnityEngine.Debug.Log("Error here " + actionName);
         return false;
     }
 
@@ -513,7 +513,7 @@ public class SmartTilemap : MonoBehaviour {
         foreach (SmartTile tile in resTiles)
             if (tile.type == type)
                 return tile;
-        Debug.Log("trouble");
+        UnityEngine.Debug.Log("trouble");
         return null;
     }
 
@@ -584,7 +584,7 @@ public class SmartTilemap : MonoBehaviour {
             case 5: return GetHexNeighbor(now, 5);
         }
 
-        Debug.LogError("Not meant to be here");
+        UnityEngine.Debug.LogError("Not meant to be here");
 
         return now + new Vector3Int(0, 0, 1);
     }
@@ -663,7 +663,7 @@ public class SmartTilemap : MonoBehaviour {
                     return neighbors[4];
             }
 
-        Debug.Log("Trouble");
+        UnityEngine.Debug.Log("Trouble");
         return Vector3Int.zero;
     }
 

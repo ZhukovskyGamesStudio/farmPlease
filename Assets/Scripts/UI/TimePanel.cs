@@ -1,3 +1,4 @@
+using DefaultNamespace.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -63,13 +64,6 @@ public class TimePanel : MonoBehaviour {
         }
     }
 
-    public void AddDayButton() {
-        if (GameModeManager.instance.GameMode == GameMode.Training)
-            TimeManager.instance.AddDay();
-        else
-            timeHintPanel.SetActive(true);
-    }
-
     public void UpdateLilCalendar(int date) {
         if (daysHappenings[date] != HappeningType.None && daysHappenings[date] != HappeningType.Marketplace &&
             !InventoryManager.instance.IsToolWorking(ToolType.Weatherometr))
@@ -82,7 +76,7 @@ public class TimePanel : MonoBehaviour {
         isOpen = !isOpen;
         CalendarPanel.SetActive(isOpen);
         if (isOpen) {
-            UpdateBigCalendar(TimeManager.instance.day);
+            UpdateBigCalendar(Time.Instance.day);
         }
     }
 }

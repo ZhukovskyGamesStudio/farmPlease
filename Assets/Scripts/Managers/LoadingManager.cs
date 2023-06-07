@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadingManager : MonoBehaviour {
-    
-    public IPreloaded[] PreloadedManagers;
+    public List<CustomMonoBehaviour> PreloadedManagers;
     private string _sceneName;
     private static bool isGameLoaded;
 
@@ -15,14 +17,15 @@ public class LoadingManager : MonoBehaviour {
     }
 
     private IEnumerator LoadManagers() {
-        foreach (IPreloaded manager in PreloadedManagers) {
-            yield return manager.Init();
+        foreach (IPreloadable manager in PreloadedManagers.Cast<IPreloadable>()) {
+            manager.Init();
         }
 
         isGameLoaded = true;
         if (SceneManager.GetActiveScene().name == "LoadingScene") {
             LoadGameScene();
         }
+        yield break;
     }
 
     private void LoadGameScene() {

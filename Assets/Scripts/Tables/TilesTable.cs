@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -33,7 +34,7 @@ public class TilesTable : MonoBehaviour {
         for (int i = 0; i < tileDatas.Length; i++)
             if (tileDatas[i].type == type)
                 return tileDatas[i];
-        Debug.Log("Нет класса TileData под тип " + type);
+        UnityEngine.Debug.Log("Нет класса TileData под тип " + type);
         return new TileData();
     }
 
@@ -371,7 +372,7 @@ public class SmartTile : MonoBehaviour {
             tilemap.GetHexNeighbors(neighborTiles[5].position)[3].CanBeHoed())
             yield return tilemap.GetHexNeighbors(neighborTiles[5].position)[3].OnHoed(animtime);
 
-        AudioManager.instance.PlaySound(Sounds.Hoed);
+        Audio.Instance.PlaySound(Sounds.Hoed);
         BecomeActive();
     }
 
@@ -532,7 +533,7 @@ public class SmartTile : MonoBehaviour {
             }
         }
 
-        AudioManager.instance.PlaySound(Sounds.Seeded);
+        Audio.Instance.PlaySound(Sounds.Seeded);
         BecomeActive();
     }
 
@@ -586,7 +587,7 @@ public class SmartTile : MonoBehaviour {
             tilemap.GetHexNeighbors(neighborTiles[5].position)[3].CanBeWatered())
             yield return tilemap.GetHexNeighbors(neighborTiles[5].position)[3].OnWatered(animtime);
 
-        AudioManager.instance.PlaySound(Sounds.Watered);
+        Audio.Instance.PlaySound(Sounds.Watered);
         BecomeActive();
     }
 
@@ -598,7 +599,7 @@ public class SmartTile : MonoBehaviour {
             if ((neighborTiles[i].type == TileType.Fern_1 && type != TileType.Onion_1) ||
                 (neighborTiles[i].type == TileType.WateredFern_1 && type != TileType.Onion_1))
                 multiplier = 2;
-        if (TimeManager.instance.daysHappenings[TimeManager.instance.day] == HappeningType.Love)
+        if (Time.Instance.daysHappenings[Time.Instance.day] == HappeningType.Love)
             multiplier *= 2;
 
         if (TilesTable.TileByType(type).collectAmount > 0) {
@@ -660,7 +661,7 @@ public class SmartTile : MonoBehaviour {
             yield return tilemap.GetHexNeighbors(neighborTiles[5].position)[3]
                 .OnCollected(isPlayerHaveGreenScythe, animtime);
 
-        AudioManager.instance.PlaySound(Sounds.Collect);
+        Audio.Instance.PlaySound(Sounds.Collect);
         BecomeActive();
     }
 
@@ -885,7 +886,7 @@ public class SmartTile : MonoBehaviour {
                             tile.SwitchType(TileType.Soil);
 
                             yield return new WaitForSeconds(1.5f);
-                            PlayerController.instance.RestoreEnergy(1);
+                            Energy.Instance.RestoreEnergy(1);
                             SwitchType(TileType.Biogen_empty);
                             break;
                         }

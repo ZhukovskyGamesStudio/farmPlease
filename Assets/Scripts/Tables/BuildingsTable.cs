@@ -17,7 +17,7 @@ public class BuildingsTable : MonoBehaviour {
         for (int i = 0; i < instance.Buildings.Length; i++)
             if (instance.Buildings[i].type == type)
                 return instance.Buildings[i];
-        Debug.Log("Нет класса Building под тип " + type);
+        UnityEngine.Debug.Log("Нет класса Building под тип " + type);
         return null;
     }
 }

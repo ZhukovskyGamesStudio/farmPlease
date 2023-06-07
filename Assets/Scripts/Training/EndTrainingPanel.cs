@@ -66,7 +66,7 @@ public class EndTrainingPanel : MonoBehaviour {
 
             UpdateRecordsGrid();
             SaveRecords();
-            SaveLoadManager.instance.ClearSave(); // стирает текущее сохранение фермы        
+            SaveLoadManager.Instance.ClearSave(); // стирает текущее сохранение фермы        
         }
     }
 

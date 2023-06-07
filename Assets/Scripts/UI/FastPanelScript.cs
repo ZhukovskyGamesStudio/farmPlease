@@ -14,8 +14,8 @@ public class FastPanelScript : MonoBehaviour {
     private CropsType curCropSeed;
 
     public void Init() {
-        CalendarImage = UIScript.instance.TimePanel.CalendarImage;
-        Backpack = UIScript.instance.Backpack;
+        CalendarImage = UIHud.Instance.TimePanel.CalendarImage;
+        Backpack = UIHud.Instance.Backpack;
     }
 
     //Переделать в единый метод для всех инструментов

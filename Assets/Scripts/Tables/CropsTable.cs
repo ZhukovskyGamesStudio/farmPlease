@@ -1,7 +1,8 @@
 ﻿using System;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 
-public class CropsTable : MonoBehaviour {
+public class CropsTable : Singleton<CropsTable> {
     public static CropsTable instance;
 
     public CropSO[] Crops;
@@ -17,7 +18,7 @@ public class CropsTable : MonoBehaviour {
         for (int i = 0; i < instance.Crops.Length; i++)
             if (instance.Crops[i].type == type)
                 return instance.Crops[i];
-        Debug.Log("Нет класса Crop под тип " + type);
+        UnityEngine.Debug.Log("Нет класса Crop под тип " + type);
         return null;
     }
 

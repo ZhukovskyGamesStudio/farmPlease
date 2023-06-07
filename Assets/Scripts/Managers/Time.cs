@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class TimeManager : MonoBehaviour {
-    public static TimeManager instance;
+public class Time : Singleton<Time> {
     public int day;
     public int DayOfWeek;
     public int time;
@@ -19,57 +20,39 @@ public class TimeManager : MonoBehaviour {
 
     public EndTrainingPanel EndTrainingPanel;
     public EndMonthPanel EndMonthPanel;
-
-    public GameObject HelloPanel;
+    
     public Text HelloText;
     public HappeningType[] daysHappenings;
 
     public float SessionTime;
     public bool isLoaded;
 
-    private FastPanelScript FastPanel;
+    private FastPanelScript FastPanel  => PlayerController.GetComponent<FastPanelScript>();
     private bool IsTimerWorking;
-    private PlayerController PlayerController;
-    private SeedShopScript SeedShopScript;
-    private SmartTilemap SmartTilemap;
-    private Text TimeOfDayText;
-    private TimePanel TimePanel;
+    private PlayerController PlayerController => PlayerController.Instance;
+    private SeedShopScript SeedShopScript => _uiHud.ShopsPanel.seedShopScript;
+    private SmartTilemap SmartTilemap => SmartTilemap.instance;
+    private Text TimeOfDayText => TimePanel.TimeOfDayText;
+    private TimePanel TimePanel => _uiHud.TimePanel;
     public DateTime tmpDate;
-    private ToolShopPanel ToolShop;
+    private ToolShopPanel ToolShop => _uiHud.ShopsPanel.ToolShopPanel;
 
-    private UIScript UIScript;
+    private UIHud _uiHud => UIHud.Instance;
+    
     /**********/
-
-    public void Awake() {
-        if (instance == null) {
-            instance = this;
-            isLoaded = false;
-            IsTimerWorking = false;
-        } else if (instance == this) {
-            Destroy(gameObject);
-        }
+    protected override void OnFirstInit() {
+        isLoaded = false;
+        IsTimerWorking = false;
+        SessionTime = 0;
     }
 
     private void Update() {
-        SessionTime += Time.deltaTime;
-    }
-
-    public void Init() {
-        UIScript = UIScript.instance;
-        PlayerController = PlayerController.instance;
-        SmartTilemap = SmartTilemap.instance;
-        SeedShopScript = UIScript.ShopsPanel.seedShopScript;
-        ToolShop = UIScript.ShopsPanel.ToolShopPanel;
-        FastPanel = PlayerController.GetComponent<FastPanelScript>();
-        TimePanel = UIScript.TimePanel;
-        TimeOfDayText = TimePanel.TimeOfDayText;
-
-        SessionTime = 0;
+        SessionTime += UnityEngine.Time.deltaTime;
     }
 
     private IEnumerator IngameTimer() {
         IsTimerWorking = true;
-        if (GameModeManager.instance.GameMode == GameMode.Training)
+        if (GameModeManager.Instance.GameMode == GameMode.Training)
             yield break;
 
         for (;;) {
@@ -104,27 +87,26 @@ public class TimeManager : MonoBehaviour {
         int daysGone = RealTImeManager.DaysGone(tmpDate);
 
         if (RealTImeManager.IsRefillingEnergy(tmpDate)) {
-            PlayerController.RestoreEnergy();
-            HelloPanel.SetActive(true);
+            Energy.Instance.RestoreEnergy();
             HelloText.text = "Здравствуй Фермер, энергия обновлена\n" + "до обновления энергии осталось " +
                              RealTImeManager.TimeToString(RealTImeManager.MinutesToEnergyRefill());
         }
 
         if (daysGone > 0) {
-            SaveLoadManager.instance.Sequence(true);
+            SaveLoadManager.Instance.Sequence(true);
 
             for (int i = 0; i < daysGone; i++)
                 yield return DayPointCoroutine();
 
-            SaveLoadManager.instance.Sequence(false);
+            SaveLoadManager.Instance.Sequence(false);
         }
     }
 
     public void SetDaysWithData(string[] daysData, DateTime date) {
-        ChangeDayPoint(SettingsManager.instance.GetDayPoint());
+        ChangeDayPoint(Settings.Instance.GetDayPoint());
 
         if (daysData == null) {
-            GenerateDays(GameModeManager.instance.GameMode == GameMode.Training, false);
+            GenerateDays(GameModeManager.Instance.GameMode == GameMode.Training, false);
             return;
         }
 
@@ -140,11 +122,11 @@ public class TimeManager : MonoBehaviour {
         TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
         TimePanel.UpdateLilCalendar(day);
 
-        if (GameModeManager.instance.GameMode != GameMode.Training) {
+        if (GameModeManager.Instance.GameMode != GameMode.Training) {
             if (daysHappenings[day] == HappeningType.Marketplace) {
-                UIScript.OpenBuildingsShop();
+                _uiHud.OpenBuildingsShop();
             } else {
-                UIScript.CloseBuildingsShop();
+                _uiHud.CloseBuildingsShop();
             }
         }
 
@@ -161,7 +143,7 @@ public class TimeManager : MonoBehaviour {
             DateTime date = DateTime.Now;
             MaxDays = DateTime.DaysInMonth(date.Year, date.Month);
             SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
-            ChangeDayPoint(SettingsManager.instance.GetDayPoint());
+            ChangeDayPoint(Settings.Instance.GetDayPoint());
         }
 
         day = 0;
@@ -174,11 +156,11 @@ public class TimeManager : MonoBehaviour {
 
         for (int i = 0; i < MaxDays; i++) {
             int x = i + SkipDaysAmount + 1;
-            if (x % 7 == 0 && x > 0 && GameModeManager.instance.GameMode != GameMode.Training) {
+            if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training) {
                 daysHappenings[i] = HappeningType.Marketplace;
             } else if ((i + 1) % 5 == 0) {
                 int rnd = Random.Range(0, 4);
-                if (GameModeManager.instance.GameMode == GameMode.Training)
+                if (GameModeManager.Instance.GameMode == GameMode.Training)
                     rnd = Random.Range(0, 2);
 
                 daysHappenings[i] = rnd switch {
@@ -198,11 +180,11 @@ public class TimeManager : MonoBehaviour {
         TimePanel.UpdateLilCalendar(day);
         ToolShop.ChangeTools();
 
-        if (GameModeManager.instance.GameMode != GameMode.Training) {
+        if (GameModeManager.Instance.GameMode != GameMode.Training) {
             if (daysHappenings[day] == HappeningType.Marketplace) {
-                UIScript.OpenBuildingsShop();
+                _uiHud.OpenBuildingsShop();
             } else {
-                UIScript.CloseBuildingsShop();
+                _uiHud.CloseBuildingsShop();
             }
         }
 
@@ -217,7 +199,7 @@ public class TimeManager : MonoBehaviour {
 
     public void AddDay() {
         StartCoroutine(DayPointCoroutine());
-        PlayerController.RestoreEnergy();
+        Energy.Instance.RestoreEnergy();
     }
 
     public IEnumerator DayPointCoroutine() {
@@ -235,11 +217,11 @@ public class TimeManager : MonoBehaviour {
         FastPanel.UpdateToolsImages();
         ToolShop.ChangeTools();
 
-        if (GameModeManager.instance.GameMode != GameMode.Training) {
+        if (GameModeManager.Instance.GameMode != GameMode.Training) {
             if (daysHappenings[day] == HappeningType.Marketplace) {
-                UIScript.OpenBuildingsShop();
+                _uiHud.OpenBuildingsShop();
             } else {
-                UIScript.CloseBuildingsShop();
+                _uiHud.CloseBuildingsShop();
             }
         }
 
@@ -257,10 +239,10 @@ public class TimeManager : MonoBehaviour {
         InventoryManager.instance.toolsInventory[ToolType.Weatherometr] = 0;
         GenerateDays(false, false);
 
-        if (GameModeManager.instance.GameMode == GameMode.Training) {
+        if (GameModeManager.Instance.GameMode == GameMode.Training) {
             EndTrainingPanel.ShowEndPanel(InventoryManager.instance.cropsCollected, (int) SessionTime,
                 InventoryManager.instance.cropsCollectedQueue);
-            GPSManager.ReportScore(InventoryManager.instance.AllCropsCollected, "tutorialLeaderboard");
+            Gps.ReportScore(InventoryManager.instance.AllCropsCollected, "tutorialLeaderboard");
         } else {
             EndMonthPanel.ShowEndMonthPanel(InventoryManager.instance.cropsCollectedQueue,
                 InventoryManager.instance.AllCropsCollected);

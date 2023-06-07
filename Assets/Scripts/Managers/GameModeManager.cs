@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace.Abstract;
+using UnityEngine;
 
-public class GameModeManager : MonoBehaviour {
-    public static GameModeManager instance;
+public class GameModeManager : Singleton<GameModeManager> {
     public bool UnlimitedMoneyCrops;
     public bool InfiniteEnergy;
+    public bool InfiniteClockEnergy;
     public bool UnlimitedSeeds;
     public bool ShowTileType;
     public bool DoNotSave;
@@ -11,15 +12,6 @@ public class GameModeManager : MonoBehaviour {
     public bool IsBuildingsShopAlwaysOpen;
 
     public GameMode GameMode;
-
-    /**********/
-
-    private void Awake() {
-        if (instance == null)
-            instance = this;
-        else if (instance == this)
-            Destroy(gameObject);
-    }
 }
 
 public enum GameMode {

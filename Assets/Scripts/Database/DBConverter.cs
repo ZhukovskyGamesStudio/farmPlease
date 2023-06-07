@@ -38,7 +38,7 @@ public static class DBConverter {
 
             i++;
             if (i > 10000) {
-                Debug.LogError("spent too much in while. Instant Break");
+                UnityEngine.Debug.LogError("spent too much in while. Instant Break");
                 break;
             }
         }
@@ -89,7 +89,7 @@ public static class DBConverter {
             case 5: return GetHexNeighbor(now, 5);
         }
 
-        Debug.LogError("Not meant to be here");
+        UnityEngine.Debug.LogError("Not meant to be here");
 
         return now + new Vector2Int(100, 100);
     }

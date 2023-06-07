@@ -1,42 +1,35 @@
 ﻿using System;
 using System.Collections;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 
-public class SettingsManager : IPreloaded {
-    public static SettingsManager instance;
+public class Settings : PreloadableSingleton<Settings> {
+
     public SettingsPanel SettingsPanel;
     public SettingsProfile settingsProfile;
 
     /**********/
 
-    public override IEnumerator Init() {
-        if (instance == null) {
-            instance = this;
-            settingsProfile = new SettingsProfile();
-            settingsProfile.Load();
-            DontDestroyOnLoad(gameObject);
-            LoadSettings();
-        } else {
-            Destroy(gameObject);
-        }
-
-        yield break;
+    protected override void OnFirstInit() {
+        settingsProfile = new SettingsProfile();
+        settingsProfile.Load();
+        LoadSettings();
     }
 
     public void LoadSettings() {
-        GPSManager.instance.InitializeNotifications();
+        Gps.Instance.InitializeNotifications();
 
         SettingsPanel.Initialize();
         SettingsPanel.UpdateSettingsPanel(settingsProfile);
 
         RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, false);
         RealTImeManager.skipOne = settingsProfile.skipOne;
-        if (TimeManager.instance != null)
-            TimeManager.instance.ChangeDayPoint(GetDayPoint());
+        if (Time.Instance != null)
+            Time.Instance.ChangeDayPoint(GetDayPoint());
         //DebugManager.instance.Log("New day notify is " + settingsProfile.sendNotifications);
-        GPSManager.instance.NewDayNotification(settingsProfile.sendNotifications);
+        Gps.Instance.NewDayNotification(settingsProfile.sendNotifications);
 
-        AudioManager.instance.ChangeVolume(settingsProfile.masterVolume, settingsProfile.musicVolume,
+        Audio.Instance.ChangeVolume(settingsProfile.masterVolume, settingsProfile.musicVolume,
             settingsProfile.effectsVolume);
     }
 
@@ -48,7 +41,7 @@ public class SettingsManager : IPreloaded {
     }
 
     public void NotificationChanged() {
-        GPSManager.instance.NewDayNotification(settingsProfile.sendNotifications);
+        Gps.Instance.NewDayNotification(settingsProfile.sendNotifications);
     }
 
     public void DayMomentChanged() {
@@ -56,9 +49,9 @@ public class SettingsManager : IPreloaded {
         settingsProfile.Save();
 
         RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, true);
-        if (TimeManager.instance)
-            TimeManager.instance.ChangeDayPoint(GetDayPoint());
-        GPSManager.instance.NewDayNotification(settingsProfile.sendNotifications);
+        if (Time.Instance)
+            Time.Instance.ChangeDayPoint(GetDayPoint());
+        Gps.Instance.NewDayNotification(settingsProfile.sendNotifications);
     }
 
     /**********/
@@ -78,7 +71,7 @@ public class SettingsManager : IPreloaded {
                 return new TimeSpan(18, 0, 0);
         }
 
-        Debug.Log("error");
+        UnityEngine.Debug.Log("error");
         return new TimeSpan(12, 0, 0);
     }
 }

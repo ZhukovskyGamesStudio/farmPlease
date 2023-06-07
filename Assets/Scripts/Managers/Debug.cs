@@ -1,36 +1,29 @@
 ﻿using System.Collections;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugManager : IPreloaded {
-    public static DebugManager instance;
+public class Debug : PreloadableSingleton<Debug> {
     public Text ErrorText;
     public GameObject DebugPanel, LogButton;
 
     public bool IsDevelopmentBuild = true;
     public bool IsPrintingInConsole = true;
+    
 
-    public override IEnumerator Init() {
-        if (instance == null) {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            if (IsDevelopmentBuild) {
-                LogButton.SetActive(true);
-                instance.Clear();
-            } else {
-                LogButton.SetActive(false);
-            }
+    protected override void OnFirstInit() {
+        if (IsDevelopmentBuild) {
+            LogButton.SetActive(true);
+            Instance.Clear();
         } else {
-            Destroy(gameObject);
+            LogButton.SetActive(false);
         }
-
-        yield break;
     }
 
     public void Log(string textToShow) {
         ErrorText.text += "\n- " + textToShow;
         if (IsPrintingInConsole)
-            Debug.Log(textToShow);
+            UnityEngine.Debug.Log(textToShow);
     }
 
     public void Clear() {

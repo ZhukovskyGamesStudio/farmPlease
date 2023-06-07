@@ -37,7 +37,7 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
     private Dictionary<ToolType, Button> toolButtonsD;
 
     private void Start() {
-        player = PlayerController.instance;
+        player = PlayerController.Instance;
     }
 
     public void GenerateButtons() {

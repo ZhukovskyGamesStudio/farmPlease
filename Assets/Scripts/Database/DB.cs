@@ -1,39 +1,24 @@
 ﻿using System.Collections;
 using System.Text;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class DBManager : IPreloaded {
-    [SerializeField]
-    private const string url = "http://farmplease.somee.com/api/";
+public class DB : PreloadableSingleton<DB> {
+    
+    private const string DB_URL = "http://farmplease.somee.com/api/";
+    //private const string url = "https://localhost:44301/api/";
 
     public Farm tmpFarm;
     public Player tmpPlayer;
 
-    #region Singleton
 
-    public static DBManager instance;
-
-    public override IEnumerator Init() {
-        if (instance == null) {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        } else if (instance == this) {
-            Destroy(gameObject);
-        }
-
-        yield break;
-    }
-
-    #endregion
-
-    //private const string url = "https://localhost:44301/api/";
 
     #region Player
 
     public IEnumerator GetPlayer(Player curPlayer, UnityAction<Player> callback) {
-        UnityWebRequest request = UnityWebRequest.Get(url + "players/" + curPlayer.Id);
+        UnityWebRequest request = UnityWebRequest.Get(DB_URL + "players/" + curPlayer.Id);
         yield return request.SendWebRequest();
 
         //Костыль пиздец, надо разобраться с JSON сериализацией
@@ -48,9 +33,9 @@ public class DBManager : IPreloaded {
         WWWForm form = new();
 
         string json = JsonUtility.ToJson(player);
-        Debug.LogWarning(json);
+        UnityEngine.Debug.LogWarning(json);
 
-        UnityWebRequest request = UnityWebRequest.Post(url + "players", form);
+        UnityWebRequest request = UnityWebRequest.Post(DB_URL + "players", form);
 
         byte[] playerBytes = Encoding.UTF8.GetBytes(json);
         UploadHandler uploadHandler = new UploadHandlerRaw(playerBytes);
@@ -62,11 +47,11 @@ public class DBManager : IPreloaded {
         yield return request.SendWebRequest();
 
         Player responsePlayer = new();
-        DebugManager.instance.Log("code: " + request.responseCode);
+        Debug.Instance.Log("code: " + request.responseCode);
         if (request.responseCode == 201) {
-            DebugManager.instance.Log("id: " + responsePlayer.Id);
-            DebugManager.instance.Log("email: " + responsePlayer.Email);
-            DebugManager.instance.Log("password: " + responsePlayer.Password);
+            Debug.Instance.Log("id: " + responsePlayer.Id);
+            Debug.Instance.Log("email: " + responsePlayer.Email);
+            Debug.Instance.Log("password: " + responsePlayer.Password);
             responsePlayer = JsonUtility.FromJson<Player>(request.downloadHandler.text);
         }
 
@@ -76,7 +61,7 @@ public class DBManager : IPreloaded {
     public IEnumerator PutPlayer(Player player, int id, UnityAction<Player> callback) {
         string json = JsonUtility.ToJson(player);
 
-        UnityWebRequest request = UnityWebRequest.Put(url + "players" + "/" + id, json);
+        UnityWebRequest request = UnityWebRequest.Put(DB_URL + "players" + "/" + id, json);
         request.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
 
         yield return request.SendWebRequest();
@@ -86,7 +71,7 @@ public class DBManager : IPreloaded {
     }
 
     public IEnumerator DeletePlayer(Player player, UnityAction<string> callback) {
-        UnityWebRequest request = UnityWebRequest.Delete(url + "players/" + player.Id);
+        UnityWebRequest request = UnityWebRequest.Delete(DB_URL + "players/" + player.Id);
         yield return request.SendWebRequest();
         callback(request.responseCode.ToString());
     }
@@ -96,28 +81,28 @@ public class DBManager : IPreloaded {
     #region Farm
 
     public IEnumerator GetFarm(int id, string password, Player player, UnityAction<Farm> callback) {
-        UnityWebRequest request = UnityWebRequest.Get(url + "farms/connect/" + id + "/" + player.Id + "/" + password);
+        UnityWebRequest request = UnityWebRequest.Get(DB_URL + "farms/connect/" + id + "/" + player.Id + "/" + password);
         yield return request.SendWebRequest();
 
         Farm farm = new();
         if (request.responseCode == 200)
             farm = JsonUtility.FromJson<Farm>(request.downloadHandler.text);
         else
-            DebugManager.instance.Log("Getting farm code is " + request.responseCode);
+            Debug.Instance.Log("Getting farm code is " + request.responseCode);
 
         tmpFarm = farm;
         callback(farm);
     }
 
     public IEnumerator GetDates(int farmId, string farmPassword, UnityAction<Farm> callback) {
-        UnityWebRequest request = UnityWebRequest.Get(url + "farms/" + farmId + "/" + farmPassword + "/date");
+        UnityWebRequest request = UnityWebRequest.Get(DB_URL + "farms/" + farmId + "/" + farmPassword + "/date");
         yield return request.SendWebRequest();
 
         Farm datesHolder = new();
         if (request.responseCode == 200)
             datesHolder = JsonUtility.FromJson<Farm>(request.downloadHandler.text);
         else
-            Debug.Log("request " + request.url + "\ncode error is " + request.responseCode);
+            UnityEngine.Debug.Log("request " + request.url + "\ncode error is " + request.responseCode);
         callback(datesHolder);
     }
 
@@ -126,7 +111,7 @@ public class DBManager : IPreloaded {
 
         string json = JsonUtility.ToJson(farm);
 
-        UnityWebRequest request = UnityWebRequest.Post(url + "farms/" + player.Id + "/" + player.Password, form);
+        UnityWebRequest request = UnityWebRequest.Post(DB_URL + "farms/" + player.Id + "/" + player.Password, form);
 
         byte[] farmBytes = Encoding.UTF8.GetBytes(json);
         UploadHandler uploadHandler = new UploadHandlerRaw(farmBytes);
@@ -141,7 +126,7 @@ public class DBManager : IPreloaded {
             Farm responseFarm = JsonUtility.FromJson<Farm>(request.downloadHandler.text);
             callback(responseFarm);
         } else {
-            Debug.Log("response errorCode " + request.responseCode);
+            UnityEngine.Debug.Log("response errorCode " + request.responseCode);
         }
     }
 
@@ -149,7 +134,7 @@ public class DBManager : IPreloaded {
         string json = JsonUtility.ToJson(farm);
 
         UnityWebRequest request =
-            UnityWebRequest.Put(url + "farms/" + +farm.Id + "/" + farm.Password + "/" + player.Id, json);
+            UnityWebRequest.Put(DB_URL + "farms/" + +farm.Id + "/" + farm.Password + "/" + player.Id, json);
         request.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
 
         yield return request.SendWebRequest();
@@ -159,14 +144,14 @@ public class DBManager : IPreloaded {
         if (request.responseCode == 200)
             responseFarm = JsonUtility.FromJson<Farm>(request.downloadHandler.text);
         else
-            DebugManager.instance.Log("response errorCode " + request.responseCode);
+            Debug.Instance.Log("response errorCode " + request.responseCode);
 
         callback(responseFarm);
     }
 
     public IEnumerator DeleteFarm(Player player, UnityAction<string> callback) {
         UnityWebRequest request =
-            UnityWebRequest.Delete(url + "farms/" + player.FarmId + "/" + player.Id + "/" + player.Password);
+            UnityWebRequest.Delete(DB_URL + "farms/" + player.FarmId + "/" + player.Id + "/" + player.Password);
         yield return request.SendWebRequest();
         callback(request.responseCode.ToString());
     }
