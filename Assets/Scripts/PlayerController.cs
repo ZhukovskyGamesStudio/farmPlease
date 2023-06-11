@@ -324,6 +324,10 @@ public class PlayerController : Singleton<PlayerController> {
         _uiHud.ChangeInventoryHover(index);
     }
 
+    public void ChangeTool(Tool tool) {
+        ChangeTool((int) tool);
+    }
+
     public void StartStopBuilding() {
         if (isBuilding) {
             BuildingPanel.SetActive(false);
@@ -353,11 +357,13 @@ public class PlayerController : Singleton<PlayerController> {
         currentTile = BuildingsTable.BuildingByType(type).BuildingPanelTile;
     }
 
-    [Serializable]
-    private enum Tool {
-        Hoe = 0,
-        Watercan,
-        SeedBag,
-        Collect
-    }
+   
+}
+
+[Serializable]
+public enum Tool {
+    Hoe = 0,
+    Watercan,
+    SeedBag,
+    Collect
 }

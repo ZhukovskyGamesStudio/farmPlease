@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DefaultNamespace.Tables {
     public class KnowledgeManager {
@@ -12,6 +13,7 @@ namespace DefaultNamespace.Tables {
         }
     }
 
+    [Serializable]
     public enum Knowledge {
         Training = 0
     }

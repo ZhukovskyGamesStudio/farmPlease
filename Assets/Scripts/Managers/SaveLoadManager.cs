@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SaveLoadManager : Singleton<SaveLoadManager> {
-    public static int profile;
+    public static int profile = -2;
 
     //bool isInitilisationDone;
     /**********/
@@ -84,12 +84,13 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
 
         gameSave.profile = profile;
         gameSave.money = Instance.InventoryManager.coins;
-        gameSave.energy = Energy.Instance.curEnergy;
+        gameSave.energy = CurrentSave.energy;
         gameSave.clockEnergy = CurrentSave.clockEnergy;
         gameSave.allCrops = Instance.InventoryManager.AllCropsCollected;
 
         gameSave.currentDay = Time.Instance.day;
         gameSave.dayOfWeek = Time.Instance.DayOfWeek;
+        gameSave.KnowledgeList = CurrentSave.KnowledgeList;
 
         if (GameModeManager.Instance.GameMode == GameMode.Training) {
             DateTime trainingDate = new(2018, 1, Time.Instance.day + 1);
@@ -141,6 +142,10 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
 
     public static bool IsNoSaveExist() => !File.Exists(SavePath);
 
+    public static void LoadSavedData() {
+        CurrentSave = GameSaveProfile.LoadJson();
+    }
+    
     public static void LoadGame(string jsonString = null) {
         if (jsonString != null)
             CurrentSave = GameSaveProfile.LoadFromString(jsonString);

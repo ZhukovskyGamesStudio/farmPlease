@@ -21,7 +21,7 @@ public class TrainingManager : MonoBehaviour {
 
     public void Update() {
         if (!isBatteriEmpted)
-            if (Energy.Instance.curEnergy == 0) {
+            if (Energy.Instance.CurEnergy == 0) {
                 NextStep();
                 isBatteriEmpted = true;
             }

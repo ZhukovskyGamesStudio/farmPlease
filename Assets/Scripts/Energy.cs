@@ -5,17 +5,18 @@ namespace DefaultNamespace {
     public class Energy : Singleton<Energy> { 
         
         private const int MAX_ENERGY = 7;
-        public int curEnergy;
+        public int CurEnergy => SaveLoadManager.CurrentSave.energy;
 
         public void LoseOneEnergy() {
-            curEnergy--;
-            if (curEnergy < 0)
-                curEnergy = 0;
+            SaveLoadManager.CurrentSave.energy--;
+            if (CurEnergy < 0)
+                SaveLoadManager.CurrentSave.energy = 0;
 
             if (GameModeManager.Instance.InfiniteEnergy)
-                curEnergy = MAX_ENERGY;
+                SaveLoadManager.CurrentSave.energy = MAX_ENERGY;
 
-            UIHud.Instance.SetBattery(curEnergy);
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
+            SaveLoadManager.Instance.SaveGame();
         }
 
         public void RefillEnergy() {
@@ -23,29 +24,29 @@ namespace DefaultNamespace {
         }
 
         public void SetEnergy(int newEnergy) {
-            curEnergy = newEnergy;
-            UIHud.Instance.SetBattery(curEnergy);
+            SaveLoadManager.CurrentSave.energy = newEnergy;
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
         }
 
         public void RestoreEnergy() {
-            curEnergy = MAX_ENERGY;
-            UIHud.Instance.SetBattery(curEnergy);
+            SaveLoadManager.CurrentSave.energy = MAX_ENERGY;
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
         }
 
         public void RestoreEnergy(int amount) {
-            curEnergy += amount;
-            if (curEnergy > MAX_ENERGY)
-                curEnergy = MAX_ENERGY;
-            UIHud.Instance.SetBattery(curEnergy);
+            SaveLoadManager.CurrentSave.energy += amount;
+            if (CurEnergy > MAX_ENERGY)
+                SaveLoadManager.CurrentSave.energy = MAX_ENERGY;
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
         }
         
         public bool HasEnergy() {
-            if (curEnergy == 0) {
+            if (CurEnergy == 0) {
                 UIHud.Instance.NoEnergy();
                 Audio.Instance.PlaySound(Sounds.ZeroEnergy);
             }
 
-            return curEnergy > 0;
+            return CurEnergy > 0;
         }
 
       

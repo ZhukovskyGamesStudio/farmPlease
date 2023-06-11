@@ -11,7 +11,7 @@ public class GameModeManager : Singleton<GameModeManager> {
     public bool DisableStrongWind;
     public bool IsBuildingsShopAlwaysOpen;
 
-    public GameMode GameMode;
+    public GameMode GameMode = GameMode.FakeTime;
 }
 
 public enum GameMode {
