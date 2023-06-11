@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using DefaultNamespace;
 using DefaultNamespace.Abstract;
 using DefaultNamespace.Managers;
+using DefaultNamespace.Tables;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -137,7 +139,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         File.WriteAllText(SavePath, toSave);
     }
 
-    public static bool IsNewPlayer() => File.Exists(SavePath);
+    public static bool IsNoSaveExist() => !File.Exists(SavePath);
 
     public static void LoadGame(string jsonString = null) {
         if (jsonString != null)
@@ -181,7 +183,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         CurrentSave = new GameSaveProfile() {
             money = 5,
             allCrops = 0,
-            Date = DateTime.Now.ToString()
+            Date = DateTime.Now.ToString(),
+            KnowledgeList = new List<Knowledge>()
         };
 
         if (GameModeManager.Instance.GameMode == GameMode.Training)
@@ -406,6 +409,8 @@ public class GameSaveProfile {
     public bool[] toolBoughtData;
     public bool[] buildingBoughtData;
     public int buildingPrice;
+
+    public List<Knowledge> KnowledgeList;
 
     public static GameSaveProfile LoadFromString(string loadFrom) {
         try {

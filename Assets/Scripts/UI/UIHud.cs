@@ -13,17 +13,17 @@ public class UIHud : Singleton<UIHud>, ISoundStarter {
     public ShopsPanel ShopsPanel;
     public HelloPanelView HelloPanel;
 
-    public GameObject CroponomPanel, CroponomButton;
+    public GameObject CroponomButton;
     public GameObject BuildingPanel;
     public GraphicRaycaster GraphicRaycaster;
 
     public ClockView ClockView;
+    public SpotlightWithText SpotlightWithText;
+    public KnowledgeCanSpeak KnowledgeCanSpeak;
 
     public void ClosePanel() {
         if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
             Settings.Instance.SettingsPanel.gameObject.SetActive(false);
-        //else if (CroponomPanel.activeSelf)
-        //    CroponomPanel.SetActive(false);
         else if (TimePanel.isOpen)
             TimePanel.CalendarPanelOpenClose();
         else if (ShopsPanel.ToolShopPanel.gameObject.activeSelf)

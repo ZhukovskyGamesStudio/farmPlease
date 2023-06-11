@@ -29,7 +29,8 @@ public class LoadingManager : MonoBehaviour {
     }
 
     private void LoadGameScene() {
-        _sceneName = SaveLoadManager.IsNewPlayer() ? "Training" : "Game";
+        // _sceneName = SaveLoadManager.IsNoSaveExist() ? "Training" : "Game";
+        _sceneName = "Game";
         SceneManager.LoadSceneAsync(_sceneName);
         SceneManager.sceneLoaded += ActivateScene;
     }
