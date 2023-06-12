@@ -9,10 +9,10 @@ namespace DefaultNamespace.Managers {
 
         private readonly TimeSpan _timespanForRefillOneEnergy = new TimeSpan(3, 0, 0);
 
-        private GameSaveProfile save => SaveLoadManager.CurrentSave;
+        private GameSaveProfile Save => SaveLoadManager.CurrentSave;
 
         public void TryAddDay() {
-            if (!PlayerController.canInteract) {
+            if (!PlayerController.CanInteract) {
                 return;
             }
 
@@ -31,17 +31,17 @@ namespace DefaultNamespace.Managers {
         }
 
         private void LoseOneEnergy() {
-            if (save.ClockEnergy == MAX_ENERGY) {
-                save.LastClockRefilledTimestamp = NowTotalMilliseconds;
+            if (Save.ClockEnergy == MAX_ENERGY) {
+                Save.LastClockRefilledTimestamp = NowTotalMilliseconds;
             }
-            save.ClockEnergy--;
+            Save.ClockEnergy--;
 
             if (GameModeManager.Instance.InfiniteClockEnergy)
-                save.ClockEnergy = MAX_ENERGY;
+                Save.ClockEnergy = MAX_ENERGY;
             
            
 
-            UIHud.Instance.ClockView.SetAmountWithWasteAnimation(save.ClockEnergy);
+            UIHud.Instance.ClockView.SetAmountWithWasteAnimation(Save.ClockEnergy);
             SaveLoadManager.Instance.SaveGame();
         }
 
@@ -50,12 +50,12 @@ namespace DefaultNamespace.Managers {
         }
 
         public void TryRefillForRealtimePassed() {
-            if (save.ClockEnergy == MAX_ENERGY) {
+            if (Save.ClockEnergy == MAX_ENERGY) {
                 return;
             }
 
             long now = NowTotalMilliseconds;
-            long last = save.LastClockRefilledTimestamp;
+            long last = Save.LastClockRefilledTimestamp;
             TimeSpan timeSpan = TimeSpan.FromMilliseconds(now - last);
 
             int refillAmount = Mathf.FloorToInt((float) (timeSpan / _timespanForRefillOneEnergy));
@@ -63,10 +63,10 @@ namespace DefaultNamespace.Managers {
                 return;
             }
 
-            save.ClockEnergy += refillAmount;
-            int newEnergy = Mathf.Min(save.ClockEnergy, MAX_ENERGY);
+            Save.ClockEnergy += refillAmount;
+            int newEnergy = Mathf.Min(Save.ClockEnergy, MAX_ENERGY);
             SetEnergy(newEnergy);
-            save.LastClockRefilledTimestamp += (long) _timespanForRefillOneEnergy.TotalMilliseconds * refillAmount;
+            Save.LastClockRefilledTimestamp += (long) _timespanForRefillOneEnergy.TotalMilliseconds * refillAmount;
             SaveLoadManager.Instance.SaveGame();
             UIHud.Instance.HelloPanel.Show(REFILLED_ENERGY_TEXT);
         }
@@ -74,10 +74,10 @@ namespace DefaultNamespace.Managers {
         public static long NowTotalMilliseconds => (long) (DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds;
 
         public void SetEnergy(int newEnergy) {
-            save.ClockEnergy = newEnergy;
-            UIHud.Instance.ClockView.SetAmount(save.ClockEnergy);
+            Save.ClockEnergy = newEnergy;
+            UIHud.Instance.ClockView.SetAmount(Save.ClockEnergy);
         }
 
-        public bool HasEnergy => save.ClockEnergy > 0;
+        public bool HasEnergy => Save.ClockEnergy > 0;
     }
 }

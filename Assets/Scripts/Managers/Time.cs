@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.Abstract;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Time : Singleton<Time> {
-    public int time;
+    public static DateTime FirstDayOfGame => new DateTime(2051, 5, 1);
 
     [Range(1, 31)]
     public int MaxDays;
@@ -21,24 +20,20 @@ public class Time : Singleton<Time> {
     public List<HappeningType> Days => SaveLoadManager.CurrentSave.Days;
 
     public float SessionTime;
-    public bool isLoaded;
 
     private FastPanelScript FastPanel  => PlayerController.GetComponent<FastPanelScript>();
-    private bool IsTimerWorking;
-    private PlayerController PlayerController => PlayerController.Instance;
-    private SeedShopView SeedShopView => _uiHud.ShopsPanel.seedShopView;
-    private SmartTilemap SmartTilemap => SmartTilemap.instance;
-    private Text TimeOfDayText => TimePanel.TimeOfDayText;
-    private TimePanel TimePanel => _uiHud.TimePanel;
-    public DateTime tmpDate;
-    private ToolShopView ToolShop => _uiHud.ShopsPanel.toolShopView;
+    private bool _isTimerWorking;
+    private PlayerController PlayerController => global::PlayerController.Instance;
+    private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
+    private SmartTilemap SmartTilemap => SmartTilemap.Instance;
+    private TimePanel TimePanel => UIHud.TimePanel;
+    private ToolShopView ToolShop => UIHud.ShopsPanel.toolShopView;
 
-    private UIHud _uiHud => UIHud.Instance;
+    private UIHud UIHud => global::UIHud.Instance;
     
     /**********/
     protected override void OnFirstInit() {
-        isLoaded = false;
-        IsTimerWorking = false;
+        _isTimerWorking = false;
         SessionTime = 0;
     }
 
@@ -50,27 +45,6 @@ public class Time : Singleton<Time> {
 
     public bool IsTodayLoveDay => Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Love;
 
-    public void CalculateTimeSpan(DateTime tmpDate) {
-        StartCoroutine(CalculateTimeSpanCoroutine(tmpDate));
-    }
-
-    public IEnumerator CalculateTimeSpanCoroutine(DateTime tmpDate) {
-        int daysGone = RealTImeManager.DaysGone(tmpDate);
-
-        if (RealTImeManager.IsRefillingEnergy(tmpDate)) {
-            Energy.Instance.RestoreEnergy();
-        }
-
-        if (daysGone > 0) {
-            SaveLoadManager.Instance.Sequence(true);
-
-            for (int i = 0; i < daysGone; i++)
-                yield return DayPointCoroutine();
-
-            SaveLoadManager.Instance.Sequence(false);
-        }
-    }
-
     public void SetDaysWithData(List<HappeningType> daysData, DateTime date) {
         ChangeDayPoint(Settings.Instance.GetDayPoint());
 
@@ -80,8 +54,6 @@ public class Time : Singleton<Time> {
         }
 
         MaxDays = daysData.Count;
-        SaveLoadManager.CurrentSave.CurrentDay = date.Day - 1;
-        SaveLoadManager.CurrentSave.DayOfWeek = (int) date.DayOfWeek - 1;
         SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
         TimePanel.CreateDays(Days, SkipDaysAmount);
@@ -89,14 +61,11 @@ public class Time : Singleton<Time> {
 
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
             if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
-                _uiHud.OpenBuildingsShop();
+                UIHud.OpenBuildingsShop();
             } else {
-                _uiHud.CloseBuildingsShop();
+                UIHud.CloseBuildingsShop();
             }
         }
-
-        tmpDate = date;
-        isLoaded = true;
     }
 
     public void GenerateDays(bool isTraining, bool isNewGame) {
@@ -104,15 +73,13 @@ public class Time : Singleton<Time> {
             MaxDays = 31;
             SkipDaysAmount = 0;
         } else {
-            DateTime date = DateTime.Now;
+            DateTime date = FirstDayOfGame;
             MaxDays = DateTime.DaysInMonth(date.Year, date.Month);
             SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
             ChangeDayPoint(Settings.Instance.GetDayPoint());
         }
 
         SaveLoadManager.CurrentSave.CurrentDay = 0;
-        if (isNewGame && !isTraining)
-            SaveLoadManager.CurrentSave.CurrentDay = DateTime.Now.Day - 1;
         SaveLoadManager.CurrentSave.Days = new List<HappeningType>();
         for (int i = 0; i < MaxDays; i++) {
             Days.Add(HappeningType.None);
@@ -149,17 +116,12 @@ public class Time : Singleton<Time> {
 
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
             if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
-                _uiHud.OpenBuildingsShop();
+                UIHud.OpenBuildingsShop();
             } else {
-                _uiHud.CloseBuildingsShop();
+                UIHud.CloseBuildingsShop();
             }
         }
-
-        isLoaded = true;
-        tmpDate = DateTime.Now;
     }
-
-    /***********/
 
     public void AddDay() {
         StartCoroutine(DayPointCoroutine());
@@ -177,15 +139,15 @@ public class Time : Singleton<Time> {
 
         TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
 
-        InventoryManager.instance.BrokeTools();
+        InventoryManager.Instance.BrokeTools();
         FastPanel.UpdateToolsImages();
         ToolShop.ChangeTools();
 
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
             if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
-                _uiHud.OpenBuildingsShop();
+                UIHud.OpenBuildingsShop();
             } else {
-                _uiHud.CloseBuildingsShop();
+                UIHud.CloseBuildingsShop();
             }
         }
 
@@ -200,7 +162,7 @@ public class Time : Singleton<Time> {
     }
 
     private void EndMonth() {
-        InventoryManager.instance.toolsInventory[ToolBuff.Weatherometr] = 0;
+        InventoryManager.Instance.ToolsInventory[ToolBuff.Weatherometr] = 0;
         GenerateDays(false, false);
 
         if (GameModeManager.Instance.GameMode == GameMode.Training) {
@@ -210,7 +172,7 @@ public class Time : Singleton<Time> {
         } else {
             EndMonthPanel.ShowEndMonthPanel( SaveLoadManager.CurrentSave.CropsCollected,
                 SaveLoadManager.CurrentSave.CropPoints);
-            SaveLoadManager.CurrentSave.CropsCollected = new Queue<CropsType>();
+            SaveLoadManager.CurrentSave.CropsCollected = new Queue<Crop>();
         }
     }
 

@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class Veg : MonoBehaviour {
     public float blowImpulse;
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
 
     public void OnTapped() {
         StartCoroutine(KaBoom());
         GetComponent<Button>().interactable = false;
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private IEnumerator KaBoom() {
@@ -24,7 +24,7 @@ public class Veg : MonoBehaviour {
 
         gameObject.GetComponent<Image>().enabled = false;
         gameObject.transform.localScale = Vector3.one * scale * 5;
-        rb.AddForce(Vector2.up * blowImpulse * rb.mass, ForceMode2D.Impulse);
+        _rb.AddForce(Vector2.up * blowImpulse * _rb.mass, ForceMode2D.Impulse);
         yield return new WaitForFixedUpdate();
         Destroy(gameObject);
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "Tile", menuName = "ScriptableObjects/Tile", order = 1)]
-public class TileSO : ScriptableObject {
+public class TileConfig : ScriptableObject {
     public TileType type;
     public TileBase TileBase;
 
@@ -13,11 +13,11 @@ public class TileSO : ScriptableObject {
     public bool CanBeWatered;
     public TileType WaterSwitch;
     public bool CanBeCollected;
-    public CropsType CropCollected;
+    public Crop cropCollected;
     public int collectAmount;
 
     [HideInInspector]
-    public CropsType CropType;
+    public Crop crop;
 
     [Space(10)]
     public bool CanBeNewDayed;

@@ -3,20 +3,20 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class BuildingsTable : MonoBehaviour {
-    public static BuildingsTable instance;
-    public BuildingSO[] Buildings;
+    public static BuildingsTable Instance;
+    public BuildingConfig[] Buildings;
 
     public void Awake() {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(gameObject);
     }
 
-    public static BuildingSO BuildingByType(BuildingType type) {
-        for (int i = 0; i < instance.Buildings.Length; i++)
-            if (instance.Buildings[i].type == type)
-                return instance.Buildings[i];
+    public static BuildingConfig BuildingByType(BuildingType type) {
+        for (int i = 0; i < Instance.Buildings.Length; i++)
+            if (Instance.Buildings[i].type == type)
+                return Instance.Buildings[i];
         UnityEngine.Debug.Log("Нет класса Building под тип " + type);
         return null;
     }
@@ -28,7 +28,7 @@ public enum BuildingType {
     Biogen = 0,
     Freshener,
     Sprinkler,
-    Sprinkler_target,
+    SprinklerTarget,
     SeedDoubler,
     Tractor
 }

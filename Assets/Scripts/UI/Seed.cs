@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 public class Seed : MonoBehaviour {
-    public CropsType CropType;
+    public Crop crop;
     public Image SeedImage;
     public Text amountText;
     public Button button;

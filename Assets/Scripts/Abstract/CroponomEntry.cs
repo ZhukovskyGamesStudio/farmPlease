@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
 public class CroponomEntry {
-    public Sprite firstSprite;
-    public string firstText;
+    public Sprite FirstSprite;
+    public string FirstText;
 
     [Header("CroponomEntry")]
-    public string header;
+    public string Header;
 
-    public Sprite secondSprite;
-    public string secondText;
+    public Sprite SecondSprite;
+    public string SecondText;
 }

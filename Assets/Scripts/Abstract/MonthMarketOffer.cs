@@ -6,7 +6,7 @@ public class MonthMarketOffer {
     [Header("Monthmarket Offer")]
     public string Mname;
 
-    public CropsType Ctype;
+    public Crop Ctype;
     public ToolBuff Ttype;
     public BuildingType Btype;
 }

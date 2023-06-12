@@ -2,20 +2,20 @@
 using UnityEngine;
 
 public class ToolsTable : MonoBehaviour {
-    public static ToolsTable instance;
-    public ToolSO[] ToolsSO;
+    public static ToolsTable Instance;
+    public ToolConfig[] ToolsSO;
 
     public void Awake() {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(gameObject);
     }
 
-    public static ToolSO ToolByType(ToolBuff buff) {
-        for (int i = 0; i < instance.ToolsSO.Length; i++)
-            if (instance.ToolsSO[i].buff == buff)
-                return instance.ToolsSO[i];
+    public static ToolConfig ToolByType(ToolBuff buff) {
+        for (int i = 0; i < Instance.ToolsSO.Length; i++)
+            if (Instance.ToolsSO[i].buff == buff)
+                return Instance.ToolsSO[i];
         UnityEngine.Debug.Log("Нет класса Tool под тип " + buff);
         return null;
     }

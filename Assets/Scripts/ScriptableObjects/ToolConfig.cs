@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Tool", menuName = "ScriptableObjects/Tool", order = 3)]
 [Serializable]
-public class ToolSO : SOWithCroponomPage {
+public class ToolConfig : ConfigWithCroponomPage {
     [Header("Tool")]
     public new string name;
 

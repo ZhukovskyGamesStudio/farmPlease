@@ -8,14 +8,14 @@ public class FastPanelScript : MonoBehaviour {
     public Text SeedText;
     public Image[] SlotsImages;
     public Sprite[] SlotsNormal, SlotsPressed;
-    private Backpack Backpack;
-    private Image CalendarImage;
+    private Backpack _backpack;
+    private Image _calendarImage;
 
-    private CropsType curCropSeed;
+    private Crop _curCropSeed;
 
     public void Init() {
-        CalendarImage = UIHud.Instance.TimePanel.CalendarImage;
-        Backpack = UIHud.Instance.Backpack;
+        _calendarImage = UIHud.Instance.TimePanel.CalendarImage;
+        _backpack = UIHud.Instance.Backpack;
     }
 
     //Переделать в единый метод для всех инструментов
@@ -24,10 +24,10 @@ public class FastPanelScript : MonoBehaviour {
         WatercanImage.sprite = WatercanNormalSprite;
 
         ScytheImage.sprite = ScytheNormalSprite;
-        CalendarImage.sprite = CalendarNormalSprite;
+        _calendarImage.sprite = CalendarNormalSprite;
 
-        foreach (ToolBuff type in InventoryManager.instance.toolsInventory.Keys) {
-            ToolSO tool = ToolsTable.ToolByType(type);
+        foreach (ToolBuff type in InventoryManager.Instance.ToolsInventory.Keys) {
+            ToolConfig tool = ToolsTable.ToolByType(type);
             Image toChange = HoeImage;
             switch (tool.toolUIType) {
                 case ToolUIType.Hoe:
@@ -46,13 +46,13 @@ public class FastPanelScript : MonoBehaviour {
                     break;
 
                 case ToolUIType.Calendar:
-                    toChange = CalendarImage;
+                    toChange = _calendarImage;
                     break;
             }
 
-            if (tool.toolUIType == ToolUIType.Seed) Backpack.SetBuffed(InventoryManager.instance.IsToolWorking(type));
+            if (tool.toolUIType == ToolUIType.Seed) _backpack.SetBuffed(InventoryManager.Instance.IsToolWorking(type));
 
-            if (InventoryManager.instance.IsToolWorking(type))
+            if (InventoryManager.Instance.IsToolWorking(type))
                 toChange.sprite = tool.buffedIcon;
         }
     }
@@ -64,14 +64,14 @@ public class FastPanelScript : MonoBehaviour {
         SlotsImages[index].sprite = SlotsPressed[index];
     }
 
-    public void ChangeSeedFastPanel(CropsType crop, int amount) {
+    public void ChangeSeedFastPanel(Crop crop, int amount) {
         SeedText.text = amount.ToString();
         SeedImage.sprite = CropsTable.CropByType(crop).SeedSprite;
-        curCropSeed = crop;
+        _curCropSeed = crop;
     }
 
-    public void UpdateSeedFastPanel(CropsType crop, int amount) {
-        if (curCropSeed == crop)
+    public void UpdateSeedFastPanel(Crop crop, int amount) {
+        if (_curCropSeed == crop)
             SeedText.text = amount.ToString();
     }
 }

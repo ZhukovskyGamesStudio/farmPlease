@@ -11,18 +11,18 @@ public class Audio : PreloadableSingleton<Audio> {
 
     public AudioSource musicSource;
     public AudioSource[] effectsSource;
-    private int curSource;
-    private bool isInitialized;
+    private int _curSource;
+    private bool _isInitialized;
 
     private void Update() {
-        if (!musicSource.isPlaying && isInitialized) {
+        if (!musicSource.isPlaying && _isInitialized) {
             musicSource.clip = songs[Random.Range(0, songs.Length)];
             musicSource.Play();
         }
     }
 
     public void Initialize() {
-        isInitialized = true;
+        _isInitialized = true;
     }
 
     public void ChangeVolume(float master, float music, float effects) {
@@ -31,9 +31,9 @@ public class Audio : PreloadableSingleton<Audio> {
     }
 
     private void NextSource() {
-        curSource++;
-        if (curSource > effectsSource.Length - 1)
-            curSource = 0;
+        _curSource++;
+        if (_curSource > effectsSource.Length - 1)
+            _curSource = 0;
     }
 
     public void PlaySound(Sounds sound) // 0 - click, 1 - clickWrong, 2 - clickButton
@@ -41,39 +41,39 @@ public class Audio : PreloadableSingleton<Audio> {
         NextSource();
         switch (sound) {
             case Sounds.ClickOnTile:
-                effectsSource[curSource].clip = click[Random.Range(0, click.Length)];
+                effectsSource[_curSource].clip = click[Random.Range(0, click.Length)];
                 break;
 
             case Sounds.Button:
-                effectsSource[curSource].clip = clickButton[Random.Range(0, clickButton.Length)];
+                effectsSource[_curSource].clip = clickButton[Random.Range(0, clickButton.Length)];
                 break;
 
             case Sounds.NextPage:
-                effectsSource[curSource].clip = nextPage[Random.Range(0, nextPage.Length)];
+                effectsSource[_curSource].clip = nextPage[Random.Range(0, nextPage.Length)];
                 break;
 
             case Sounds.Collect:
-                effectsSource[curSource].clip = collect[Random.Range(0, collect.Length)];
+                effectsSource[_curSource].clip = collect[Random.Range(0, collect.Length)];
                 break;
 
             case Sounds.ZeroEnergy:
-                effectsSource[curSource].clip = zeroEnergy[Random.Range(0, zeroEnergy.Length)];
+                effectsSource[_curSource].clip = zeroEnergy[Random.Range(0, zeroEnergy.Length)];
                 break;
 
             case Sounds.Hoed:
-                effectsSource[curSource].clip = hoed[Random.Range(0, hoed.Length)];
+                effectsSource[_curSource].clip = hoed[Random.Range(0, hoed.Length)];
                 break;
 
             case Sounds.Watered:
-                effectsSource[curSource].clip = watered[Random.Range(0, watered.Length)];
+                effectsSource[_curSource].clip = watered[Random.Range(0, watered.Length)];
                 break;
 
             case Sounds.Seeded:
-                effectsSource[curSource].clip = seeded[Random.Range(0, seeded.Length)];
+                effectsSource[_curSource].clip = seeded[Random.Range(0, seeded.Length)];
                 break;
         }
 
-        effectsSource[curSource].Play();
+        effectsSource[_curSource].Play();
     }
 }
 

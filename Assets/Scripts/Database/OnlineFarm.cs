@@ -13,9 +13,9 @@ public class OnlineFarm : MonoBehaviour {
     public Player curPlayer;
     public Farm curFarm;
 
-    private bool isPutting;
+    private bool _isPutting;
 
-    private bool NeedToUpdateFarm;
+    private bool _needToUpdateFarm;
 
     private void Start() {
         curPlayer = DB.Instance.tmpPlayer;
@@ -43,7 +43,7 @@ public class OnlineFarm : MonoBehaviour {
         for (;;) {
             yield return StartCoroutine(DB.Instance.GetDates(curFarm.Id, curFarm.Password, IsNeedToUpdate));
 
-            if (NeedToUpdateFarm && !isPutting)
+            if (_needToUpdateFarm && !_isPutting)
                 yield return StartCoroutine(DB.Instance.GetFarm(curFarm.Id, curFarm.Password, curPlayer,
                     UpdateLocalFarm));
             else
@@ -52,12 +52,12 @@ public class OnlineFarm : MonoBehaviour {
     }
 
     private void IsNeedToUpdate(Farm datesHolder) {
-        NeedToUpdateFarm = curFarm.FarmPostDate != datesHolder.FarmPostDate;
+        _needToUpdateFarm = curFarm.FarmPostDate != datesHolder.FarmPostDate;
         curFarm.FarmPostDate = datesHolder.FarmPostDate;
     }
 
     private void UpdateLocalFarm(Farm newFarm) {
-        NeedToUpdateFarm = false;
+        _needToUpdateFarm = false;
         curFarm = newFarm;
 
         //ChatText.text +="\n" + curFarm.LastMessage;
@@ -73,8 +73,8 @@ public class OnlineFarm : MonoBehaviour {
     }
 
     public void EndPutting(Farm farm) {
-        isPutting = false;
-        PlayerController.canInteract = true;
+        _isPutting = false;
+        PlayerController.CanInteract = true;
     }
 
     public void PutChatMessage() {
@@ -89,9 +89,9 @@ public class OnlineFarm : MonoBehaviour {
         */
     }
 
-    public void ChangeFarmAndPut(string JsonString) {
-        isPutting = true;
-        curFarm.JsonString = JsonString;
+    public void ChangeFarmAndPut(string jsonString) {
+        _isPutting = true;
+        curFarm.JsonString = jsonString;
         StartCoroutine(DB.Instance.PutFarm(curFarm, curPlayer, EndPutting));
     }
 
@@ -105,12 +105,12 @@ public class OnlineFarm : MonoBehaviour {
 
     #region Singleton
 
-    public static OnlineFarm instance;
+    public static OnlineFarm Instance;
 
     private void Awake() {
-        if (instance == null)
-            instance = this;
-        else if (instance == this)
+        if (Instance == null)
+            Instance = this;
+        else if (Instance == this)
             Destroy(gameObject);
     }
 

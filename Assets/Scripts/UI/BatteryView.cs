@@ -5,18 +5,18 @@ using UnityEngine.UI;
 public class BatteryView : MonoBehaviour {
     public Image[] chargeImages;
     public Sprite green, red;
-    private Coroutine coroutine;
+    private Coroutine _coroutine;
 
     public void NoEnergy() {
         EndCoroutine();
-        if (coroutine != null)
-            StopCoroutine(coroutine);
-        coroutine = StartCoroutine(NoEnergyCoroutine());
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+        _coroutine = StartCoroutine(NoEnergyCoroutine());
     }
 
     private void EndCoroutine() {
-        if (coroutine != null)
-            StopCoroutine(coroutine);
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
         for (int i = 0; i < chargeImages.Length; i++) chargeImages[i].sprite = green;
     }
 

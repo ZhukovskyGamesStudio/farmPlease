@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class SmartTilemap : MonoBehaviour {
-    public static SmartTilemap instance;
+    public static SmartTilemap Instance;
     public Tilemap MainTilemap;
     public Tilemap BuildingTilemap;
     public ToolsAnimTilemap toolsAnimTilemap;
@@ -19,16 +19,16 @@ public class SmartTilemap : MonoBehaviour {
     public float animtime = 0.5f;
 
     public int[] tileData;
-    private Vector2Int fieldSizeI = new(-11, 9);
-    private Vector2Int fieldSizeJ = new(-13, 13);
-    private Dictionary<Vector3Int, SmartTile> tiles;
+    private Vector2Int _fieldSizeI = new(-11, 9);
+    private Vector2Int _fieldSizeJ = new(-13, 13);
+    private Dictionary<Vector3Int, SmartTile> _tiles;
 
     /**********/
 
     public void Awake() {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
+        if (Instance == null)
+            Instance = this;
+        else if (Instance != this)
             Destroy(gameObject);
     }
 
@@ -50,7 +50,7 @@ public class SmartTilemap : MonoBehaviour {
     */
 
     public void GenerateTiles() {
-        tiles = new Dictionary<Vector3Int, SmartTile>();
+        _tiles = new Dictionary<Vector3Int, SmartTile>();
 
         int circle = 0;
         int step = 0;
@@ -70,7 +70,7 @@ public class SmartTilemap : MonoBehaviour {
                 PlaceTile(curCoord, TileType.Rocks);
             }
 
-            tiles.Add(curCoord, smarttile);
+            _tiles.Add(curCoord, smarttile);
 
             curCoord = Next(curCoord, circle, step);
 
@@ -113,7 +113,7 @@ public class SmartTilemap : MonoBehaviour {
 
     public void GenerateTilesWithData(string tilesString) {
         MainTilemap.ClearAllTiles();
-        tiles = new Dictionary<Vector3Int, SmartTile>();
+        _tiles = new Dictionary<Vector3Int, SmartTile>();
 
         Vector2Int curCoord = new(0, 0);
 
@@ -133,7 +133,7 @@ public class SmartTilemap : MonoBehaviour {
             smarttile.Init(this, (TileType) typeVal, position);
             PlaceTile(position, (TileType) typeVal);
 
-            tiles.Add(position, smarttile);
+            _tiles.Add(position, smarttile);
 
             curCoord = DBConverter.Next(curCoord, circle, step);
             step++;
@@ -152,11 +152,11 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public void UpdateTilesWithData(int[] newTileData) {
-        int xAmount = fieldSizeI.y - fieldSizeI.x;
+        int xAmount = _fieldSizeI.y - _fieldSizeI.x;
 
         for (int i = 0; i < newTileData.Length; i++) {
-            int x = i / xAmount + fieldSizeI.x;
-            int y = i % xAmount + fieldSizeJ.x;
+            int x = i / xAmount + _fieldSizeI.x;
+            int y = i % xAmount + _fieldSizeJ.x;
 
             Vector3Int position = new(y, x, 0);
             PlaceTile(position, (TileType) newTileData[i]);
@@ -166,7 +166,7 @@ public class SmartTilemap : MonoBehaviour {
     public Dictionary<Vector2Int, SmartTile> GetTiles() {
         Dictionary<Vector2Int, SmartTile> res = new();
 
-        foreach (KeyValuePair<Vector3Int, SmartTile> item in tiles)
+        foreach (KeyValuePair<Vector3Int, SmartTile> item in _tiles)
             res.Add(new Vector2Int(item.Key.x, item.Key.y), item.Value);
 
         return res;
@@ -175,7 +175,7 @@ public class SmartTilemap : MonoBehaviour {
     public string GetTilesData() {
         Dictionary<Vector2Int, SmartTile> tiles2 = new();
 
-        foreach (KeyValuePair<Vector3Int, SmartTile> item in tiles)
+        foreach (KeyValuePair<Vector3Int, SmartTile> item in _tiles)
             tiles2.Add(new Vector2Int(item.Key.x, item.Key.y), item.Value);
 
         string str = DBConverter.FieldToString(tiles2);
@@ -186,7 +186,7 @@ public class SmartTilemap : MonoBehaviour {
 
     public IEnumerator NewDay() {
         SaveLoadManager.Instance.Sequence(true);
-        Dictionary<Vector3Int, SmartTile> tempTiles = new(tiles);
+        Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
         List<SmartTile> toNewDay = new();
 
         foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
@@ -208,7 +208,7 @@ public class SmartTilemap : MonoBehaviour {
                 break;
 
             case HappeningType.Wind:
-                yield return StartCoroutine(InventoryManager.instance.WindyDay(this));
+                yield return StartCoroutine(InventoryManager.Instance.WindyDay(this));
                 break;
 
             case HappeningType.Insects:
@@ -232,14 +232,14 @@ public class SmartTilemap : MonoBehaviour {
             case BuildingType.SeedDoubler:
             case BuildingType.Tractor:
                 SmartTile[] neighbors = GetHexNeighbors(coord);
-                bool isBuilding = tiles[coord].IsBuilding() || neighbors[5].IsBuilding() || neighbors[0].IsBuilding() ||
+                bool isBuilding = _tiles[coord].IsBuilding() || neighbors[5].IsBuilding() || neighbors[0].IsBuilding() ||
                                   neighbors[1].IsBuilding();
-                bool isRocks = tiles[coord].type == TileType.Rocks || neighbors[5].type == TileType.Rocks ||
+                bool isRocks = _tiles[coord].type == TileType.Rocks || neighbors[5].type == TileType.Rocks ||
                                neighbors[0].type == TileType.Rocks || neighbors[1].type == TileType.Rocks;
                 return !isBuilding && !isRocks;
 
-            case BuildingType.Sprinkler_target:
-                return !tiles[coord].IsBuilding() && !(tiles[coord].type == TileType.Rocks);
+            case BuildingType.SprinklerTarget:
+                return !_tiles[coord].IsBuilding() && !(_tiles[coord].type == TileType.Rocks);
 
             default:
                 UnityEngine.Debug.Log("Wrong");
@@ -251,43 +251,43 @@ public class SmartTilemap : MonoBehaviour {
         SmartTile[] neighbors = GetHexNeighbors(coord);
         switch (type) {
             case BuildingType.Biogen:
-                tiles[coord].SwitchType(TileType.Biogen_Construction);
-                neighbors[5].SwitchType(TileType.Biogen_T1);
-                neighbors[0].SwitchType(TileType.Biogen_T2);
-                neighbors[1].SwitchType(TileType.Biogen_T3);
+                _tiles[coord].SwitchType(TileType.BiogenConstruction);
+                neighbors[5].SwitchType(TileType.BiogenT1);
+                neighbors[0].SwitchType(TileType.BiogenT2);
+                neighbors[1].SwitchType(TileType.BiogenT3);
                 break;
 
             case BuildingType.Freshener:
-                tiles[coord].SwitchType(TileType.Freshener_Construction);
-                neighbors[5].SwitchType(TileType.Freshener_T1);
-                neighbors[0].SwitchType(TileType.Freshener_T2);
-                neighbors[1].SwitchType(TileType.Freshener_T3);
+                _tiles[coord].SwitchType(TileType.FreshenerConstruction);
+                neighbors[5].SwitchType(TileType.FreshenerT1);
+                neighbors[0].SwitchType(TileType.FreshenerT2);
+                neighbors[1].SwitchType(TileType.FreshenerT3);
                 break;
 
             case BuildingType.Sprinkler:
-                tiles[coord].SwitchType(TileType.Sprinkler_Construction);
-                neighbors[5].SwitchType(TileType.Sprinkler_T1);
-                neighbors[0].SwitchType(TileType.Sprinkler_T2);
-                neighbors[1].SwitchType(TileType.Sprinkler_T3);
+                _tiles[coord].SwitchType(TileType.SprinklerConstruction);
+                neighbors[5].SwitchType(TileType.SprinklerT1);
+                neighbors[0].SwitchType(TileType.SprinklerT2);
+                neighbors[1].SwitchType(TileType.SprinklerT3);
                 break;
 
-            case BuildingType.Sprinkler_target:
-                tiles[coord].SwitchType(TileType.Sprinkler_target);
+            case BuildingType.SprinklerTarget:
+                _tiles[coord].SwitchType(TileType.SprinklerTarget);
                 break;
 
             case BuildingType.SeedDoubler:
-                tiles[coord].SwitchType(TileType.SeedDoubler_Construction);
-                neighbors[5].SwitchType(TileType.SeedDoubler_T1);
-                neighbors[0].SwitchType(TileType.SeedDoubler_T2);
-                neighbors[1].SwitchType(TileType.SeedDoubler_T3);
-                seedShop.SetAmbarCrop(CropsType.Weed);
+                _tiles[coord].SwitchType(TileType.SeedDoublerConstruction);
+                neighbors[5].SwitchType(TileType.SeedDoublerT1);
+                neighbors[0].SwitchType(TileType.SeedDoublerT2);
+                neighbors[1].SwitchType(TileType.SeedDoublerT3);
+                seedShop.SetAmbarCrop(Crop.Weed);
                 break;
 
             case BuildingType.Tractor:
-                tiles[coord].SwitchType(TileType.Tractor_Construction);
-                neighbors[5].SwitchType(TileType.Tractor_T1);
-                neighbors[0].SwitchType(TileType.Tractor_T2);
-                neighbors[1].SwitchType(TileType.Tractor_T3);
+                _tiles[coord].SwitchType(TileType.TractorConstruction);
+                neighbors[5].SwitchType(TileType.TractorT1);
+                neighbors[0].SwitchType(TileType.TractorT2);
+                neighbors[1].SwitchType(TileType.TractorT3);
                 break;
         }
     }
@@ -299,15 +299,15 @@ public class SmartTilemap : MonoBehaviour {
             case BuildingType.Sprinkler:
             case BuildingType.SeedDoubler:
             case BuildingType.Tractor:
-                tiles[coord].BecomeInactive();
+                _tiles[coord].BecomeInactive();
                 SmartTile[] neighbors = GetHexNeighbors(coord);
                 neighbors[5].BecomeInactive();
                 neighbors[0].BecomeInactive();
                 neighbors[1].BecomeInactive();
                 break;
 
-            case BuildingType.Sprinkler_target:
-                tiles[coord].BecomeInactive();
+            case BuildingType.SprinklerTarget:
+                _tiles[coord].BecomeInactive();
                 break;
         }
     }
@@ -319,7 +319,7 @@ public class SmartTilemap : MonoBehaviour {
             case BuildingType.Sprinkler:
             case BuildingType.SeedDoubler:
             case BuildingType.Tractor:
-                tiles[coord].BecomeActive();
+                _tiles[coord].BecomeActive();
 
                 SmartTile[] neighbors = GetHexNeighbors(coord);
                 neighbors[5].BecomeActive();
@@ -327,8 +327,8 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[1].BecomeActive();
                 break;
 
-            case BuildingType.Sprinkler_target:
-                tiles[coord].BecomeActive();
+            case BuildingType.SprinklerTarget:
+                _tiles[coord].BecomeActive();
                 break;
         }
     }
@@ -340,15 +340,15 @@ public class SmartTilemap : MonoBehaviour {
             case BuildingType.Sprinkler:
             case BuildingType.SeedDoubler:
             case BuildingType.Tractor:
-                tiles[coord].SwitchType(TileType.Sand);
+                _tiles[coord].SwitchType(TileType.Sand);
                 SmartTile[] neighbors = GetHexNeighbors(coord);
                 neighbors[5].SwitchType(TileType.Sand);
                 neighbors[0].SwitchType(TileType.Sand);
                 neighbors[1].SwitchType(TileType.Sand);
                 break;
 
-            case BuildingType.Sprinkler_target:
-                tiles[coord].SwitchType(TileType.Sand);
+            case BuildingType.SprinklerTarget:
+                _tiles[coord].SwitchType(TileType.Sand);
                 break;
         }
     }
@@ -357,24 +357,28 @@ public class SmartTilemap : MonoBehaviour {
 
     // 0 - hoe; 1 - seed; 2 - water; 3 - collect
     public bool AvailabilityCheck(string actionName) {
+        if (!_tiles.ContainsKey(Playercoord)) {
+            Debug.Instance.Log("No tile with this coordinates " + Playercoord);
+            return false;
+        }
         switch (actionName) {
             case "building":
-                return tiles[Playercoord].IsBuilding();
+                return _tiles[Playercoord].IsBuilding();
 
             case "click":
-                return tiles[Playercoord].CanBeClicked();
+                return _tiles[Playercoord].CanBeClicked();
 
             case "hoe":
-                return tiles[Playercoord].CanBeHoed();
+                return _tiles[Playercoord].CanBeHoed();
 
             case "seed":
-                return tiles[Playercoord].CanBeSeeded();
+                return _tiles[Playercoord].CanBeSeeded();
 
             case "water":
-                return tiles[Playercoord].CanBeWatered();
+                return _tiles[Playercoord].CanBeWatered();
 
             case "collect":
-                return tiles[Playercoord].CanBeCollected();
+                return _tiles[Playercoord].CanBeCollected();
         }
 
         UnityEngine.Debug.Log("Error here " + actionName);
@@ -384,28 +388,28 @@ public class SmartTilemap : MonoBehaviour {
     /**********/
 
     public IEnumerator NewDayTile() {
-        yield return StartCoroutine(tiles[Playercoord].OnClicked(animtime));
+        yield return StartCoroutine(_tiles[Playercoord].OnClicked(animtime));
     }
 
     public IEnumerator ClickTile() {
-        yield return StartCoroutine(tiles[Playercoord].OnClicked(animtime));
+        yield return StartCoroutine(_tiles[Playercoord].OnClicked(animtime));
     }
 
-    public IEnumerator SeedTile(CropsType crop) {
-        yield return StartCoroutine(tiles[Playercoord].OnSeeded(crop, animtime));
+    public IEnumerator SeedTile(Crop crop) {
+        yield return StartCoroutine(_tiles[Playercoord].OnSeeded(crop, animtime));
     }
 
     public IEnumerator CollectTile() {
-        yield return StartCoroutine(tiles[Playercoord]
-            .OnCollected(InventoryManager.instance.IsToolWorking(ToolBuff.Greenscythe), animtime / 3));
+        yield return StartCoroutine(_tiles[Playercoord]
+            .OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), animtime / 3));
     }
 
     public IEnumerator HoeTile() {
-        yield return StartCoroutine(tiles[Playercoord].OnHoed(animtime));
+        yield return StartCoroutine(_tiles[Playercoord].OnHoed(animtime));
     }
 
     public IEnumerator WaterTile() {
-        yield return StartCoroutine(tiles[Playercoord].OnWatered(animtime));
+        yield return StartCoroutine(_tiles[Playercoord].OnWatered(animtime));
     }
 
     public IEnumerator HoeRandomNeighbor(Vector3Int center) {
@@ -421,11 +425,11 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public IEnumerator Erosion() {
-        Dictionary<Vector3Int, SmartTile> tempTiles = new(tiles);
+        Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
         List<SmartTile> toErosion = new();
         foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanBeErosioned())
-                if (smartTile.Value.type != TileType.Freshener_full) {
+                if (smartTile.Value.type != TileType.FreshenerFull) {
                     toErosion.Add(smartTile.Value);
                 } else {
                     yield return StartCoroutine(smartTile.Value.OnErosioned(animtime / 5));
@@ -436,21 +440,21 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public IEnumerator Rain() {
-        Dictionary<Vector3Int, SmartTile> tempTiles = new(tiles);
+        Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
         foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanBeWatered())
                 yield return StartCoroutine(smartTile.Value.OnWatered(animtime / 5));
     }
 
     public IEnumerator Insects() {
-        List<Vector3Int> FlycatcherPosition = new();
-        foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tiles)
-            if (smartTile.Value.type == TileType.FlycatherSeed_3)
-                FlycatcherPosition.Add(smartTile.Key);
+        List<Vector3Int> flycatcherPosition = new();
+        foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in _tiles)
+            if (smartTile.Value.type == TileType.FlycatherSeed3)
+                flycatcherPosition.Add(smartTile.Key);
 
-        if (FlycatcherPosition.Count > 0) {
-            for (int i = 0; i < FlycatcherPosition.Count; i++)
-                yield return StartCoroutine(tiles[FlycatcherPosition[i]].OnInsected(animtime));
+        if (flycatcherPosition.Count > 0) {
+            for (int i = 0; i < flycatcherPosition.Count; i++)
+                yield return StartCoroutine(_tiles[flycatcherPosition[i]].OnInsected(animtime));
 
             SmartTile[] alltiles = GetAllTiles();
             List<SmartTile> toSeedList = new();
@@ -462,13 +466,13 @@ public class SmartTilemap : MonoBehaviour {
 
             for (int i = 0; i < toSeedList.Count; i++) {
                 yield return new WaitForSeconds(animtime / 5);
-                InventoryManager.instance.CollectCrop(CropsType.Flycatcher, 1);
+                InventoryManager.Instance.CollectCrop(Crop.Flycatcher, 1);
                 toSeedList[i].BecomeActive();
             }
 
-            for (int i = 0; i < FlycatcherPosition.Count; i++) tiles[FlycatcherPosition[i]].BecomeActive();
+            for (int i = 0; i < flycatcherPosition.Count; i++) _tiles[flycatcherPosition[i]].BecomeActive();
         } else {
-            Dictionary<Vector3Int, SmartTile> tempTiles = new(tiles);
+            Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
             foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
                 if (smartTile.Value.CanBeCollected())
                     yield return StartCoroutine(smartTile.Value.OnInsected(animtime / 5));
@@ -476,10 +480,10 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public SmartTile[] GetAllTiles() {
-        SmartTile[] resTiles = new SmartTile[tiles.Count];
+        SmartTile[] resTiles = new SmartTile[_tiles.Count];
 
         int i = 0;
-        foreach (KeyValuePair<Vector3Int, SmartTile> tile in tiles) {
+        foreach (KeyValuePair<Vector3Int, SmartTile> tile in _tiles) {
             resTiles[i] = tile.Value;
             i++;
         }
@@ -490,7 +494,7 @@ public class SmartTilemap : MonoBehaviour {
     public SmartTile[] GetAllTiles(TileType type) {
         List<SmartTile> tilesL = new();
 
-        foreach (KeyValuePair<Vector3Int, SmartTile> tile in tiles)
+        foreach (KeyValuePair<Vector3Int, SmartTile> tile in _tiles)
             if (tile.Value.type == type)
                 tilesL.Add(tile.Value);
 
@@ -521,19 +525,19 @@ public class SmartTilemap : MonoBehaviour {
         SmartTile[] neighbors = new SmartTile[6];
 
         if (center.y % 2 == 0) {
-            neighbors[0] = tiles[center + new Vector3Int(0, 1, 0)];
-            neighbors[1] = tiles[center + new Vector3Int(1, 0, 0)];
-            neighbors[2] = tiles[center + new Vector3Int(0, -1, 0)];
-            neighbors[3] = tiles[center + new Vector3Int(-1, -1, 0)];
-            neighbors[4] = tiles[center + new Vector3Int(-1, 0, 0)];
-            neighbors[5] = tiles[center + new Vector3Int(-1, 1, 0)];
+            neighbors[0] = _tiles[center + new Vector3Int(0, 1, 0)];
+            neighbors[1] = _tiles[center + new Vector3Int(1, 0, 0)];
+            neighbors[2] = _tiles[center + new Vector3Int(0, -1, 0)];
+            neighbors[3] = _tiles[center + new Vector3Int(-1, -1, 0)];
+            neighbors[4] = _tiles[center + new Vector3Int(-1, 0, 0)];
+            neighbors[5] = _tiles[center + new Vector3Int(-1, 1, 0)];
         } else {
-            neighbors[0] = tiles[center + new Vector3Int(1, 1, 0)];
-            neighbors[1] = tiles[center + new Vector3Int(1, 0, 0)];
-            neighbors[2] = tiles[center + new Vector3Int(1, -1, 0)];
-            neighbors[3] = tiles[center + new Vector3Int(0, -1, 0)];
-            neighbors[4] = tiles[center + new Vector3Int(-1, 0, 0)];
-            neighbors[5] = tiles[center + new Vector3Int(0, 1, 0)];
+            neighbors[0] = _tiles[center + new Vector3Int(1, 1, 0)];
+            neighbors[1] = _tiles[center + new Vector3Int(1, 0, 0)];
+            neighbors[2] = _tiles[center + new Vector3Int(1, -1, 0)];
+            neighbors[3] = _tiles[center + new Vector3Int(0, -1, 0)];
+            neighbors[4] = _tiles[center + new Vector3Int(-1, 0, 0)];
+            neighbors[5] = _tiles[center + new Vector3Int(0, 1, 0)];
         }
 
         return neighbors;
@@ -637,17 +641,17 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public SmartTile GetTile(Vector3Int center) {
-        return tiles[center];
+        return _tiles[center];
     }
 
     public SmartTile GetPlayerTile() {
-        return tiles[Playercoord];
+        return _tiles[Playercoord];
     }
 
     public Vector3Int GetBuildingCoordinatesByPart(Vector3Int coord) {
         Vector3Int[] neighbors = GetHexCoordinates(coord);
 
-        TileData data = TilesTable.TileByType(tiles[coord].type);
+        TileData data = TilesTable.TileByType(_tiles[coord].type);
         if (data.IsBuilding)
             switch (data.TIndex) {
                 case 0:
@@ -668,6 +672,6 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public SmartTile GetBuildingByPart(Vector3Int coord) {
-        return tiles[GetBuildingCoordinatesByPart(coord)];
+        return _tiles[GetBuildingCoordinatesByPart(coord)];
     }
 }

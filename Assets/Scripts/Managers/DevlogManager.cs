@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DevlogManager : MonoBehaviour {
-    public DevlogSO DevlogSo;
+    public DevlogConfig devlogConfig;
     public Text Header, MainText;
 
     public void Init() {
-        Header.text = DevlogSo.Header;
-        MainText.text = DevlogSo.MainText;
+        Header.text = devlogConfig.Header;
+        MainText.text = devlogConfig.MainText;
     }
 }

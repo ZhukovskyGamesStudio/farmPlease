@@ -13,7 +13,7 @@ public class EndMonthPanel : MonoBehaviour {
     public CropsTable CropsTable;
     public float timeSpanBetweenCropdrop;
 
-    public void ShowEndMonthPanel(Queue<CropsType> cropsQueue, int allCrops) {
+    public void ShowEndMonthPanel(Queue<Crop> cropsQueue, int allCrops) {
         gameObject.SetActive(true);
         int cropsAmount = 0;
         if (cropsQueue != null)
@@ -28,15 +28,15 @@ public class EndMonthPanel : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
-    public IEnumerator DropCrops(Queue<CropsType> cropsQueue) {
-        Queue<CropsType> tmpQueue = new(cropsQueue);
+    public IEnumerator DropCrops(Queue<Crop> cropsQueue) {
+        Queue<Crop> tmpQueue = new(cropsQueue);
         while (tmpQueue.Count > 0) {
             Vector3 pose = Lcorner.position + (Rcorner.position - Lcorner.position) * Random.Range(0.05f, 0.95f);
             Quaternion quat = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward);
 
             Image a = Instantiate(VegPrefab, pose, quat, Walls.transform).GetComponent<Image>();
 
-            CropsType crop = tmpQueue.Dequeue();
+            Crop crop = tmpQueue.Dequeue();
             a.sprite = CropsTable.CropByType(crop).VegSprite;
 
             yield return new WaitForSeconds(timeSpanBetweenCropdrop);

@@ -1,9 +1,9 @@
 ﻿using System;
 
 public static class RealTImeManager {
-    public const double NextDayTimePoint = 0;
+    public const double NEXT_DAY_TIME_POINT = 0;
     public static double EnergyRefillPoint = 12 * 60 * 60;
-    public static bool skipOne;
+    public static bool SkipOne;
 
     public static int MinutesToEnergyRefill() {
         int nowMinutes = TotalMinutes();
@@ -16,7 +16,7 @@ public static class RealTImeManager {
 
     public static void ChangeDayPoint(double newPoint, bool byPlayer) {
         if (byPlayer)
-            skipOne = true;
+            SkipOne = true;
         EnergyRefillPoint = newPoint;
     }
 
@@ -31,11 +31,11 @@ public static class RealTImeManager {
         double oldSeconds = old.TimeOfDay.TotalSeconds;
         double nowSeconds = now.TimeOfDay.TotalSeconds;
 
-        if (oldSeconds < NextDayTimePoint && nowSeconds >= NextDayTimePoint)
+        if (oldSeconds < NEXT_DAY_TIME_POINT && nowSeconds >= NEXT_DAY_TIME_POINT)
             daysGone++;
-        else if (oldSeconds > NextDayTimePoint && nowSeconds >= NextDayTimePoint && nowSeconds < oldSeconds)
+        else if (oldSeconds > NEXT_DAY_TIME_POINT && nowSeconds >= NEXT_DAY_TIME_POINT && nowSeconds < oldSeconds)
             daysGone++;
-        else if (oldSeconds <= NextDayTimePoint && nowSeconds < NextDayTimePoint && nowSeconds < oldSeconds)
+        else if (oldSeconds <= NEXT_DAY_TIME_POINT && nowSeconds < NEXT_DAY_TIME_POINT && nowSeconds < oldSeconds)
             daysGone++;
 
         return daysGone;
@@ -58,8 +58,8 @@ public static class RealTImeManager {
             daysGone++;
         else if (oldSeconds <= EnergyRefillPoint && nowSeconds < EnergyRefillPoint && nowSeconds < oldSeconds)
             daysGone++;
-        if (skipOne && daysGone > 0) {
-            skipOne = false;
+        if (SkipOne && daysGone > 0) {
+            SkipOne = false;
             daysGone--;
         }
 
@@ -67,11 +67,11 @@ public static class RealTImeManager {
     }
 
     public static bool IsSkipOne() {
-        return skipOne;
+        return SkipOne;
     }
 
     public static void Skipped() {
-        skipOne = false;
+        SkipOne = false;
     }
 
     public static int TotalSeconds() {

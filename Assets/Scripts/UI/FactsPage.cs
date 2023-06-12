@@ -10,7 +10,7 @@ public class FactsPage : MonoBehaviour {
     public Image FactsFirstImage;
     public Image FactsSecondImage;
 
-    public void UpdatePage(SOWithCroponomPage pageData) {
+    public void UpdatePage(ConfigWithCroponomPage pageData) {
         FactsHeader.text = pageData.header;
         FactsFirstText.text = pageData.firstText;
         FactsSecondText.text = pageData.secondText;

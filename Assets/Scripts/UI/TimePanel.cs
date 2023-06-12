@@ -13,49 +13,49 @@ public class TimePanel : MonoBehaviour {
     public GameObject timeHintPanel;
     public Text TimeOfDayText;
     public bool isOpen;
-    private GameObject[] Days;
-    private int DaysAmount;
+    private GameObject[] _days;
+    private int _daysAmount;
     private List<HappeningType> _daysHappenings;
-    private GameObject[] SkipDays;
+    private GameObject[] _skipDays;
 
-    private int SkipDaysAmount;
+    private int _skipDaysAmount;
 
     public void CreateDays(List<HappeningType> daysHappenings, int skipAmount) {
         _daysHappenings = daysHappenings;
-        DaysAmount = daysHappenings.Count;
-        SkipDaysAmount = skipAmount;
+        _daysAmount = daysHappenings.Count;
+        _skipDaysAmount = skipAmount;
 
-        if (SkipDays != null)
-            for (int i = 0; i < SkipDays.Length; i++)
-                Destroy(SkipDays[i]);
+        if (_skipDays != null)
+            for (int i = 0; i < _skipDays.Length; i++)
+                Destroy(_skipDays[i]);
 
-        if (SkipDaysAmount > 0) {
-            SkipDays = new GameObject[SkipDaysAmount];
-            for (int i = 0; i < SkipDaysAmount; i++) {
-                SkipDays[i] = Instantiate(DayPref, DaysParent.transform);
-                SkipDays[i].GetComponent<DayScript>().Clear();
+        if (_skipDaysAmount > 0) {
+            _skipDays = new GameObject[_skipDaysAmount];
+            for (int i = 0; i < _skipDaysAmount; i++) {
+                _skipDays[i] = Instantiate(DayPref, DaysParent.transform);
+                _skipDays[i].GetComponent<DayScript>().Clear();
             }
         }
 
-        if (Days != null)
-            for (int i = 0; i < Days.Length; i++)
-                Destroy(Days[i]);
+        if (_days != null)
+            for (int i = 0; i < _days.Length; i++)
+                Destroy(_days[i]);
 
-        Days = new GameObject[DaysAmount];
-        for (int i = 0; i < DaysAmount; i++) {
-            Days[i] = Instantiate(DayPref, DaysParent.transform);
-            Days[i].GetComponent<DayScript>().SetProps(i, daysHappenings[i]);
+        _days = new GameObject[_daysAmount];
+        for (int i = 0; i < _daysAmount; i++) {
+            _days[i] = Instantiate(DayPref, DaysParent.transform);
+            _days[i].GetComponent<DayScript>().SetProps(i, daysHappenings[i]);
         }
     }
 
     private void UpdateBigCalendar(int curDay) {
-        for (int i = 0; i < Days.Length; i++) {
-            DayScript script = Days[i].GetComponent<DayScript>();
+        for (int i = 0; i < _days.Length; i++) {
+            DayScript script = _days[i].GetComponent<DayScript>();
             if (_daysHappenings[i] == HappeningType.Love &&
-                !InventoryManager.instance.IsToolWorking(ToolBuff.Weatherometr))
+                !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
                 script.SetProps(i, HappeningType.None);
             else if (_daysHappenings[i] != HappeningType.None && _daysHappenings[i] != HappeningType.Marketplace &&
-                     !InventoryManager.instance.IsToolWorking(ToolBuff.Weatherometr))
+                     !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
                 script.SetProps(i, HappeningType.Unknown);
             else
                 script.SetProps(i, _daysHappenings[i]);
@@ -67,7 +67,7 @@ public class TimePanel : MonoBehaviour {
 
     public void UpdateLilCalendar(int date) {
         if (_daysHappenings[date] != HappeningType.None && _daysHappenings[date] != HappeningType.Marketplace &&
-            !InventoryManager.instance.IsToolWorking(ToolBuff.Weatherometr))
+            !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
             lilDay.SetProps(date, HappeningType.Unknown);
         else
             lilDay.SetProps(date, _daysHappenings[date], true);

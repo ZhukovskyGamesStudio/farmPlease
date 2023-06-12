@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weather", menuName = "ScriptableObjects/Weather", order = 4)]
 [Serializable]
-public class WeatherSO : SOWithCroponomPage {
+public class WeatherConfig : ConfigWithCroponomPage {
     [Header("Weather")]
     public HappeningType type;
 

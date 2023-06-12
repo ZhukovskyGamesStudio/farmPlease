@@ -43,7 +43,7 @@ namespace DefaultNamespace.UI {
             
             ShowSeedsSelectSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() =>  PlayerController.Instance.seedBagCrop != CropsType.Tomato); 
+            yield return new WaitWhile(() =>  PlayerController.Instance.seedBagCrop != Crop.Tomato); 
             
             yield return new WaitForSeconds(0.3f);
             ShowSeedsUsedSpotlight();
@@ -120,10 +120,10 @@ namespace DefaultNamespace.UI {
 
         private void ShowSeedsSelectSpotlight() {
             _isWatingForStepEnd = true;
-            PlayerController.Instance.seedBagCrop = CropsType.Weed;
+            PlayerController.Instance.seedBagCrop = Crop.Weed;
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(false);
-            InventoryManager.instance.BuySeed(CropsType.Eggplant,0,1);
-            InventoryManager.instance.BuySeed(CropsType.Tomato,0,1);
+            InventoryManager.Instance.BuySeed(Crop.Eggplant,0,1);
+            InventoryManager.Instance.BuySeed(Crop.Tomato,0,1);
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.Backpack.transform, _ftueConfig.SeedSelectHint, StepEnded);
         }

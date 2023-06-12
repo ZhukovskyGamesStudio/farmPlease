@@ -23,9 +23,9 @@ public class Croponom : PreloadableSingleton<Croponom>, ISoundStarter {
     public GameObject ToolsGrid;
     public ToolsTable ToolsTablePrefab;
 
-    private List<Button> cropsButtons;
-    private List<Button> toolButtons;
-    private List<Button> weatherButtons;
+    private List<Button> _cropsButtons;
+    private List<Button> _toolButtons;
+    private List<Button> _weatherButtons;
 
     [SerializeField] private GameObject Panel;
 
@@ -49,14 +49,14 @@ public class Croponom : PreloadableSingleton<Croponom>, ISoundStarter {
         CropsOpenButton.onClick.RemoveListener(() => OpenPage(CropsTablePrefab.Crops[0]));
         WeatherOpenButton.onClick.RemoveListener(() => OpenPage(WeatherTablePrefab.WeathersSO[0]));
         ToolsOpenButton.onClick.RemoveListener(() => OpenPage(ToolsTablePrefab.ToolsSO[0]));
-        foreach (Button button in cropsButtons) button.onClick.RemoveAllListeners();
+        foreach (Button button in _cropsButtons) button.onClick.RemoveAllListeners();
 
-        foreach (Button button in weatherButtons) button.onClick.RemoveAllListeners();
+        foreach (Button button in _weatherButtons) button.onClick.RemoveAllListeners();
 
-        foreach (Button button in toolButtons) button.onClick.RemoveAllListeners();
+        foreach (Button button in _toolButtons) button.onClick.RemoveAllListeners();
     }
 
-    private void OpenPage(SOWithCroponomPage pageData) {
+    private void OpenPage(ConfigWithCroponomPage pageData) {
         FactsPage.UpdatePage(pageData);
     }
 
@@ -71,35 +71,35 @@ public class Croponom : PreloadableSingleton<Croponom>, ISoundStarter {
     }
 
     private void GenerateWeatherButtons() {
-        weatherButtons = new List<Button>();
-        foreach (WeatherSO weatherData in WeatherTablePrefab.WeathersSO) {
+        _weatherButtons = new List<Button>();
+        foreach (WeatherConfig weatherData in WeatherTablePrefab.WeathersSO) {
             Button weatherButton = Instantiate(GridButtonPrefab, WeatherGrid.transform);
             weatherButton.onClick.AddListener(() => FactsPage.UpdatePage(weatherData));
 
             weatherButton.GetComponent<Image>().sprite = weatherData.icon;
-            weatherButtons.Add(weatherButton);
+            _weatherButtons.Add(weatherButton);
         }
     }
 
     private void GenerateCropsButtons() {
-        cropsButtons = new List<Button>();
-        foreach (CropSO cropData in CropsTablePrefab.Crops) {
+        _cropsButtons = new List<Button>();
+        foreach (CropConfig cropData in CropsTablePrefab.Crops) {
             Button cropButton = Instantiate(GridButtonPrefab, CropsGrid.transform);
             cropButton.onClick.AddListener(() => FactsPage.UpdatePage(cropData));
 
             cropButton.GetComponent<Image>().sprite = cropData.VegSprite;
-            cropsButtons.Add(cropButton);
+            _cropsButtons.Add(cropButton);
         }
     }
 
     private void GenerateToolsButtons() {
-        toolButtons = new List<Button>();
-        foreach (ToolSO toolData in ToolsTablePrefab.ToolsSO) {
+        _toolButtons = new List<Button>();
+        foreach (ToolConfig toolData in ToolsTablePrefab.ToolsSO) {
             Button toolButton = Instantiate(GridButtonPrefab, ToolsGrid.transform);
             toolButton.onClick.AddListener(() => FactsPage.UpdatePage(toolData));
 
             toolButton.GetComponent<Image>().sprite = toolData.FoodMarketSprite;
-            toolButtons.Add(toolButton);
+            _toolButtons.Add(toolButton);
         }
     }
 

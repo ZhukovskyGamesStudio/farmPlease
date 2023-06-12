@@ -1,11 +1,11 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Crop", menuName = "ScriptableObjects/Crop", order = 2)]
-public class CropSO : SOWithCroponomPage {
+public class CropConfig : ConfigWithCroponomPage {
     [Header("Crop")]
     public new string name;
 
-    public CropsType type;
+    public Crop type;
     public Sprite VegSprite;
 
     [Header("SeedShopProperties")]

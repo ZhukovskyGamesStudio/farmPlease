@@ -50,7 +50,7 @@ public class UIHud : Singleton<UIHud>, ISoundStarter {
         FastPanelScript.UpdateHover(index);
     }
 
-    public void ChangeFastPanel(CropsType crop, int amount) {
+    public void ChangeFastPanel(Crop crop, int amount) {
         FastPanelScript.UpdateSeedFastPanel(crop, amount);
     }
 

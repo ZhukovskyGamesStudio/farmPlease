@@ -24,7 +24,7 @@
 
 public static class GPS
 {
-        public const string leaderboard_tutorialmasters = "CgkI1N701sUbEAIQAQ"; // <GPGSID>
+        public const string LEADERBOARD_TUTORIALMASTERS = "CgkI1N701sUbEAIQAQ"; // <GPGSID>
 
 }
 

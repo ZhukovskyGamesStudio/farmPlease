@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Building", order = 5)]
-public class BuildingSO : ScriptableObject {
+public class BuildingConfig : ScriptableObject {
     public new string name;
     public bool IsFakeBuilding;
     public BuildingType type;

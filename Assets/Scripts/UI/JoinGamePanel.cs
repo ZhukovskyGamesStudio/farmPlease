@@ -28,19 +28,19 @@ public class JoinGamePanel : MonoBehaviour {
     public InputField ConnectIdInput;
 
     public InputField ConnectPasswordInput;
-    private Farm curFarm;
+    private Farm _curFarm;
 
-    private Player curPlayer;
+    private Player _curPlayer;
 
     private void LoadPlayer() {
-        curPlayer = SaveLoadManager.LoadPlayerStruct();
+        _curPlayer = SaveLoadManager.LoadPlayerStruct();
 
-        if (curPlayer.Id == 0) {
+        if (_curPlayer.Id == 0) {
             RegisterPanel.SetActive(true);
         } else {
-            Debug.Instance.Log("CurPlayerId: " + curPlayer.Id);
+            Debug.Instance.Log("CurPlayerId: " + _curPlayer.Id);
             RegisterPanel.SetActive(false);
-            StartCoroutine(DB.Instance.GetPlayer(curPlayer, EndGetPlayer));
+            StartCoroutine(DB.Instance.GetPlayer(_curPlayer, EndGetPlayer));
         }
     }
 
@@ -51,13 +51,13 @@ public class JoinGamePanel : MonoBehaviour {
     }
 
     public void DeletePlayer() {
-        StartCoroutine(DB.Instance.DeletePlayer(curPlayer, EndDeletingPlayer));
+        StartCoroutine(DB.Instance.DeletePlayer(_curPlayer, EndDeletingPlayer));
     }
 
     public void EndDeletingPlayer(string statusCode) {
         Debug.Instance.Log("Deleting player is " + statusCode);
         PlayerPrefs.DeleteKey("player_id");
-        curPlayer.Id = -1;
+        _curPlayer.Id = -1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -68,8 +68,8 @@ public class JoinGamePanel : MonoBehaviour {
             return;
         }
 
-        curPlayer = player;
-        PlayerNameText.text = curPlayer.Name + "<color=Grey> #" + curPlayer.Id + "</color>";
+        _curPlayer = player;
+        PlayerNameText.text = _curPlayer.Name + "<color=Grey> #" + _curPlayer.Id + "</color>";
         if (player.FarmId != 0) {
             FarmIdText.text = "Farm id: " + player.FarmId;
             CreateFarmButton.GetComponent<Button>().interactable = false;
@@ -79,22 +79,22 @@ public class JoinGamePanel : MonoBehaviour {
             DeleteFarmButton.GetComponent<Button>().interactable = false;
         }
 
-        if (!curPlayer.IsConfirmed)
+        if (!_curPlayer.IsConfirmed)
             ConfirmPanel.SetActive(true);
         else
             ConfirmPanel.SetActive(false);
 
-        curFarm = SaveLoadManager.LoadFarmStruct();
-        if (curFarm != null) {
-            ConnectIdInput.text = curFarm.Id.ToString();
-            ConnectPasswordInput.text = curFarm.Password;
+        _curFarm = SaveLoadManager.LoadFarmStruct();
+        if (_curFarm != null) {
+            ConnectIdInput.text = _curFarm.Id.ToString();
+            ConnectPasswordInput.text = _curFarm.Password;
         }
     }
 
     public void Confirm() {
         if (ConfirmInput.text == "true") {
-            curPlayer.IsConfirmed = true;
-            StartCoroutine(DB.Instance.PutPlayer(curPlayer, curPlayer.Id, EndGetPlayer));
+            _curPlayer.IsConfirmed = true;
+            StartCoroutine(DB.Instance.PutPlayer(_curPlayer, _curPlayer.Id, EndGetPlayer));
         }
     }
 
@@ -105,7 +105,7 @@ public class JoinGamePanel : MonoBehaviour {
                 Password = password
             };
 
-            StartCoroutine(DB.Instance.PostFarm(farm, curPlayer, EndCreatingFarm));
+            StartCoroutine(DB.Instance.PostFarm(farm, _curPlayer, EndCreatingFarm));
         }
     }
 
@@ -119,25 +119,25 @@ public class JoinGamePanel : MonoBehaviour {
         Debug.Instance.Log("newFarm id: " + newFarm.Id);
         Debug.Instance.Log("newFarm password: " + newFarm.Password);
 
-        curFarm = newFarm;
-        SaveLoadManager.SaveFarmStruct(curFarm);
-        if (curFarm.Id != -1) {
-            ConnectIdInput.text = curFarm.Id.ToString();
-            ConnectPasswordInput.text = curFarm.Password;
+        _curFarm = newFarm;
+        SaveLoadManager.SaveFarmStruct(_curFarm);
+        if (_curFarm.Id != -1) {
+            ConnectIdInput.text = _curFarm.Id.ToString();
+            ConnectPasswordInput.text = _curFarm.Password;
         }
     }
 
     public void DeleteFarm() {
-        StartCoroutine(DB.Instance.DeleteFarm(curPlayer, EndDeleting));
+        StartCoroutine(DB.Instance.DeleteFarm(_curPlayer, EndDeleting));
     }
 
     public void EndDeleting(string statusCode) {
         CreateFarmButton.GetComponent<Button>().interactable = true;
         DeleteFarmButton.GetComponent<Button>().interactable = false;
-        curFarm.Id = -1;
-        curPlayer.FarmId = -1;
+        _curFarm.Id = -1;
+        _curPlayer.FarmId = -1;
         FarmIdText.text = "Farm id: ###";
-        SaveLoadManager.SaveFarmStruct(curFarm);
+        SaveLoadManager.SaveFarmStruct(_curFarm);
         ConnectIdInput.text = "";
         ConnectPasswordInput.text = "";
 
@@ -148,7 +148,7 @@ public class JoinGamePanel : MonoBehaviour {
         int id = int.Parse(ConnectIdInput.text);
         string password = ConnectPasswordInput.text;
 
-        StartCoroutine(DB.Instance.GetFarm(id, password, curPlayer, EndConnecting));
+        StartCoroutine(DB.Instance.GetFarm(id, password, _curPlayer, EndConnecting));
     }
 
     public void EndConnecting(Farm farm) {
@@ -171,17 +171,17 @@ public class JoinGamePanel : MonoBehaviour {
 
         RegisterButton.interactable = false;
 
-        curPlayer = new Player {
+        _curPlayer = new Player {
             Name = NameInput.text,
             Email = EmailInput.text,
             Password = password1,
             IsConfirmed = false
         };
         if (Debug.Instance.IsDevelopmentBuild)
-            curPlayer.IsConfirmed = true;
+            _curPlayer.IsConfirmed = true;
 
-        UnityEngine.Debug.LogWarning(curPlayer.Email);
-        StartCoroutine(DB.Instance.PostPlayer(curPlayer, EndRegister));
+        UnityEngine.Debug.LogWarning(_curPlayer.Email);
+        StartCoroutine(DB.Instance.PostPlayer(_curPlayer, EndRegister));
     }
 
     public void EndRegister(Player player) {

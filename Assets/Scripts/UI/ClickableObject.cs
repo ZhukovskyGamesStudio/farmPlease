@@ -8,7 +8,7 @@ public class ClickableObject : MonoBehaviour, IPointerClickHandler, IPointerDown
     public UnityEvent RightclickEvent;
     public UnityEvent LeftclickEvent;
 
-    private Vector2 rightpos, leftpos;
+    private Vector2 _rightpos, _leftpos;
 
     public void OnPointerClick(PointerEventData eventData) {
         /*if (eventData.button == PointerEventData.InputButton.Right)
@@ -19,17 +19,17 @@ public class ClickableObject : MonoBehaviour, IPointerClickHandler, IPointerDown
 
     public void OnPointerDown(PointerEventData eventData) {
         if (eventData.button == PointerEventData.InputButton.Right)
-            rightpos = eventData.position;
+            _rightpos = eventData.position;
         if (eventData.button == PointerEventData.InputButton.Left)
-            leftpos = eventData.position;
+            _leftpos = eventData.position;
     }
 
     public void OnPointerUp(PointerEventData eventData) {
         if (eventData.button == PointerEventData.InputButton.Right &&
-            (eventData.position - rightpos).magnitude < MaxDistanceDeltaToRegisterClick)
+            (eventData.position - _rightpos).magnitude < MaxDistanceDeltaToRegisterClick)
             RightclickEvent.Invoke();
         if (eventData.button == PointerEventData.InputButton.Left &&
-            (eventData.position - leftpos).magnitude < MaxDistanceDeltaToRegisterClick)
+            (eventData.position - _leftpos).magnitude < MaxDistanceDeltaToRegisterClick)
             LeftclickEvent.Invoke();
     }
 }

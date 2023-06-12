@@ -3,35 +3,35 @@ using DefaultNamespace.Abstract;
 using UnityEngine;
 
 public class CropsTable : Singleton<CropsTable> {
-    public static CropsTable instance;
+    public static CropsTable Instance;
 
-    public CropSO[] Crops;
+    public CropConfig[] Crops;
 
     public void Awake() {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(gameObject);
     }
 
-    public static CropSO CropByType(CropsType type) {
-        for (int i = 0; i < instance.Crops.Length; i++)
-            if (instance.Crops[i].type == type)
-                return instance.Crops[i];
+    public static CropConfig CropByType(Crop type) {
+        for (int i = 0; i < Instance.Crops.Length; i++)
+            if (Instance.Crops[i].type == type)
+                return Instance.Crops[i];
         UnityEngine.Debug.Log("Нет класса Crop под тип " + type);
         return null;
     }
 
-    public static bool ContainCrop(CropsType type) {
-        for (int i = 0; i < instance.Crops.Length; i++)
-            if (instance.Crops[i].type == type)
+    public static bool ContainCrop(Crop type) {
+        for (int i = 0; i < Instance.Crops.Length; i++)
+            if (Instance.Crops[i].type == type)
                 return true;
         return false;
     }
 }
 
 [Serializable]
-public enum CropsType {
+public enum Crop {
     None = -1,
     Tomato,
     Eggplant,
@@ -47,30 +47,4 @@ public enum CropsType {
     Pumpkin,
     Radish,
     Peanut
-}
-
-[Serializable]
-public class Crop {
-    [Header("Crop")]
-    public string name;
-
-    public CropsType type;
-    public Sprite VegSprite;
-
-    [Header("SeedShopProperties")]
-    public bool CanBeBought = true;
-
-    public Sprite SeedSprite;
-    public int cost;
-    public string explainText;
-    public int buyAmount;
-    public int Rarity;
-
-    [Header("CroponomPage")]
-    public string header;
-
-    public string firstText;
-    public Sprite firstSprite;
-    public string secondText;
-    public Sprite secondSprite;
 }

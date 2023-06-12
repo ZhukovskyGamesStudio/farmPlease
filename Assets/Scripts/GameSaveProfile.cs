@@ -16,26 +16,27 @@ public class GameSaveProfile {
     public long LastClockRefilledTimestamp = Clock.NowTotalMilliseconds;
     public int CropPoints;
     public string Date;
+    public string SavedDate;
     public string TilesData;
     public int CurrentDay;
     public int DayOfWeek;
 
-    public Queue<CropsType> CropsCollected = new Queue<CropsType>();
+    public Queue<Crop> CropsCollected = new Queue<Crop>();
     public List<HappeningType> Days = new List<HappeningType>();
-    public SerializableDictionary<CropsType, int> Seeds = new SerializableDictionary<CropsType, int>();
+    public SerializableDictionary<Crop, int> Seeds = new SerializableDictionary<Crop, int>();
     public SerializableDictionary<ToolBuff, int> ToolBuffs = new SerializableDictionary<ToolBuff, int>();
 
-    public bool[] seedShopButtonData;
-    public bool seedShopChangeButton;
-    public int ambarCropType;
+    public bool[] SeedShopButtonData;
+    public bool SeedShopChangeButton;
+    public Crop AmbarCrop;
 
-    public bool[] toolShopButtonsData;
-    public bool toolShopChangeButton;
+    public bool[] ToolShopButtonsData;
+    public bool ToolShopChangeButton;
 
-    public bool[] cropBoughtData;
-    public bool[] toolBoughtData;
-    public bool[] buildingBoughtData;
-    public int buildingPrice;
+    public bool[] CropBoughtData;
+    public bool[] ToolBoughtData;
+    public bool[] BuildingBoughtData;
+    public int BuildingPrice;
 
     public List<Knowledge> KnowledgeList = new List<Knowledge>();
 

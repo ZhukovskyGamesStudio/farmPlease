@@ -15,10 +15,10 @@ public class MainMenuButtons : MonoBehaviour, ISoundStarter {
     public float impulseMultiplier;
     public float secondsWait;
     public int cropMax = 150;
-    private int cropCount;
+    private int _cropCount;
 
     private void Start() {
-        cropCount = 0;
+        _cropCount = 0;
 #if UNITY_ANDROID
         DiscordButton.SetActive(false);
         ExitButton.SetActive(false);
@@ -42,22 +42,22 @@ public class MainMenuButtons : MonoBehaviour, ISoundStarter {
     }
 
     public IEnumerator CropRain() {
-        cropCount = 0;
+        _cropCount = 0;
         VegPanel.SetActive(true);
         while (true) {
             Vector3 pose = Lcorner.position + (Rcorner.position - Lcorner.position) * Random.Range(0.05f, 0.95f);
             Quaternion quat = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward);
 
-            if (cropCount > cropMax) Destroy(VegsHolder.GetChild(0).gameObject);
+            if (_cropCount > cropMax) Destroy(VegsHolder.GetChild(0).gameObject);
             Image a = Instantiate(VegPrefab, pose, quat, VegsHolder).GetComponent<Image>();
             a.gameObject.SetActive(true);
             a.gameObject.GetComponent<Rigidbody2D>()
                 .AddForce(new Vector2(Random.Range(-0.3f, 0.3f), -1) * impulseMultiplier, ForceMode2D.Impulse);
 
-            CropsType crop = CropsTable.instance.Crops[Random.Range(0, CropsTable.instance.Crops.Length)].type;
+            Crop crop = CropsTable.Instance.Crops[Random.Range(0, CropsTable.Instance.Crops.Length)].type;
             a.sprite = CropsTable.CropByType(crop).VegSprite;
 
-            cropCount++;
+            _cropCount++;
             yield return new WaitForSeconds(secondsWait);
         }
     }

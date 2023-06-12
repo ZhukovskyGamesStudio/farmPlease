@@ -8,28 +8,28 @@ using UnityEngine.SceneManagement;
 [Obsolete]
 public class TrainingManager : MonoBehaviour {
     public Step[] steps;
-    private int curStep;
-    private bool isBatteriEmpted, isNextDayBegan, isSeedBought;
+    private int _curStep;
+    private bool _isBatteriEmpted, _isNextDayBegan, _isSeedBought;
 
     public void Start() {
         if (SaveLoadManager.CurrentSave.CurrentDay > 0)
             SaveLoadManager.Instance.ClearSaveAndReload();
-        curStep = -1;
-        isBatteriEmpted = false;
+        _curStep = -1;
+        _isBatteriEmpted = false;
         for (int i = 0; i < steps.Length; i++) steps[i].Init();
         NextStep();
     }
 
     public void Update() {
-        if (!isBatteriEmpted)
+        if (!_isBatteriEmpted)
             if (Energy.Instance.CurEnergy == 0) {
                 NextStep();
-                isBatteriEmpted = true;
+                _isBatteriEmpted = true;
             }
 
-        if (!isNextDayBegan)
+        if (!_isNextDayBegan)
             if (SaveLoadManager.CurrentSave.CurrentDay == 1) {
-                isNextDayBegan = true;
+                _isNextDayBegan = true;
                 NextStep();
             }
 
@@ -42,8 +42,8 @@ public class TrainingManager : MonoBehaviour {
     }
 
     public void NextStep() {
-        curStep++;
-        steps[curStep].Begin();
+        _curStep++;
+        steps[_curStep].Begin();
     }
 
     public void SkipTraining() {
@@ -51,9 +51,9 @@ public class TrainingManager : MonoBehaviour {
     }
 
     private IEnumerator SkipTrainingCoroutine() {
-        for (int i = curStep; i < steps.Length; i++) {
+        for (int i = _curStep; i < steps.Length; i++) {
             steps[i].Begin();
-            yield return new WaitForSeconds(1 - curStep / steps.Length);
+            yield return new WaitForSeconds(1 - _curStep / steps.Length);
         }
 
         SceneManager.LoadScene("Game");

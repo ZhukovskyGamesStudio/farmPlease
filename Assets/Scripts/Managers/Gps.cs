@@ -8,27 +8,27 @@ using UnityEngine;
 
 public class Gps : PreloadableSingleton<Gps> {
 
-    [HideInInspector] private static readonly string tutorialLeaderboard = "CgkI1N701sUbEAIQAQ";
+    [HideInInspector] private static readonly string TutorialLeaderboard = "CgkI1N701sUbEAIQAQ";
 
-    public static bool isAuthenticated;
+    public static bool IsAuthenticated;
 
     [SerializeField] private GameNotificationsManager NotificationsManager;
 
     protected override void OnFirstInit() {
-        isAuthenticated = false;
+        IsAuthenticated = false;
     }
 
     public void Initialize() {
 #if UNITY_ANDROID
 
-        if (isAuthenticated) {
+        if (IsAuthenticated) {
             Debug.Instance.Log("Google Play Services УЖЕ подключены");
         } else {
             PlayGamesPlatform.DebugLogEnabled = true;
             PlayGamesPlatform.Activate();
             Social.localUser.Authenticate(success => {
-                isAuthenticated = success;
-                Settings.Instance.SettingsPanel.GPGSUpdated(isAuthenticated);
+                IsAuthenticated = success;
+                Settings.Instance.SettingsPanel.GpgsUpdated(IsAuthenticated);
                 if (!success)
                     Debug.Instance.Log(
                         "Google Play Services не подключены. Глобальная статистика и рекорды могут не работать");
@@ -83,15 +83,15 @@ public class Gps : PreloadableSingleton<Gps> {
     }
 
     public static bool IsInitialized() {
-        return isAuthenticated;
+        return IsAuthenticated;
     }
 
     public static void ReportScore(int score, string what) {
 #if UNITY_ANDROID
-        if (isAuthenticated)
+        if (IsAuthenticated)
             switch (what) {
                 case "tutorialLeaderboard":
-                    Social.ReportScore(score, tutorialLeaderboard, success => { });
+                    Social.ReportScore(score, TutorialLeaderboard, success => { });
                     break;
             }
 #endif
@@ -103,7 +103,7 @@ public class Gps : PreloadableSingleton<Gps> {
 #endif
     }
 
-    public static void ExitFromGPS() {
+    public static void ExitFromGps() {
 /*#if UNITY_ANDROID
         PlayGamesPlatform.Instance.SignOut();
 #endif*/

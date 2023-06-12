@@ -6,13 +6,13 @@ using UnityEngine;
 public class Settings : PreloadableSingleton<Settings> {
 
     public SettingsPanel SettingsPanel;
-    public SettingsProfile settingsProfile;
+    public SettingsProfile SettingsProfile;
 
     /**********/
 
     protected override void OnFirstInit() {
-        settingsProfile = new SettingsProfile();
-        settingsProfile.Load();
+        SettingsProfile = new SettingsProfile();
+        SettingsProfile.Load();
         LoadSettings();
     }
 
@@ -20,44 +20,44 @@ public class Settings : PreloadableSingleton<Settings> {
         Gps.Instance.InitializeNotifications();
 
         SettingsPanel.Initialize();
-        SettingsPanel.UpdateSettingsPanel(settingsProfile);
+        SettingsPanel.UpdateSettingsPanel(SettingsProfile);
 
         RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, false);
-        RealTImeManager.skipOne = settingsProfile.skipOne;
+        RealTImeManager.SkipOne = SettingsProfile.SkipOne;
         if (Time.Instance != null)
             Time.Instance.ChangeDayPoint(GetDayPoint());
         //DebugManager.instance.Log("New day notify is " + settingsProfile.sendNotifications);
-        Gps.Instance.NewDayNotification(settingsProfile.sendNotifications);
+        Gps.Instance.NewDayNotification(SettingsProfile.SendNotifications);
 
-        Audio.Instance.ChangeVolume(settingsProfile.masterVolume, settingsProfile.musicVolume,
-            settingsProfile.effectsVolume);
+        Audio.Instance.ChangeVolume(SettingsProfile.MasterVolume, SettingsProfile.MusicVolume,
+            SettingsProfile.EffectsVolume);
     }
 
     /**********/
 
     public void ChangeSettings(SettingsProfile profile) {
-        settingsProfile = new SettingsProfile(profile);
-        settingsProfile.Save();
+        SettingsProfile = new SettingsProfile(profile);
+        SettingsProfile.Save();
     }
 
     public void NotificationChanged() {
-        Gps.Instance.NewDayNotification(settingsProfile.sendNotifications);
+        Gps.Instance.NewDayNotification(SettingsProfile.SendNotifications);
     }
 
     public void DayMomentChanged() {
-        settingsProfile.skipOne = true;
-        settingsProfile.Save();
+        SettingsProfile.SkipOne = true;
+        SettingsProfile.Save();
 
         RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, true);
         if (Time.Instance)
             Time.Instance.ChangeDayPoint(GetDayPoint());
-        Gps.Instance.NewDayNotification(settingsProfile.sendNotifications);
+        Gps.Instance.NewDayNotification(SettingsProfile.SendNotifications);
     }
 
     /**********/
 
     public TimeSpan GetDayPoint() {
-        switch (settingsProfile.newDayPoint) {
+        switch (SettingsProfile.NewDayPoint) {
             case 0:
                 return new TimeSpan(0, 0, 0);
 
@@ -77,41 +77,41 @@ public class Settings : PreloadableSingleton<Settings> {
 }
 
 public class SettingsProfile {
-    public float effectsVolume;
-    public float masterVolume;
-    public float musicVolume;
-    public int newDayPoint;
-    public bool sendNotifications;
-    public bool skipOne;
+    public float EffectsVolume;
+    public float MasterVolume;
+    public float MusicVolume;
+    public int NewDayPoint;
+    public bool SendNotifications;
+    public bool SkipOne;
 
     public SettingsProfile() {
     }
 
     public SettingsProfile(SettingsProfile profile) {
-        masterVolume = profile.masterVolume;
-        musicVolume = profile.musicVolume;
-        effectsVolume = profile.effectsVolume;
-        sendNotifications = profile.sendNotifications;
-        newDayPoint = profile.newDayPoint;
-        skipOne = profile.skipOne;
+        MasterVolume = profile.MasterVolume;
+        MusicVolume = profile.MusicVolume;
+        EffectsVolume = profile.EffectsVolume;
+        SendNotifications = profile.SendNotifications;
+        NewDayPoint = profile.NewDayPoint;
+        SkipOne = profile.SkipOne;
     }
 
     public void Save() {
-        PlayerPrefs.SetFloat("masterVolume", masterVolume);
-        PlayerPrefs.SetFloat("musicVolume", musicVolume);
-        PlayerPrefs.SetFloat("effectsVolume", effectsVolume);
-        PlayerPrefs.SetInt("sendNotifications", sendNotifications ? 1 : 0);
-        PlayerPrefs.SetInt("newDayPoint", newDayPoint);
-        PlayerPrefs.SetInt("skipOne", skipOne ? 1 : 0);
+        PlayerPrefs.SetFloat("masterVolume", MasterVolume);
+        PlayerPrefs.SetFloat("musicVolume", MusicVolume);
+        PlayerPrefs.SetFloat("effectsVolume", EffectsVolume);
+        PlayerPrefs.SetInt("sendNotifications", SendNotifications ? 1 : 0);
+        PlayerPrefs.SetInt("newDayPoint", NewDayPoint);
+        PlayerPrefs.SetInt("skipOne", SkipOne ? 1 : 0);
     }
 
     public void Load() {
-        masterVolume = PlayerPrefs.GetFloat("masterVolume", 1f);
-        musicVolume = PlayerPrefs.GetFloat("musicVolume", 0.5f);
-        effectsVolume = PlayerPrefs.GetFloat("effectsVolume", 0.5f);
-        sendNotifications = PlayerPrefs.GetInt("sendNotifications", 1) == 1;
-        newDayPoint = PlayerPrefs.GetInt("newDayPoint", 2);
-        skipOne = PlayerPrefs.GetInt("skipOne", 0) == 1;
+        MasterVolume = PlayerPrefs.GetFloat("masterVolume", 1f);
+        MusicVolume = PlayerPrefs.GetFloat("musicVolume", 0.5f);
+        EffectsVolume = PlayerPrefs.GetFloat("effectsVolume", 0.5f);
+        SendNotifications = PlayerPrefs.GetInt("sendNotifications", 1) == 1;
+        NewDayPoint = PlayerPrefs.GetInt("newDayPoint", 2);
+        SkipOne = PlayerPrefs.GetInt("skipOne", 0) == 1;
     }
 
     public void Clear() {

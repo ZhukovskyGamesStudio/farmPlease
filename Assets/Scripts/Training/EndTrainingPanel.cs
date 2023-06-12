@@ -18,17 +18,17 @@ public class EndTrainingPanel : MonoBehaviour {
     public GameObject VegHolder;
     public RectTransform Lcorner, Rcorner;
     public float timeSpanBetweenCropdrop;
-    private int curCropsCollected;
-    private string curName;
-    private int curSessionTime;
+    private int _curCropsCollected;
+    private string _curName;
+    private int _curSessionTime;
 
-    private List<Record> records;
+    private List<Record> _records;
 
-    public void ShowEndPanel(int cropsCollected, int sessionTime, Queue<CropsType> cropsQueue) {
+    public void ShowEndPanel(int cropsCollected, int sessionTime, Queue<Crop> cropsQueue) {
         gameObject.SetActive(true);
 
-        curSessionTime = sessionTime;
-        curCropsCollected = cropsCollected;
+        _curSessionTime = sessionTime;
+        _curCropsCollected = cropsCollected;
         CropsCollectedText.text = "Вы вырастили " + cropsCollected + " овощей";
         SessionTimeText.text = "Вы играли " + TimeToString(sessionTime);
         StartCoroutine(DropCrops(cropsQueue));
@@ -38,7 +38,7 @@ public class EndTrainingPanel : MonoBehaviour {
         UpdateRecordsGrid();
     }
 
-    public IEnumerator DropCrops(Queue<CropsType> cropsQueue) {
+    public IEnumerator DropCrops(Queue<Crop> cropsQueue) {
         while (cropsQueue.Count > 0) {
             Vector3 pose = Lcorner.position + (Rcorner.position - Lcorner.position) * Random.Range(0.05f, 0.95f);
             Quaternion quat = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward);
@@ -46,7 +46,7 @@ public class EndTrainingPanel : MonoBehaviour {
             Image a = Instantiate(VegPrefab, pose, quat, VegHolder.transform).GetComponent<Image>();
             a.gameObject.SetActive(true);
 
-            CropsType crop = cropsQueue.Dequeue();
+            Crop crop = cropsQueue.Dequeue();
             a.sprite = CropsTable.CropByType(crop).VegSprite;
 
             yield return new WaitForSeconds(timeSpanBetweenCropdrop);
@@ -57,12 +57,12 @@ public class EndTrainingPanel : MonoBehaviour {
 
     public void EndOfNameInput() {
         if (NameInputField.text.Length > 0) {
-            curName = NameInputField.text;
+            _curName = NameInputField.text;
             NameInputField.interactable = false;
             InputPanel.SetActive(false); // Анимация туть
 
-            records.Add(new Record(curCropsCollected, curName,
-                DateTime.Today.Day + "." + DateTime.Today.Month + "." + DateTime.Today.Year, curSessionTime));
+            _records.Add(new Record(_curCropsCollected, _curName,
+                DateTime.Today.Day + "." + DateTime.Today.Month + "." + DateTime.Today.Year, _curSessionTime));
 
             UpdateRecordsGrid();
             SaveRecords();
@@ -73,33 +73,33 @@ public class EndTrainingPanel : MonoBehaviour {
     public void UpdateRecordsGrid() {
         foreach (Transform child in RecordsGrid.transform) Destroy(child.gameObject);
 
-        records = records.OrderByDescending(r => r.cropsCollected).ToList();
-        for (int i = 0; i < records.Count; i++) {
+        _records = _records.OrderByDescending(r => r.CropsCollected).ToList();
+        for (int i = 0; i < _records.Count; i++) {
             RecordPrefab record = Instantiate(RecordPrefab, RecordsGrid).GetComponent<RecordPrefab>();
-            record.cropsText.text = "Овощи: " + records[i].cropsCollected;
-            record.nameText.text = records[i].name;
-            record.dateText.text = "Дата: " + records[i].dateTime + " " + TimeToString(records[i].sessionTime);
+            record.cropsText.text = "Овощи: " + _records[i].CropsCollected;
+            record.nameText.text = _records[i].Name;
+            record.dateText.text = "Дата: " + _records[i].DateTime + " " + TimeToString(_records[i].SessionTime);
             record.number = i;
             record.deleteButton.onClick.AddListener(() => DeleteRecord(record.number));
         }
     }
 
     public void LoadRecords() {
-        records = new List<Record>();
+        _records = new List<Record>();
         int recordsAmount = PlayerPrefs.GetInt("recordsAmount", 0);
-        for (int i = 0; i < recordsAmount; i++) records.Add(Record.LoadRecord(i.ToString()));
+        for (int i = 0; i < recordsAmount; i++) _records.Add(Record.LoadRecord(i.ToString()));
     }
 
     public void DeleteRecord(int index) {
         //Debug.Log(records.Count + "     index " + index);
-        records.RemoveAt(index);
+        _records.RemoveAt(index);
         SaveRecords();
         UpdateRecordsGrid();
     }
 
     public void SaveRecords() {
-        PlayerPrefs.SetInt("recordsAmount", records.Count);
-        for (int i = 0; i < records.Count; i++) Record.SaveRecord(i.ToString(), records[i]);
+        PlayerPrefs.SetInt("recordsAmount", _records.Count);
+        for (int i = 0; i < _records.Count; i++) Record.SaveRecord(i.ToString(), _records[i]);
     }
 
     private string TimeToString(int number) {
@@ -115,16 +115,16 @@ public class EndTrainingPanel : MonoBehaviour {
 }
 
 public class Record {
-    public int cropsCollected;
-    public string dateTime;
-    public string name;
-    public int sessionTime;
+    public int CropsCollected;
+    public string DateTime;
+    public string Name;
+    public int SessionTime;
 
-    public Record(int _cropsCollected, string _Name, string _date, int _sessionTime) {
-        cropsCollected = _cropsCollected;
-        name = _Name;
-        dateTime = _date;
-        sessionTime = _sessionTime;
+    public Record(int cropsCollected, string name, string date, int sessionTime) {
+        CropsCollected = cropsCollected;
+        Name = name;
+        DateTime = date;
+        SessionTime = sessionTime;
     }
 
     public static Record LoadRecord(string hash) {
@@ -137,9 +137,9 @@ public class Record {
     }
 
     public static void SaveRecord(string hash, Record toSave) {
-        PlayerPrefs.SetInt(hash + "cropsCollected", toSave.cropsCollected);
-        PlayerPrefs.SetString(hash + "dateTime", toSave.dateTime);
-        PlayerPrefs.SetString(hash + "name", toSave.name);
-        PlayerPrefs.SetInt(hash + "sessionTime", toSave.sessionTime);
+        PlayerPrefs.SetInt(hash + "cropsCollected", toSave.CropsCollected);
+        PlayerPrefs.SetString(hash + "dateTime", toSave.DateTime);
+        PlayerPrefs.SetString(hash + "name", toSave.Name);
+        PlayerPrefs.SetInt(hash + "sessionTime", toSave.SessionTime);
     }
 }

@@ -17,17 +17,12 @@ public class Backpack : MonoBehaviour {
     [HideInInspector]
     public bool isOpen;
 
-    private bool isBuffed;
-    private PlayerController PlayerController;
-    private GameObject[] seeds;
-
-    private void Start() {
-        PlayerController = PlayerController.Instance;
-    }
+    private bool _isBuffed;
+    private GameObject[] _seeds;
 
     public void OpenClose() {
         isOpen = !isOpen;
-        if (isBuffed)
+        if (_isBuffed)
             BackPackImage.sprite = isOpen ? openedBuffed : closedBuffed;
         else
             BackPackImage.sprite = isOpen ? opened : closed;
@@ -35,8 +30,8 @@ public class Backpack : MonoBehaviour {
     }
 
     public void SetBuffed(bool isOn) {
-        isBuffed = isOn;
-        if (isBuffed)
+        _isBuffed = isOn;
+        if (_isBuffed)
             BackPackImage.sprite = isOpen ? openedBuffed : closedBuffed;
         else
             BackPackImage.sprite = isOpen ? opened : closed;
@@ -46,41 +41,41 @@ public class Backpack : MonoBehaviour {
         List<GameObject> buttonsList = new();
 
         for (int i = 0; i < CropsTablePrefab.Crops.Length; i++) {
-            CropSO crop = CropsTablePrefab.Crops[i];
+            CropConfig crop = CropsTablePrefab.Crops[i];
 
             GameObject button = Instantiate(SeedPrefab, SeedsGrid.transform);
             Seed seed = button.GetComponent<Seed>();
 
             seed.amountText.text = "0";
-            seed.CropType = crop.type;
+            seed.crop = crop.type;
             seed.SeedImage.sprite = crop.SeedSprite;
-            seed.button.onClick.AddListener(() => InventoryManager.instance.ChooseSeed(crop.type));
+            seed.button.onClick.AddListener(() => InventoryManager.Instance.ChooseSeed(crop.type));
             seed.button.onClick.AddListener(() => OpenClose());
-            seed.button.onClick.AddListener(() => PlayerController.ChangeTool(2));
+            seed.button.onClick.AddListener(() => PlayerController.Instance.ChangeTool(2));
             seed.gameObject.SetActive(false);
             buttonsList.Add(button);
         }
 
-        seeds = buttonsList.ToArray();
+        _seeds = buttonsList.ToArray();
     }
 
-    public void UpdateGrid(SerializableDictionary<CropsType, int> seedsInventory) {
-        if (seeds == null)
+    public void UpdateGrid(SerializableDictionary<Crop, int> seedsInventory) {
+        if (_seeds == null)
             GenerateSeedButtons();
 
         int itemsToShow = 0;
 
-        for (int i = 0; i < seeds.Length; i++) {
+        for (int i = 0; i < _seeds.Length; i++) {
             int amount = 0;
-            if (seedsInventory.ContainsKey(seeds[i].GetComponent<Seed>().CropType))
-                amount = seedsInventory[seeds[i].GetComponent<Seed>().CropType];
+            if (seedsInventory.ContainsKey(_seeds[i].GetComponent<Seed>().crop))
+                amount = seedsInventory[_seeds[i].GetComponent<Seed>().crop];
 
             if (amount > 0) {
                 itemsToShow++;
-                seeds[i].SetActive(true);
-                seeds[i].GetComponent<Seed>().amountText.text = amount.ToString();
+                _seeds[i].SetActive(true);
+                _seeds[i].GetComponent<Seed>().amountText.text = amount.ToString();
             } else {
-                seeds[i].SetActive(false);
+                _seeds[i].SetActive(false);
             }
         }
 

@@ -1,67 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using DefaultNamespace;
 using DefaultNamespace.Abstract;
 using DefaultNamespace.Managers;
-using DefaultNamespace.Tables;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SaveLoadManager : Singleton<SaveLoadManager> {
-    public static int profile = -2;
+    public static int Profile = -2;
 
-    //bool isInitilisationDone;
-    /**********/
     private BuildingShopView _buildingShopView;
-    private FastPanelScript FastPanelScript;
+    private FastPanelScript _fastPanelScript;
 
-    private InventoryManager InventoryManager;
-    private PlayerController PlayerController;
-    private SeedShopView SeedShop;
-    private SmartTilemap SmartTilemap;
+    private InventoryManager _inventoryManager;
+    private PlayerController _playerController;
+    private SeedShopView _seedShop;
+    private SmartTilemap _smartTilemap;
 
-    private ToolShopView ToolShop;
+    private ToolShopView _toolShop;
     public static GameSaveProfile CurrentSave;
 
     public static string SaveDirectory => $"{Application.persistentDataPath}/saves";
 
-    public static string SavePath => SaveDirectory + $"/save{profile}.txt";
-    /**********/
+    public static string SavePath => SaveDirectory + $"/save{Profile}.txt";
 
     // Пока в игре происходят какие-то действия, игрок не может ничего сделать
     // По окончанию этих действий игрок снова может что-то делать, а игра сохраняется. Если последовательность не была завершена - то игра не сохранится и откатится назад при след. загрузке
     public void Sequence(bool isStart) {
         if (isStart) {
-            PlayerController.canInteract = false;
+            PlayerController.CanInteract = false;
         } else {
             if (GameModeManager.Instance.GameMode == GameMode.Online) {
-                OnlineFarm.instance.ChangeFarmAndPut(GenerateJsonString());
+                OnlineFarm.Instance.ChangeFarmAndPut(GenerateJsonString());
             } else {
-                PlayerController.canInteract = true;
+                PlayerController.CanInteract = true;
                 SaveGame();
             }
         }
     }
 
     public static string GenerateJsonString() {
-        CurrentSave.Date = DateTime.Now.ToString();
+        CurrentSave.SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
+        
+        CurrentSave.TilesData = SmartTilemap.Instance.GetTilesData();
 
-        CurrentSave.TilesData = SmartTilemap.instance.GetTilesData();
+        CurrentSave.SeedShopButtonData = UIHud.Instance.ShopsPanel.seedShopView.GetButtonsData();
+        CurrentSave.SeedShopChangeButton = UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.activeSelf;
 
-        CurrentSave.seedShopButtonData = UIHud.Instance.ShopsPanel.seedShopView.GetButtonsData();
-        CurrentSave.seedShopChangeButton = UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.activeSelf;
-        CurrentSave.ambarCropType = UIHud.Instance.ShopsPanel.seedShopView.GetAmbarSeedData();
-
-        CurrentSave.toolShopButtonsData = UIHud.Instance.ShopsPanel.toolShopView.GetButtons();
-        CurrentSave.toolShopChangeButton = UIHud.Instance.ShopsPanel.toolShopView.ChangeButton.activeSelf;
+        CurrentSave.ToolShopButtonsData = UIHud.Instance.ShopsPanel.toolShopView.GetButtons();
+        CurrentSave.ToolShopChangeButton = UIHud.Instance.ShopsPanel.toolShopView.ChangeButton.activeSelf;
 
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
-            CurrentSave.cropBoughtData = InventoryManager.instance.GetIsBoughtData(0);
-            CurrentSave.toolBoughtData = InventoryManager.instance.GetIsBoughtData(1);
-            CurrentSave.buildingBoughtData = InventoryManager.instance.GetIsBoughtData(2);
+            CurrentSave.CropBoughtData = InventoryManager.Instance.GetIsBoughtData(0);
+            CurrentSave.ToolBoughtData = InventoryManager.Instance.GetIsBoughtData(1);
+            CurrentSave.BuildingBoughtData = InventoryManager.Instance.GetIsBoughtData(2);
 
-            CurrentSave.buildingPrice = UIHud.Instance.ShopsPanel.BuildingShopView.GetBuildingPrice();
+            CurrentSave.BuildingPrice = UIHud.Instance.ShopsPanel.BuildingShopView.GetBuildingPrice();
         }
 
         return JsonUtility.ToJson(CurrentSave, false);
@@ -104,11 +99,13 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         CurrentSave = new GameSaveProfile() {
             Coins = 5,
             CropPoints = 0,
-            Date = DateTime.Now.ToString()
+            SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
+            Date = Time.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
+            AmbarCrop =  Crop.None
         };
 
-        SmartTilemap.instance.GenerateTiles();
-        InventoryManager.instance.GenerateInventory();
+        SmartTilemap.Instance.GenerateTiles();
+        InventoryManager.Instance.GenerateInventory();
 
         Energy.Instance.RefillEnergy();
         Clock.Instance.RefillToMaxEnergy();
@@ -142,34 +139,34 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
    } */
 
     public static void SaveStringArray(string[] tosave, string name) {
-        PlayerPrefs.SetInt(name + "Amount_" + profile, tosave.Length);
+        PlayerPrefs.SetInt(name + "Amount_" + Profile, tosave.Length);
         for (int i = 0; i < tosave.Length; i++)
-            PlayerPrefs.SetString(name + i + "_" + profile, tosave[i]);
+            PlayerPrefs.SetString(name + i + "_" + Profile, tosave[i]);
     }
 
     public static void SaveBoolArray(bool[] tosave, string name) {
-        PlayerPrefs.SetInt(name + "Amount_" + profile, tosave.Length);
+        PlayerPrefs.SetInt(name + "Amount_" + Profile, tosave.Length);
         for (int i = 0; i < tosave.Length; i++)
-            PlayerPrefs.SetInt(name + i + "_" + profile, tosave[i] ? 1 : 0);
+            PlayerPrefs.SetInt(name + i + "_" + Profile, tosave[i] ? 1 : 0);
     }
 
     public static string[] LoadStringArray(string name) {
-        int amount = PlayerPrefs.GetInt(name + "Amount_" + profile, 0);
+        int amount = PlayerPrefs.GetInt(name + "Amount_" + Profile, 0);
         if (amount == 0)
             return null;
 
         string[] res = new string[amount];
         for (int i = 0; i < res.Length; i++)
-            res[i] = PlayerPrefs.GetString(name + i + "_" + profile);
+            res[i] = PlayerPrefs.GetString(name + i + "_" + Profile);
         return res;
     }
 
     public static bool[] LoadBoolArray(string name, int desiredLength) {
         int amount = desiredLength;
-        if (PlayerPrefs.HasKey(name + "Amount_" + profile)) {
-            bool[] res = new bool[PlayerPrefs.GetInt(name + "Amount_" + profile)];
+        if (PlayerPrefs.HasKey(name + "Amount_" + Profile)) {
+            bool[] res = new bool[PlayerPrefs.GetInt(name + "Amount_" + Profile)];
             for (int i = 0; i < res.Length; i++)
-                res[i] = PlayerPrefs.GetInt(name + i + "_" + profile) == 1;
+                res[i] = PlayerPrefs.GetInt(name + i + "_" + Profile) == 1;
 
             return res;
         } else {

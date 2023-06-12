@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class SOWithCroponomPage : ScriptableObject {
+public abstract class ConfigWithCroponomPage : ScriptableObject {
     [Header("CroponomPage")]
     public string header;
 

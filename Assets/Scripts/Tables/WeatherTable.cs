@@ -2,20 +2,20 @@
 using UnityEngine;
 
 public class WeatherTable : MonoBehaviour {
-    public static WeatherTable instance;
-    public WeatherSO[] WeathersSO;
+    public static WeatherTable Instance;
+    public WeatherConfig[] WeathersSO;
 
     public void Awake() {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(gameObject);
     }
 
-    public static WeatherSO WeatherByType(HappeningType type) {
-        for (int i = 0; i < instance.WeathersSO.Length; i++)
-            if (instance.WeathersSO[i].type == type)
-                return instance.WeathersSO[i];
+    public static WeatherConfig WeatherByType(HappeningType type) {
+        for (int i = 0; i < Instance.WeathersSO.Length; i++)
+            if (Instance.WeathersSO[i].type == type)
+                return Instance.WeathersSO[i];
         UnityEngine.Debug.Log("Нет класса Weather под тип " + type);
         return null;
     }

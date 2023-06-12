@@ -8,21 +8,21 @@ public class ToolShopView : MonoBehaviour {
 
     public GameObject ChangeButton;
     public int ChangeToolCost;
-    private Dictionary<ToolBuff, GameObject> buttonD;
+    private Dictionary<ToolBuff, GameObject> _buttonD;
 
-    private GameObject[] ToolButtons;
+    private GameObject[] _toolButtons;
 
     /**********/
 
     private void GenerateButtons() {
-        ToolButtons = new GameObject[ToolsTable.instance.ToolsSO.Length];
-        buttonD = new Dictionary<ToolBuff, GameObject>();
-        for (int i = 0; i < ToolButtons.Length; i++) {
-            ToolButtons[i] = Instantiate(ToolOfferPrefab, transform);
+        _toolButtons = new GameObject[ToolsTable.Instance.ToolsSO.Length];
+        _buttonD = new Dictionary<ToolBuff, GameObject>();
+        for (int i = 0; i < _toolButtons.Length; i++) {
+            _toolButtons[i] = Instantiate(ToolOfferPrefab, transform);
 
-            ToolSO tool = ToolsTable.instance.ToolsSO[i];
-            ToolButtons[i].name = ToolsTable.instance.ToolsSO[i].ToString();
-            ToolOffer toolOffer = ToolButtons[i].GetComponent<ToolOffer>();
+            ToolConfig tool = ToolsTable.Instance.ToolsSO[i];
+            _toolButtons[i].name = ToolsTable.Instance.ToolsSO[i].ToString();
+            ToolOffer toolOffer = _toolButtons[i].GetComponent<ToolOffer>();
             toolOffer.costText.text = tool.cost.ToString();
             toolOffer.explainText.text = tool.explainText;
 
@@ -30,24 +30,24 @@ public class ToolShopView : MonoBehaviour {
             toolOffer.BuyButton.onClick.AddListener(() => Audio.Instance.PlaySound(Sounds.Button));
 
             toolOffer.OfferImage.sprite = tool.firstSprite;
-            buttonD.Add(tool.buff, ToolButtons[i]);
-            ToolButtons[i].SetActive(false);
+            _buttonD.Add(tool.buff, _toolButtons[i]);
+            _toolButtons[i].SetActive(false);
         }
     }
 
     public void SetToolShopWithData( GameSaveProfile save) {
-        bool[] buttons = save.toolShopButtonsData;
-        bool isChangeButtonActive = save.toolShopChangeButton;
+        bool[] buttons = save.ToolShopButtonsData;
+        bool isChangeButtonActive = save.ToolShopChangeButton;
         GenerateButtons();
         int counter = 0;
         for (int i = 0; i < buttons.Length; i++) {
-            ToolButtons[i].SetActive(buttons[i]);
+            _toolButtons[i].SetActive(buttons[i]);
             if (buttons[i]) {
                 if (counter < slotPosition.Length) {
-                    ToolButtons[i].transform.position = slotPosition[counter].position;
+                    _toolButtons[i].transform.position = slotPosition[counter].position;
                     counter++;
                 } else {
-                    ToolButtons[i].SetActive(false);
+                    _toolButtons[i].SetActive(false);
                     UnityEngine.Debug.LogWarning("Лишняя активная кнопка");
                 }
             }
@@ -57,21 +57,21 @@ public class ToolShopView : MonoBehaviour {
     }
 
     public bool[] GetButtons() {
-        bool[] buttons = new bool[ToolButtons.Length];
+        bool[] buttons = new bool[_toolButtons.Length];
         for (int i = 0; i < buttons.Length; i++)
-            buttons[i] = ToolButtons[i].activeSelf;
+            buttons[i] = _toolButtons[i].activeSelf;
 
         return buttons;
     }
 
     public void ChangeTools() {
-        if (ToolButtons == null)
+        if (_toolButtons == null)
             GenerateButtons();
         List<GameObject> buttons = new();
-        foreach (ToolBuff key in buttonD.Keys)
+        foreach (ToolBuff key in _buttonD.Keys)
             //Здесь должна быть двойная проверка: если всегда доступен ИЛИ уже куплен
-            if (ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.instance.isToolsBoughtD[key]) {
-                GameObject button = buttonD[key];
+            if (ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.Instance.IsToolsBoughtD[key]) {
+                GameObject button = _buttonD[key];
                 button.SetActive(false);
                 buttons.Add(button);
             }
@@ -90,8 +90,8 @@ public class ToolShopView : MonoBehaviour {
     }
 
     public void ChangeToolsButton() {
-        if (InventoryManager.instance.EnoughMoney(ChangeToolCost)) {
-            InventoryManager.instance.AddCoins(-1 * ChangeToolCost);
+        if (InventoryManager.Instance.EnoughMoney(ChangeToolCost)) {
+            InventoryManager.Instance.AddCoins(-1 * ChangeToolCost);
 
             ChangeTools();
             ChangeButton.SetActive(false);
@@ -99,9 +99,9 @@ public class ToolShopView : MonoBehaviour {
         }
     }
 
-    public void BuyTool(ToolSO tool, GameObject button) {
-        if (InventoryManager.instance.EnoughMoney(tool.cost)) {
-            InventoryManager.instance.BuyTool(tool.buff, tool.cost, tool.buyAmount);
+    public void BuyTool(ToolConfig tool, GameObject button) {
+        if (InventoryManager.Instance.EnoughMoney(tool.cost)) {
+            InventoryManager.Instance.BuyTool(tool.buff, tool.cost, tool.buyAmount);
 
             button.SetActive(false);
             SaveLoadManager.Instance.SaveGame();

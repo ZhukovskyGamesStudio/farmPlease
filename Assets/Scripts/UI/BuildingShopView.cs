@@ -28,22 +28,22 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
     public Text explanationText;
     public Text costText;
     public Image confirmImage;
-    private Dictionary<BuildingType, Button> buildingButtonsD;
+    private Dictionary<BuildingType, Button> _buildingButtonsD;
 
-    private Dictionary<CropsType, Button> cropButtonsD;
+    private Dictionary<Crop, Button> _cropButtonsD;
 
-    private int currentBuildingPrice;
-    private PlayerController player;
-    private Dictionary<ToolBuff, Button> toolButtonsD;
+    private int _currentBuildingPrice;
+    private PlayerController _player;
+    private Dictionary<ToolBuff, Button> _toolButtonsD;
 
     private void Start() {
-        player = PlayerController.Instance;
+        _player = PlayerController.Instance;
     }
 
     public void GenerateButtons() {
         //Buildings
-        BuildingSO[] buildings = BuildingsTable.instance.Buildings;
-        buildingButtonsD = new Dictionary<BuildingType, Button>();
+        BuildingConfig[] buildings = BuildingsTable.Instance.Buildings;
+        _buildingButtonsD = new Dictionary<BuildingType, Button>();
 
         for (int i = 0; i < buildings.Length; i++) {
             if (buildings[i].IsFakeBuilding)
@@ -55,16 +55,16 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
             offer.image.sprite = buildings[i].offerSprite;
             BuildingType type = buildings[i].type;
             Button button = offer.GetComponent<Button>();
-            buildingButtonsD.Add(type, button);
+            _buildingButtonsD.Add(type, button);
 
             button.onClick.AddListener(() => OpenConfirmPage(type));
         }
 
-        CropSO[] crops = CropsTable.instance.Crops;
-        cropButtonsD = new Dictionary<CropsType, Button>();
+        CropConfig[] crops = CropsTable.Instance.Crops;
+        _cropButtonsD = new Dictionary<Crop, Button>();
 
         for (int i = 0; i < crops.Length; i++) {
-            if (crops[i].CanBeBought || crops[i].type == CropsType.Weed)
+            if (crops[i].CanBeBought || crops[i].type == Crop.Weed)
                 continue;
 
             GameObject obj = Instantiate(CropPrefab, CropsGrid);
@@ -75,14 +75,14 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
             offer.name.text = crops[i].header;
             offer.image.sprite = crops[i].VegSprite;
 
-            CropsType tmpType = crops[i].type;
-            button.onClick.AddListener(() => OpenConfirmPage(tmpType));
+            Crop tmp = crops[i].type;
+            button.onClick.AddListener(() => OpenConfirmPage(tmp));
 
-            cropButtonsD.Add(tmpType, button);
+            _cropButtonsD.Add(tmp, button);
         }
 
-        ToolSO[] tools = ToolsTable.instance.ToolsSO;
-        toolButtonsD = new Dictionary<ToolBuff, Button>();
+        ToolConfig[] tools = ToolsTable.Instance.ToolsSO;
+        _toolButtonsD = new Dictionary<ToolBuff, Button>();
 
         for (int i = 0; i < tools.Length; i++) {
             if (tools[i].isAlwaysAvailable)
@@ -98,12 +98,12 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
 
             ToolBuff tmpBuff = tools[i].buff;
             button.onClick.AddListener(() => OpenConfirmPage(tmpBuff));
-            toolButtonsD.Add(tmpBuff, button);
+            _toolButtonsD.Add(tmpBuff, button);
         }
     }
 
     public void Initialize() {
-        currentBuildingPrice = 0;
+        _currentBuildingPrice = 0;
 
         BuildingPanelButton.SetActive(false);
         GenerateButtons();
@@ -111,11 +111,11 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
     }
 
     public void InitializeWithData(int buildingPrice) {
-        currentBuildingPrice = buildingPrice;
+        _currentBuildingPrice = buildingPrice;
 
         //Если куплена хотя бы 1 постройка - то кнопка перестраивания построек становится активной
         BuildingPanelButton.SetActive(false);
-        foreach (bool build in InventoryManager.instance.isBuildingsBoughtD.Values)
+        foreach (bool build in InventoryManager.Instance.IsBuildingsBoughtD.Values)
             if (build) {
                 BuildingPanelButton.SetActive(true);
                 break;
@@ -126,43 +126,43 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
     }
 
     public int GetBuildingPrice() {
-        return currentBuildingPrice;
+        return _currentBuildingPrice;
     }
 
     public void UpdateButtonsInteractable() {
-        foreach (CropsType item in cropButtonsD.Keys)
-            if (InventoryManager.instance.isCropsBoughtD.ContainsKey(item))
-                cropButtonsD[item].interactable = !InventoryManager.instance.isCropsBoughtD[item];
+        foreach (Crop item in _cropButtonsD.Keys)
+            if (InventoryManager.Instance.IsCropsBoughtD.ContainsKey(item))
+                _cropButtonsD[item].interactable = !InventoryManager.Instance.IsCropsBoughtD[item];
             else
-                cropButtonsD[item].interactable = true;
+                _cropButtonsD[item].interactable = true;
 
-        foreach (ToolBuff item in toolButtonsD.Keys)
-            if (InventoryManager.instance.isToolsBoughtD.ContainsKey(item))
-                toolButtonsD[item].interactable = !InventoryManager.instance.isToolsBoughtD[item];
+        foreach (ToolBuff item in _toolButtonsD.Keys)
+            if (InventoryManager.Instance.IsToolsBoughtD.ContainsKey(item))
+                _toolButtonsD[item].interactable = !InventoryManager.Instance.IsToolsBoughtD[item];
             else
-                toolButtonsD[item].interactable = true;
+                _toolButtonsD[item].interactable = true;
 
-        foreach (BuildingType item in buildingButtonsD.Keys)
-            if (InventoryManager.instance.isBuildingsBoughtD.ContainsKey(item))
-                buildingButtonsD[item].interactable = !InventoryManager.instance.isBuildingsBoughtD[item];
+        foreach (BuildingType item in _buildingButtonsD.Keys)
+            if (InventoryManager.Instance.IsBuildingsBoughtD.ContainsKey(item))
+                _buildingButtonsD[item].interactable = !InventoryManager.Instance.IsBuildingsBoughtD[item];
             else
-                buildingButtonsD[item].interactable = true;
+                _buildingButtonsD[item].interactable = true;
     }
 
     public void UpdateCropsCollected() {
         cropsCollectedText.text = SaveLoadManager.CurrentSave.CropPoints.ToString();
     }
 
-    private void OpenConfirmPage(CropsType type) {
+    private void OpenConfirmPage(Crop type) {
         ConfirmButton.onClick.RemoveAllListeners();
-        if (InventoryManager.instance.EnoughCrops(cropPrice)) {
+        if (InventoryManager.Instance.EnoughCrops(cropPrice)) {
             ConfirmButton.onClick.AddListener(() => BuyCropButton(type));
             ConfirmButton.interactable = true;
         } else {
             ConfirmButton.interactable = false;
         }
 
-        CropSO crop = CropsTable.CropByType(type);
+        CropConfig crop = CropsTable.CropByType(type);
 
         confirmImage.sprite = crop.VegSprite;
         nameText.text = crop.header;
@@ -174,14 +174,14 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
 
     private void OpenConfirmPage(ToolBuff buff) {
         ConfirmButton.onClick.RemoveAllListeners();
-        if (InventoryManager.instance.EnoughCrops(toolPrice)) {
+        if (InventoryManager.Instance.EnoughCrops(toolPrice)) {
             ConfirmButton.onClick.AddListener(() => BuyToolButton(buff));
             ConfirmButton.interactable = true;
         } else {
             ConfirmButton.interactable = false;
         }
 
-        ToolSO tool = ToolsTable.ToolByType(buff);
+        ToolConfig tool = ToolsTable.ToolByType(buff);
 
         confirmImage.sprite = tool.FoodMarketSprite;
         nameText.text = tool.header;
@@ -193,46 +193,46 @@ public class BuildingShopView : MonoBehaviour, ISoundStarter {
 
     private void OpenConfirmPage(BuildingType type) {
         ConfirmButton.onClick.RemoveAllListeners();
-        if (InventoryManager.instance.EnoughCrops(buildingPriceProgression[currentBuildingPrice])) {
+        if (InventoryManager.Instance.EnoughCrops(buildingPriceProgression[_currentBuildingPrice])) {
             ConfirmButton.onClick.AddListener(() => StartBuyingBuilding(type));
             ConfirmButton.interactable = true;
         } else {
             ConfirmButton.interactable = false;
         }
 
-        BuildingSO building = BuildingsTable.BuildingByType(type);
+        BuildingConfig building = BuildingsTable.BuildingByType(type);
 
         confirmImage.sprite = building.offerSprite;
         nameText.text = building.offerHeader;
         explanationText.text = building.offerText;
-        costText.text = "Открыть за " + buildingPriceProgression[currentBuildingPrice];
+        costText.text = "Открыть за " + buildingPriceProgression[_currentBuildingPrice];
 
         ConfirmPage.SetActive(true);
     }
 
     public void StartBuyingBuilding(BuildingType type) {
-        player.StartStopBuilding();
-        player.InitializeBuilding(type, buildingPriceProgression[currentBuildingPrice]);
+        _player.StartStopBuilding();
+        _player.InitializeBuilding(type, buildingPriceProgression[_currentBuildingPrice]);
         ConfirmPage.SetActive(false);
         gameObject.SetActive(false);
     }
 
-    public void BuyCropButton(CropsType type) {
-        InventoryManager.instance.BuyFoodMarket(type, cropPrice);
+    public void BuyCropButton(Crop type) {
+        InventoryManager.Instance.BuyFoodMarket(type, cropPrice);
         UpdateButtonsInteractable();
         ConfirmPage.SetActive(false);
     }
 
     public void BuyToolButton(ToolBuff buff) {
-        InventoryManager.instance.BuyFoodMarket(buff, toolPrice);
+        InventoryManager.Instance.BuyFoodMarket(buff, toolPrice);
 
         UpdateButtonsInteractable();
         ConfirmPage.SetActive(false);
     }
 
     public void BuyBuildingButton(BuildingType type) {
-        InventoryManager.instance.BuyFoodMarket(type, buildingPriceProgression[currentBuildingPrice]);
-        currentBuildingPrice++;
+        InventoryManager.Instance.BuyFoodMarket(type, buildingPriceProgression[_currentBuildingPrice]);
+        _currentBuildingPrice++;
 
         UpdateButtonsInteractable();
         ConfirmPage.SetActive(false);
