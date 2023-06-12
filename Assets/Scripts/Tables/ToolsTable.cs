@@ -12,17 +12,17 @@ public class ToolsTable : MonoBehaviour {
             Destroy(gameObject);
     }
 
-    public static ToolSO ToolByType(ToolType type) {
+    public static ToolSO ToolByType(ToolBuff buff) {
         for (int i = 0; i < instance.ToolsSO.Length; i++)
-            if (instance.ToolsSO[i].type == type)
+            if (instance.ToolsSO[i].buff == buff)
                 return instance.ToolsSO[i];
-        UnityEngine.Debug.Log("Нет класса Tool под тип " + type);
+        UnityEngine.Debug.Log("Нет класса Tool под тип " + buff);
         return null;
     }
 }
 
 [Serializable]
-public enum ToolType {
+public enum ToolBuff {
     Doublehoe,
     Unlimitedwatercan,
     Weatherometr,

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DefaultNamespace.Abstract;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,8 +9,8 @@ public class LoadingManager : MonoBehaviour {
     private string _sceneName;
     private static bool isGameLoaded;
 
-    private void Start() {
-        if(isGameLoaded)
+    public void StartLoading() {
+        if (isGameLoaded)
             return;
         StartCoroutine(LoadManagers());
     }
@@ -25,6 +24,7 @@ public class LoadingManager : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "LoadingScene") {
             LoadGameScene();
         }
+
         yield break;
     }
 

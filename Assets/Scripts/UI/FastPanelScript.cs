@@ -26,7 +26,7 @@ public class FastPanelScript : MonoBehaviour {
         ScytheImage.sprite = ScytheNormalSprite;
         CalendarImage.sprite = CalendarNormalSprite;
 
-        foreach (ToolType type in InventoryManager.instance.toolsInventory.Keys) {
+        foreach (ToolBuff type in InventoryManager.instance.toolsInventory.Keys) {
             ToolSO tool = ToolsTable.ToolByType(type);
             Image toChange = HoeImage;
             switch (tool.toolUIType) {

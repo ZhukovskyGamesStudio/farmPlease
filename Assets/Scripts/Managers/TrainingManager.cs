@@ -5,13 +5,14 @@ using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[Obsolete]
 public class TrainingManager : MonoBehaviour {
     public Step[] steps;
     private int curStep;
     private bool isBatteriEmpted, isNextDayBegan, isSeedBought;
 
     public void Start() {
-        if (Time.Instance.day > 0)
+        if (SaveLoadManager.CurrentSave.CurrentDay > 0)
             SaveLoadManager.Instance.ClearSaveAndReload();
         curStep = -1;
         isBatteriEmpted = false;
@@ -27,16 +28,17 @@ public class TrainingManager : MonoBehaviour {
             }
 
         if (!isNextDayBegan)
-            if (Time.Instance.day == 1) {
+            if (SaveLoadManager.CurrentSave.CurrentDay == 1) {
                 isNextDayBegan = true;
                 NextStep();
             }
 
+        /*
         if (!isSeedBought)
             if (InventoryManager.instance.seedsInventory.Any(crop => crop.Value > 0)) {
                 isSeedBought = true;
                 NextStep();
-            }
+            }*/
     }
 
     public void NextStep() {

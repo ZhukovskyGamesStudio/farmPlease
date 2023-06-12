@@ -22,7 +22,7 @@ public class PlayerController : Singleton<PlayerController> {
 
     [Header("Building")] private GameObject BuildingPanel;
 
-    private BuildingShopPanel BuildingShopPanel;
+    private BuildingShopView _buildingShopView;
 
     private Tilemap BuildingTilemap;
     private BuildingType currentBuilding;
@@ -94,7 +94,7 @@ public class PlayerController : Singleton<PlayerController> {
         _uiHud = UIHud.Instance;
         GraphicRaycaster = _uiHud.GraphicRaycaster;
         SmartTilemap = SmartTilemap.instance;
-        BuildingShopPanel = _uiHud.ShopsPanel.BuildingShopPanel;
+        _buildingShopView = _uiHud.ShopsPanel.BuildingShopView;
         BuildingPanel = _uiHud.BuildingPanel;
         BuildingTilemap = SmartTilemap.BuildingTilemap;
 
@@ -116,9 +116,9 @@ public class PlayerController : Singleton<PlayerController> {
                         SmartTilemap.ActiveBuilding(currentBuilding, oldBuilddingscoord);
                         SmartTilemap.RemoveBuilding(currentBuilding, oldBuilddingscoord);
                     } else if (currentBuilding == BuildingType.Sprinkler_target) {
-                        BuildingShopPanel.BuyBuildingButton(BuildingType.Sprinkler);
+                        _buildingShopView.BuyBuildingButton(BuildingType.Sprinkler);
                     } else if (currentBuilding != BuildingType.Sprinkler) {
-                        BuildingShopPanel.BuyBuildingButton(currentBuilding);
+                        _buildingShopView.BuyBuildingButton(currentBuilding);
                     }
 
                     SmartTilemap.PlaceBuilding(currentBuilding, SmartTilemap.Playercoord);
@@ -237,16 +237,16 @@ public class PlayerController : Singleton<PlayerController> {
                             Vector3Int coord = SmartTilemap.Playercoord;
                             yield return StartCoroutine(SmartTilemap.HoeTile());
 
-                            if (InventoryManager.instance.IsToolWorking(ToolType.Doublehoe))
+                            if (InventoryManager.instance.IsToolWorking(ToolBuff.Doublehoe))
                                 yield return StartCoroutine(SmartTilemap.HoeRandomNeighbor(coord));
                         }
 
                     break;
 
                 case Tool.Watercan:
-                    if (Energy.Instance.HasEnergy() || InventoryManager.instance.IsToolWorking(ToolType.Unlimitedwatercan))
+                    if (Energy.Instance.HasEnergy() || InventoryManager.instance.IsToolWorking(ToolBuff.Unlimitedwatercan))
                         if (SmartTilemap.AvailabilityCheck("water")) {
-                            if (!InventoryManager.instance.IsToolWorking(ToolType.Unlimitedwatercan))
+                            if (!InventoryManager.instance.IsToolWorking(ToolBuff.Unlimitedwatercan))
                                 Energy.Instance.LoseOneEnergy();
                             yield return StartCoroutine(SmartTilemap.WaterTile());
                         }
@@ -254,11 +254,11 @@ public class PlayerController : Singleton<PlayerController> {
                     break;
 
                 case Tool.SeedBag:
-                    if (Energy.Instance.HasEnergy() || InventoryManager.instance.IsToolWorking(ToolType.Carpetseeder))
+                    if (Energy.Instance.HasEnergy() || InventoryManager.instance.IsToolWorking(ToolBuff.Carpetseeder))
                         if (InventoryManager.instance.seedsInventory[seedBagCrop] > 0)
                             if (SmartTilemap.AvailabilityCheck("seed")) {
                                 InventoryManager.instance.LoseSeed(seedBagCrop);
-                                if (!InventoryManager.instance.IsToolWorking(ToolType.Carpetseeder))
+                                if (!InventoryManager.instance.IsToolWorking(ToolBuff.Carpetseeder))
                                     Energy.Instance.LoseOneEnergy();
                                 yield return StartCoroutine(SmartTilemap.SeedTile(seedBagCrop));
                             }
@@ -266,11 +266,11 @@ public class PlayerController : Singleton<PlayerController> {
                     break;
 
                 case Tool.Collect:
-                    if (InventoryManager.instance.IsToolWorking(ToolType.Wetscythe) &&
+                    if (InventoryManager.instance.IsToolWorking(ToolBuff.Wetscythe) &&
                         SmartTilemap.AvailabilityCheck("water"))
                         yield return StartCoroutine(SmartTilemap.WaterTile());
 
-                    if (InventoryManager.instance.IsToolWorking(ToolType.Greenscythe) &&
+                    if (InventoryManager.instance.IsToolWorking(ToolBuff.Greenscythe) &&
                         SmartTilemap.GetPlayerTile().type == TileType.WateredSoil) {
                         if (Energy.Instance.HasEnergy()) {
                             Vector3Int coord = SmartTilemap.Playercoord;

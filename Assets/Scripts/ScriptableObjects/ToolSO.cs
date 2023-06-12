@@ -7,7 +7,7 @@ public class ToolSO : SOWithCroponomPage {
     [Header("Tool")]
     public new string name;
 
-    public ToolType type;
+    public ToolBuff buff;
 
     [Header("ToolShopProperties")]
     public int cost;

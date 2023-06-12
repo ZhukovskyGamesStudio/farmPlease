@@ -10,7 +10,7 @@ public class SmartTilemap : MonoBehaviour {
     public ToolsAnimTilemap toolsAnimTilemap;
 
     [HideInInspector]
-    public SeedShopScript seedShop;
+    public SeedShopView seedShop;
 
     public TilesTable tilesTablePrefab;
     public Transform TilesHolder;
@@ -33,7 +33,7 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     private void Start() {
-        seedShop = UIHud.Instance.ShopsPanel.seedShopScript;
+        seedShop = UIHud.Instance.ShopsPanel.seedShopView;
     }
 
     public void Update() {
@@ -397,7 +397,7 @@ public class SmartTilemap : MonoBehaviour {
 
     public IEnumerator CollectTile() {
         yield return StartCoroutine(tiles[Playercoord]
-            .OnCollected(InventoryManager.instance.IsToolWorking(ToolType.Greenscythe), animtime / 3));
+            .OnCollected(InventoryManager.instance.IsToolWorking(ToolBuff.Greenscythe), animtime / 3));
     }
 
     public IEnumerator HoeTile() {

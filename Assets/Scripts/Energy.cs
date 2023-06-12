@@ -5,17 +5,17 @@ namespace DefaultNamespace {
     public class Energy : Singleton<Energy> { 
         
         private const int MAX_ENERGY = 7;
-        public int CurEnergy => SaveLoadManager.CurrentSave.energy;
+        public int CurEnergy => SaveLoadManager.CurrentSave.Energy;
 
         public void LoseOneEnergy() {
-            SaveLoadManager.CurrentSave.energy--;
+            SaveLoadManager.CurrentSave.Energy--;
             if (CurEnergy < 0)
-                SaveLoadManager.CurrentSave.energy = 0;
+                SaveLoadManager.CurrentSave.Energy = 0;
 
             if (GameModeManager.Instance.InfiniteEnergy)
-                SaveLoadManager.CurrentSave.energy = MAX_ENERGY;
+                SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
 
-            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
             SaveLoadManager.Instance.SaveGame();
         }
 
@@ -24,20 +24,20 @@ namespace DefaultNamespace {
         }
 
         public void SetEnergy(int newEnergy) {
-            SaveLoadManager.CurrentSave.energy = newEnergy;
-            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
+            SaveLoadManager.CurrentSave.Energy = newEnergy;
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
         }
 
         public void RestoreEnergy() {
-            SaveLoadManager.CurrentSave.energy = MAX_ENERGY;
-            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
+            SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
         }
 
         public void RestoreEnergy(int amount) {
-            SaveLoadManager.CurrentSave.energy += amount;
+            SaveLoadManager.CurrentSave.Energy += amount;
             if (CurEnergy > MAX_ENERGY)
-                SaveLoadManager.CurrentSave.energy = MAX_ENERGY;
-            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.energy);
+                SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
         }
         
         public bool HasEnergy() {

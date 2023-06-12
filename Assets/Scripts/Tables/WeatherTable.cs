@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class WeatherTable : MonoBehaviour {
     public static WeatherTable instance;
@@ -20,6 +21,7 @@ public class WeatherTable : MonoBehaviour {
     }
 }
 
+[Serializable]
 public enum HappeningType {
     None = 0,
     Marketplace,

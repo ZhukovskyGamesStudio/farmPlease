@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
+public class BuildingShopView : MonoBehaviour, ISoundStarter {
     public Text cropsCollectedText;
 
     [Header("Buildings")]
@@ -34,7 +34,7 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
 
     private int currentBuildingPrice;
     private PlayerController player;
-    private Dictionary<ToolType, Button> toolButtonsD;
+    private Dictionary<ToolBuff, Button> toolButtonsD;
 
     private void Start() {
         player = PlayerController.Instance;
@@ -82,7 +82,7 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
         }
 
         ToolSO[] tools = ToolsTable.instance.ToolsSO;
-        toolButtonsD = new Dictionary<ToolType, Button>();
+        toolButtonsD = new Dictionary<ToolBuff, Button>();
 
         for (int i = 0; i < tools.Length; i++) {
             if (tools[i].isAlwaysAvailable)
@@ -96,9 +96,9 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
 
             Button button = obj.GetComponent<Button>();
 
-            ToolType tmpType = tools[i].type;
-            button.onClick.AddListener(() => OpenConfirmPage(tmpType));
-            toolButtonsD.Add(tmpType, button);
+            ToolBuff tmpBuff = tools[i].buff;
+            button.onClick.AddListener(() => OpenConfirmPage(tmpBuff));
+            toolButtonsD.Add(tmpBuff, button);
         }
     }
 
@@ -136,7 +136,7 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
             else
                 cropButtonsD[item].interactable = true;
 
-        foreach (ToolType item in toolButtonsD.Keys)
+        foreach (ToolBuff item in toolButtonsD.Keys)
             if (InventoryManager.instance.isToolsBoughtD.ContainsKey(item))
                 toolButtonsD[item].interactable = !InventoryManager.instance.isToolsBoughtD[item];
             else
@@ -150,7 +150,7 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
     }
 
     public void UpdateCropsCollected() {
-        cropsCollectedText.text = InventoryManager.instance.AllCropsCollected.ToString();
+        cropsCollectedText.text = SaveLoadManager.CurrentSave.CropPoints.ToString();
     }
 
     private void OpenConfirmPage(CropsType type) {
@@ -172,16 +172,16 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
         ConfirmPage.SetActive(true);
     }
 
-    private void OpenConfirmPage(ToolType type) {
+    private void OpenConfirmPage(ToolBuff buff) {
         ConfirmButton.onClick.RemoveAllListeners();
         if (InventoryManager.instance.EnoughCrops(toolPrice)) {
-            ConfirmButton.onClick.AddListener(() => BuyToolButton(type));
+            ConfirmButton.onClick.AddListener(() => BuyToolButton(buff));
             ConfirmButton.interactable = true;
         } else {
             ConfirmButton.interactable = false;
         }
 
-        ToolSO tool = ToolsTable.ToolByType(type);
+        ToolSO tool = ToolsTable.ToolByType(buff);
 
         confirmImage.sprite = tool.FoodMarketSprite;
         nameText.text = tool.header;
@@ -223,8 +223,8 @@ public class BuildingShopPanel : MonoBehaviour, ISoundStarter {
         ConfirmPage.SetActive(false);
     }
 
-    public void BuyToolButton(ToolType type) {
-        InventoryManager.instance.BuyFoodMarket(type, toolPrice);
+    public void BuyToolButton(ToolBuff buff) {
+        InventoryManager.instance.BuyFoodMarket(buff, toolPrice);
 
         UpdateButtonsInteractable();
         ConfirmPage.SetActive(false);

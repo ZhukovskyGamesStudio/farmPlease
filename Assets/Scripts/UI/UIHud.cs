@@ -26,10 +26,10 @@ public class UIHud : Singleton<UIHud>, ISoundStarter {
             Settings.Instance.SettingsPanel.gameObject.SetActive(false);
         else if (TimePanel.isOpen)
             TimePanel.CalendarPanelOpenClose();
-        else if (ShopsPanel.ToolShopPanel.gameObject.activeSelf)
-            ShopsPanel.ToolShopPanel.gameObject.SetActive(false);
-        else if (ShopsPanel.seedShopScript.gameObject.activeSelf)
-            ShopsPanel.seedShopScript.gameObject.SetActive(false);
+        else if (ShopsPanel.toolShopView.gameObject.activeSelf)
+            ShopsPanel.toolShopView.gameObject.SetActive(false);
+        else if (ShopsPanel.seedShopView.gameObject.activeSelf)
+            ShopsPanel.seedShopView.gameObject.SetActive(false);
         else if (Backpack.isOpen)
             Backpack.OpenClose();
     }

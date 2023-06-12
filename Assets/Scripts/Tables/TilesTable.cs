@@ -599,7 +599,7 @@ public class SmartTile : MonoBehaviour {
             if ((neighborTiles[i].type == TileType.Fern_1 && type != TileType.Onion_1) ||
                 (neighborTiles[i].type == TileType.WateredFern_1 && type != TileType.Onion_1))
                 multiplier = 2;
-        if (Time.Instance.daysHappenings[Time.Instance.day] == HappeningType.Love)
+        if (Time.Instance.IsTodayLoveDay)
             multiplier *= 2;
 
         if (TilesTable.TileByType(type).collectAmount > 0) {

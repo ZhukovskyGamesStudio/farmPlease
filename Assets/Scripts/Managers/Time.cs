@@ -8,8 +8,6 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Time : Singleton<Time> {
-    public int day;
-    public int DayOfWeek;
     public int time;
 
     [Range(1, 31)]
@@ -20,8 +18,7 @@ public class Time : Singleton<Time> {
 
     public EndTrainingPanel EndTrainingPanel;
     public EndMonthPanel EndMonthPanel;
-    
-    public HappeningType[] daysHappenings;
+    public List<HappeningType> Days => SaveLoadManager.CurrentSave.Days;
 
     public float SessionTime;
     public bool isLoaded;
@@ -29,12 +26,12 @@ public class Time : Singleton<Time> {
     private FastPanelScript FastPanel  => PlayerController.GetComponent<FastPanelScript>();
     private bool IsTimerWorking;
     private PlayerController PlayerController => PlayerController.Instance;
-    private SeedShopScript SeedShopScript => _uiHud.ShopsPanel.seedShopScript;
+    private SeedShopView SeedShopView => _uiHud.ShopsPanel.seedShopView;
     private SmartTilemap SmartTilemap => SmartTilemap.instance;
     private Text TimeOfDayText => TimePanel.TimeOfDayText;
     private TimePanel TimePanel => _uiHud.TimePanel;
     public DateTime tmpDate;
-    private ToolShopPanel ToolShop => _uiHud.ShopsPanel.ToolShopPanel;
+    private ToolShopView ToolShop => _uiHud.ShopsPanel.toolShopView;
 
     private UIHud _uiHud => UIHud.Instance;
     
@@ -49,34 +46,9 @@ public class Time : Singleton<Time> {
         SessionTime += UnityEngine.Time.deltaTime;
     }
 
-    private IEnumerator IngameTimer() {
-        IsTimerWorking = true;
-        if (GameModeManager.Instance.GameMode == GameMode.Training)
-            yield break;
-
-        for (;;) {
-            if (isLoaded) {
-                yield return CalculateTimeSpanCoroutine(tmpDate);
-                tmpDate = DateTime.Now;
-            }
-
-            //Обновление времени в интерфейсе
-            int minutesOfDay = RealTImeManager.TotalMinutes();
-            TimeOfDayText.text = minutesOfDay / 60 + ":" + (minutesOfDay % 60 < 10 ? "0" : "") + minutesOfDay % 60;
-
-            yield return new WaitForSeconds(3);
-        }
-    }
-
     /**********/
 
-    public string[] GetDaysData() {
-        string[] res = new string[daysHappenings.Length];
-        for (int i = 0; i < res.Length; i++)
-            res[i] = daysHappenings[i].ToString();
-
-        return res;
-    }
+    public bool IsTodayLoveDay => Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Love;
 
     public void CalculateTimeSpan(DateTime tmpDate) {
         StartCoroutine(CalculateTimeSpanCoroutine(tmpDate));
@@ -99,7 +71,7 @@ public class Time : Singleton<Time> {
         }
     }
 
-    public void SetDaysWithData(string[] daysData, DateTime date) {
+    public void SetDaysWithData(List<HappeningType> daysData, DateTime date) {
         ChangeDayPoint(Settings.Instance.GetDayPoint());
 
         if (daysData == null) {
@@ -107,20 +79,16 @@ public class Time : Singleton<Time> {
             return;
         }
 
-        MaxDays = daysData.Length;
-        daysHappenings = new HappeningType[MaxDays];
-        day = date.Day - 1;
-        DayOfWeek = (int) date.DayOfWeek - 1;
+        MaxDays = daysData.Count;
+        SaveLoadManager.CurrentSave.CurrentDay = date.Day - 1;
+        SaveLoadManager.CurrentSave.DayOfWeek = (int) date.DayOfWeek - 1;
         SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
-        for (int i = 0; i < MaxDays; i++)
-            daysHappenings[i] = (HappeningType) Enum.Parse(typeof(HappeningType), daysData[i]);
-
-        TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
-        TimePanel.UpdateLilCalendar(day);
+        TimePanel.CreateDays(Days, SkipDaysAmount);
+        TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
 
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
-            if (daysHappenings[day] == HappeningType.Marketplace) {
+            if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                 _uiHud.OpenBuildingsShop();
             } else {
                 _uiHud.CloseBuildingsShop();
@@ -129,7 +97,6 @@ public class Time : Singleton<Time> {
 
         tmpDate = date;
         isLoaded = true;
-        StartCoroutine(IngameTimer());
     }
 
     public void GenerateDays(bool isTraining, bool isNewGame) {
@@ -143,42 +110,45 @@ public class Time : Singleton<Time> {
             ChangeDayPoint(Settings.Instance.GetDayPoint());
         }
 
-        day = 0;
+        SaveLoadManager.CurrentSave.CurrentDay = 0;
         if (isNewGame && !isTraining)
-            day = DateTime.Now.Day - 1;
-        daysHappenings = new HappeningType[MaxDays];
-
+            SaveLoadManager.CurrentSave.CurrentDay = DateTime.Now.Day - 1;
+        SaveLoadManager.CurrentSave.Days = new List<HappeningType>();
+        for (int i = 0; i < MaxDays; i++) {
+            Days.Add(HappeningType.None);
+        }
+        
         int love = -1;
         while ((love + SkipDaysAmount + 1) % 7 == 0 || (love + 1) % 5 == 0) love = Random.Range(8 + SkipDaysAmount, 20);
 
         for (int i = 0; i < MaxDays; i++) {
             int x = i + SkipDaysAmount + 1;
             if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training) {
-                daysHappenings[i] = HappeningType.Marketplace;
+                Days[i] = HappeningType.Marketplace;
             } else if ((i + 1) % 5 == 0) {
                 int rnd = Random.Range(0, 4);
                 if (GameModeManager.Instance.GameMode == GameMode.Training)
                     rnd = Random.Range(0, 2);
 
-                daysHappenings[i] = rnd switch {
+                Days[i] = rnd switch {
                     0 => HappeningType.Rain,
                     1 => HappeningType.Erosion,
                     2 => HappeningType.Wind,
                     3 => HappeningType.Insects,
-                    _ => daysHappenings[i]
+                    _ => Days[i]
                 };
             } else if (i == love) {
-                daysHappenings[i] = HappeningType.Love;
+                Days[i] = HappeningType.Love;
             }
         }
 
-        TimePanel.CreateDays(daysHappenings, SkipDaysAmount);
+        TimePanel.CreateDays(Days, SkipDaysAmount);
 
-        TimePanel.UpdateLilCalendar(day);
+        TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
         ToolShop.ChangeTools();
 
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
-            if (daysHappenings[day] == HappeningType.Marketplace) {
+            if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                 _uiHud.OpenBuildingsShop();
             } else {
                 _uiHud.CloseBuildingsShop();
@@ -187,9 +157,6 @@ public class Time : Singleton<Time> {
 
         isLoaded = true;
         tmpDate = DateTime.Now;
-
-        if (!IsTimerWorking)
-            StartCoroutine(IngameTimer());
     }
 
     /***********/
@@ -200,50 +167,50 @@ public class Time : Singleton<Time> {
     }
 
     public IEnumerator DayPointCoroutine() {
-        day++;
+        SaveLoadManager.CurrentSave.CurrentDay++;
 
-        DayOfWeek = NextDay(DayOfWeek);
-        if (day == MaxDays)
+        SaveLoadManager.CurrentSave.DayOfWeek = NextDay(SaveLoadManager.CurrentSave.DayOfWeek);
+        if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
             EndMonth();
 
-        SeedShopScript.ChangeSeedsNewDay();
+        SeedShopView.ChangeSeedsNewDay();
 
-        TimePanel.UpdateLilCalendar(day);
+        TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
 
         InventoryManager.instance.BrokeTools();
         FastPanel.UpdateToolsImages();
         ToolShop.ChangeTools();
 
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
-            if (daysHappenings[day] == HappeningType.Marketplace) {
+            if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                 _uiHud.OpenBuildingsShop();
             } else {
                 _uiHud.CloseBuildingsShop();
             }
         }
 
-        if (day > 0)
-            yield return StartCoroutine(SmartTilemap.EndDayEvent(daysHappenings[day - 1]));
+        if ( SaveLoadManager.CurrentSave.CurrentDay > 0)
+            yield return StartCoroutine(SmartTilemap.EndDayEvent(Days[ SaveLoadManager.CurrentSave.CurrentDay - 1]));
         yield return StartCoroutine(SmartTilemap.NewDay());
     }
 
     public void SkipToEndMonth() {
-        DayOfWeek = NextDay(LastDayInMonth(day, MaxDays, DayOfWeek));
+        SaveLoadManager.CurrentSave.DayOfWeek = NextDay(LastDayInMonth( SaveLoadManager.CurrentSave.CurrentDay, MaxDays, SaveLoadManager.CurrentSave.DayOfWeek));
         EndMonth();
     }
 
     private void EndMonth() {
-        InventoryManager.instance.toolsInventory[ToolType.Weatherometr] = 0;
+        InventoryManager.instance.toolsInventory[ToolBuff.Weatherometr] = 0;
         GenerateDays(false, false);
 
         if (GameModeManager.Instance.GameMode == GameMode.Training) {
-            EndTrainingPanel.ShowEndPanel(InventoryManager.instance.cropsCollected, (int) SessionTime,
-                InventoryManager.instance.cropsCollectedQueue);
-            Gps.ReportScore(InventoryManager.instance.AllCropsCollected, "tutorialLeaderboard");
+            EndTrainingPanel.ShowEndPanel( SaveLoadManager.CurrentSave.CropPoints, (int) SessionTime,
+                SaveLoadManager.CurrentSave.CropsCollected);
+            Gps.ReportScore( SaveLoadManager.CurrentSave.CropPoints, "tutorialLeaderboard");
         } else {
-            EndMonthPanel.ShowEndMonthPanel(InventoryManager.instance.cropsCollectedQueue,
-                InventoryManager.instance.AllCropsCollected);
-            InventoryManager.instance.cropsCollectedQueue = new Queue<CropsType>();
+            EndMonthPanel.ShowEndMonthPanel( SaveLoadManager.CurrentSave.CropsCollected,
+                SaveLoadManager.CurrentSave.CropPoints);
+            SaveLoadManager.CurrentSave.CropsCollected = new Queue<CropsType>();
         }
     }
 

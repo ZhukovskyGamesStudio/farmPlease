@@ -7,6 +7,6 @@ public class MonthMarketOffer {
     public string Mname;
 
     public CropsType Ctype;
-    public ToolType Ttype;
+    public ToolBuff Ttype;
     public BuildingType Btype;
 }

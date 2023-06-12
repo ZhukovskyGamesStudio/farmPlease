@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace.Abstract;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -63,7 +64,7 @@ public class Backpack : MonoBehaviour {
         seeds = buttonsList.ToArray();
     }
 
-    public void UpdateGrid(Dictionary<CropsType, int> seedsInventory) {
+    public void UpdateGrid(SerializableDictionary<CropsType, int> seedsInventory) {
         if (seeds == null)
             GenerateSeedButtons();
 

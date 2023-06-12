@@ -12,17 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03c8d466ad2bcf4e838e61ebf82482a, type: 3}
   m_Name: Wet Scythe
   m_EditorClassIdentifier: 
-  name: WetScythe
-  type: 5
-  cost: 50
-  explainText: "\u041A\u043E\u0441\u0430 \u0441\u043D\u0430\u0447\u0430\u043B\u0430
-    \u043F\u043E\u043B\u0438\u0432\u0430\u0435\u0442, \u0430 \u043F\u043E\u0441\u043B\u0435
-    \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442. \u041D\u0435 \u0442\u0440\u0430\u0442\u0438\u0442
-    \u044D\u043D\u0435\u0440\u0433\u0438\u044E."
-  buyAmount: 7
-  toolUIType: 3
-  buffedIcon: {fileID: 5078929436610679048, guid: f3fed87309179b24688b1cecffa39682,
-    type: 3}
   header: "\u041C\u043E\u043A\u0440\u0430\u044F \u043A\u043E\u0441\u0430"
   firstText: "\u041F\u043E\u043B\u0438\u0432\u0430\u0435\u0442 \u043A\u043B\u0435\u0442\u043A\u0443,
     \u043F\u0435\u0440\u0435\u0434 \u0442\u0435\u043C \u043A\u0430\u043A \u0435\u0451
@@ -34,6 +23,17 @@ MonoBehaviour:
     \u0430\u043A\u043A\u0443\u0440\u0430\u0442\u043D\u044B, \u043C\u043E\u043A\u0440\u0430\u044F
     \u043A\u043E\u0441\u0430 \u0441\u043B\u043E\u0436\u043D\u0430 \u0432 \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u0438."
   secondSprite: {fileID: 0}
+  name: WetScythe
+  buff: 5
+  cost: 50
+  explainText: "\u041A\u043E\u0441\u0430 \u0441\u043D\u0430\u0447\u0430\u043B\u0430
+    \u043F\u043E\u043B\u0438\u0432\u0430\u0435\u0442, \u0430 \u043F\u043E\u0441\u043B\u0435
+    \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442. \u041D\u0435 \u0442\u0440\u0430\u0442\u0438\u0442
+    \u044D\u043D\u0435\u0440\u0433\u0438\u044E."
+  buyAmount: 7
+  toolUIType: 3
+  buffedIcon: {fileID: 5078929436610679048, guid: f3fed87309179b24688b1cecffa39682,
+    type: 3}
   isAlwaysAvailable: 0
   FoodMarketSprite: {fileID: 5078929436610679048, guid: f3fed87309179b24688b1cecffa39682,
     type: 3}

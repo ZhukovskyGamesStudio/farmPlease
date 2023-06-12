@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SeedShopScript : MonoBehaviour {
+public class SeedShopView : MonoBehaviour {
     public GameObject SeedOfferPrefab;
 
     public RectTransform[] slotPosition;
@@ -65,7 +66,10 @@ public class SeedShopScript : MonoBehaviour {
         return (int) AmbarType;
     }
 
-    public void SetSeedShopWithData(bool[] buttons, bool isChangeButtonActive, int ambarCropType) {
+    public void SetSeedShopWithData( GameSaveProfile save) {
+        bool[] buttons = save.seedShopButtonData;
+        bool isChangeButtonActive = save.seedShopChangeButton;
+        int ambarCropType = save.ambarCropType;
         GenerateButtons();
 
         int poscounter = 0;
@@ -130,7 +134,7 @@ public class SeedShopScript : MonoBehaviour {
     }
 
     public void ChangeSeedsByButton() {
-        if (InventoryManager.instance.coins >= ChangeCost) {
+        if (SaveLoadManager.CurrentSave.Coins >= ChangeCost) {
             InventoryManager.instance.AddCoins(-1 * ChangeCost);
             ChangeSeeds();
             ChangeSeedsButton.SetActive(false);

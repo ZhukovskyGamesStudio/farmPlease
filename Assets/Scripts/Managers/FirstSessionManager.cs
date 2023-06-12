@@ -39,7 +39,7 @@ namespace DefaultNamespace.UI {
             yield return new WaitForSeconds(0.3f);
             ShowHoeSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.energy > 4);
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 4);
             
             ShowSeedsSelectSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
@@ -48,16 +48,16 @@ namespace DefaultNamespace.UI {
             yield return new WaitForSeconds(0.3f);
             ShowSeedsUsedSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.energy > 2); 
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 2); 
             
             ShowWaterSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.energy > 0); 
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 0); 
 
             yield return new WaitForSeconds(0.3f);
             ShowClockSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.energy < 7); 
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy < 7); 
 
             yield return new WaitForSeconds(0.6f);
             EnableUiParts();

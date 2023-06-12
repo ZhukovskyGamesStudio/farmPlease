@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DefaultNamespace.Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,14 +15,14 @@ public class TimePanel : MonoBehaviour {
     public bool isOpen;
     private GameObject[] Days;
     private int DaysAmount;
-    private HappeningType[] daysHappenings;
+    private List<HappeningType> _daysHappenings;
     private GameObject[] SkipDays;
 
     private int SkipDaysAmount;
 
-    public void CreateDays(HappeningType[] daysHappenings, int skipAmount) {
-        this.daysHappenings = daysHappenings;
-        DaysAmount = daysHappenings.Length;
+    public void CreateDays(List<HappeningType> daysHappenings, int skipAmount) {
+        _daysHappenings = daysHappenings;
+        DaysAmount = daysHappenings.Count;
         SkipDaysAmount = skipAmount;
 
         if (SkipDays != null)
@@ -50,14 +51,14 @@ public class TimePanel : MonoBehaviour {
     private void UpdateBigCalendar(int curDay) {
         for (int i = 0; i < Days.Length; i++) {
             DayScript script = Days[i].GetComponent<DayScript>();
-            if (daysHappenings[i] == HappeningType.Love &&
-                !InventoryManager.instance.IsToolWorking(ToolType.Weatherometr))
+            if (_daysHappenings[i] == HappeningType.Love &&
+                !InventoryManager.instance.IsToolWorking(ToolBuff.Weatherometr))
                 script.SetProps(i, HappeningType.None);
-            else if (daysHappenings[i] != HappeningType.None && daysHappenings[i] != HappeningType.Marketplace &&
-                     !InventoryManager.instance.IsToolWorking(ToolType.Weatherometr))
+            else if (_daysHappenings[i] != HappeningType.None && _daysHappenings[i] != HappeningType.Marketplace &&
+                     !InventoryManager.instance.IsToolWorking(ToolBuff.Weatherometr))
                 script.SetProps(i, HappeningType.Unknown);
             else
-                script.SetProps(i, daysHappenings[i]);
+                script.SetProps(i, _daysHappenings[i]);
 
             if (i < curDay)
                 script.DayOver();
@@ -65,18 +66,18 @@ public class TimePanel : MonoBehaviour {
     }
 
     public void UpdateLilCalendar(int date) {
-        if (daysHappenings[date] != HappeningType.None && daysHappenings[date] != HappeningType.Marketplace &&
-            !InventoryManager.instance.IsToolWorking(ToolType.Weatherometr))
+        if (_daysHappenings[date] != HappeningType.None && _daysHappenings[date] != HappeningType.Marketplace &&
+            !InventoryManager.instance.IsToolWorking(ToolBuff.Weatherometr))
             lilDay.SetProps(date, HappeningType.Unknown);
         else
-            lilDay.SetProps(date, daysHappenings[date], true);
+            lilDay.SetProps(date, _daysHappenings[date], true);
     }
 
     public void CalendarPanelOpenClose() {
         isOpen = !isOpen;
         CalendarPanel.SetActive(isOpen);
         if (isOpen) {
-            UpdateBigCalendar(Time.Instance.day);
+            UpdateBigCalendar(SaveLoadManager.CurrentSave.CurrentDay);
         }
     }
 }
