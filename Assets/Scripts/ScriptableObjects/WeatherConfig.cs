@@ -1,14 +1,18 @@
 using System;
+using Tables;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Weather", menuName = "ScriptableObjects/Weather", order = 4)]
-[Serializable]
-public class WeatherConfig : ConfigWithCroponomPage {
-    [Header("Weather")]
-    public HappeningType type;
+namespace ScriptableObjects
+{
+    [CreateAssetMenu(fileName = "Weather", menuName = "ScriptableObjects/Weather", order = 4)]
+    [Serializable]
+    public class WeatherConfig : ConfigWithCroponomPage {
+        [Header("Weather")]
+        public HappeningType type;
 
-    public Sprite icon;
+        public Sprite icon;
 
-    [Header("HUDElements")]
-    public Sprite DaySprite;
+        [Header("HUDElements")]
+        public Sprite DaySprite;
+    }
 }

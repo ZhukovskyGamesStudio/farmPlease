@@ -1,4 +1,4 @@
-﻿using DefaultNamespace.Abstract;
+﻿using Abstract;
 using UnityEngine;
 
 namespace Managers {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 
-namespace DefaultNamespace.Tables {
+namespace Tables {
     public class KnowledgeManager {
         private static List<Knowledge> SavedKnowledge => SaveLoadManager.CurrentSave?.KnowledgeList;
 

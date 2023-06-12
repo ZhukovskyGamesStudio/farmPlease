@@ -1,26 +1,30 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = Managers.Debug;
 
-public class HelloPanelView : MonoBehaviour {
-    [SerializeField]
-    private Text _hintText;
+namespace UI
+{
+    public class HelloPanelView : MonoBehaviour {
+        [SerializeField]
+        private Text _hintText;
 
-    public void Show(string text, Transform target = null, bool isFlipped = false) {
-        gameObject.SetActive(true);
-        _hintText.text = text;
-        if (target != null) {
-            MoveHintToTarget(target);
+        public void Show(string text, Transform target = null, bool isFlipped = false) {
+            gameObject.SetActive(true);
+            _hintText.text = text;
+            if (target != null) {
+                MoveHintToTarget(target);
+            }
+
+            SetFlipped(isFlipped);
         }
 
-        SetFlipped(isFlipped);
-    }
+        private void MoveHintToTarget(Transform target) {
+            throw new NotImplementedException();
+        }
 
-    private void MoveHintToTarget(Transform target) {
-        throw new NotImplementedException();
-    }
-
-    private void SetFlipped(bool isFlipped) {
-        Debug.Instance.Log("Hint SetFlipped not implemented");
+        private void SetFlipped(bool isFlipped) {
+            Debug.Instance.Log("Hint SetFlipped not implemented");
+        }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
-using DefaultNamespace.Abstract;
+using Abstract;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DefaultNamespace.UI {
+namespace UI {
     public class KnowledgeCanSpeak : HasAnimationAndCallback {
         [SerializeField]
         protected Text _speakText;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace.Tables {
+namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "FtueConfig", menuName = "ScriptableObjects/FtueConfig", order = 6)]
     public class FtueConfig : ScriptableObject {
         [Multiline]

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using DefaultNamespace;
-using DefaultNamespace.Abstract;
-using DefaultNamespace.Managers;
+using Abstract;
+using Tables;
+using UI;
 
 namespace Managers {
     public class GameSceneEntryPoint : SceneEntryPoint {

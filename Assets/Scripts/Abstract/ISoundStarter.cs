@@ -1,6 +1,11 @@
-public interface ISoundStarter 
+using Managers;
+
+namespace Abstract
 {
-    public void PlaySound(int soundIndex) {
-        Audio.Instance.PlaySound((Sounds) soundIndex);
+    public interface ISoundStarter 
+    {
+        public void PlaySound(int soundIndex) {
+            Audio.Instance.PlaySound((Sounds) soundIndex);
+        }
     }
 }

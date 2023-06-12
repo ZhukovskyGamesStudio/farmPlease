@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class FoodMarketOffer : MonoBehaviour {
-    public Image image;
-    public new Text name;
+namespace UI
+{
+    public class FoodMarketOffer : MonoBehaviour {
+        public Image image;
+        public new Text name;
+    }
 }

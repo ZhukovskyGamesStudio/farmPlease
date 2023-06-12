@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace DefaultNamespace.Abstract {
+namespace Abstract {
     public class HasAnimationAndCallback : MonoBehaviour {
         [SerializeField]
         protected Animation _animation;

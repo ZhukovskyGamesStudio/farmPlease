@@ -1,24 +1,28 @@
+using Tables;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Building", order = 5)]
-public class BuildingConfig : ScriptableObject {
-    public new string name;
-    public bool IsFakeBuilding;
-    public BuildingType type;
-    public Tile BuildingPanelTile;
+namespace ScriptableObjects
+{
+    [CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Building", order = 5)]
+    public class BuildingConfig : ScriptableObject {
+        public new string name;
+        public bool IsFakeBuilding;
+        public BuildingType type;
+        public Tile BuildingPanelTile;
 
-    [Header("BuildingOffer")]
-    public Sprite offerSprite;
+        [Header("BuildingOffer")]
+        public Sprite offerSprite;
 
-    public string offerHeader;
-    public string offerText;
+        public string offerHeader;
+        public string offerText;
 
-    [Header("CroponomPage")]
-    public string header;
+        [Header("CroponomPage")]
+        public string header;
 
-    public string firstText;
-    public Sprite firstSprite;
-    public string secondText;
-    public Sprite secondSprite;
+        public string firstText;
+        public Sprite firstSprite;
+        public string secondText;
+        public Sprite secondSprite;
+    }
 }

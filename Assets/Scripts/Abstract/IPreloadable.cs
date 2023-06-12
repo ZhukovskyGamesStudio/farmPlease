@@ -1,7 +1,7 @@
-using System.Collections;
-using UnityEngine;
+namespace Abstract
+{
+    public interface IPreloadable {
 
-public interface IPreloadable {
-
-    public void Init();
+        public void Init();
+    }
 }

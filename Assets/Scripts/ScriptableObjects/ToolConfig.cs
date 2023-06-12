@@ -1,27 +1,31 @@
 using System;
+using Tables;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Tool", menuName = "ScriptableObjects/Tool", order = 3)]
-[Serializable]
-public class ToolConfig : ConfigWithCroponomPage {
-    [Header("Tool")]
-    public new string name;
+namespace ScriptableObjects
+{
+    [CreateAssetMenu(fileName = "Tool", menuName = "ScriptableObjects/Tool", order = 3)]
+    [Serializable]
+    public class ToolConfig : ConfigWithCroponomPage {
+        [Header("Tool")]
+        public new string name;
 
-    public ToolBuff buff;
+        public ToolBuff buff;
 
-    [Header("ToolShopProperties")]
-    public int cost;
+        [Header("ToolShopProperties")]
+        public int cost;
 
-    public string explainText;
-    public int buyAmount;
+        public string explainText;
+        public int buyAmount;
 
-    [Header("HUDElements")]
-    public ToolUIType toolUIType;
+        [Header("HUDElements")]
+        public ToolUIType toolUIType;
 
-    public Sprite buffedIcon;
+        public Sprite buffedIcon;
 
-    [Header("FoodMarketProperties")]
-    public bool isAlwaysAvailable;
+        [Header("FoodMarketProperties")]
+        public bool isAlwaysAvailable;
 
-    public Sprite FoodMarketSprite;
+        public Sprite FoodMarketSprite;
+    }
 }

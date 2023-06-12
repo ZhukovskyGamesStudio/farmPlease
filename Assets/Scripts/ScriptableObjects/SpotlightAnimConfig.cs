@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace.Tables {
+namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "SpotlightAnim", menuName = "ScriptableObjects/SpotlightAnimConfig", order = 7)]
     public class SpotlightAnimConfig : ScriptableObject {
         public Vector2 SpotlightSize;

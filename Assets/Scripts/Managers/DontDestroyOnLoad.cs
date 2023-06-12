@@ -1,6 +1,6 @@
-﻿using DefaultNamespace.Abstract;
+﻿using ZhukovskyGamesPlugin;
 
-namespace DefaultNamespace.Managers {
+namespace Managers {
     public class DontDestroyOnLoad : Singleton<DontDestroyOnLoad> {
         protected override void OnFirstInit() {
             DontDestroyOnLoad(gameObject);
