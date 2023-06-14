@@ -23,7 +23,7 @@ namespace Managers
             }
         }
 
-        public void Initialize() {
+        protected override void OnFirstInit() {
             _isInitialized = true;
         }
 
