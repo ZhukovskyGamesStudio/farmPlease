@@ -98,8 +98,6 @@ namespace Managers
                     Days[i] = HappeningType.Marketplace;
                 } else if ((i + 1) % 5 == 0) {
                     int rnd = Random.Range(0, 4);
-                    if (GameModeManager.Instance.GameMode == GameMode.Training)
-                        rnd = Random.Range(0, 2);
 
                     Days[i] = rnd switch {
                         0 => HappeningType.Rain,
