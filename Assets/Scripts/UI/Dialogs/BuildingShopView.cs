@@ -27,7 +27,10 @@ namespace UI
         public GameObject CropPrefab;
 
         [Header("Confirm Page")]
-        public GameObject ConfirmPage;
+        [SerializeField] 
+        private GameObject _confirmPage;
+        [SerializeField] 
+        private GameObject _notChoosedPage;
 
         public Button ConfirmButton;
         public Text nameText;
@@ -175,7 +178,7 @@ namespace UI
             explanationText.text = crop.explainText;
             costText.text = "Открыть за " + cropPrice;
 
-            ConfirmPage.SetActive(true);
+            SetConfirmPageActive(true);
         }
 
         private void OpenConfirmPage(ToolBuff buff) {
@@ -194,7 +197,7 @@ namespace UI
             explanationText.text = tool.explainText;
             costText.text = "Открыть за " + toolPrice;
 
-            ConfirmPage.SetActive(true);
+            SetConfirmPageActive(true);
         }
 
         private void OpenConfirmPage(BuildingType type) {
@@ -213,27 +216,27 @@ namespace UI
             explanationText.text = building.offerText;
             costText.text = "Открыть за " + buildingPriceProgression[_currentBuildingPrice];
 
-            ConfirmPage.SetActive(true);
+            SetConfirmPageActive(true);
         }
 
         public void StartBuyingBuilding(BuildingType type) {
             _player.StartStopBuilding();
             _player.InitializeBuilding(type, buildingPriceProgression[_currentBuildingPrice]);
-            ConfirmPage.SetActive(false);
+            SetConfirmPageActive(false);
             gameObject.SetActive(false);
         }
 
         public void BuyCropButton(Crop type) {
             InventoryManager.Instance.BuyFoodMarket(type, cropPrice);
             UpdateButtonsInteractable();
-            ConfirmPage.SetActive(false);
+            SetConfirmPageActive(false);
         }
 
         public void BuyToolButton(ToolBuff buff) {
             InventoryManager.Instance.BuyFoodMarket(buff, toolPrice);
 
             UpdateButtonsInteractable();
-            ConfirmPage.SetActive(false);
+            SetConfirmPageActive(false);
         }
 
         public void BuyBuildingButton(BuildingType type) {
@@ -241,8 +244,13 @@ namespace UI
             _currentBuildingPrice++;
 
             UpdateButtonsInteractable();
-            ConfirmPage.SetActive(false);
+            SetConfirmPageActive(false);
             BuildingPanelButton.SetActive(true);
+        }
+
+        public void SetConfirmPageActive(bool isActive) {
+            _confirmPage.SetActive(isActive);
+            _notChoosedPage.SetActive(!isActive);
         }
     }
 }

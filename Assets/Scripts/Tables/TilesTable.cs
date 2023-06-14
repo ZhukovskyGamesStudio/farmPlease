@@ -791,9 +791,9 @@ namespace Tables
                             surroundingtiles = _tilemap.GetHexNeighbors(soilTiles[rnd]._position);
 
                             for (int i = 0; i < surroundingtiles.Length; i++)
-                                if (!TilesTable.TileByType(surroundingtiles[i].type).IsBuilding &&
-                                    TilesTable.TileByType(surroundingtiles[i].type).crop != Crop.Peanut &&
-                                    TilesTable.TileByType(surroundingtiles[i].type).crop != Crop.None) {
+                            {
+                                TileData tile = TilesTable.TileByType(surroundingtiles[i].type);
+                                if (!tile.IsBuilding && tile.crop != Crop.Peanut && tile.crop != Crop.None) {
                                     soilTiles[rnd].SwitchType(TileType.PeanutDead);
 
                                     Vector3Int curPose = soilTiles[rnd]._position;
@@ -807,7 +807,9 @@ namespace Tables
                                         soilTiles = _tilemap.GetNeighborsWithType(curPose, TileType.Peanut1);
                                         whileStopper++;
                                     }
-                                }
+                                }  
+                            }
+                              
                         }
 
                         break;

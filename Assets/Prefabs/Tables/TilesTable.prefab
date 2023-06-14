@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 304.51477, y: 165.04814, z: -64.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,7 +47,7 @@ MonoBehaviour:
   groups:
   - name: Common
     isBuilding: 0
-    CropType: -1
+    crop: -1
     BuildingType: -1
     tiledatas:
     - type: 1
@@ -56,9 +57,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -73,9 +74,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 4
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 1
@@ -90,9 +91,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -107,9 +108,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 1
@@ -124,9 +125,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -136,7 +137,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Tomato
     isBuilding: 0
-    CropType: 0
+    crop: 0
     BuildingType: -1
     tiledatas:
     - type: 6
@@ -146,9 +147,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 7
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 0
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -163,9 +164,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 0
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 8
       CanBeErosioned: 0
@@ -180,9 +181,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 9
       CanBeCollected: 1
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 1
-      CropType: 0
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -197,9 +198,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 10
       CanBeCollected: 1
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 2
-      CropType: 0
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -214,9 +215,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 3
-      CropType: 0
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -226,7 +227,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Eggplant
     isBuilding: 0
-    CropType: 2
+    crop: 1
     BuildingType: -1
     tiledatas:
     - type: 11
@@ -236,9 +237,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 12
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -253,9 +254,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 13
       CanBeErosioned: 0
@@ -270,9 +271,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 1
+      cropCollected: 0
       collectAmount: 1
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 14
       CanBeErosioned: 0
@@ -287,9 +288,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 1
+      cropCollected: 0
       collectAmount: 1
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 15
       CanBeErosioned: 0
@@ -304,9 +305,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 1
+      cropCollected: 0
       collectAmount: 3
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -316,7 +317,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Corn
     isBuilding: 0
-    CropType: 2
+    crop: 2
     BuildingType: -1
     tiledatas:
     - type: 16
@@ -326,9 +327,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 17
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -343,9 +344,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -360,9 +361,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 2
+      cropCollected: 0
       collectAmount: 1
-      CropType: 2
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -372,7 +373,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Dandelion
     isBuilding: 0
-    CropType: 3
+    crop: 3
     BuildingType: -1
     tiledatas:
     - type: 19
@@ -382,9 +383,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 20
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 3
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -399,9 +400,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 3
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 21
       CanBeErosioned: 0
@@ -416,9 +417,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 3
+      cropCollected: 0
       collectAmount: 1
-      CropType: 3
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -428,7 +429,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Strawberry
     isBuilding: 0
-    CropType: 4
+    crop: 4
     BuildingType: -1
     tiledatas:
     - type: 22
@@ -438,9 +439,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 23
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 4
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -455,9 +456,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 4
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 24
       CanBeErosioned: 0
@@ -472,9 +473,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 4
+      cropCollected: 0
       collectAmount: 1
-      CropType: 4
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -484,7 +485,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Cactus
     isBuilding: 0
-    CropType: 6
+    crop: 6
     BuildingType: -1
     tiledatas:
     - type: 25
@@ -494,9 +495,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 2
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 6
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 1
@@ -511,9 +512,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 2
       CanBeCollected: 1
-      CropCollected: 6
+      cropCollected: 0
       collectAmount: 4
-      CropType: 6
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -523,7 +524,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Fern
     isBuilding: 0
-    CropType: 5
+    crop: 5
     BuildingType: -1
     tiledatas:
     - type: 27
@@ -533,9 +534,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 28
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 5
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -550,9 +551,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 5
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 29
       CanBeErosioned: 0
@@ -567,9 +568,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 30
       CanBeCollected: 1
-      CropCollected: 5
+      cropCollected: 0
       collectAmount: 1
-      CropType: 5
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 31
       CanBeErosioned: 0
@@ -584,9 +585,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 5
+      cropCollected: 0
       collectAmount: 1
-      CropType: 5
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 29
       CanBeErosioned: 0
@@ -601,9 +602,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 5
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -613,7 +614,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: BeautyFlower
     isBuilding: 0
-    CropType: 7
+    crop: 7
     BuildingType: -1
     tiledatas:
     - type: 32
@@ -623,9 +624,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 39
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 47
       CanBeErosioned: 0
@@ -640,9 +641,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 40
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 47
       CanBeErosioned: 0
@@ -657,9 +658,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 41
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 47
       CanBeErosioned: 0
@@ -674,9 +675,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 42
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 47
       CanBeErosioned: 0
@@ -691,9 +692,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 43
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 47
       CanBeErosioned: 0
@@ -708,9 +709,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 44
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 47
       CanBeErosioned: 0
@@ -725,9 +726,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 45
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 47
       CanBeErosioned: 0
@@ -742,9 +743,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 33
       CanBeErosioned: 0
@@ -759,9 +760,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 34
       CanBeErosioned: 0
@@ -776,9 +777,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 35
       CanBeErosioned: 0
@@ -793,9 +794,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 36
       CanBeErosioned: 0
@@ -810,9 +811,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 37
       CanBeErosioned: 0
@@ -827,9 +828,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 38
       CanBeErosioned: 0
@@ -844,9 +845,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -861,9 +862,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 7
+      cropCollected: 0
       collectAmount: 1
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -878,9 +879,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -895,9 +896,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 7
+      cropCollected: 0
       collectAmount: 1
-      CropType: 7
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -907,7 +908,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Flycathcer
     isBuilding: 0
-    CropType: 8
+    crop: 8
     BuildingType: -1
     tiledatas:
     - type: 49
@@ -917,9 +918,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 2
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 8
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -934,9 +935,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 2
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 8
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -951,9 +952,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 2
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 8
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -968,9 +969,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 2
       CanBeCollected: 1
-      CropCollected: 8
+      cropCollected: 0
       collectAmount: 1
-      CropType: 8
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -980,7 +981,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Onion
     isBuilding: 0
-    CropType: 9
+    crop: 9
     BuildingType: -1
     tiledatas:
     - type: 53
@@ -990,9 +991,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 54
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 9
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1007,9 +1008,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 9
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 55
       CanBeErosioned: 0
@@ -1024,9 +1025,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 9
+      cropCollected: 0
       collectAmount: 0
-      CropType: 9
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1036,7 +1037,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Pumpkin
     isBuilding: 0
-    CropType: 11
+    crop: 11
     BuildingType: -1
     tiledatas:
     - type: 98
@@ -1046,9 +1047,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 101
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1063,9 +1064,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 102
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1080,9 +1081,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 103
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1097,9 +1098,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 104
       CanBeErosioned: 0
@@ -1114,9 +1115,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 105
       CanBeErosioned: 0
@@ -1131,9 +1132,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 106
       CanBeErosioned: 0
@@ -1148,9 +1149,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 107
       CanBeErosioned: 0
@@ -1165,9 +1166,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 108
       CanBeErosioned: 0
@@ -1182,9 +1183,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 109
       CanBeErosioned: 0
@@ -1199,9 +1200,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 11
+      cropCollected: 0
       collectAmount: 1
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1216,9 +1217,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 11
+      cropCollected: 0
       collectAmount: 2
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1233,9 +1234,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 11
+      cropCollected: 0
       collectAmount: 3
-      CropType: 11
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1245,7 +1246,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Radish
     isBuilding: 0
-    CropType: 12
+    crop: 12
     BuildingType: -1
     tiledatas:
     - type: 110
@@ -1255,9 +1256,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 111
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 12
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1272,9 +1273,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 12
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 112
       CanBeErosioned: 0
@@ -1289,9 +1290,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 12
+      cropCollected: 0
       collectAmount: 1
-      CropType: 12
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1301,7 +1302,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Peanut
     isBuilding: 0
-    CropType: 13
+    crop: 13
     BuildingType: -1
     tiledatas:
     - type: 113
@@ -1311,9 +1312,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 114
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 13
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1328,9 +1329,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 13
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1345,9 +1346,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 1
-      CropCollected: 13
+      cropCollected: 0
       collectAmount: 0
-      CropType: 13
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1362,9 +1363,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: 13
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1375,7 +1376,7 @@ MonoBehaviour:
   BuildingGroups:
   - name: Biogenerator
     isBuilding: 0
-    CropType: -1
+    crop: 0
     BuildingType: 0
     tiledatas:
     - type: 56
@@ -1385,9 +1386,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1402,9 +1403,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1419,9 +1420,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1436,9 +1437,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1453,9 +1454,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1470,9 +1471,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 56
       CanBeErosioned: 0
@@ -1482,7 +1483,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Freshener
     isBuilding: 0
-    CropType: -1
+    crop: 0
     BuildingType: 1
     tiledatas:
     - type: 62
@@ -1492,9 +1493,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 63
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1509,9 +1510,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 64
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1526,9 +1527,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 65
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1543,9 +1544,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 66
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1560,9 +1561,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 67
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1577,9 +1578,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 68
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1594,9 +1595,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 69
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1611,9 +1612,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 1
@@ -1628,9 +1629,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 62
       CanBeErosioned: 0
@@ -1645,9 +1646,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1662,9 +1663,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1679,9 +1680,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1691,7 +1692,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Sprinkler
     isBuilding: 0
-    CropType: -1
+    crop: 0
     BuildingType: 2
     tiledatas:
     - type: 74
@@ -1701,9 +1702,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 76
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1718,9 +1719,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 77
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 74
       CanBeErosioned: 0
@@ -1735,9 +1736,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 78
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 75
       CanBeErosioned: 0
@@ -1752,9 +1753,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 79
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 76
       CanBeErosioned: 0
@@ -1769,9 +1770,9 @@ MonoBehaviour:
       CanBeWatered: 1
       WaterSwitch: 80
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 77
       CanBeErosioned: 0
@@ -1786,9 +1787,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 78
       CanBeErosioned: 0
@@ -1803,9 +1804,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 79
       CanBeErosioned: 0
@@ -1820,9 +1821,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 74
       CanBeErosioned: 0
@@ -1837,9 +1838,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1854,9 +1855,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1871,9 +1872,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1883,7 +1884,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Sprinkler Target
     isBuilding: 0
-    CropType: -1
+    crop: 0
     BuildingType: 3
     tiledatas:
     - type: 81
@@ -1893,9 +1894,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1905,7 +1906,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: SeedDoubler
     isBuilding: 0
-    CropType: -1
+    crop: 0
     BuildingType: 4
     tiledatas:
     - type: 86
@@ -1915,9 +1916,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1932,9 +1933,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1949,9 +1950,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1966,9 +1967,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -1983,9 +1984,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 3
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -2000,9 +2001,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 86
       CanBeErosioned: 0
@@ -2012,7 +2013,7 @@ MonoBehaviour:
       BuildingType: -1
   - name: Tractor
     isBuilding: 0
-    CropType: -1
+    crop: 0
     BuildingType: 5
     tiledatas:
     - type: 92
@@ -2022,9 +2023,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -2039,9 +2040,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -2056,9 +2057,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 1
       NewDaySwitch: 92
       CanBeErosioned: 0
@@ -2073,9 +2074,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -2090,9 +2091,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
@@ -2107,9 +2108,9 @@ MonoBehaviour:
       CanBeWatered: 0
       WaterSwitch: 0
       CanBeCollected: 0
-      CropCollected: 0
+      cropCollected: 0
       collectAmount: 0
-      CropType: -1
+      crop: 0
       CanBeNewDayed: 0
       NewDaySwitch: 0
       CanBeErosioned: 0
