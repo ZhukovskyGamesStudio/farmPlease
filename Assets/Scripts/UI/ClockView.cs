@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace.Managers;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace DefaultNamespace.UI {
         private const string WASTE_ONE = "WasteOne";
 
         [SerializeField]
-        private GameObject _helloPanel;
+        private HelloPanelView _helloPanel;
 
         public void ClockPressedButton() {
               Clock.Instance.TryAddDay();
@@ -23,17 +24,18 @@ namespace DefaultNamespace.UI {
         
         public void SetAmount(int amount) {
             ShowInitialAnimation();
-            for (int i = 0; i < _greenPieces.Count; i++) {
-                _greenPieces[i].SetActive(amount > i);
-            }
+            SetPiecesAmount(amount);
         }
 
         public void SetAmountWithWasteAnimation(int amount) {
-            for (int i = 0; i < _greenPieces.Count; i++) {
-                _greenPieces[i].SetActive(amount > i);
-            }
-
+            SetPiecesAmount(amount);
             ShowWasteAnimation();
+        }
+
+        private void SetPiecesAmount(int amount) {
+            for (int i = 0; i < _greenPieces.Count; i++) {
+                _greenPieces[_greenPieces.Count - 1 - i].SetActive(amount > i);
+            }
         }
 
         public void ShowZeroTimeAnimation() {
@@ -49,8 +51,7 @@ namespace DefaultNamespace.UI {
         }
 
         public void ShowHelloPanel() {
-            _helloPanel.SetActive(true);
-            //TODO add HelloPanel as a separate class
+            _helloPanel.Show("");
         }
     }
 }

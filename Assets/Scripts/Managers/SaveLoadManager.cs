@@ -83,6 +83,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         gameSave.profile = profile;
         gameSave.money = Instance.InventoryManager.coins;
         gameSave.energy = Energy.Instance.curEnergy;
+        gameSave.clockEnergy = CurrentSave.clockEnergy;
         gameSave.allCrops = Instance.InventoryManager.AllCropsCollected;
 
         gameSave.currentDay = Time.Instance.day;
@@ -136,7 +137,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         File.WriteAllText(SavePath, toSave);
     }
 
-    public static bool IsNewPlayer() => Directory.Exists(SavePath);
+    public static bool IsNewPlayer() => File.Exists(SavePath);
 
     public static void LoadGame(string jsonString = null) {
         if (jsonString != null)
@@ -237,7 +238,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void ClearSave() {
+    public static void ClearSave() {
         if (File.Exists(SavePath))
             File.Delete(SavePath);
     }

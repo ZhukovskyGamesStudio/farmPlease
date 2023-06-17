@@ -10,7 +10,7 @@ namespace DefaultNamespace.Abstract {
             if (_instance == null) {
                 _instance = this;
                 OnFirstInit();
-            } else if (_instance == this) {
+            } else if (_instance != this) {
                 Destroy(gameObject);
             }
         }

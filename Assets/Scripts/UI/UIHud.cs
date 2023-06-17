@@ -11,6 +11,7 @@ public class UIHud : Singleton<UIHud>, ISoundStarter {
     public TimePanel TimePanel;
     public Backpack Backpack;
     public ShopsPanel ShopsPanel;
+    public HelloPanelView HelloPanel;
 
     public GameObject CroponomPanel, CroponomButton;
     public GameObject BuildingPanel;

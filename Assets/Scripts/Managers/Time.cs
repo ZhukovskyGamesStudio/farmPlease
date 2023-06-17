@@ -21,7 +21,6 @@ public class Time : Singleton<Time> {
     public EndTrainingPanel EndTrainingPanel;
     public EndMonthPanel EndMonthPanel;
     
-    public Text HelloText;
     public HappeningType[] daysHappenings;
 
     public float SessionTime;
@@ -88,8 +87,6 @@ public class Time : Singleton<Time> {
 
         if (RealTImeManager.IsRefillingEnergy(tmpDate)) {
             Energy.Instance.RestoreEnergy();
-            HelloText.text = "Здравствуй Фермер, энергия обновлена\n" + "до обновления энергии осталось " +
-                             RealTImeManager.TimeToString(RealTImeManager.MinutesToEnergyRefill());
         }
 
         if (daysGone > 0) {
