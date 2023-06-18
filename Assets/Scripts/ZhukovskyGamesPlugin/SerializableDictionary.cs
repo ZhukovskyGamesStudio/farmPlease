@@ -58,5 +58,7 @@ namespace ZhukovskyGamesPlugin {
         }
 
         public bool ContainsKey(T1 key) => Keys.Contains(key);
+
+        public int Count => Keys?.Count ?? 0;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Abstract;
+using ScriptableObjects;
 using UI;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace Managers
 
         public SettingsPanel SettingsPanel;
         public SettingsProfile SettingsProfile;
+        [SerializeField]
+        private CheatCodeConfigList CheatCodeConfigList;
 
         /**********/
 
@@ -22,7 +25,7 @@ namespace Managers
         public void LoadSettings() {
             GpsManager.Instance.InitializeNotifications();
 
-            SettingsPanel.Initialize();
+            SettingsPanel.Initialize(CheatCodeConfigList);
             SettingsPanel.UpdateSettingsPanel(SettingsProfile);
 
             RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, false);

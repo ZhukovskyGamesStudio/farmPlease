@@ -5,7 +5,7 @@ using ZhukovskyGamesPlugin;
 
 namespace Managers {
     public class Clock : Singleton<Clock> {
-        private const int MAX_ENERGY = 7;
+        public const int MAX_ENERGY = 7;
         private const string REFILLED_ENERGY_TEXT = "Здравствуй фермер, заряд часов восстановлен."; //TODO придумать сюда текст получше
 
         private readonly TimeSpan _timespanForRefillOneEnergy = new TimeSpan(3, 0, 0);
@@ -76,6 +76,15 @@ namespace Managers {
 
         public void SetEnergy(int newEnergy) {
             Save.ClockEnergy = newEnergy;
+            UIHud.Instance.ClockView.SetAmount(Save.ClockEnergy);
+        }
+
+        public void AddEnergy(int amount) {
+            Save.ClockEnergy += amount;
+            if (Save.ClockEnergy > MAX_ENERGY) {
+                Save.ClockEnergy = MAX_ENERGY;
+            }
+            SaveLoadManager.Instance.SaveGame();
             UIHud.Instance.ClockView.SetAmount(Save.ClockEnergy);
         }
 

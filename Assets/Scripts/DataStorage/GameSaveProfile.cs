@@ -23,6 +23,7 @@ public class GameSaveProfile {
     public List<HappeningType> Days = new List<HappeningType>();
     public SerializableDictionary<Crop, int> Seeds = new SerializableDictionary<Crop, int>();
     public SerializableDictionary<ToolBuff, int> ToolBuffs = new SerializableDictionary<ToolBuff, int>();
+    public SerializableDictionary<string, int> CheatCodesActivated = new SerializableDictionary<string, int>();
 
     public bool[] SeedShopButtonData;
     public bool SeedShopChangeButton;

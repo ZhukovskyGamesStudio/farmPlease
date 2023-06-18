@@ -1,12 +1,12 @@
 ﻿using Abstract;
 using Managers;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
-{
-    public class SettingsPanel : MonoBehaviour,ISoundStarter {
+namespace UI {
+    public class SettingsPanel : MonoBehaviour, ISoundStarter {
         public Slider masterSoundSlider, musicSoundSlider, effectsSoundSlider;
         public Button GPGSButton;
         public Text GPGSText;
@@ -15,12 +15,14 @@ namespace UI
         public GameObject ResetButton;
         public bool IsMainMenu;
         public DevlogManager Devlog;
- 
+
+        [SerializeField] private SettingsCheatCodeView _settingsCheatCodeView;
 
         private SettingsProfile _curProfile, _unchangedProfile;
 
-        public void Initialize() {
+        public void Initialize(CheatCodeConfigList cheatCodeConfigList) {
             _curProfile = new SettingsProfile();
+            _settingsCheatCodeView.Init(cheatCodeConfigList);
             Devlog.Init();
         }
 
