@@ -9,6 +9,7 @@ namespace UI
         private Rigidbody2D _rb;
 
         public void OnTapped() {
+            return;
             StartCoroutine(KaBoom());
             GetComponent<Button>().interactable = false;
             _rb = GetComponent<Rigidbody2D>();

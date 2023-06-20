@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Managers;
@@ -17,9 +18,11 @@ public class GameSaveProfile {
     public string SavedDate;
     public string TilesData;
     public int CurrentDay;
+    public int CurrentMonth;
     public int DayOfWeek;
 
-    public Queue<Crop> CropsCollected = new Queue<Crop>();
+    public List<Crop> CropsCollected = new List<Crop>();
+    public Queue<Crop> CropsCollectedQueue => new Queue<Crop>(CropsCollected);
     public List<HappeningType> Days = new List<HappeningType>();
     public SerializableDictionary<Crop, int> Seeds = new SerializableDictionary<Crop, int>();
     public SerializableDictionary<ToolBuff, int> ToolBuffs = new SerializableDictionary<ToolBuff, int>();

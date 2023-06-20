@@ -53,9 +53,11 @@ namespace Managers
             ChangeDayPoint(Settings.Instance.GetDayPoint());
 
             if (daysData == null) {
-                GenerateDays(GameModeManager.Instance.GameMode == GameMode.Training, false);
+                GenerateDays(0);
                 return;
             }
+            
+            TryChangeMonth();
 
             MaxDays = daysData.Count;
             SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
@@ -72,28 +74,40 @@ namespace Managers
             }
         }
 
-        public void GenerateDays(bool isTraining, bool isNewGame) {
-            if (isTraining) {
-                MaxDays = 31;
-                SkipDaysAmount = 0;
-            } else {
-                DateTime date = FirstDayOfGame;
-                MaxDays = DateTime.DaysInMonth(date.Year, date.Month);
-                SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
-                ChangeDayPoint(Settings.Instance.GetDayPoint());
-            }
+        public void GenerateDays(int month) {
+            DateTime date = FirstDayOfGame.AddMonths(month);
+            MaxDays = DateTime.DaysInMonth(date.Year, date.Month);
+            SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
+            ChangeDayPoint(Settings.Instance.GetDayPoint());
 
             SaveLoadManager.CurrentSave.CurrentDay = 0;
+
+            GenerateHappenings();
+
+            TimePanel.CreateDays(Days, SkipDaysAmount);
+
+            TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
+            ToolShop.ChangeTools();
+
+            if (GameModeManager.Instance.GameMode != GameMode.Training) {
+                if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
+                    UIHud.OpenBuildingsShop();
+                } else {
+                    UIHud.CloseBuildingsShop();
+                }
+            }
+        }
+
+        private void GenerateHappenings() {
             SaveLoadManager.CurrentSave.Days = new List<HappeningType>();
             for (int i = 0; i < MaxDays; i++) {
                 Days.Add(HappeningType.None);
             }
-        
             int love = -1;
-            while ((love + SkipDaysAmount + 1) % 7 == 0 || (love + 1) % 5 == 0) love = Random.Range(8 + SkipDaysAmount, 20);
+            while ((love + SkipDaysAmount) % 7 == 0 || (love + 1) % 5 == 0) love = Random.Range(7 + SkipDaysAmount, 20);
 
             for (int i = 0; i < MaxDays; i++) {
-                int x = i + SkipDaysAmount + 1;
+                int x = i + SkipDaysAmount;
                 if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training) {
                     Days[i] = HappeningType.Marketplace;
                 } else if ((i + 1) % 5 == 0) {
@@ -110,32 +124,26 @@ namespace Managers
                     Days[i] = HappeningType.Love;
                 }
             }
-
-            TimePanel.CreateDays(Days, SkipDaysAmount);
-
-            TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
-            ToolShop.ChangeTools();
-
-            if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
-                    UIHud.OpenBuildingsShop();
-                } else {
-                    UIHud.CloseBuildingsShop();
-                }
-            }
         }
 
         public void AddDay() {
+            SaveLoadManager.CurrentSave.CurrentDay++;
+            TryChangeMonth();
             StartCoroutine(DayPointCoroutine());
             Energy.Instance.RestoreEnergy();
         }
 
-        public IEnumerator DayPointCoroutine() {
-            SaveLoadManager.CurrentSave.CurrentDay++;
+        private void TryChangeMonth() {
+            if (SaveLoadManager.CurrentSave.CurrentDay >= SaveLoadManager.CurrentSave.Days.Count) {
+                SaveLoadManager.CurrentSave.CurrentMonth++;
+                GenerateDays(SaveLoadManager.CurrentSave.CurrentMonth);
+            }
+        }
 
+        public IEnumerator DayPointCoroutine() {
             SaveLoadManager.CurrentSave.DayOfWeek = NextDay(SaveLoadManager.CurrentSave.DayOfWeek);
-            if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
-                EndMonth();
+            /*if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
+                EndMonth();*/
 
             SeedShopView.ChangeSeedsNewDay();
 
@@ -160,9 +168,9 @@ namespace Managers
 
         public void SkipToEndMonth() {
             SaveLoadManager.CurrentSave.DayOfWeek = NextDay(LastDayInMonth( SaveLoadManager.CurrentSave.CurrentDay, MaxDays, SaveLoadManager.CurrentSave.DayOfWeek));
-            EndMonth();
+            //EndMonth();
         }
-
+/*
         private void EndMonth() {
             InventoryManager.Instance.ToolsInventory[ToolBuff.Weatherometr] = 0;
             GenerateDays(false, false);
@@ -176,7 +184,7 @@ namespace Managers
                     SaveLoadManager.CurrentSave.CropPoints);
                 SaveLoadManager.CurrentSave.CropsCollected = new Queue<Crop>();
             }
-        }
+        }*/
 
         public void ChangeDayPoint(TimeSpan timespan) {
         }
@@ -188,7 +196,7 @@ namespace Managers
 
         private int FirstDayInMonth(int year, int month) {
             DateTime date = new(year, month, 1);
-            return (int) date.DayOfWeek - 1;
+            return (int) date.DayOfWeek;
         }
 
         private int LastDayInMonth(int currentday, int maxDays, int currentDayofWeek) {

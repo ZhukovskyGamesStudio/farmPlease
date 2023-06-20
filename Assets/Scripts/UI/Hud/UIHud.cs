@@ -11,7 +11,6 @@ namespace UI
 {
     public class UIHud : Singleton<UIHud>, ISoundStarter {
         public BatteryView BatteryView;
-        [FormerlySerializedAs("CoinsScript")] public CoinsView coinsView;
         public FastPanelScript FastPanelScript;
         public TimePanel TimePanel;
         public Backpack Backpack;
@@ -23,6 +22,7 @@ namespace UI
         public GraphicRaycaster GraphicRaycaster;
 
         public ClockView ClockView;
+        public CountersView CountersView;
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
 
@@ -48,7 +48,7 @@ namespace UI
         }
 
         public void ChangeCoins(int amount) {
-            coinsView.UpdateCoins(amount);
+            CountersView.UpdateCounters();
         }
 
         public void ChangeInventoryHover(int index) {

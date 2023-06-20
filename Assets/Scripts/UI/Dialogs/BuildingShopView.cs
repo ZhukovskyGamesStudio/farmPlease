@@ -42,54 +42,30 @@ namespace UI
         private Dictionary<Crop, Button> _cropButtonsD;
 
         private int _currentBuildingPrice;
-        private PlayerController _player;
         private Dictionary<ToolBuff, Button> _toolButtonsD;
 
-        private void Start() {
-            _player = PlayerController.Instance;
+        public void InitializeWithData(int buildingPrice) {
+            _currentBuildingPrice = buildingPrice;
+
+            //Если куплена хотя бы 1 постройка - то кнопка перестраивания построек становится активной
+            BuildingPanelButton.SetActive(false);
+            foreach (bool build in InventoryManager.Instance.IsBuildingsBoughtD.Values)
+                if (build) {
+                    BuildingPanelButton.SetActive(true);
+                    break;
+                }
+
+            GenerateButtons();
+            UpdateButtonsInteractable();
+        }
+        
+        public void GenerateButtons() {
+            GenerateBuildingsButtons();
+            GenerateCropsButtons();
+            GenerateToolsButtons();
         }
 
-        public void GenerateButtons() {
-            //Buildings
-            BuildingConfig[] buildings = BuildingsTable.Instance.Buildings;
-            _buildingButtonsD = new Dictionary<BuildingType, Button>();
-
-            for (int i = 0; i < buildings.Length; i++) {
-                if (buildings[i].IsFakeBuilding)
-                    continue;
-                GameObject offerObject = Instantiate(BuildingPrefab, BuildingsGrid);
-                offerObject.SetActive(true);
-                FoodMarketOffer offer = offerObject.GetComponent<FoodMarketOffer>();
-                offer.name.text = buildings[i].offerHeader;
-                offer.image.sprite = buildings[i].offerSprite;
-                BuildingType type = buildings[i].type;
-                Button button = offer.GetComponent<Button>();
-                _buildingButtonsD.Add(type, button);
-
-                button.onClick.AddListener(() => OpenConfirmPage(type));
-            }
-
-            CropConfig[] crops = CropsTable.Instance.Crops;
-            _cropButtonsD = new Dictionary<Crop, Button>();
-
-            for (int i = 0; i < crops.Length; i++) {
-                if (crops[i].CanBeBought || crops[i].type == Crop.Weed)
-                    continue;
-
-                GameObject obj = Instantiate(CropPrefab, CropsGrid);
-                obj.SetActive(true);
-                Button button = obj.GetComponent<Button>();
-
-                FoodMarketOffer offer = obj.GetComponent<FoodMarketOffer>();
-                offer.name.text = crops[i].header;
-                offer.image.sprite = crops[i].VegSprite;
-
-                Crop tmp = crops[i].type;
-                button.onClick.AddListener(() => OpenConfirmPage(tmp));
-
-                _cropButtonsD.Add(tmp, button);
-            }
-
+        private void GenerateToolsButtons() {
             ToolConfig[] tools = ToolsTable.Instance.ToolsSO;
             _toolButtonsD = new Dictionary<ToolBuff, Button>();
 
@@ -111,27 +87,47 @@ namespace UI
             }
         }
 
-        public void Initialize() {
-            _currentBuildingPrice = 0;
+        private void GenerateCropsButtons() {
+            CropConfig[] crops = CropsTable.Instance.Crops;
+            _cropButtonsD = new Dictionary<Crop, Button>();
 
-            BuildingPanelButton.SetActive(false);
-            GenerateButtons();
-            UpdateButtonsInteractable();
+            for (int i = 0; i < crops.Length; i++) {
+                if (crops[i].CanBeBought || crops[i].type == Crop.Weed)
+                    continue;
+
+                GameObject obj = Instantiate(CropPrefab, CropsGrid);
+                obj.SetActive(true);
+                Button button = obj.GetComponent<Button>();
+
+                FoodMarketOffer offer = obj.GetComponent<FoodMarketOffer>();
+                offer.name.text = crops[i].header;
+                offer.image.sprite = crops[i].VegSprite;
+
+                Crop tmp = crops[i].type;
+                button.onClick.AddListener(() => OpenConfirmPage(tmp));
+
+                _cropButtonsD.Add(tmp, button);
+            }
         }
 
-        public void InitializeWithData(int buildingPrice) {
-            _currentBuildingPrice = buildingPrice;
+        private void GenerateBuildingsButtons() {
+            BuildingConfig[] buildings = BuildingsTable.Instance.Buildings;
+            _buildingButtonsD = new Dictionary<BuildingType, Button>();
 
-            //Если куплена хотя бы 1 постройка - то кнопка перестраивания построек становится активной
-            BuildingPanelButton.SetActive(false);
-            foreach (bool build in InventoryManager.Instance.IsBuildingsBoughtD.Values)
-                if (build) {
-                    BuildingPanelButton.SetActive(true);
-                    break;
-                }
+            for (int i = 0; i < buildings.Length; i++) {
+                if (buildings[i].IsFakeBuilding)
+                    continue;
+                GameObject offerObject = Instantiate(BuildingPrefab, BuildingsGrid);
+                offerObject.SetActive(true);
+                FoodMarketOffer offer = offerObject.GetComponent<FoodMarketOffer>();
+                offer.name.text = buildings[i].offerHeader;
+                offer.image.sprite = buildings[i].offerSprite;
+                BuildingType type = buildings[i].type;
+                Button button = offer.GetComponent<Button>();
+                _buildingButtonsD.Add(type, button);
 
-            GenerateButtons();
-            UpdateButtonsInteractable();
+                button.onClick.AddListener(() => OpenConfirmPage(type));
+            }
         }
 
         public int GetBuildingPrice() {
@@ -220,8 +216,8 @@ namespace UI
         }
 
         public void StartBuyingBuilding(BuildingType type) {
-            _player.StartStopBuilding();
-            _player.InitializeBuilding(type, buildingPriceProgression[_currentBuildingPrice]);
+            PlayerController.Instance.StartStopBuilding();
+            PlayerController.Instance.InitializeBuilding(type, buildingPriceProgression[_currentBuildingPrice]);
             SetConfirmPageActive(false);
             gameObject.SetActive(false);
         }

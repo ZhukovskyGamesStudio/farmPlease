@@ -26,7 +26,7 @@ namespace UI
         public void CreateDays(List<HappeningType> daysHappenings, int skipAmount) {
             _daysHappenings = daysHappenings;
             _daysAmount = daysHappenings.Count;
-            _skipDaysAmount = skipAmount;
+            _skipDaysAmount = skipAmount-1;
 
             if (_skipDays != null)
                 for (int i = 0; i < _skipDays.Length; i++)

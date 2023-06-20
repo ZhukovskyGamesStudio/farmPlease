@@ -10,6 +10,5 @@ namespace UI
         public SeedShopView seedShopView;
         public ToolShopView toolShopView;
         public BuildingShopView BuildingShopView;
-        public CoinsView coinsView;
     }
 }

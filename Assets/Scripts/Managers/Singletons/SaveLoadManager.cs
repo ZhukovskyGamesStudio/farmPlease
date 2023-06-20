@@ -114,10 +114,7 @@ namespace Managers
             Clock.Instance.RefillToMaxEnergy();
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsNewDay();
             UIHud.Instance.ShopsPanel.toolShopView.ChangeTools();
-
-            if (GameModeManager.Instance.GameMode != GameMode.Training)
-                UIHud.Instance.ShopsPanel.BuildingShopView.Initialize();
-            Time.Instance.GenerateDays(GameModeManager.Instance.GameMode == GameMode.Training, true);
+            Time.Instance.GenerateDays(0);
         }
 
         public void ClearSaveAndReload() {

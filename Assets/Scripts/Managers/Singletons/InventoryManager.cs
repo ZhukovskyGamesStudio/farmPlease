@@ -171,10 +171,10 @@ namespace Managers
         /**********/
 
         public void CollectCrop(Crop crop, int amount) {
-            for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Enqueue(crop);
+            for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
             SaveLoadManager.CurrentSave.CropPoints += amount;
             UpdateInventoryUI();
-            AddCoins(amount);
+            //AddCoins(amount);
         }
 
         public void AddCoins(int amount) {
