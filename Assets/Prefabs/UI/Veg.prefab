@@ -32,6 +32,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -39,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 11, y: 13}
+  m_SizeDelta: {x: 12, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6832106352956387265
 CanvasRenderer:
@@ -64,11 +65,12 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 255542555898257363, guid: e39028a83e65f7740b999182c49131de, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -112,8 +114,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.16375732, y: -0.6860504}
-  m_Size: {x: 9.56366, y: 11.166901}
+  m_Offset: {x: -0.033648975, y: -0.32825446}
+  m_Size: {x: 8.132476, y: 9.410447}
   m_Direction: 0
 --- !u!114 &791364962417581240
 MonoBehaviour:
@@ -129,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -159,6 +162,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 813834097186201868}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnTapped
         m_Mode: 1
         m_Arguments:
@@ -181,3 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a15cc692c6c23c40931273fb989c2b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blowImpulse: 1
+  _rb: {fileID: 6832106352956387271}
+  _image: {fileID: 6832106352956387270}

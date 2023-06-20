@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using Database;
@@ -7,6 +8,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ZhukovskyGamesPlugin;
+using Random = UnityEngine.Random;
 
 namespace Managers
 {
@@ -95,6 +97,15 @@ namespace Managers
                 Debug.Instance.Log("Generating finished. Saving started");
                 Instance.SaveGame();
                 Debug.Instance.Log("New profile is saved");
+            }
+
+            if (GameModeManager.Instance.RandomCropsCollectedQueueAmount > 0) {
+                CurrentSave.CropsCollected = new List<Crop>();
+                int cropTypesAmount = Enum.GetValues(typeof(Crop)).Length-1;
+                for (int i = 0; i < GameModeManager.Instance.RandomCropsCollectedQueueAmount; i++) {
+            
+                    CurrentSave.CropsCollected.Add((Crop)Random.Range(0,cropTypesAmount));
+                }
             }
         }
 
