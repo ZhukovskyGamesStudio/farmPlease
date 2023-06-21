@@ -14,7 +14,7 @@ namespace UI {
         public void ShowSpeak(string text, Action onHideEnded = null) {
             gameObject.SetActive(true);
             _speakText.text = text;
-            OnHideEnded = onHideEnded;
+            OnAnimationEnded = onHideEnded;
             _animation.Play(SHOW);
         }
 

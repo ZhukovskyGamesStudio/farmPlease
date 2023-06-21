@@ -320,6 +320,7 @@ public class PlayerController : Singleton<PlayerController> {
         _curTool = before;
     }
 
+    public Tool CurTool => _curTool;
     public void ChangeTool(int index) {
         _curTool = (Tool) index;
         _uiHud.ChangeInventoryHover(index);

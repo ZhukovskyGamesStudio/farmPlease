@@ -315,6 +315,7 @@ GameObject:
   - component: {fileID: 5585462203680935171}
   - component: {fileID: 5496775305846572647}
   - component: {fileID: 3039820860187799908}
+  - component: {fileID: 8645115302656207523}
   m_Layer: 5
   m_Name: ShadowFill
   m_TagString: Untagged
@@ -380,6 +381,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &8645115302656207523
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4179718172391059373}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4502154995831647525
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +479,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4522238093597647858}
   - component: {fileID: 4522238093597647863}
-  - component: {fileID: 4522238093597647860}
   - component: {fileID: 4522238093597647861}
   - component: {fileID: 3457342276867093635}
   - component: {fileID: 5228897873778920533}
@@ -508,36 +520,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4522238093597647859}
   m_CullTransparentMesh: 0
---- !u!114 &4522238093597647860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4522238093597647859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &4522238093597647861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,13 +560,13 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4522238093597647860}
+  m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3709721283494047003}
-        m_TargetAssemblyTypeName: SpotlightWithText, Assembly-CSharp
-        m_MethodName: HideSpotlight
+        m_TargetAssemblyTypeName: UI.SpotlightWithText, Assembly-CSharp
+        m_MethodName: HideButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -637,6 +619,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animation: {fileID: 3457342276867093635}
   _hintText: {fileID: 4522238095045652121}
+  _centerImage: {fileID: 3039820860187799908}
+  _centerImageCanvasGroup: {fileID: 8645115302656207523}
   _shadowCenter: {fileID: 5751496574203566050}
   _headShift: {fileID: 6386236270790937658}
 --- !u!1 &4522238093666566443

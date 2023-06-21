@@ -22,9 +22,13 @@ namespace UI
         [HideInInspector]
         public bool isOpen;
 
-        private bool _isBuffed;
-        private GameObject[] _seeds;
+        [SerializeField] private Button _openButton;
 
+        public Button OpenButton => _openButton;
+        private bool _isBuffed;
+        private List<GameObject> _seeds;
+        public Button TomatoButton { get; private set; }
+        
         public void OpenClose() {
             isOpen = !isOpen;
             if (_isBuffed)
@@ -43,7 +47,7 @@ namespace UI
         }
 
         private void GenerateSeedButtons() {
-            List<GameObject> buttonsList = new();
+            _seeds = new();
 
             for (int i = 0; i < CropsTablePrefab.Crops.Length; i++) {
                 CropConfig crop = CropsTablePrefab.Crops[i];
@@ -58,10 +62,11 @@ namespace UI
                 seedView.button.onClick.AddListener(() => OpenClose());
                 seedView.button.onClick.AddListener(() => PlayerController.Instance.ChangeTool(2));
                 seedView.gameObject.SetActive(false);
-                buttonsList.Add(button);
+                _seeds.Add(button);
+                if (crop.type == Crop.Tomato) {
+                    TomatoButton = button.GetComponent<Button>();
+                }
             }
-
-            _seeds = buttonsList.ToArray();
         }
 
         public void UpdateGrid(SerializableDictionary<Crop, int> seedsInventory) {
@@ -70,7 +75,7 @@ namespace UI
 
             int itemsToShow = 0;
 
-            for (int i = 0; i < _seeds.Length; i++) {
+            for (int i = 0; i < _seeds.Count; i++) {
                 int amount = 0;
                 if (seedsInventory.ContainsKey(_seeds[i].GetComponent<SeedView>().crop))
                     amount = seedsInventory[_seeds[i].GetComponent<SeedView>().crop];

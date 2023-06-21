@@ -7,16 +7,16 @@ namespace Abstract {
         [SerializeField]
         protected Animation _animation;
 
-        protected Action OnHideEnded;
+        protected Action OnAnimationEnded;
 
         protected IEnumerator WaitForAnimationEnded() {
             yield return new WaitWhile(() => _animation.isPlaying);
             gameObject.SetActive(false);
-            OnHideEnded?.Invoke();
+            OnAnimationEnded?.Invoke();
         }
 
         protected void OnDestroy() {
-            OnHideEnded = null;
+            OnAnimationEnded = null;
         }
     }
 }
