@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Abstract;
 using ScriptableObjects;
 using UnityEngine;
@@ -28,22 +29,23 @@ namespace UI
             ShowSpotlight(target.transform.position, animDataConfig);
             _target = target;
             target.onClick.AddListener(OnTargetButtonPressed);
-            _onButtonPressed = onButtonPressed;
+            OnAnimationEnded = onButtonPressed;
             _isHidingByAnyTap = false;
             _centerImageCanvasGroup.blocksRaycasts = false;
         }
 
         private void OnTargetButtonPressed() {
-            _onButtonPressed?.Invoke();
+            HideSpotlight();
             _target.onClick.RemoveListener(OnTargetButtonPressed);
             _target = null;
         }
-        public void ShowSpotlight(Transform target, SpotlightAnimConfig animDataConfig, Action onHideEnded = null) {
+        public void ShowSpotlight(Transform target, SpotlightAnimConfig animDataConfig, Action onHideEnded = null, bool isHidingByAnyTap = true) {
             gameObject.SetActive(true);
             ShowSpotlight(target.position, animDataConfig);
             OnAnimationEnded = onHideEnded;
             _isHidingByAnyTap = true;
             _centerImageCanvasGroup.blocksRaycasts = true;
+            _isHidingByAnyTap = isHidingByAnyTap;
         }
 
         private void ShowSpotlight(Vector3 targetPos, SpotlightAnimConfig config) {
@@ -52,6 +54,10 @@ namespace UI
             _shadowCenter.sizeDelta = config.SpotlightSize;
             _hintText.text = config.HintText;
             _animation.Play(SHOW);
+        }
+
+        public void Hide() {
+            HideSpotlight();
         }
 
         public void HideButton() {

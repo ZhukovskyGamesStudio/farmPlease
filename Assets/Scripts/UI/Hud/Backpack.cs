@@ -28,22 +28,34 @@ namespace UI
         private bool _isBuffed;
         private List<GameObject> _seeds;
         public Button TomatoButton { get; private set; }
+        [HideInInspector]
+        public bool IsLockOpenCloseByFtue;
         
         public void OpenClose() {
+            if (IsLockOpenCloseByFtue) {
+                return;
+            }
             isOpen = !isOpen;
+            UpdateSprite();
+            SeedsPanel.SetActive(isOpen);
+        }
+        
+        private void CloseBySelectedSeed() {
+            isOpen = false;
+            UpdateSprite();
+            SeedsPanel.SetActive(isOpen);
+        }
+
+        private void UpdateSprite() {
             if (_isBuffed)
                 BackPackImage.sprite = isOpen ? openedBuffed : closedBuffed;
             else
                 BackPackImage.sprite = isOpen ? opened : closed;
-            SeedsPanel.SetActive(isOpen);
         }
 
         public void SetBuffed(bool isOn) {
             _isBuffed = isOn;
-            if (_isBuffed)
-                BackPackImage.sprite = isOpen ? openedBuffed : closedBuffed;
-            else
-                BackPackImage.sprite = isOpen ? opened : closed;
+            UpdateSprite();
         }
 
         private void GenerateSeedButtons() {
@@ -59,7 +71,7 @@ namespace UI
                 seedView.crop = crop.type;
                 seedView.SeedImage.sprite = crop.SeedSprite;
                 seedView.button.onClick.AddListener(() => InventoryManager.Instance.ChooseSeed(crop.type));
-                seedView.button.onClick.AddListener(() => OpenClose());
+                seedView.button.onClick.AddListener(() => CloseBySelectedSeed());
                 seedView.button.onClick.AddListener(() => PlayerController.Instance.ChangeTool(2));
                 seedView.gameObject.SetActive(false);
                 _seeds.Add(button);

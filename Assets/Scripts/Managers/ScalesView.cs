@@ -19,17 +19,21 @@ namespace Managers {
         private int _cropCount;
         private Coroutine _rainCoroutine;
         private Queue<Crop> _shownCropsQueue = new Queue<Crop>();
-        [SerializeField]
-        private int maxCropsAmountForScaleLimit = 150;
+        [SerializeField] private int maxCropsAmountForScaleLimit = 150;
         [SerializeField] private Text _sellForText;
         [SerializeField] private Button _sellButton;
-        
+
         [SerializeField] private Transform _movingPlatform;
         [SerializeField] private float movingPlatformVerticalLimit = 10;
         [SerializeField] private Transform _scaleArrow;
         [SerializeField] private float scalesArrowRotationLimit = 55;
+
         public void StartRainingCrops(Queue<Crop> cropsQueue) {
-            cropsQueue ??= new Queue<Crop>();
+            if (cropsQueue == null) {
+                cropsQueue = new Queue<Crop>();
+                UpdateButtonText(0);
+            }
+
             _rainCoroutine = StartCoroutine(CropRain(cropsQueue));
         }
 
@@ -77,10 +81,10 @@ namespace Managers {
         }
 
         private void OnVegTouchScale(int vegsAmount) {
-            float percent = Mathf.Clamp((vegsAmount * 1f) / maxCropsAmountForScaleLimit,0,1);
+            float percent = Mathf.Clamp((vegsAmount * 1f) / maxCropsAmountForScaleLimit, 0, 1);
             float degree = Mathf.Lerp(scalesArrowRotationLimit, -scalesArrowRotationLimit, percent);
-            _scaleArrow.rotation = Quaternion.Euler(0,0,degree);
-            
+            _scaleArrow.rotation = Quaternion.Euler(0, 0, degree);
+
             float verticalMove = Mathf.Lerp(0, -movingPlatformVerticalLimit, percent);
             Vector3 tmp = _movingPlatform.transform.localPosition;
             tmp.y = verticalMove;
@@ -97,7 +101,7 @@ namespace Managers {
         }
 
         private void UpdateButtonInteractable() {
-            _sellButton.interactable = _shownCropsQueue.Count>0;
+            _sellButton.interactable = _shownCropsQueue.Count > 0;
         }
 
         private void AddRandomForce(DroppingVegView fallingVeg) {
@@ -121,6 +125,7 @@ namespace Managers {
             foreach (var veg in VegsHolder.GetComponentsInChildren<DroppingVegView>()) {
                 veg.ExplodeInRndTime();
             }
+
             yield return new WaitForSeconds(1);
         }
     }

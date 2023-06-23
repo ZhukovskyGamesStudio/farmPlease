@@ -472,7 +472,7 @@ public class SmartTilemap : MonoBehaviour {
 
             for (int i = 0; i < toSeedList.Count; i++) {
                 yield return new WaitForSeconds(animtime / 5);
-                InventoryManager.Instance.CollectCrop(Crop.Flycatcher, 1);
+                InventoryManager.Instance.AddCollectedCrop(Crop.Flycatcher, 1);
                 toSeedList[i].BecomeActive();
             }
 

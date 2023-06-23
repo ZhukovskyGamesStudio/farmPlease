@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9002072163217488972}
   - component: {fileID: 5380778017188659109}
   m_Layer: 5
-  m_Name: Barter Button
+  m_Name: Scales Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -657,13 +657,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9110e650866049f4089901a324b1a315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SeedShopButton: {fileID: 2309073869514526901}
-  ToolShopButton: {fileID: 2309073869889557304}
-  BuildingShopButton: {fileID: 2309073868379162877}
+  ScalesButton: {fileID: 5380778017188659109}
+  ScalesView: {fileID: 6780823990896060289}
+  SeedShopButton: {fileID: 2309073869514526903}
+  ToolShopButton: {fileID: 2309073869889557306}
   BuildingButton: {fileID: 0}
   seedShopView: {fileID: 2760982259041127057}
   toolShopView: {fileID: 8644665001503036809}
   BuildingShopView: {fileID: 2309073869332480578}
+  BuildingShopButton: {fileID: 2309073868379162877}
 --- !u!1 &2309073869772815101
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,3 +2415,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8180489303778196556}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6780823990896060289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3430824618986478541, guid: c3c803b1a81d0c241a70df3549ba258b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8180489303778196556}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053744812482313354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fc3f70901b345d98a179ffb8ac1cda4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

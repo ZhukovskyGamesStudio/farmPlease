@@ -23,12 +23,13 @@ namespace ScriptableObjects {
         public SpotlightAnimConfig DoScytheHint;
 
         public SpotlightAnimConfig ScalesHint;
-        public SpotlightAnimConfig DoSellHint;
-        public SpotlightAnimConfig DoCloseScalesHint;
+        public SpotlightAnimConfig SellHint;
+        public SpotlightAnimConfig CloseScalesHint;
 
         public SpotlightAnimConfig SeedShopHint;
-        public SpotlightAnimConfig DoBuyHint;
-        public SpotlightAnimConfig DoCloseSeedsShopHint;
+        public SpotlightAnimConfig BuyTomatoHint;
+        public SpotlightAnimConfig BuyEggplantHint;
+        public SpotlightAnimConfig CloseSeedsShopHint;
 
         public SpotlightAnimConfig BookHint;
 

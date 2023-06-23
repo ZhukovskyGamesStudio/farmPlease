@@ -47,7 +47,7 @@ namespace UI
             BatteryView.NoEnergy();
         }
 
-        public void ChangeCoins(int amount) {
+        public void UpdateCounters() {
             CountersView.UpdateCounters();
         }
 

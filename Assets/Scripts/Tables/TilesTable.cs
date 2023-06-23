@@ -607,7 +607,7 @@ namespace Tables
                 multiplier *= 2;
 
             if (TilesTable.TileByType(type).collectAmount > 0) {
-                InventoryManager.Instance.CollectCrop(TilesTable.TileByType(type).cropCollected,
+                InventoryManager.Instance.AddCollectedCrop(TilesTable.TileByType(type).cropCollected,
                     TilesTable.TileByType(type).collectAmount * multiplier);
                 SwitchType(TileType.Soil, AnimationType.Hoe);
             } else {
@@ -615,7 +615,7 @@ namespace Tables
                     case TileType.Weed:
                         InventoryManager.Instance.AddCoins(1 * multiplier);
                         if (isPlayerHaveGreenScythe)
-                            InventoryManager.Instance.CollectCrop(Crop.Weed, 1 * multiplier);
+                            InventoryManager.Instance.AddCollectedCrop(Crop.Weed, 1 * multiplier);
                         SwitchType(TileType.Soil, AnimationType.Hoe);
                         break;
 
@@ -631,12 +631,12 @@ namespace Tables
 
                         multiplier *= counter;
 
-                        InventoryManager.Instance.CollectCrop(Crop.Onion, multiplier);
+                        InventoryManager.Instance.AddCollectedCrop(Crop.Onion, multiplier);
                         SwitchType(TileType.Soil, AnimationType.Hoe);
                         break;
 
                     case TileType.Peanut1:
-                        InventoryManager.Instance.CollectCrop(Crop.Peanut, 1 * multiplier);
+                        InventoryManager.Instance.AddCollectedCrop(Crop.Peanut, 1 * multiplier);
                         List<SmartTile> soilTiles = _tilemap.GetNeighborsWithType(_position, TileType.Peanut1);
 
                         if (soilTiles.Count > 0)

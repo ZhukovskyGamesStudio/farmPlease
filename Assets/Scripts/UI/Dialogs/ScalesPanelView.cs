@@ -3,34 +3,38 @@ using System.Collections.Generic;
 using Managers;
 using Tables;
 using UnityEngine;
+using UnityEngine.UI;
 using Time = Managers.Time;
 
 namespace UI {
-    public class BarterPanelView : MonoBehaviour {
+    public class ScalesPanelView : MonoBehaviour {
         [SerializeField] private ScalesView scalesView;
         [SerializeField] private Animation _animation;
-
-        private bool isSelling;
+        [SerializeField] private Button _sellAllButton;
+        [SerializeField] private Button _closeButton;
+        public bool IsSellingAnimation { get; private set; }
+        public Button SellAllButton => _sellAllButton;
+        public Button CloseButton => _closeButton;
 
         private void OnEnable() {
-            isSelling = false;
+            IsSellingAnimation = false;
             scalesView.StartRainingCrops(SaveLoadManager.CurrentSave.CropsCollectedQueue);
         }
 
-        public void CloseButton() {
-            if (isSelling) {
+        public void Close() {
+            if (IsSellingAnimation) {
                 return;
             }
 
             gameObject.SetActive(false);
         }
 
-        public void SellAllButton() {
-            if (isSelling) {
+        public void SellAll() {
+            if (IsSellingAnimation) {
                 return;
             }
 
-            isSelling = true;
+            IsSellingAnimation = true;
             StartCoroutine(SellCoroutine());
         }
 
@@ -39,9 +43,9 @@ namespace UI {
             yield return new WaitWhile(() => _animation.isPlaying);
             yield return StartCoroutine(scalesView.SellAllCrops());
             int cropsAmount = SaveLoadManager.CurrentSave.CropsCollected.Count;
-            SaveLoadManager.CurrentSave.CropPoints += cropsAmount;
             int coinsGain = cropsAmount * (Time.Instance.IsTodayLoveDay ? 2 : 1);
             SaveLoadManager.CurrentSave.Coins += coinsGain;
+            UIHud.Instance.UpdateCounters();
             SaveLoadManager.CurrentSave.CropsCollected = new List<Crop>();
             SaveLoadManager.Instance.SaveGame();
 
@@ -56,7 +60,7 @@ namespace UI {
 
             _animation.Play("EndSelling");
             yield return new WaitWhile(() => _animation.isPlaying);
-            isSelling = false;
+            IsSellingAnimation = false;
         }
     }
 }

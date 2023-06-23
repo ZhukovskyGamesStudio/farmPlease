@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 namespace Managers
 {
     public class InventoryManager : Singleton<InventoryManager> {
-        public int startCoins = 5;
+        
 
         private Backpack _backpack;
         private FastPanelScript _fastPanelScript;
@@ -34,7 +34,7 @@ namespace Managers
                 _isUnlimitedFlag = true;
                 SaveLoadManager.CurrentSave.Coins = 1000;
                 SaveLoadManager.CurrentSave.CropPoints = 100000;
-                _uiHud.ChangeCoins(SaveLoadManager.CurrentSave.Coins);
+                _uiHud.UpdateCounters();
             }
         }
 
@@ -66,15 +66,12 @@ namespace Managers
             if (GameModeManager.Instance.UnlimitedMoneyCrops) {
                 SaveLoadManager.CurrentSave.Coins = 1000;
                 SaveLoadManager.CurrentSave.CropPoints = 1000;
-            } else {
-                SaveLoadManager.CurrentSave.Coins = startCoins;
-                SaveLoadManager.CurrentSave.CropPoints = 0;
             }
 
             GenerateIsBoughtData();
 
             UpdateInventoryUI();
-            _uiHud.ChangeCoins(SaveLoadManager.CurrentSave.Coins);
+            _uiHud.UpdateCounters();
             _fastPanelScript.ChangeSeedFastPanel(Crop.Tomato, SeedsInventory[Crop.Tomato]);
             _fastPanelScript.UpdateToolsImages();
         }
@@ -91,7 +88,7 @@ namespace Managers
 
             UpdateInventoryUI();
 
-            _uiHud.ChangeCoins(SaveLoadManager.CurrentSave.Coins);
+            _uiHud.UpdateCounters();
             _fastPanelScript.ChangeSeedFastPanel(Crop.Tomato, SeedsInventory[Crop.Tomato]);
         }
 
@@ -170,18 +167,18 @@ namespace Managers
 
         /**********/
 
-        public void CollectCrop(Crop crop, int amount) {
+        public void AddCollectedCrop(Crop crop, int amount) {
             for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
             SaveLoadManager.CurrentSave.CropPoints += amount;
             UpdateInventoryUI();
-            //AddCoins(amount);
+            _uiHud.UpdateCounters();
         }
 
         public void AddCoins(int amount) {
             SaveLoadManager.CurrentSave.Coins += amount;
             if (SaveLoadManager.CurrentSave.Coins < 0)
                 SaveLoadManager.CurrentSave.Coins = 0;
-            _uiHud.ChangeCoins(SaveLoadManager.CurrentSave.Coins);
+            _uiHud.UpdateCounters();
         }
 
         /*****Семена*****/

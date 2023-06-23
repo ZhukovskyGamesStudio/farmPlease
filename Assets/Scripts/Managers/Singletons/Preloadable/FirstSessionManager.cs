@@ -7,10 +7,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Managers
-{
-    public class FirstSessionManager : PreloadableSingleton<FirstSessionManager>
-    {
+namespace Managers {
+    public class FirstSessionManager : PreloadableSingleton<FirstSessionManager> {
         [SerializeField] private FtueConfig _ftueConfig;
 
         public bool IsFirstSession => !KnowledgeManager.HasKnowledge(Knowledge.Training);
@@ -18,17 +16,14 @@ namespace Managers
         private int _curFtueStep;
         private bool _isWatingForStepEnd;
 
-        private void TryStartFtue()
-        {
+        private void TryStartFtue() {
             SaveLoadManager.LoadSavedData();
-            if (IsFirstSession)
-            {
+            if (IsFirstSession) {
                 StartCoroutine(FtueCoroutine());
             }
         }
 
-        private IEnumerator FtueCoroutine()
-        {
+        private IEnumerator FtueCoroutine() {
             SaveLoadManager.ClearSave();
             WaitForLoadingEnd();
             yield return new WaitWhile(() => _isWatingForStepEnd);
@@ -40,53 +35,47 @@ namespace Managers
             yield return new WaitWhile(() => _isWatingForStepEnd);
             ShowSpeakingBot(_ftueConfig.StartHint2);
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            
-            ShowHoeSpotlight();
-            yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => PlayerController.Instance.CurTool != Tool.Hoe);
-            
-            ShowDoHoeSpotlight();
-            yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 7);
-            
-            ShowEnergySpotlight();
-            yield return new WaitWhile(() => _isWatingForStepEnd);
-            
+
+            yield return StartCoroutine(ShowHoeSpotlight());
+            yield return StartCoroutine(ShowDoHoeSpotlight());
+            yield return StartCoroutine(ShowEnergySpotlight());
+
             ShowBackpackSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitForSeconds(0.3f);
+
             ShowSeedsSelectSpotlight();
+
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => PlayerController.Instance.seedBagCrop != Crop.Tomato);
-            ShowDoSeedSpotlight();
-            yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 6);
-            yield return new WaitForSeconds(0.3f);
+
+            yield return StartCoroutine(ShowDoSeedSpotlight());
 
             ShowWaterSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
-            ShowDoWaterSpotlight();
-            yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 5);
-            yield return new WaitForSeconds(0.3f);
-            
+            yield return StartCoroutine(ShowDoWaterSpotlight());
+
+
             ShowClockSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
             yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy < 7);
-            
-            ShowDoWaterAgainSpotlight();
-            yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 5);
 
+            yield return StartCoroutine(ShowDoWaterAgainSpotlight());
+            
             ShowScytheSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
 
-            ShowDoScytheSpotlight();
-            yield return new WaitWhile(() => _isWatingForStepEnd);
-            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.CropPoints == 0);
-            yield return new WaitForSeconds(0.3f);
+            yield return StartCoroutine(ShowDoScytheSpotlight());
             
-            yield return new WaitForSeconds(0.6f);
+            yield return StartCoroutine(ShowScalesSpotlight());
+            yield return StartCoroutine(ShowSellSpotlight());
+            yield return StartCoroutine(ShowCloseScalesSpotlight());
+            
+            yield return StartCoroutine(ShowSeedShopSpotlight());
+            yield return StartCoroutine(ShowBuyTomatoSpotlight());
+            yield return StartCoroutine(ShowBuyEggplantSpotlight());
+            yield return StartCoroutine(ShowCloseSeedShopSpotlight());
+
+            yield return StartCoroutine(ShowCroponomSpotlight());
+            
             EnableUiParts();
             ShowSpeakingBot(_ftueConfig.EndHint);
             yield return new WaitWhile(() => _isWatingForStepEnd);
@@ -94,8 +83,7 @@ namespace Managers
             KnowledgeManager.AddKnowledge(Knowledge.Training);
         }
 
-        private void DisableUiParts()
-        {
+        private void DisableUiParts() {
             UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(false);
             UIHud.Instance.Backpack.gameObject.SetActive(false);
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(false);
@@ -103,10 +91,15 @@ namespace Managers
             UIHud.Instance.FastPanelScript.toolButtons[1].gameObject.SetActive(false);
             UIHud.Instance.ClockView.gameObject.SetActive(false);
             UIHud.Instance.BatteryView.gameObject.SetActive(false);
+            UIHud.Instance.ShopsPanel.gameObject.SetActive(false);
+            UIHud.Instance.ShopsPanel.ScalesView.CloseButton.gameObject.SetActive(false);
+            UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(false);
+            UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(false);
+            UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(false);
+            UIHud.Instance.CroponomButton.gameObject.SetActive(false);
         }
 
-        private void EnableUiParts()
-        {
+        private void EnableUiParts() {
             UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(true);
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(true);
@@ -114,140 +107,235 @@ namespace Managers
             UIHud.Instance.FastPanelScript.toolButtons[1].gameObject.SetActive(true);
             UIHud.Instance.BatteryView.gameObject.SetActive(true);
             UIHud.Instance.ClockView.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.ScalesView.CloseButton.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[0].BuyButton.interactable = true;
             
             UIHud.Instance.ClockView.GetComponent<Button>().interactable = true;
-            UIHud.Instance.Backpack.OpenButton.interactable = true;
+            UIHud.Instance.Backpack.IsLockOpenCloseByFtue= false;
+            UIHud.Instance.Backpack.OpenButton.interactable= true;
+            UIHud.Instance.FastPanelScript.toolButtons[0].interactable= true;
+            UIHud.Instance.FastPanelScript.toolButtons[1].interactable= true;
+            UIHud.Instance.FastPanelScript.toolButtons[2].interactable= true;
+            UIHud.Instance.FastPanelScript.toolButtons[3].interactable= true;
+            UIHud.Instance.ClockView.GetComponent<Button>().interactable = true;
+            UIHud.Instance.CroponomButton.gameObject.SetActive(true);
         }
 
-        private void WaitForLoadingEnd()
-        {
+        private void WaitForLoadingEnd() {
             _isWatingForStepEnd = true;
             SceneManager.sceneLoaded += delegate { StepEnded(); };
         }
 
-        private void StepEnded()
-        {
+        private void StepEnded() {
             _isWatingForStepEnd = false;
         }
 
-        private void ShowSpeakingBot(string hintText)
-        {
+        private void ShowSpeakingBot(string hintText) {
             _isWatingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ShowSpeak(hintText, StepEnded);
         }
-        private void ShowEnergySpotlight()
-        {
+
+        private IEnumerator ShowEnergySpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.BatteryView.gameObject.SetActive(true);
 
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(  UIHud.Instance.BatteryView.transform,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.BatteryView.transform,
                 _ftueConfig.EnergyHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
         }
-        
-        private void ShowBackpackSpotlight()
-        {
+
+        private void ShowBackpackSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.Backpack.gameObject.SetActive(true);
+            PlayerController.Instance.ChangeTool(Tool.SeedBag);
             PlayerController.Instance.seedBagCrop = Crop.Weed;
-            InventoryManager.Instance.BuySeed(Crop.Tomato, 0, 2);
+            InventoryManager.Instance.BuySeed(Crop.Tomato, 0, 1);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.Backpack.OpenButton,
-                _ftueConfig.BackpackHint, StepEnded);
+                _ftueConfig.BackpackHint, delegate {
+                    UIHud.Instance.Backpack.IsLockOpenCloseByFtue= true;
+                    StepEnded();
+                });
         }
-        
-        private void ShowSeedsSelectSpotlight()
-        {
+
+        private void ShowSeedsSelectSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.Backpack.OpenButton.interactable = false;
-            UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(false);
-         
+            UIHud.Instance.FastPanelScript.toolButtons[0].interactable = false;
+
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.Backpack.TomatoButton,
                 _ftueConfig.SeedSelectHint, StepEnded);
         }
-        
-        private void ShowDoSeedSpotlight()
-        {
+
+        private IEnumerator ShowDoSeedSpotlight() {
             _isWatingForStepEnd = true;
-        
-            UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(false);
-         
+
+            UIHud.Instance.FastPanelScript.toolButtons[0].interactable = false;
+
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector3Int.zero).transform,
-                _ftueConfig.DoSeedHint, StepEnded);
+                _ftueConfig.DoSeedHint, StepEnded, false);
+
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 6);
+            UIHud.Instance.SpotlightWithText.Hide();
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+            yield return new WaitForSeconds(0.3f);
         }
-        
-        private void ShowScytheSpotlight()
-        {
+
+        private void ShowScytheSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(true);
+            UIHud.Instance.FastPanelScript.toolButtons[3].interactable = true;
 
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.FastPanelScript.toolButtons[3].GetComponent<Button>(),
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.FastPanelScript.toolButtons[3],
                 _ftueConfig.ScytheHint, StepEnded);
         }
-        
-        private void ShowDoScytheSpotlight()
-        {
+
+        private IEnumerator ShowDoScytheSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(true);
 
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector3Int.zero).transform,
-                _ftueConfig.DoScytheHint, StepEnded);
+                _ftueConfig.DoScytheHint, StepEnded, false);
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.CropPoints == 0);
+            UIHud.Instance.SpotlightWithText.Hide();
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+            yield return new WaitForSeconds(0.3f);
         }
 
-        private void ShowHoeSpotlight()
-        {
+        private IEnumerator ShowHoeSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(false);
+            UIHud.Instance.FastPanelScript.toolButtons[3].interactable = false;
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.FastPanelScript.toolButtons[0].GetComponent<Button>(),
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(
+                UIHud.Instance.FastPanelScript.toolButtons[0],
                 _ftueConfig.HoeHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+            yield return new WaitWhile(() => PlayerController.Instance.CurTool != Tool.Hoe);
         }
-        
-        private void ShowDoHoeSpotlight()
-        {
+
+        private IEnumerator ShowDoHoeSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(false);
+            UIHud.Instance.FastPanelScript.toolButtons[3].interactable = false;
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector3Int.zero).transform,
-                _ftueConfig.DoHoeHint, StepEnded);
+                _ftueConfig.DoHoeHint, StepEnded, false);
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 7);
+            UIHud.Instance.SpotlightWithText.Hide();
+            yield return new WaitWhile(() => _isWatingForStepEnd);
         }
 
-        private void ShowWaterSpotlight()
-        {
+        private void ShowWaterSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.Backpack.gameObject.SetActive(false);
-            UIHud.Instance.FastPanelScript.toolButtons[2].gameObject.SetActive(false);
+            UIHud.Instance.Backpack.OpenButton.interactable = false;
+            UIHud.Instance.FastPanelScript.toolButtons[2].interactable = false;
             UIHud.Instance.FastPanelScript.toolButtons[1].gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.FastPanelScript.toolButtons[1].GetComponent<Button>(),
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(
+                UIHud.Instance.FastPanelScript.toolButtons[1],
                 _ftueConfig.WaterHint, StepEnded);
         }
-        
-        private void ShowDoWaterSpotlight()
-        {
+
+        private IEnumerator ShowDoWaterSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector3Int.zero).transform,
-                _ftueConfig.DoWaterHint, StepEnded);
+                _ftueConfig.DoWaterHint, StepEnded, false);
+
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 5);
+            UIHud.Instance.SpotlightWithText.Hide();
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+            yield return new WaitForSeconds(0.3f);
         }
 
-        private void ShowClockSpotlight()
-        {
+        private void ShowClockSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.FastPanelScript.toolButtons[1].gameObject.SetActive(false);
+            UIHud.Instance.FastPanelScript.toolButtons[1].interactable = false;
             UIHud.Instance.ClockView.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ClockView.GetComponent<Button>(), _ftueConfig.ClockHint,
-                StepEnded);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ClockView.GetComponent<Button>(),
+                _ftueConfig.ClockHint,
+                delegate {
+                    StepEnded();
+                    UIHud.Instance.ClockView.GetComponent<Button>().interactable = false;
+                });
         }
-        
-        private void ShowDoWaterAgainSpotlight()
-        {
+
+        private IEnumerator ShowDoWaterAgainSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.ClockView.GetComponent<Button>().interactable = false;
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector3Int.zero).transform,
-                _ftueConfig.DoWaterAgainHint, StepEnded);
+                _ftueConfig.DoWaterAgainHint, StepEnded, false);
+            yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 5);
+            UIHud.Instance.SpotlightWithText.Hide();
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+        }
+        
+        private IEnumerator ShowScalesSpotlight() {
+            _isWatingForStepEnd = true;
+            UIHud.Instance.ShopsPanel.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.ScalesButton.gameObject.SetActive(true);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.ScalesButton, _ftueConfig.ScalesHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+        } 
+        private IEnumerator ShowSellSpotlight() {
+            _isWatingForStepEnd = true;
+            yield return new WaitForSeconds(1.5f);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.ScalesView.SellAllButton, _ftueConfig.SellHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+            yield return new WaitWhile(() => UIHud.Instance.ShopsPanel.ScalesView.IsSellingAnimation);
+        }
+        
+        private IEnumerator ShowCloseScalesSpotlight() {
+            _isWatingForStepEnd = true;
+            UIHud.Instance.ShopsPanel.ScalesView.CloseButton.gameObject.SetActive(true);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.ScalesView.CloseButton, _ftueConfig.CloseScalesHint, StepEnded);
+      
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+            yield return new WaitForSeconds(0.3f);
+        }
+        private IEnumerator ShowSeedShopSpotlight() {
+            _isWatingForStepEnd = true;
+            UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.seedShopView.SetSeedsShop(Crop.Tomato,Crop.Eggplant);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(    UIHud.Instance.ShopsPanel.SeedShopButton, _ftueConfig.SeedShopHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+        }
+        private IEnumerator ShowBuyTomatoSpotlight() {
+            _isWatingForStepEnd = true;
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(
+                UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[1].BuyButton, _ftueConfig.BuyTomatoHint,
+                delegate {
+                    UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[1].BuyButton.interactable = false;
+                    StepEnded();
+                });
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+        }
+        
+        private IEnumerator ShowBuyEggplantSpotlight() {
+            _isWatingForStepEnd = true;
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[0].BuyButton, _ftueConfig.BuyEggplantHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
         }
 
-        protected override void OnFirstInit()
-        {
+        private IEnumerator ShowCloseSeedShopSpotlight() {
+            _isWatingForStepEnd = true;
+
+            UIHud.Instance.ShopsPanel.seedShopView.CloseButton.gameObject.SetActive(true);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.seedShopView.CloseButton,
+                _ftueConfig.CloseSeedsShopHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+        }
+        
+        private IEnumerator ShowCroponomSpotlight() {
+            _isWatingForStepEnd = true;
+
+            UIHud.Instance.CroponomButton.gameObject.SetActive(true);
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.CroponomButton.transform,
+                _ftueConfig.BookHint, StepEnded);
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+        }
+
+        protected override void OnFirstInit() {
             TryStartFtue();
         }
     }

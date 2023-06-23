@@ -7,7 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SeedShopView : MonoBehaviour {
-    public GameObject SeedOfferPrefab;
+    [SerializeField] private Button _closeButton;
+    public Button CloseButton => _closeButton;
+    public SeedOffer SeedOfferPrefab;
 
     public RectTransform[] slotPosition;
     public int ChangeCost;
@@ -19,15 +21,16 @@ public class SeedShopView : MonoBehaviour {
     public GameObject ambarSeed;
     public Button ambarBuyButton;
     public Image ambarSprite;
-    private Dictionary<Crop, GameObject> _buttonsD;
+    private Dictionary<Crop, SeedOffer> _buttonsD;
 
-    private GameObject[] _seedButtons;
+    private SeedOffer[] _seedButtons;
+    public  List<SeedOffer> CurrentButtons { get; private set; } 
 
     private Crop Ambar => SaveLoadManager.CurrentSave.AmbarCrop;
 
     private void GenerateButtons() {
-        _seedButtons = new GameObject[CropsTablePrefab.Crops.Length];
-        _buttonsD = new Dictionary<Crop, GameObject>();
+        _seedButtons = new SeedOffer[CropsTablePrefab.Crops.Length];
+        _buttonsD = new Dictionary<Crop, SeedOffer>();
 
         for (int i = 0; i < _seedButtons.Length; i++) {
             CropConfig crop = CropsTablePrefab.Crops[i];
@@ -47,7 +50,7 @@ public class SeedShopView : MonoBehaviour {
             else if (crop.Rarity == 2)
                 seedOffer.LegendaryEdge.SetActive(true);
 
-            _seedButtons[i].SetActive(false);
+            _seedButtons[i].gameObject.SetActive(false);
             _buttonsD.Add(crop.type, _seedButtons[i]);
         }
 
@@ -57,7 +60,7 @@ public class SeedShopView : MonoBehaviour {
     public bool[] GetButtonsData() {
         bool[] buttons = new bool[_seedButtons.Length];
         for (int i = 0; i < buttons.Length; i++)
-            buttons[i] = _seedButtons[i].activeSelf;
+            buttons[i] = _seedButtons[i].gameObject.activeSelf;
         return buttons;
     }
 
@@ -68,7 +71,7 @@ public class SeedShopView : MonoBehaviour {
 
         int poscounter = 0;
         for (int i = 0; i < buttons.Length; i++) {
-            _seedButtons[i].SetActive(buttons[i]);
+            _seedButtons[i].gameObject.SetActive(buttons[i]);
             if (buttons[i]) {
                 _seedButtons[i].transform.position = slotPosition[poscounter].position;
                 poscounter++;
@@ -81,6 +84,20 @@ public class SeedShopView : MonoBehaviour {
             SetAmbarCrop(save.AmbarCrop);
 
         ChangeSeedsButton.SetActive(isChangeButtonActive);
+    }
+
+    public void SetSeedsShop(Crop first, Crop second) {
+        int index = 0;
+        CurrentButtons = new List<SeedOffer>();
+        foreach (var VARIABLE in _buttonsD.Keys) {
+            bool isActive = VARIABLE == first || VARIABLE == second;
+            _buttonsD[VARIABLE].gameObject.SetActive(isActive);
+            if (isActive) {
+                CurrentButtons.Add(_buttonsD[VARIABLE]);
+                _buttonsD[VARIABLE].transform.position = slotPosition[index].position;
+                index++;
+            }
+        }
     }
 
     public void SetAmbarCrop(Crop type) {
@@ -100,28 +117,30 @@ public class SeedShopView : MonoBehaviour {
     private void ChangeSeeds() {
         if (_seedButtons == null)
             GenerateButtons();
-        List<GameObject> buttons = new();
+        List<SeedOffer> buttons = new();
+        CurrentButtons = new List<SeedOffer>();
         foreach (Crop key in _buttonsD.Keys)
             //Здесь должна быть двойная проверка: если всегда доступен ИЛИ уже куплен
             if (CropsTable.ContainCrop(key)) {
                 if (CropsTable.CropByType(key).CanBeBought) {
                     buttons.Add(_buttonsD[key]);
-                    _buttonsD[key].SetActive(false);
+                    _buttonsD[key].gameObject.SetActive(false);
                 }
 
                 if (InventoryManager.Instance.IsCropsBoughtD.ContainsKey(key))
                     if (InventoryManager.Instance.IsCropsBoughtD[key]) {
                         buttons.Add(_buttonsD[key]);
-                        _buttonsD[key].SetActive(false);
+                        _buttonsD[key].gameObject.SetActive(false);
                     }
             }
 
         for (int i = 0; i < 2; i++) {
             int x = Random.Range(0, buttons.Count);
-            GameObject button = buttons[x];
+            SeedOffer button = buttons[x];
+            CurrentButtons.Add(button);
             buttons.Remove(button);
 
-            button.SetActive(true);
+            button.gameObject.SetActive(true);
             button.transform.position = slotPosition[i].position;
         }
     }

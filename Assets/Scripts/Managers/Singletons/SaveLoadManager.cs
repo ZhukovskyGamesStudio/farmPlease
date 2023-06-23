@@ -111,7 +111,7 @@ namespace Managers
 
         public static void GenerateGame() {
             CurrentSave = new GameSaveProfile() {
-                Coins = 5,
+                Coins = 3,
                 CropPoints = 0,
                 SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
                 Date = Time.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
