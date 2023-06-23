@@ -84,6 +84,14 @@ namespace Managers
 
         public static void LoadSavedData() {
             CurrentSave = GameSaveProfile.LoadFromFile(SavePath);
+            TryFixCompatibility();
+        }
+
+        private static void TryFixCompatibility() {
+            if (!KnowledgeManager.HasKnowledge(Knowledge.Training) && CurrentSave.CropPoints > 3 ||
+                CurrentSave.Coins > 5 || CurrentSave.CurrentDay > 2) {
+                KnowledgeManager.AddKnowledge(Knowledge.Training);
+            }
         }
 
         public static void LoadGame(string jsonString = null) {
