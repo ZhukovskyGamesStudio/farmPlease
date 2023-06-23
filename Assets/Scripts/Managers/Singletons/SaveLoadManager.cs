@@ -84,7 +84,9 @@ namespace Managers
 
         public static void LoadSavedData() {
             CurrentSave = GameSaveProfile.LoadFromFile(SavePath);
-            TryFixCompatibility();
+            if (CurrentSave != null) {
+                TryFixCompatibility();
+            }
         }
 
         private static void TryFixCompatibility() {
