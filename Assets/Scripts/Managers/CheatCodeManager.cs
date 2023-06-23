@@ -41,7 +41,7 @@ namespace Managers {
                 TryAddCrops(cheatCodeConfig);
                 TryAddSeeds(cheatCodeConfig);
                 SaveCodeUsed(code);
-                SaveLoadManager.Instance.SaveGame();
+                SaveLoadManager.SaveGame();
                 
         }
 

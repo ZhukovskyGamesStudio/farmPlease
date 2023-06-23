@@ -47,7 +47,7 @@ namespace UI {
             SaveLoadManager.CurrentSave.Coins += coinsGain;
             UIHud.Instance.UpdateCounters();
             SaveLoadManager.CurrentSave.CropsCollected = new List<Crop>();
-            SaveLoadManager.Instance.SaveGame();
+            SaveLoadManager.SaveGame();
 
             yield return new WaitWhile(() => _animation.isPlaying);
             _animation.Play("ContinueSelling");

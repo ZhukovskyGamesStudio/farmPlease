@@ -67,9 +67,9 @@ namespace Managers
             return JsonUtility.ToJson(CurrentSave, false);
         }
 
-        public void SaveGame() {
+        public static void SaveGame() {
             GameModeManager gameModeManager = GameModeManager.Instance;
-            if (gameModeManager.DoNotSave)
+            if (gameModeManager is {DoNotSave : true})
                 return;
 
             string toSave = GenerateJsonString();
@@ -105,7 +105,7 @@ namespace Managers
             if (CurrentSave == null) {
                 GenerateGame();
                 Debug.Instance.Log("Generating finished. Saving started");
-                Instance.SaveGame();
+                SaveGame();
                 Debug.Instance.Log("New profile is saved");
             }
 

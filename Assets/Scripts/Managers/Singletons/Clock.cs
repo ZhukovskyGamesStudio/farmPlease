@@ -43,7 +43,7 @@ namespace Managers {
            
 
             UIHud.Instance.ClockView.SetAmountWithWasteAnimation(Save.ClockEnergy);
-            SaveLoadManager.Instance.SaveGame();
+            SaveLoadManager.SaveGame();
         }
 
         public void RefillToMaxEnergy() {
@@ -68,7 +68,7 @@ namespace Managers {
             int newEnergy = Mathf.Min(Save.ClockEnergy, MAX_ENERGY);
             SetEnergy(newEnergy);
             Save.LastClockRefilledTimestamp += (long) _timespanForRefillOneEnergy.TotalMilliseconds * refillAmount;
-            SaveLoadManager.Instance.SaveGame();
+            SaveLoadManager.SaveGame();
             UIHud.Instance.HelloPanel.Show(REFILLED_ENERGY_TEXT);
         }
 
@@ -84,7 +84,7 @@ namespace Managers {
             if (Save.ClockEnergy > MAX_ENERGY) {
                 Save.ClockEnergy = MAX_ENERGY;
             }
-            SaveLoadManager.Instance.SaveGame();
+            SaveLoadManager.SaveGame();
             UIHud.Instance.ClockView.SetAmount(Save.ClockEnergy);
         }
 

@@ -99,7 +99,7 @@ namespace UI
 
                 ChangeTools();
                 ChangeButton.SetActive(false);
-                SaveLoadManager.Instance.SaveGame();
+                SaveLoadManager.SaveGame();
             }
         }
 
@@ -108,7 +108,7 @@ namespace UI
                 InventoryManager.Instance.BuyTool(tool.buff, tool.cost, tool.buyAmount);
 
                 button.SetActive(false);
-                SaveLoadManager.Instance.SaveGame();
+                SaveLoadManager.SaveGame();
             }
         }
     }

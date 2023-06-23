@@ -17,7 +17,7 @@ public class Energy : Singleton<Energy> {
             SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
 
         UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
-        SaveLoadManager.Instance.SaveGame();
+        SaveLoadManager.SaveGame();
     }
 
     public void RefillEnergy() {
