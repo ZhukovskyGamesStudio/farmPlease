@@ -10,7 +10,9 @@ namespace Tables {
 
         public static void AddKnowledge(Knowledge kn) {
             SavedKnowledge?.Add(kn);
-            SaveLoadManager.SaveGame();
+            if (SaveLoadManager.Instance != null) {
+                SaveLoadManager.SaveGame();
+            }
         }
     }
 

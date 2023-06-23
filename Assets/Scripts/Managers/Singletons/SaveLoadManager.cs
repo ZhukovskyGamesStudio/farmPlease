@@ -90,8 +90,8 @@ namespace Managers
         }
 
         private static void TryFixCompatibility() {
-            if (!KnowledgeManager.HasKnowledge(Knowledge.Training) && CurrentSave.CropPoints > 3 ||
-                CurrentSave.Coins > 5 || CurrentSave.CurrentDay > 2) {
+            if (!KnowledgeManager.HasKnowledge(Knowledge.Training) && (CurrentSave.CropPoints > 3 ||
+                CurrentSave.Coins > 5 || CurrentSave.CurrentDay > 2)) {
                 KnowledgeManager.AddKnowledge(Knowledge.Training);
             }
         }
