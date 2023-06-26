@@ -4,23 +4,26 @@ using UnityEngine;
 
 namespace UI {
     public class ClockView : MonoBehaviour {
-        [SerializeField]
-        private List<GameObject> _greenPieces;
+        [SerializeField] private List<GameObject> _greenPieces;
 
-        [SerializeField]
-        private Animation _animation;
+        [SerializeField] private Animation _animation;
 
         private const string ZERO_TIME_ANIMATION = "ZeroTime";
         private const string INITIAL = "Initial";
         private const string WASTE_ONE = "WasteOne";
 
-        [SerializeField]
-        private HelloPanelView _helloPanel;
+        [SerializeField] private HelloPanelView _helloPanel;
+
+        public bool IsLockedByFtue { get; set; }
 
         public void ClockPressedButton() {
-              Clock.Instance.TryAddDay();
+            if (IsLockedByFtue) {
+                return;
+            }
+
+            Clock.Instance.TryAddDay();
         }
-        
+
         public void SetAmount(int amount) {
             ShowInitialAnimation();
             SetPiecesAmount(amount);

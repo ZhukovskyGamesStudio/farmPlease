@@ -58,24 +58,27 @@ namespace Managers {
             yield return new WaitWhile(() => _isWatingForStepEnd);
             yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Energy < 7);
 
+            ShowClockLostEnergySpotlight();
+            yield return new WaitWhile(() => _isWatingForStepEnd);
+
             yield return StartCoroutine(ShowDoWaterAgainSpotlight());
-            
+
             ShowScytheSpotlight();
             yield return new WaitWhile(() => _isWatingForStepEnd);
 
             yield return StartCoroutine(ShowDoScytheSpotlight());
-            
+
             yield return StartCoroutine(ShowScalesSpotlight());
             yield return StartCoroutine(ShowSellSpotlight());
             yield return StartCoroutine(ShowCloseScalesSpotlight());
-            
+
             yield return StartCoroutine(ShowSeedShopSpotlight());
             yield return StartCoroutine(ShowBuyTomatoSpotlight());
             yield return StartCoroutine(ShowBuyEggplantSpotlight());
             yield return StartCoroutine(ShowCloseSeedShopSpotlight());
 
             yield return StartCoroutine(ShowCroponomSpotlight());
-            
+
             EnableUiParts();
             ShowSpeakingBot(_ftueConfig.EndHint);
             yield return new WaitWhile(() => _isWatingForStepEnd);
@@ -112,15 +115,16 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[0].BuyButton.interactable = true;
-            
+            UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[1].BuyButton.interactable = true;
+
             UIHud.Instance.ClockView.GetComponent<Button>().interactable = true;
-            UIHud.Instance.Backpack.IsLockOpenCloseByFtue= false;
-            UIHud.Instance.Backpack.OpenButton.interactable= true;
-            UIHud.Instance.FastPanelScript.toolButtons[0].interactable= true;
-            UIHud.Instance.FastPanelScript.toolButtons[1].interactable= true;
-            UIHud.Instance.FastPanelScript.toolButtons[2].interactable= true;
-            UIHud.Instance.FastPanelScript.toolButtons[3].interactable= true;
-            UIHud.Instance.ClockView.GetComponent<Button>().interactable = true;
+            UIHud.Instance.Backpack.IsLockOpenCloseByFtue = false;
+            UIHud.Instance.Backpack.OpenButton.interactable = true;
+            UIHud.Instance.FastPanelScript.toolButtons[0].interactable = true;
+            UIHud.Instance.FastPanelScript.toolButtons[1].interactable = true;
+            UIHud.Instance.FastPanelScript.toolButtons[2].interactable = true;
+            UIHud.Instance.FastPanelScript.toolButtons[3].interactable = true;
+            UIHud.Instance.ClockView.IsLockedByFtue = false;
             UIHud.Instance.CroponomButton.gameObject.SetActive(true);
         }
 
@@ -155,7 +159,7 @@ namespace Managers {
             InventoryManager.Instance.BuySeed(Crop.Tomato, 0, 1);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.Backpack.OpenButton,
                 _ftueConfig.BackpackHint, delegate {
-                    UIHud.Instance.Backpack.IsLockOpenCloseByFtue= true;
+                    UIHud.Instance.Backpack.IsLockOpenCloseByFtue = true;
                     StepEnded();
                 });
         }
@@ -256,8 +260,14 @@ namespace Managers {
                 _ftueConfig.ClockHint,
                 delegate {
                     StepEnded();
-                    UIHud.Instance.ClockView.GetComponent<Button>().interactable = false;
+                    UIHud.Instance.ClockView.IsLockedByFtue = true;
                 });
+        }
+
+        private void ShowClockLostEnergySpotlight() {
+            _isWatingForStepEnd = true;
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform,
+                _ftueConfig.ClockLostEnergyHint, StepEnded);
         }
 
         private IEnumerator ShowDoWaterAgainSpotlight() {
@@ -269,37 +279,44 @@ namespace Managers {
             UIHud.Instance.SpotlightWithText.Hide();
             yield return new WaitWhile(() => _isWatingForStepEnd);
         }
-        
+
         private IEnumerator ShowScalesSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.ShopsPanel.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ScalesButton.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.ScalesButton, _ftueConfig.ScalesHint, StepEnded);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesButton,
+                _ftueConfig.ScalesHint, StepEnded);
             yield return new WaitWhile(() => _isWatingForStepEnd);
-        } 
+        }
+
         private IEnumerator ShowSellSpotlight() {
             _isWatingForStepEnd = true;
             yield return new WaitForSeconds(1.5f);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.ScalesView.SellAllButton, _ftueConfig.SellHint, StepEnded);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.SellAllButton,
+                _ftueConfig.SellHint, StepEnded);
             yield return new WaitWhile(() => _isWatingForStepEnd);
             yield return new WaitWhile(() => UIHud.Instance.ShopsPanel.ScalesView.IsSellingAnimation);
         }
-        
+
         private IEnumerator ShowCloseScalesSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.ShopsPanel.ScalesView.CloseButton.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.ScalesView.CloseButton, _ftueConfig.CloseScalesHint, StepEnded);
-      
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.CloseButton,
+                _ftueConfig.CloseScalesHint, StepEnded);
+
             yield return new WaitWhile(() => _isWatingForStepEnd);
             yield return new WaitForSeconds(0.3f);
         }
+
         private IEnumerator ShowSeedShopSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.SetSeedsShop(Crop.Tomato,Crop.Eggplant);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(    UIHud.Instance.ShopsPanel.SeedShopButton, _ftueConfig.SeedShopHint, StepEnded);
+            UIHud.Instance.ShopsPanel.seedShopView.SetSeedsShop(Crop.Tomato, Crop.Eggplant);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.SeedShopButton,
+                _ftueConfig.SeedShopHint, StepEnded);
             yield return new WaitWhile(() => _isWatingForStepEnd);
         }
+
         private IEnumerator ShowBuyTomatoSpotlight() {
             _isWatingForStepEnd = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(
@@ -310,10 +327,12 @@ namespace Managers {
                 });
             yield return new WaitWhile(() => _isWatingForStepEnd);
         }
-        
+
         private IEnumerator ShowBuyEggplantSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton( UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[0].BuyButton, _ftueConfig.BuyEggplantHint, StepEnded);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(
+                UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[0].BuyButton, _ftueConfig.BuyEggplantHint,
+                StepEnded);
             yield return new WaitWhile(() => _isWatingForStepEnd);
         }
 
@@ -325,7 +344,7 @@ namespace Managers {
                 _ftueConfig.CloseSeedsShopHint, StepEnded);
             yield return new WaitWhile(() => _isWatingForStepEnd);
         }
-        
+
         private IEnumerator ShowCroponomSpotlight() {
             _isWatingForStepEnd = true;
 
