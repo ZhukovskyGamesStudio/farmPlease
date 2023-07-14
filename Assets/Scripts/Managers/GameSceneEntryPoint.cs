@@ -3,6 +3,7 @@ using System.Globalization;
 using Abstract;
 using Tables;
 using UI;
+using UnityEngine.SceneManagement;
 
 namespace Managers {
     public class GameSceneEntryPoint : SceneEntryPoint {
