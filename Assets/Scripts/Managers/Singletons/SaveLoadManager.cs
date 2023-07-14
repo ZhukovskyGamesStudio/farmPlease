@@ -12,7 +12,8 @@ using Random = UnityEngine.Random;
 
 namespace Managers
 {
-    public class SaveLoadManager : Singleton<SaveLoadManager> {
+    public class SaveLoadManager : Singleton<SaveLoadManager>
+    {
         public static int Profile = -2;
 
         private BuildingShopView _buildingShopView;
@@ -32,22 +33,30 @@ namespace Managers
 
         // Пока в игре происходят какие-то действия, игрок не может ничего сделать
         // По окончанию этих действий игрок снова может что-то делать, а игра сохраняется. Если последовательность не была завершена - то игра не сохранится и откатится назад при след. загрузке
-        public void Sequence(bool isStart) {
-            if (isStart) {
+        public void Sequence(bool isStart)
+        {
+            if (isStart)
+            {
                 PlayerController.CanInteract = false;
-            } else {
-                if (GameModeManager.Instance.GameMode == GameMode.Online) {
+            }
+            else
+            {
+                if (GameModeManager.Instance.GameMode == GameMode.Online)
+                {
                     OnlineFarm.Instance.ChangeFarmAndPut(GenerateJsonString());
-                } else {
+                }
+                else
+                {
                     PlayerController.CanInteract = true;
                     SaveGame();
                 }
             }
         }
 
-        public static string GenerateJsonString() {
+        public static string GenerateJsonString()
+        {
             CurrentSave.SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
-        
+
             CurrentSave.TilesData = SmartTilemap.Instance.GetTilesData();
 
             CurrentSave.SeedShopButtonData = UIHud.Instance.ShopsPanel.seedShopView.GetButtonsData();
@@ -56,7 +65,8 @@ namespace Managers
             CurrentSave.ToolShopButtonsData = UIHud.Instance.ShopsPanel.toolShopView.GetButtons();
             CurrentSave.ToolShopChangeButton = UIHud.Instance.ShopsPanel.toolShopView.ChangeButton.activeSelf;
 
-            if (GameModeManager.Instance.GameMode != GameMode.Training) {
+            if (GameModeManager.Instance.GameMode != GameMode.Training)
+            {
                 CurrentSave.CropBoughtData = InventoryManager.Instance.GetIsBoughtData(0);
                 CurrentSave.ToolBoughtData = InventoryManager.Instance.GetIsBoughtData(1);
                 CurrentSave.BuildingBoughtData = InventoryManager.Instance.GetIsBoughtData(2);
@@ -67,7 +77,8 @@ namespace Managers
             return JsonUtility.ToJson(CurrentSave, false);
         }
 
-        public static void SaveGame() {
+        public static void SaveGame()
+        {
             GameModeManager gameModeManager = GameModeManager.Instance;
             if (gameModeManager is {DoNotSave : true})
                 return;
@@ -82,50 +93,67 @@ namespace Managers
             File.WriteAllText(SavePath, toSave);
         }
 
-        public static void LoadSavedData() {
+        public static void LoadSavedData()
+        {
             CurrentSave = GameSaveProfile.LoadFromFile(SavePath);
-            if (CurrentSave != null) {
+            if (CurrentSave != null)
+            {
                 TryFixCompatibility();
             }
         }
 
-        private static void TryFixCompatibility() {
+        private static void TryFixCompatibility()
+        {
             if (!KnowledgeManager.HasKnowledge(Knowledge.Training) && (CurrentSave.CropPoints > 3 ||
-                CurrentSave.Coins > 5 || CurrentSave.CurrentDay > 2)) {
+                                                                       CurrentSave.Coins > 5 ||
+                                                                       CurrentSave.CurrentDay > 2))
+            {
                 KnowledgeManager.AddKnowledge(Knowledge.Training);
             }
         }
 
-        public static void LoadGame(string jsonString = null) {
+        public static void LoadGame(string jsonString = null)
+        {
             if (jsonString != null)
                 CurrentSave = GameSaveProfile.LoadFromString(jsonString);
             else
                 CurrentSave = GameSaveProfile.LoadFromFile(SavePath);
 
-            if (CurrentSave == null) {
+            if (CurrentSave == null)
+            {
                 GenerateGame();
                 Debug.Instance.Log("Generating finished. Saving started");
                 SaveGame();
                 Debug.Instance.Log("New profile is saved");
             }
 
-            if (GameModeManager.Instance.RandomCropsCollectedQueueAmount > 0) {
-                CurrentSave.CropsCollected = new List<Crop>();
-                int cropTypesAmount = Enum.GetValues(typeof(Crop)).Length-1;
-                for (int i = 0; i < GameModeManager.Instance.RandomCropsCollectedQueueAmount; i++) {
-            
-                    CurrentSave.CropsCollected.Add((Crop)Random.Range(0,cropTypesAmount));
-                }
-            }
+            TryAddAdminCropsCollectedQueue();
         }
 
-        public static void GenerateGame() {
-            CurrentSave = new GameSaveProfile() {
+        private static void TryAddAdminCropsCollectedQueue()
+        {
+#if UNITY_EDITOR
+            if (GameModeManager.Instance.RandomCropsCollectedQueueAmount > 0)
+            {
+                CurrentSave.CropsCollected = new List<Crop>();
+                int cropTypesAmount = Enum.GetValues(typeof(Crop)).Length - 1;
+                for (int i = 0; i < GameModeManager.Instance.RandomCropsCollectedQueueAmount; i++)
+                {
+                    CurrentSave.CropsCollected.Add((Crop) Random.Range(0, cropTypesAmount));
+                }
+            }
+#endif
+        }
+
+        public static void GenerateGame()
+        {
+            CurrentSave = new GameSaveProfile()
+            {
                 Coins = 3,
                 CropPoints = 0,
                 SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
                 Date = Time.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
-                AmbarCrop =  Crop.None
+                AmbarCrop = Crop.None
             };
 
             SmartTilemap.Instance.GenerateTiles();
@@ -138,12 +166,14 @@ namespace Managers
             Time.Instance.GenerateDays(0);
         }
 
-        public void ClearSaveAndReload() {
+        public void ClearSaveAndReload()
+        {
             ClearSave();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        public static void ClearSave() {
+        public static void ClearSave()
+        {
             if (File.Exists(SavePath))
                 File.Delete(SavePath);
         }
@@ -159,19 +189,22 @@ namespace Managers
            PlayerPrefs.DeleteKey(name + i + "_" + profile);
    } */
 
-        public static void SaveStringArray(string[] tosave, string name) {
+        public static void SaveStringArray(string[] tosave, string name)
+        {
             PlayerPrefs.SetInt(name + "Amount_" + Profile, tosave.Length);
             for (int i = 0; i < tosave.Length; i++)
                 PlayerPrefs.SetString(name + i + "_" + Profile, tosave[i]);
         }
 
-        public static void SaveBoolArray(bool[] tosave, string name) {
+        public static void SaveBoolArray(bool[] tosave, string name)
+        {
             PlayerPrefs.SetInt(name + "Amount_" + Profile, tosave.Length);
             for (int i = 0; i < tosave.Length; i++)
                 PlayerPrefs.SetInt(name + i + "_" + Profile, tosave[i] ? 1 : 0);
         }
 
-        public static string[] LoadStringArray(string name) {
+        public static string[] LoadStringArray(string name)
+        {
             int amount = PlayerPrefs.GetInt(name + "Amount_" + Profile, 0);
             if (amount == 0)
                 return null;
@@ -182,15 +215,19 @@ namespace Managers
             return res;
         }
 
-        public static bool[] LoadBoolArray(string name, int desiredLength) {
+        public static bool[] LoadBoolArray(string name, int desiredLength)
+        {
             int amount = desiredLength;
-            if (PlayerPrefs.HasKey(name + "Amount_" + Profile)) {
+            if (PlayerPrefs.HasKey(name + "Amount_" + Profile))
+            {
                 bool[] res = new bool[PlayerPrefs.GetInt(name + "Amount_" + Profile)];
                 for (int i = 0; i < res.Length; i++)
                     res[i] = PlayerPrefs.GetInt(name + i + "_" + Profile) == 1;
 
                 return res;
-            } else {
+            }
+            else
+            {
                 bool[] res = new bool[amount];
                 for (int i = 0; i < res.Length; i++)
                     res[i] = false;
@@ -203,7 +240,8 @@ namespace Managers
 
         #region PlayerStruct
 
-        public static Player LoadPlayerStruct() {
+        public static Player LoadPlayerStruct()
+        {
             Player player = new();
             if (!PlayerPrefs.HasKey("player_id")) return new Player {Id = 0};
 
@@ -218,7 +256,8 @@ namespace Managers
             return player;
         }
 
-        public static void SavePlayerStruct(Player tosave) {
+        public static void SavePlayerStruct(Player tosave)
+        {
             PlayerPrefs.SetInt("player_id", tosave.Id);
             PlayerPrefs.SetString("player_email", tosave.Email);
             PlayerPrefs.SetString("player_password", tosave.Password);
@@ -231,18 +270,22 @@ namespace Managers
 
         #region FarmStruct
 
-        public static Farm LoadFarmStruct() {
-            if (!PlayerPrefs.HasKey("farm_id")) {
+        public static Farm LoadFarmStruct()
+        {
+            if (!PlayerPrefs.HasKey("farm_id"))
+            {
                 return new Farm {Id = 0};
             }
 
-            return new Farm {
+            return new Farm
+            {
                 Id = PlayerPrefs.GetInt("farm_id"),
                 Password = PlayerPrefs.GetString("farm_password")
             };
         }
 
-        public static void SaveFarmStruct(Farm tosave) {
+        public static void SaveFarmStruct(Farm tosave)
+        {
             PlayerPrefs.SetInt("farm_id", tosave.Id);
             PlayerPrefs.SetString("farm_password", tosave.Password);
         }
