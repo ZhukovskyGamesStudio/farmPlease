@@ -11,6 +11,7 @@ namespace UI
 {
     public class UIHud : Singleton<UIHud>, ISoundStarter {
         public BatteryView BatteryView;
+        public ScreenEffect screenEffect;
         public FastPanelScript FastPanelScript;
         public TimePanel TimePanel;
         public Backpack Backpack;

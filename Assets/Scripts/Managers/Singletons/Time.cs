@@ -8,16 +8,13 @@ using UnityEngine;
 using ZhukovskyGamesPlugin;
 using Random = UnityEngine.Random;
 
-namespace Managers
-{
+namespace Managers {
     public class Time : Singleton<Time> {
         public static DateTime FirstDayOfGame => new DateTime(2051, 5, 1);
 
-        [Range(1, 31)]
-        public int MaxDays;
+        [Range(1, 31)] public int MaxDays;
 
-        [Range(0, 7)]
-        public int SkipDaysAmount;
+        [Range(0, 7)] public int SkipDaysAmount;
 
         public EndTrainingPanel EndTrainingPanel;
         public EndMonthPanel EndMonthPanel;
@@ -25,7 +22,7 @@ namespace Managers
 
         public float SessionTime;
 
-        private FastPanelScript FastPanel  => PlayerController.GetComponent<FastPanelScript>();
+        private FastPanelScript FastPanel => PlayerController.GetComponent<FastPanelScript>();
         private bool _isTimerWorking;
         private PlayerController PlayerController => global::PlayerController.Instance;
         private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
@@ -34,7 +31,7 @@ namespace Managers
         private ToolShopView ToolShop => UIHud.ShopsPanel.toolShopView;
 
         private UIHud UIHud => global::UI.UIHud.Instance;
-    
+
         /**********/
         protected override void OnFirstInit() {
             _isTimerWorking = false;
@@ -56,22 +53,25 @@ namespace Managers
                 GenerateDays(0);
                 return;
             }
-            
+
             TryChangeMonth();
 
             MaxDays = daysData.Count;
             SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
             TimePanel.CreateDays(Days, SkipDaysAmount);
-            TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
+            TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
 
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
+                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
-                } else {
+                }
+                else {
                     UIHud.CloseBuildingsShop();
                 }
             }
+            StartCoroutine(
+                UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDay], false));
         }
 
         public void GenerateDays(int month) {
@@ -86,13 +86,14 @@ namespace Managers
 
             TimePanel.CreateDays(Days, SkipDaysAmount);
 
-            TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
+            TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
             ToolShop.ChangeTools();
 
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
+                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
-                } else {
+                }
+                else {
                     UIHud.CloseBuildingsShop();
                 }
             }
@@ -103,6 +104,7 @@ namespace Managers
             for (int i = 0; i < MaxDays; i++) {
                 Days.Add(HappeningType.None);
             }
+
             int love = -1;
             while ((love + SkipDaysAmount) % 7 == 0 || (love + 1) % 5 == 0) love = Random.Range(7 + SkipDaysAmount, 20);
 
@@ -110,7 +112,8 @@ namespace Managers
                 int x = i + SkipDaysAmount;
                 if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training) {
                     Days[i] = HappeningType.Marketplace;
-                } else if ((i + 1) % 5 == 0) {
+                }
+                else if ((i + 1) % 5 == 0) {
                     int rnd = Random.Range(0, 4);
 
                     Days[i] = rnd switch {
@@ -120,7 +123,8 @@ namespace Managers
                         3 => HappeningType.Insects,
                         _ => Days[i]
                     };
-                } else if (i == love) {
+                }
+                else if (i == love) {
                     Days[i] = HappeningType.Love;
                 }
             }
@@ -147,27 +151,35 @@ namespace Managers
 
             SeedShopView.ChangeSeedsNewDay();
 
-            TimePanel.UpdateLilCalendar( SaveLoadManager.CurrentSave.CurrentDay);
+            TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
 
             InventoryManager.Instance.BrokeTools();
             FastPanel.UpdateToolsImages();
             ToolShop.ChangeTools();
 
+
+            if (SaveLoadManager.CurrentSave.CurrentDay > 0) {
+                yield return StartCoroutine(SmartTilemap.EndDayEvent(Days[SaveLoadManager.CurrentSave.CurrentDay - 1]));
+            }
+
+            HappeningType nextDay = Days[SaveLoadManager.CurrentSave.CurrentDay];
+            yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
+            yield return StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[ SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
+                if (nextDay == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
-                } else {
+                }
+                else {
                     UIHud.CloseBuildingsShop();
                 }
             }
 
-            if ( SaveLoadManager.CurrentSave.CurrentDay > 0)
-                yield return StartCoroutine(SmartTilemap.EndDayEvent(Days[ SaveLoadManager.CurrentSave.CurrentDay - 1]));
             yield return StartCoroutine(SmartTilemap.NewDay());
         }
 
         public void SkipToEndMonth() {
-            SaveLoadManager.CurrentSave.DayOfWeek = NextDay(LastDayInMonth( SaveLoadManager.CurrentSave.CurrentDay, MaxDays, SaveLoadManager.CurrentSave.DayOfWeek));
+            SaveLoadManager.CurrentSave.DayOfWeek = NextDay(LastDayInMonth(SaveLoadManager.CurrentSave.CurrentDay,
+                MaxDays, SaveLoadManager.CurrentSave.DayOfWeek));
             //EndMonth();
         }
 /*
@@ -186,8 +198,7 @@ namespace Managers
             }
         }*/
 
-        public void ChangeDayPoint(TimeSpan timespan) {
-        }
+        public void ChangeDayPoint(TimeSpan timespan) { }
 
         private int NextDay(int currentDayOfWeek) {
             int next = (currentDayOfWeek + 1) % 7;
