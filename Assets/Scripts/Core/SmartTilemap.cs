@@ -190,7 +190,8 @@ public class SmartTilemap : MonoBehaviour {
 
     /**********/
 
-    public IEnumerator NewDay() {
+    public IEnumerator NewDay(HappeningType type) {
+        SetHappeningType(type);
         SaveLoadManager.Instance.Sequence(true);
         Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
         List<SmartTile> toNewDay = new();
@@ -199,12 +200,18 @@ public class SmartTilemap : MonoBehaviour {
             if (smartTile.Value.CanbeNewDayed())
                 toNewDay.Add(smartTile.Value);
         for (int i = 0; i < toNewDay.Count; i++) yield return StartCoroutine(toNewDay[i].OnNeyDayed(animtime / 5));
+        yield return StartCoroutine(HappeningSequence());
         SaveLoadManager.Instance.Sequence(false);
     }
 
-    public IEnumerator EndDayEvent(HappeningType happeningType) {
+    private HappeningType _happeningType;
+    public void SetHappeningType(HappeningType happeningType) {
+        _happeningType = happeningType;
+    }
+    
+    public IEnumerator HappeningSequence() {
         SaveLoadManager.Instance.Sequence(true);
-        switch (happeningType) {
+        switch (_happeningType) {
             case HappeningType.Erosion:
                 yield return StartCoroutine(Erosion());
                 break;
@@ -399,23 +406,28 @@ public class SmartTilemap : MonoBehaviour {
 
     public IEnumerator ClickTile() {
         yield return StartCoroutine(_tiles[Playercoord].OnClicked(animtime));
+        yield return StartCoroutine(HappeningSequence());
     }
 
     public IEnumerator SeedTile(Crop crop) {
         yield return StartCoroutine(_tiles[Playercoord].OnSeeded(crop, animtime));
+        yield return StartCoroutine(HappeningSequence());
     }
 
     public IEnumerator CollectTile() {
         yield return StartCoroutine(_tiles[Playercoord]
             .OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), animtime / 3));
+        yield return StartCoroutine(HappeningSequence());
     }
 
     public IEnumerator HoeTile() {
         yield return StartCoroutine(_tiles[Playercoord].OnHoed(animtime));
+        yield return StartCoroutine(HappeningSequence());
     }
 
     public IEnumerator WaterTile() {
         yield return StartCoroutine(_tiles[Playercoord].OnWatered(animtime));
+        yield return StartCoroutine(HappeningSequence());
     }
 
     public IEnumerator HoeRandomNeighbor(Vector3Int center) {
@@ -428,6 +440,7 @@ public class SmartTilemap : MonoBehaviour {
 
         if (neighborsList.Count > 0)
             yield return StartCoroutine(neighborsList[Random.Range(0, neighborsList.Count)].OnHoed(animtime));
+        yield return StartCoroutine(HappeningSequence());
     }
 
     public IEnumerator Erosion() {

@@ -61,7 +61,7 @@ namespace Managers {
 
             TimePanel.CreateDays(Days, SkipDaysAmount);
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
-
+            SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDay]);
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
@@ -158,11 +158,6 @@ namespace Managers {
             FastPanel.UpdateToolsImages();
             ToolShop.ChangeTools();
 
-
-            if (SaveLoadManager.CurrentSave.CurrentDay > 0) {
-                yield return StartCoroutine(SmartTilemap.EndDayEvent(Days[SaveLoadManager.CurrentSave.CurrentDay - 1]));
-            }
-
             HappeningType nextDay = Days[SaveLoadManager.CurrentSave.CurrentDay];
             
             StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
@@ -175,8 +170,8 @@ namespace Managers {
                     UIHud.CloseBuildingsShop();
                 }
             }
-
-            yield return StartCoroutine(SmartTilemap.NewDay());
+            
+            yield return StartCoroutine(SmartTilemap.NewDay(nextDay));
             UIHud.Instance.ClockView.SetInteractable(true);
         }
 

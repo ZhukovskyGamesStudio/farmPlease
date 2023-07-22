@@ -205,6 +205,7 @@ namespace Managers
                 UpdateInventoryUI();
                 _fastPanelScript.UpdateSeedFastPanel(crop, SeedsInventory[crop]);
                 SaveLoadManager.SaveGame();
+                StartCoroutine(SmartTilemap.Instance.HappeningSequence());
             }
         }
 
