@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,17 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77da3d2376ceb345ae8d34890e0e6ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day: 0
-  DayOfWeek: 0
-  time: 0
   MaxDays: 31
   SkipDaysAmount: 0
   EndTrainingPanel: {fileID: 0}
   EndMonthPanel: {fileID: 0}
-  HelloPanel: {fileID: 0}
-  HelloText: {fileID: 0}
-  TimeHintText: {fileID: 0}
-  CropsCollectedText: {fileID: 0}
-  daysHappenings: 
   SessionTime: 0
-  isLoaded: 0
+  _calendarHint: {fileID: 11400000, guid: 7e7456e84fba1554b94654e6e98582f9, type: 2}
+  _weatherHint: {fileID: 11400000, guid: 893d12839fe30cb4e89be2c53bd01047, type: 2}

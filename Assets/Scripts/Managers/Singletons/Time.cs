@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using Tables;
 using Training;
 using UI;
@@ -36,6 +37,7 @@ namespace Managers {
         protected override void OnFirstInit() {
             _isTimerWorking = false;
             SessionTime = 0;
+         
         }
 
         private void Update() {
@@ -58,7 +60,7 @@ namespace Managers {
 
             MaxDays = daysData.Count;
             SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
-
+            UIHud.TimePanel.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
             TimePanel.CreateDays(Days, SkipDaysAmount);
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
             SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDay]);
@@ -135,6 +137,31 @@ namespace Managers {
             TryChangeMonth();
             StartCoroutine(DayPointCoroutine());
             Energy.Instance.RestoreEnergy();
+            if(!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather)) {
+                TryShowCalendarHint();
+            }
+          
+        }
+
+        [SerializeField] private SpotlightAnimConfig _calendarHint, _weatherHint; 
+        
+        private void TryShowCalendarHint() {
+            UIHud.TimePanel.gameObject.SetActive(true);
+            int nextDay = SaveLoadManager.CurrentSave.CurrentDay + 1;
+            if (Days.Count > nextDay && Days[nextDay] != HappeningType.None) {
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.CalendarButton,
+                    _calendarHint, ShowWeatherHint);
+            }
+        }
+        
+        private void ShowWeatherHint() {
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanel.CurrentDay,
+                _weatherHint, GotWeatherKnowledge, false);
+        }
+
+        private void GotWeatherKnowledge() {
+            SaveLoadManager.CurrentSave.KnowledgeList.Add(Knowledge.Weather);
+            SaveLoadManager.SaveGame();
         }
 
         private void TryChangeMonth() {

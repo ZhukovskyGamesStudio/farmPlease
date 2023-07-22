@@ -9,6 +9,7 @@ namespace UI
     public class TimePanel : MonoBehaviour {
         public CalendarDayView lilCalendarDay;
         public Image CalendarImage;
+        public Button CalendarButton;
 
         public GameObject CalendarPanel;
         public GameObject DayPref;
@@ -22,6 +23,7 @@ namespace UI
         private GameObject[] _skipDays;
 
         private int _skipDaysAmount;
+        public Transform CurrentDay { get; private set; }
 
         public void CreateDays(List<HappeningType> daysHappenings, int skipAmount) {
             _daysHappenings = daysHappenings;
@@ -65,8 +67,11 @@ namespace UI
 
                 if (i < curDay)
                     view.DayOver();
-                if (i == curDay)
+                if (i == curDay) {
+                    CurrentDay = view.transform;
                     view.DayToday();
+                }
+                   
             }
         }
 
