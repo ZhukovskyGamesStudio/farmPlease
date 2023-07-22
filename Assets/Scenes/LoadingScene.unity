@@ -991,6 +991,13 @@ MonoBehaviour:
   secondsWait: 1
   VerticalShift: 3
   cropMax: 150
+  maxCropsAmountForScaleLimit: 150
+  _sellForText: {fileID: 0}
+  _sellButton: {fileID: 0}
+  _movingPlatform: {fileID: 0}
+  movingPlatformVerticalLimit: 10
+  _scaleArrow: {fileID: 0}
+  scalesArrowRotationLimit: 55
 --- !u!114 &727405456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2313,7 +2320,7 @@ PrefabInstance:
     - target: {fileID: 759303704668430652, guid: c8c730bf88d21ee478a2fd0cd66b7b1a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.2360268
+      value: -3.2360306
       objectReference: {fileID: 0}
     - target: {fileID: 869125527222082724, guid: c8c730bf88d21ee478a2fd0cd66b7b1a,
         type: 3}
@@ -2335,6 +2342,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1074333435558442929, guid: c8c730bf88d21ee478a2fd0cd66b7b1a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.8216553
+      objectReference: {fileID: 0}
     - target: {fileID: 1074333435558442930, guid: c8c730bf88d21ee478a2fd0cd66b7b1a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -2348,12 +2360,12 @@ PrefabInstance:
     - target: {fileID: 3321057285262283491, guid: c8c730bf88d21ee478a2fd0cd66b7b1a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.2360268
+      value: -3.2360306
       objectReference: {fileID: 0}
     - target: {fileID: 3944673322040294994, guid: c8c730bf88d21ee478a2fd0cd66b7b1a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.2360268
+      value: -3.2360306
       objectReference: {fileID: 0}
     - target: {fileID: 3955249134282934021, guid: c8c730bf88d21ee478a2fd0cd66b7b1a,
         type: 3}
