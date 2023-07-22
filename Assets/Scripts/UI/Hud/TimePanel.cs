@@ -58,22 +58,20 @@ namespace UI
                     !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
                     view.SetProps(i, HappeningType.None);
                 else if (_daysHappenings[i] != HappeningType.None && _daysHappenings[i] != HappeningType.Marketplace &&
-                         !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
+                         !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr) && i > curDay)
                     view.SetProps(i, HappeningType.Unknown);
                 else
                     view.SetProps(i, _daysHappenings[i]);
 
                 if (i < curDay)
                     view.DayOver();
+                if (i == curDay)
+                    view.DayToday();
             }
         }
 
         public void UpdateLilCalendar(int date) {
-            if (_daysHappenings[date] != HappeningType.None && _daysHappenings[date] != HappeningType.Marketplace &&
-                !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
-                lilCalendarDay.SetProps(date, HappeningType.Unknown);
-            else
-                lilCalendarDay.SetProps(date, _daysHappenings[date], true);
+            lilCalendarDay.SetProps(date, _daysHappenings[date], true);
         }
 
         public void CalendarPanelOpenClose() {

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using Managers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI {
     public class ClockView : MonoBehaviour {
         [SerializeField] private List<GameObject> _greenPieces;
 
         [SerializeField] private Animation _animation;
-
+        [SerializeField] private Button _button;
         private const string ZERO_TIME_ANIMATION = "ZeroTime";
         private const string INITIAL = "Initial";
         private const string WASTE_ONE = "WasteOne";
@@ -50,6 +51,10 @@ namespace UI {
 
         private void ShowWasteAnimation() {
             _animation.Play(WASTE_ONE);
+        }
+
+        public void SetInteractable(bool isInteractable) {
+            _button.interactable = isInteractable;
         }
 
         public void ShowHelloPanel() {

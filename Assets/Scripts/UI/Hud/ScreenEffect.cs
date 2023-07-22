@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Tables;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
@@ -14,18 +15,22 @@ namespace UI {
         private const string DAY_APPEAR = "DayAppear";
         private const string DAY_IDLE = "DayIdle";
         private const string DAY_DISAPPEAR = "DayDisappear";
-        
+
         private const string NIGHT_APPEAR = "NightAppear";
         private const string NIGHT_DISAPPEAR = "NightDisappear";
 
         private HappeningType _curHappeningType;
 
         public IEnumerator SetEffectCoroutine(HappeningType type, bool isTomorrow) {
+            if (NoneHappenings.Contains(type)) {
+                type = HappeningType.None;
+            }
+
             _curHappeningType = type;
 
             yield return StartCoroutine(TryPlayCurrentAnimation(type, isTomorrow));
         }
-        
+
         public IEnumerator PlayOverNightAnimation() {
             _nightAnimation.Play(NIGHT_APPEAR);
             _nightAnimation.PlayQueued(NIGHT_DISAPPEAR);
@@ -33,6 +38,10 @@ namespace UI {
         }
 
         public IEnumerator ChangeEffectCoroutine(HappeningType type, bool isTomorrow) {
+            if (NoneHappenings.Contains(type)) {
+                type = HappeningType.None;
+            }
+
             if (_curHappeningType == type) {
                 yield break;
             }
@@ -50,8 +59,7 @@ namespace UI {
                 _happeningAnimations[type].Play(BEFORE_DAY_APPEAR);
                 yield return new WaitWhile(() => _happeningAnimations[type].isPlaying);
                 _happeningAnimations[type].PlayQueued(BEFORE_DAY_IDLE);
-            }
-            else {
+            } else {
                 _happeningAnimations[type].Play(DAY_APPEAR);
                 yield return new WaitWhile(() => _happeningAnimations[type].isPlaying);
                 _happeningAnimations[type].PlayQueued(DAY_IDLE);
@@ -63,10 +71,13 @@ namespace UI {
                 yield break;
             }
 
-            if (type != HappeningType.None) {
-                _happeningAnimations[type].Play(DAY_DISAPPEAR);
-                yield return new WaitWhile(() => _happeningAnimations[type].isPlaying);
-            }
+
+            _happeningAnimations[type].Play(DAY_DISAPPEAR);
+            yield return new WaitWhile(() => _happeningAnimations[type].isPlaying);
         }
+
+        private List<HappeningType> NoneHappenings => new List<HappeningType>() {
+            HappeningType.Marketplace, HappeningType.Love
+        };
     }
 }

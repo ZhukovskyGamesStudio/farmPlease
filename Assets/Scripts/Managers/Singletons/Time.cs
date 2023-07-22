@@ -163,8 +163,9 @@ namespace Managers {
             }
 
             HappeningType nextDay = Days[SaveLoadManager.CurrentSave.CurrentDay];
+            
+            StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
             yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
-            yield return StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 if (nextDay == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
@@ -175,6 +176,7 @@ namespace Managers {
             }
 
             yield return StartCoroutine(SmartTilemap.NewDay());
+            UIHud.Instance.ClockView.SetInteractable(true);
         }
 
         public void SkipToEndMonth() {

@@ -8,17 +8,24 @@ namespace UI
         public Image Date;
         public Image Happening;
         public GameObject Finished;
+        public GameObject Today;
 
         public Sprite[] DateSprites;
 
         public void Clear() {
             Date.gameObject.SetActive(false);
             Happening.gameObject.SetActive(false);
-            Finished.gameObject.SetActive(false);
+            Finished.SetActive(false);
+            Today.SetActive(false);
         }
 
+        public void DayToday() {
+            Today.SetActive(true);
+        }
+        
         public void DayOver() {
             Finished.SetActive(true);
+            Today.SetActive(false);
             Date.color = new Color(1, 1, 1, 0.5f);
             Happening.color = new Color(1, 1, 1, 0.5f);
         }

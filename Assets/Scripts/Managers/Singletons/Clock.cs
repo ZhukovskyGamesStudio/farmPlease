@@ -43,6 +43,8 @@ namespace Managers {
            
 
             UIHud.Instance.ClockView.SetAmountWithWasteAnimation(Save.ClockEnergy);
+            UIHud.Instance.ClockView.SetInteractable(false);
+            
             SaveLoadManager.SaveGame();
         }
 
