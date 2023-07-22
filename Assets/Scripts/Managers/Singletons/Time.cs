@@ -60,7 +60,8 @@ namespace Managers {
 
             MaxDays = daysData.Count;
             SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
-            UIHud.TimePanel.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
+            
+            TimePanel.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
             TimePanel.CreateDays(Days, SkipDaysAmount);
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
             SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDay]);
@@ -146,22 +147,22 @@ namespace Managers {
         [SerializeField] private SpotlightAnimConfig _calendarHint, _weatherHint; 
         
         private void TryShowCalendarHint() {
-            UIHud.TimePanel.gameObject.SetActive(true);
+         
             int nextDay = SaveLoadManager.CurrentSave.CurrentDay + 1;
             if (Days.Count > nextDay && Days[nextDay] != HappeningType.None) {
+                UIHud.TimePanel.gameObject.SetActive(true);
                 UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.CalendarButton,
                     _calendarHint, ShowWeatherHint);
             }
         }
         
         private void ShowWeatherHint() {
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanel.CurrentDay,
-                _weatherHint, GotWeatherKnowledge, false);
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanel.CalendarPanel.transform,
+                _weatherHint, GotWeatherKnowledge);
         }
 
         private void GotWeatherKnowledge() {
-            SaveLoadManager.CurrentSave.KnowledgeList.Add(Knowledge.Weather);
-            SaveLoadManager.SaveGame();
+            KnowledgeManager.AddKnowledge(Knowledge.Weather);
         }
 
         private void TryChangeMonth() {

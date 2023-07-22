@@ -110,6 +110,10 @@ namespace Managers
             {
                 KnowledgeManager.AddKnowledge(Knowledge.Training);
             }
+
+            if (!KnowledgeManager.HasKnowledge(Knowledge.Weather) && (CurrentSave.CurrentDay > 3)) {
+                KnowledgeManager.AddKnowledge(Knowledge.Weather);
+            }
         }
 
         public static void LoadGame(string jsonString = null)
