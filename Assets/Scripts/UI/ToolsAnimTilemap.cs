@@ -17,10 +17,14 @@ namespace UI
         }
 
         public IEnumerator PlaceAnimation(Vector3Int coord, AnimationType type) {
-            if (type == AnimationType.Hoe)
-                AnimationsTilemap.SetTile(coord, hoeAnimation);
-            if (type == AnimationType.Watercan)
-                AnimationsTilemap.SetTile(coord, watercanAnimation);
+            switch (type) {
+                case AnimationType.Hoe:
+                    AnimationsTilemap.SetTile(coord, hoeAnimation);
+                    break;
+                case AnimationType.Watercan:
+                    AnimationsTilemap.SetTile(coord, watercanAnimation);
+                    break;
+            }
 
             yield return new WaitForSeconds(animationTime);
 
