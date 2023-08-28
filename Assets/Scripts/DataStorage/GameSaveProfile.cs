@@ -29,6 +29,8 @@ public class GameSaveProfile {
     public SerializableDictionary<string, int> CheatCodesActivated = new SerializableDictionary<string, int>();
 
     public bool[] SeedShopButtonData;
+    public Crop ShopFirstOffer, ShopSecondOffer;
+    public Tool ShopToolOffer;
     public bool SeedShopChangeButton;
     public Crop AmbarCrop;
 

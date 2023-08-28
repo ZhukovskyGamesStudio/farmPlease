@@ -114,8 +114,8 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[0].BuyButton.interactable = true;
-            UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[1].BuyButton.interactable = true;
+            UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.interactable = true;
+            UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.interactable = true;
 
             UIHud.Instance.ClockView.GetComponent<Button>().interactable = true;
             UIHud.Instance.Backpack.IsLockOpenCloseByFtue = false;
@@ -319,10 +319,10 @@ namespace Managers {
 
         private IEnumerator ShowBuyTomatoSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(
-                UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[1].BuyButton, _ftueConfig.BuyTomatoHint,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(
+                UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.transform, _ftueConfig.BuyTomatoHint,
                 delegate {
-                    UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[1].BuyButton.interactable = false;
+                    UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.interactable = false;
                     StepEnded();
                 });
             yield return new WaitWhile(() => _isWatingForStepEnd);
@@ -330,8 +330,8 @@ namespace Managers {
 
         private IEnumerator ShowBuyEggplantSpotlight() {
             _isWatingForStepEnd = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(
-                UIHud.Instance.ShopsPanel.seedShopView.CurrentButtons[0].BuyButton, _ftueConfig.BuyEggplantHint,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(
+                UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.transform, _ftueConfig.BuyEggplantHint,
                 StepEnded);
             yield return new WaitWhile(() => _isWatingForStepEnd);
         }

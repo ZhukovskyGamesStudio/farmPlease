@@ -54,6 +54,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2e2cb40159ed30f43869dcd0900ef537, type: 3}
   - {fileID: 21300000, guid: 4299562183f720d42b324ffab9ee2956, type: 3}
   - {fileID: 21300000, guid: 32d48f41d25b5c049b5fa6f2203dc133, type: 3}
+  - {fileID: 21300000, guid: 56c945914f9344441be74aadd4a26f82, type: 3}
   - {fileID: 21300000, guid: 8e8123228c0d36b4bbc4be3cf0bd80fb, type: 3}
   - {fileID: 21300000, guid: 1079216238ca64c4991bf0230590eb43, type: 3}
   - {fileID: 21300000, guid: 6ec694e242d3cd14bb9fc84f6be849fb, type: 3}
@@ -175,7 +176,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5a906ff5c42e9744596ddf494864168e, type: 3}
   - {fileID: 21300000, guid: e09894966d6cac1449bbcfc508239a28, type: 3}
   - {fileID: 21300000, guid: 7e13b6279a01f3142bf6bfacf1fd7257, type: 3}
+  - {fileID: 21300000, guid: 1f42f647532fe7c4bb779d1acbe9dddf, type: 3}
   - {fileID: 21300000, guid: e9d1d757e9689894a9934020ed2df46c, type: 3}
+  - {fileID: 21300000, guid: 47144577d3ce7b74386fb838bd4f71a8, type: 3}
   - {fileID: 21300000, guid: 0574a9a757e0d5e4f94ddb0407a58840, type: 3}
   - {fileID: 21300000, guid: 695630b79ae5d6c4ebafb0756fc5cbf4, type: 3}
   - {fileID: 21300000, guid: 85819ce75a1bd284a8620aff31468d0e, type: 3}
@@ -192,11 +195,14 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a3968adb641fb69468e5f8b8de17ba66, type: 3}
   - {fileID: 21300000, guid: aa55e60c6380d2848b0734ae57cfa0a2, type: 3}
   - {fileID: 21300000, guid: 3c8ddb2c9e5c4344ab70a98e180cfb90, type: 3}
+  - {fileID: 21300000, guid: 46cf3b3c7c6de5943910f9daaee9cdae, type: 3}
+  - {fileID: 21300000, guid: a6cc914cba763cb409b371593d90d945, type: 3}
   - {fileID: 21300000, guid: 94bec35ceb73e4945acdc06ae39bacd3, type: 3}
   - {fileID: 21300000, guid: 0c5c278cd75c9f849874de4bfda47e29, type: 3}
   - {fileID: 21300000, guid: 8d5d578c3c4811642b5b61eea99970b7, type: 3}
   - {fileID: 21300000, guid: bc1ea9ccb36e2704190226fc5278e4e9, type: 3}
   - {fileID: 21300000, guid: e4867dccd9aaab549942f12e5663d2f2, type: 3}
+  - {fileID: 21300000, guid: b959201d86604ec4cb0b4aa3f672fb9a, type: 3}
   - {fileID: -654972404, guid: abea181d53995ac499f314ad5fb24c69, type: 3}
   - {fileID: -351112402, guid: abea181d53995ac499f314ad5fb24c69, type: 3}
   - {fileID: -950863026, guid: abea181d53995ac499f314ad5fb24c69, type: 3}
@@ -212,12 +218,16 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 12ff480e0fe46684b97bf720c3f010e9, type: 3}
   - {fileID: 21300000, guid: dcff602e6ab7dc9499d81c2c6286ede0, type: 3}
   - {fileID: 21300000, guid: 4c56965e29b0ba84eb208411f791964c, type: 3}
+  - {fileID: 21300000, guid: 9041b9de9e8f25d439b21d5c60813b1e, type: 3}
   - {fileID: 21300000, guid: 09b00e2fa8ea05b44bbc9a5d4692b50a, type: 3}
+  - {fileID: 21300000, guid: 4c4c016f1260d8549b121d45300f830c, type: 3}
+  - {fileID: 21300000, guid: 63fb38efa4e6b5546a41c59ba4b2b9ea, type: 3}
   m_PackedSpriteNamesToIndex:
   - rainDrop
   - calendar_pin
   - playerStatusBack
   - backpackBuff
+  - TasksBack
   - buildingBuff
   - croponom_back_middle
   - BarterPanel
@@ -339,7 +349,9 @@ SpriteAtlas:
   - folding_list
   - dropdown_arrow
   - big-_calendar_back
+  - PackButton
   - calendar_cell
+  - buttonEdge_2
   - croponom_grid_outline
   - night
   - tool_tab
@@ -356,11 +368,14 @@ SpriteAtlas:
   - Box
   - cross
   - BarterPanelBackground
+  - line
+  - TasksBarNextPressed
   - croponom_bac
   - bug
   - mirage
   - Conveyour
   - calendar_cross
+  - line_2
   - BarterPanel_6
   - BarterPanel_7
   - BarterPanel_4
@@ -376,7 +391,10 @@ SpriteAtlas:
   - weather_tab
   - toggle
   - bubble_back
+  - PackButtonPressed
   - SpotlightFill
+  - TasksBarNext
+  - buttonEdge
   m_RenderDataMap: {}
   m_Tag: UI
   m_IsVariant: 0

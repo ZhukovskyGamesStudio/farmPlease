@@ -59,7 +59,10 @@ namespace Managers
 
             CurrentSave.TilesData = SmartTilemap.Instance.GetTilesData();
 
-            CurrentSave.SeedShopButtonData = UIHud.Instance.ShopsPanel.seedShopView.GetButtonsData();
+            UIHud.Instance.ShopsPanel.seedShopView.GetButtonsData(out Crop first, out Crop second);
+            CurrentSave.ShopFirstOffer = first;
+            CurrentSave.ShopSecondOffer = second;
+            
             CurrentSave.SeedShopChangeButton = UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.activeSelf;
 
             CurrentSave.ToolShopButtonsData = UIHud.Instance.ShopsPanel.toolShopView.GetButtons();
