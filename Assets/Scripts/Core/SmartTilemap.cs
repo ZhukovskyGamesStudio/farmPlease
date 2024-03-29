@@ -23,7 +23,8 @@ public class SmartTilemap : MonoBehaviour {
     public Vector3Int Playercoord;
 
     public float animtime = 0.5f;
-
+    private const int TILES_RADIUS = 11;
+    private const int STARTING_CIRCLE_RADIUS = 6;
     public int[] tileData;
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
@@ -63,12 +64,12 @@ public class SmartTilemap : MonoBehaviour {
         int i = 0;
         Vector3Int curCoord = new(0, 0, 0);
 
-        while (circle < 13) {
+        while (circle < TILES_RADIUS) {
             GameObject tileObject = new();
             tileObject.transform.parent = TilesHolder;
 
             SmartTile smarttile = tileObject.AddComponent<SmartTile>();
-            if (circle < 8) {
+            if (circle < STARTING_CIRCLE_RADIUS) {
                 smarttile.Init(this, TileType.Sand, curCoord);
                 PlaceTile(curCoord, TileType.Sand);
             } else {

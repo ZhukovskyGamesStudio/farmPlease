@@ -28,6 +28,11 @@ namespace Managers {
             WaitForLoadingEnd();
             yield return new WaitWhile(() => _isWatingForStepEnd);
 
+            if (GameModeManager.Instance.IsSkipTraining){
+                KnowledgeManager.AddKnowledge(Knowledge.Training);
+                yield break;
+            }
+            
             DisableUiParts();
 
             PlayerController.Instance.ChangeTool(Tool.Collect);
@@ -292,8 +297,8 @@ namespace Managers {
         private IEnumerator ShowSellSpotlight() {
             _isWatingForStepEnd = true;
             yield return new WaitForSeconds(1.5f);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.SellAllButton,
-                _ftueConfig.SellHint, StepEnded);
+            //UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.SellAllButton,
+            //    _ftueConfig.SellHint, StepEnded);
             yield return new WaitWhile(() => _isWatingForStepEnd);
             yield return new WaitWhile(() => UIHud.Instance.ShopsPanel.ScalesView.IsSellingAnimation);
         }

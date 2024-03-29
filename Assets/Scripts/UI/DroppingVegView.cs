@@ -13,9 +13,11 @@ namespace UI
         [SerializeField]
         private Image _image;
         private Action _onTouch;
+        public Crop CropType{ get; private set; }
         public void Init(Crop crop, Action onTouch) {
             _onTouch = onTouch;
             gameObject.SetActive(true);
+            CropType = crop;
             _image.sprite = CropsTable.CropByType(crop).VegSprite;
         }
         

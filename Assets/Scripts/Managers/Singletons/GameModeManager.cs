@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Tables;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 
@@ -13,6 +13,7 @@ namespace Managers
         public bool DoNotSave;
         public bool DisableStrongWind;
         public bool IsBuildingsShopAlwaysOpen;
+        public bool IsSkipTraining;
         public int RandomCropsCollectedQueueAmount = 55;
         [Range(1f, 5)] public float GameSpeed = 1;
 

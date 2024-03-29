@@ -173,7 +173,9 @@ namespace Managers {
             }
         }
 
-        public IEnumerator DayPointCoroutine() {
+        public IEnumerator DayPointCoroutine()
+        {
+            PlayerController.CanInteract = false;
             SaveLoadManager.CurrentSave.DayOfWeek = NextDay(SaveLoadManager.CurrentSave.DayOfWeek);
             /*if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
                 EndMonth();*/
@@ -201,6 +203,7 @@ namespace Managers {
             
             yield return StartCoroutine(SmartTilemap.NewDay(nextDay));
             UIHud.Instance.ClockView.SetInteractable(true);
+            PlayerController.CanInteract = true;
         }
 
         public void SkipToEndMonth() {

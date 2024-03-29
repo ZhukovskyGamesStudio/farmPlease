@@ -7,7 +7,6 @@ using Tables;
 using TMPro;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -41,6 +40,7 @@ public class SeedShopView : MonoBehaviour
     private bool _isShowChangeNeeded;
     private void OnEnable()
     {
+        UpdateCoinsCounter();
         if (_isShowChangeNeeded)
         {
             _mainAnimation.Play("HideUIInstant");
@@ -81,9 +81,13 @@ public class SeedShopView : MonoBehaviour
         offer.SetData(cropConfig, delegate
         {
             InventoryManager.Instance.BuySeed(cropConfig.type, cropConfig.cost, cropConfig.buyAmount);
-            _coinsCounter.text = SaveLoadManager.CurrentSave.Coins.ToString();
+            UpdateCoinsCounter();
             Audio.Instance.PlaySound(Sounds.Button);
         }, CloseHints);
+    }
+
+    private void UpdateCoinsCounter(){
+        _coinsCounter.text = SaveLoadManager.CurrentSave.Coins.ToString();
     }
 
     public void SetAmbarCrop(Crop type)
@@ -137,6 +141,7 @@ public class SeedShopView : MonoBehaviour
     }
     private IEnumerator ShowChangeAnimation()
     {
+        CloseHints();
         PlayerController.CanInteract = false;
         StartCoroutine(HideUI());
         _cartAnimation.Play("CartChangeStart");
@@ -195,5 +200,9 @@ public class SeedShopView : MonoBehaviour
     {
         _firstOffer.CloseHint();
         _secondOffer.CloseHint();
+    }
+
+    private void OnDisable() {
+        CloseHints();
     }
 }

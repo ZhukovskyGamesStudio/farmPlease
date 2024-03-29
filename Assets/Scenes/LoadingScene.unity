@@ -405,7 +405,7 @@ PrefabInstance:
     - target: {fileID: 3312886187142370322, guid: 6ecae97617a21734a8c497f08511fcdc,
         type: 3}
       propertyPath: IsDevelopmentBuild
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3312886187142370322, guid: 6ecae97617a21734a8c497f08511fcdc,
         type: 3}
@@ -526,6 +526,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DebugManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6739448910260945641, guid: 6ecae97617a21734a8c497f08511fcdc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ecae97617a21734a8c497f08511fcdc, type: 3}
@@ -992,8 +997,6 @@ MonoBehaviour:
   VerticalShift: 3
   cropMax: 150
   maxCropsAmountForScaleLimit: 150
-  _sellForText: {fileID: 0}
-  _sellButton: {fileID: 0}
   _movingPlatform: {fileID: 0}
   movingPlatformVerticalLimit: 10
   _scaleArrow: {fileID: 0}
