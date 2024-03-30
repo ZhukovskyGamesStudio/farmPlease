@@ -4,6 +4,7 @@ namespace ScriptableObjects
 {
     public abstract class ConfigWithCroponomPage : ScriptableObject {
         [Header("CroponomPage")]
+        public Sprite gridIcon;
         public string header;
         [TextArea]
         public string firstText;

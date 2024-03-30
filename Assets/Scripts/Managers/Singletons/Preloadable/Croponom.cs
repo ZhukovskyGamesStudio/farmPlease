@@ -89,7 +89,7 @@ namespace UI
                 Button weatherButton = Instantiate(GridButtonPrefab, WeatherGrid.transform);
                 weatherButton.onClick.AddListener(() => FactsPage.UpdatePage(weatherData));
 
-                weatherButton.GetComponent<Image>().sprite = weatherData.icon;
+                weatherButton.GetComponent<Image>().sprite = weatherData.gridIcon;
                 _weatherButtons.Add(weatherButton);
             }
         }
@@ -100,7 +100,7 @@ namespace UI
                 Button cropButton = Instantiate(GridButtonPrefab, CropsGrid.transform);
                 cropButton.onClick.AddListener(() => FactsPage.UpdatePage(cropData));
 
-                cropButton.GetComponent<Image>().sprite = cropData.VegSprite;
+                cropButton.GetComponent<Image>().sprite = cropData.gridIcon;
                 _cropsButtons.Add(cropButton);
             }
         }
@@ -111,7 +111,7 @@ namespace UI
                 Button toolButton = Instantiate(GridButtonPrefab, ToolsGrid.transform);
                 toolButton.onClick.AddListener(() => FactsPage.UpdatePage(toolData));
 
-                toolButton.GetComponent<Image>().sprite = toolData.FoodMarketSprite;
+                toolButton.GetComponent<Image>().sprite = toolData.gridIcon;
                 _toolButtons.Add(toolButton);
             }
         }

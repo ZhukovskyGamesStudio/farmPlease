@@ -16,26 +16,19 @@ public class SeedShopView : MonoBehaviour
     public Button CloseButton => _closeButton;
     public int ChangeCost;
 
-    public CropsTable CropsTablePrefab;
-
     public GameObject ChangeSeedsButton;
-
-    public GameObject ambarSeed;
-    public Button ambarBuyButton;
-    public Image ambarSprite;
 
     [SerializeField]
     private TextMeshProUGUI _coinsCounter;
     public CanvasGroup FirstBagCanvas => _firstOffer.CanvasGroup;
     public CanvasGroup SecondBagCanvas => _secondOffer.CanvasGroup;
 
-    [SerializeField] private SeedOffer _firstOffer, _secondOffer;
+    [SerializeField] private SeedOffer _firstOffer, _secondOffer, _ambarOffer;
 
     [SerializeField]
     private Animation _cartAnimation;
     [SerializeField]
     private Animation _mainAnimation;
-    private Crop Ambar => SaveLoadManager.CurrentSave.AmbarCrop;
 
     [SerializeField] private Animation _buyingBagAnimation;
     private bool _isShowChangeNeeded;
@@ -63,7 +56,7 @@ public class SeedShopView : MonoBehaviour
         SetSeedsShop(save.ShopFirstOffer, save.ShopSecondOffer);
 
         if (save.AmbarCrop == Crop.None)
-            ambarSeed.SetActive(false);
+            _ambarOffer.gameObject.SetActive(false);
         else
             SetAmbarCrop(save.AmbarCrop);
 
@@ -76,9 +69,9 @@ public class SeedShopView : MonoBehaviour
         SetOffer(_secondOffer, second);
     }
 
-    private void SetOffer(SeedOffer offer, Crop first)
+    private void SetOffer(SeedOffer offer, Crop crop)
     {
-        CropConfig cropConfig = CropsTable.CropByType(first);
+        CropConfig cropConfig = CropsTable.CropByType(crop);
         offer.SetData(cropConfig, delegate
         {
             InventoryManager.Instance.BuySeed(cropConfig.type, cropConfig.cost, cropConfig.buyAmount);
@@ -96,15 +89,12 @@ public class SeedShopView : MonoBehaviour
         SaveLoadManager.CurrentSave.AmbarCrop = type;
         if (type == Crop.Weed)
         {
-            ambarSeed.SetActive(false);
+            _ambarOffer.gameObject.SetActive(false);
             return;
         }
 
-        ambarSeed.SetActive(true);
-        CropConfig crop = CropsTable.CropByType(type);
-        ambarSprite.sprite = crop.SeedSprite;
-        ambarBuyButton.onClick.AddListener(
-            () => InventoryManager.Instance.BuySeed(crop.type, crop.cost, crop.buyAmount));
+        SetOffer(_ambarOffer, type);
+        _ambarOffer.gameObject.SetActive(true);
     }
 
     private void ChangeSeeds()
@@ -183,17 +173,18 @@ public class SeedShopView : MonoBehaviour
         _buyingBagAnimation.Play(isActive ? "Show" : "Hide");
     }
 
-    public void ShowHint(int hintIndex)
-    {
+    public void ShowHint(int hintIndex) {
         CloseHints();
-        if (hintIndex == 0)
-        {
-            _firstOffer.ShowHint();
-        }
-
-        if (hintIndex == 1)
-        {
-            _secondOffer.ShowHint();
+        switch (hintIndex) {
+            case 0:
+                _firstOffer.ShowHint();
+                break;
+            case 1:
+                _secondOffer.ShowHint();
+                break;
+            case 2:
+                _ambarOffer.ShowHint();
+                break;
         }
     }
 
@@ -201,6 +192,7 @@ public class SeedShopView : MonoBehaviour
     {
         _firstOffer.CloseHint();
         _secondOffer.CloseHint();
+        _ambarOffer.CloseHint();
     }
 
     private void OnDisable() {

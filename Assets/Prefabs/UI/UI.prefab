@@ -690,9 +690,9 @@ RectTransform:
   m_Father: {fileID: 7702417919601327518}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -61.099976, y: -6.26001}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 66.900024, y: -6.26001}
   m_SizeDelta: {x: 12, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7702417919816829729
@@ -3310,6 +3310,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShopsPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309073869517300496, guid: 8bd92d3bb0daa9d478a6cd8e89b520a5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2309073869517300499, guid: 8bd92d3bb0daa9d478a6cd8e89b520a5,
         type: 3}
