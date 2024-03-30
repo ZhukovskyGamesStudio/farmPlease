@@ -24,7 +24,8 @@ public class SeedShopView : MonoBehaviour
     public Button ambarBuyButton;
     public Image ambarSprite;
 
-    public TextMeshProUGUI _coinsCounter;
+    [SerializeField]
+    private TextMeshProUGUI _coinsCounter;
     public CanvasGroup FirstBagCanvas => _firstOffer.CanvasGroup;
     public CanvasGroup SecondBagCanvas => _secondOffer.CanvasGroup;
 

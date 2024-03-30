@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
 using Tables;
+using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UI
 {
@@ -15,8 +18,14 @@ namespace UI
         private Dictionary<ToolBuff, GameObject> _buttonD;
 
         private GameObject[] _toolButtons;
+        [SerializeField]
+        private TextMeshProUGUI _coinsCounter;
 
         /**********/
+
+        private void OnEnable() {
+            UpdateCoinsCounter();
+        }
 
         private void GenerateButtons() {
             _toolButtons = new GameObject[ToolsTable.Instance.ToolsSO.Length];
@@ -37,6 +46,10 @@ namespace UI
                 _buttonD.Add(tool.buff, _toolButtons[i]);
                 _toolButtons[i].SetActive(false);
             }
+        }
+        
+        private void UpdateCoinsCounter(){
+            _coinsCounter.text = SaveLoadManager.CurrentSave.Coins.ToString();
         }
 
         public void SetToolShopWithData( GameSaveProfile save) {
@@ -91,6 +104,7 @@ namespace UI
             }
 
             ChangeButton.SetActive(true);
+            UpdateCoinsCounter();
         }
 
         public void ChangeToolsButton() {
@@ -109,6 +123,7 @@ namespace UI
 
                 button.SetActive(false);
                 SaveLoadManager.SaveGame();
+                UpdateCoinsCounter();
             }
         }
     }

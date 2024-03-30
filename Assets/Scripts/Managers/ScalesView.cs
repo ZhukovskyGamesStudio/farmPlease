@@ -23,7 +23,9 @@ public class ScalesView : MonoBehaviour{
     private int maxCropsAmountForScaleLimit = 150;
 
     [SerializeField]
-    private Transform _movingPlatform;
+    private Transform _cropPipeTarget,_pipeVegsContainer;
+    [SerializeField]
+    private Transform _movingPlatform, _pipe;
 
     [SerializeField]
     private float movingPlatformVerticalLimit = 10;
@@ -35,16 +37,23 @@ public class ScalesView : MonoBehaviour{
     private float scalesArrowRotationLimit = 55;
 
     private List<DroppingVegView> _vegViews;
+    private Vector3 _pipeDeltaFromPlatform;
 
-    public void StartRainingCrops(Queue<Crop> cropsQueue){
+    private void Awake() {
+        if (_pipe != null) {
+            _pipeDeltaFromPlatform = _pipe.transform.position - _movingPlatform.transform.position;
+        }
+    }
+
+    public void StartRainingCrops(Queue<Crop> cropsQueue, Action onCropRainEnd){
         if (cropsQueue == null){
             cropsQueue = new Queue<Crop>();
         }
 
-        _rainCoroutine = StartCoroutine(CropRain(cropsQueue));
+        _rainCoroutine = StartCoroutine(CropRain(cropsQueue,onCropRainEnd));
     }
 
-    private IEnumerator CropRain(Queue<Crop> cropsQueue){
+    private IEnumerator CropRain(Queue<Crop> cropsQueue,Action onCropRainEnd){
         Queue<Crop> tmpShown = new Queue<Crop>(_shownCropsQueue);
         _cropCount = 0;
         int startingAmount = cropsQueue.Count;
@@ -68,6 +77,7 @@ public class ScalesView : MonoBehaviour{
             _cropCount++;
             yield return new WaitForSeconds(secondsWait * (cropsQueue.Count * 1f / startingAmount));
         }
+        onCropRainEnd?.Invoke();
     }
 
     private void DestroyExcessVeg(){
@@ -90,9 +100,14 @@ public class ScalesView : MonoBehaviour{
         _scaleArrow.rotation = Quaternion.Euler(0, 0, degree);
 
         float verticalMove = Mathf.Lerp(0, -movingPlatformVerticalLimit, percent);
+        ChangePlatformPos(verticalMove);
+    }
+
+    private void ChangePlatformPos(   float verticalMove) {
         Vector3 tmp = _movingPlatform.transform.localPosition;
         tmp.y = verticalMove;
         _movingPlatform.transform.localPosition = tmp;
+        _pipe.transform.position = _movingPlatform.transform.position + _pipeDeltaFromPlatform;
     }
 
     private void AddRandomForce(DroppingVegView fallingVeg){
@@ -101,25 +116,40 @@ public class ScalesView : MonoBehaviour{
     }
 
     public IEnumerator SellCrops(List<Crop> crops){
-        if (_rainCoroutine != null){
-            StopCoroutine(_rainCoroutine);
-        }
-
         yield return StartCoroutine(SellCoroutine(crops));
-
-        _shownCropsQueue = new Queue<Crop>();
+        List<Crop> tmp = new List<Crop>(_shownCropsQueue);
+        foreach (var crop in crops) {
+            tmp.Remove(crop);
+        }
+        _shownCropsQueue = new Queue<Crop>(tmp);
     }
 
     private IEnumerator SellCoroutine(List<Crop> crops){
         List<DroppingVegView> vegs = VegsHolder.GetComponentsInChildren<DroppingVegView>().ToList();
-        foreach (var crop in crops){
+        float deltaTime = 0.3f;
+        for (int index = 0; index < crops.Count; index++) {
+            Crop crop = crops[index];
             DroppingVegView veg = vegs.FirstOrDefault(v => v.CropType == crop);
-            if (veg != null){
-                veg.ExplodeInRndTime();
+            if (veg != null) {
+                StartCoroutine(SellVeg(veg, deltaTime));
                 vegs.Remove(veg);
+                OnVegTouchScale(vegs.Count);
+            }
+            
+            yield return new WaitForSeconds(deltaTime);
+            deltaTime *= 0.75f;
+            if (deltaTime < 0.03f) {
+                deltaTime = 0.03f;
             }
         }
+        yield return new WaitForSeconds(0.4f);
+    }
 
-        yield return new WaitForSeconds(1);
+    private IEnumerator SellVeg(DroppingVegView veg, float deltaTime) {
+        Destroy(veg.gameObject,deltaTime + 0.4f );
+        yield return StartCoroutine(veg.MoveTo(_cropPipeTarget.transform.position, deltaTime));
+        veg.transform.SetParent(_pipeVegsContainer);
+        veg.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
+        yield return new WaitForSeconds(0.4f);
     }
 }

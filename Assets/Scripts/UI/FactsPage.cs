@@ -1,4 +1,5 @@
 ﻿using ScriptableObjects;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,10 +7,10 @@ namespace UI
 {
     public class FactsPage : MonoBehaviour {
         [Header("FactsPage")]
-        public Text FactsHeader;
+        public TextMeshProUGUI FactsHeader;
 
-        public Text FactsFirstText;
-        public Text FactsSecondText;
+        public TextMeshProUGUI FactsFirstText;
+        public TextMeshProUGUI FactsSecondText;
         public Image FactsFirstImage;
         public Image FactsSecondImage;
 

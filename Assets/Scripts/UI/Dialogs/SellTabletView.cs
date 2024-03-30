@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Tables;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using ZhukovskyGamesPlugin;
+using Time = Managers.Time;
 
 namespace UI{
     public class SellTabletView : CustomMonoBehaviour{
@@ -31,11 +34,15 @@ namespace UI{
         [SerializeField]
         private Button _sellAllButton, _selectAllButton;
 
+        [SerializeField]
+        private TextMeshProUGUI _sellAmountText, _sellForAmountText;
+        
         private bool _isOpened = true;
 
         private void Awake(){
             _draggable.SetIsActiveFunc(IsDraggableActive);
             _draggable.SetClampValues(true, new Vector2(_closedPos.y, _openedPos.y));
+            OnSelectedAmountChange();
         }
 
         private bool IsDraggableActive() => !_scalesPanel.IsSellingAnimation;
@@ -52,6 +59,7 @@ namespace UI{
 
             SetData(crops);
             Close();
+            OnSelectedAmountChange();
         }
 
         public void SetData(Dictionary<Crop, int> crops){
@@ -70,10 +78,17 @@ namespace UI{
             } else{
                 foreach (var cropIntPair in crops){
                     SellTableLine line = Instantiate(_linePrefab, _linesHolder);
-                    line.SetData(cropIntPair.Key, cropIntPair.Value);
+                    line.SetData(cropIntPair.Key, cropIntPair.Value,OnSelectedAmountChange);
                     _cropLineMap.Add(cropIntPair.Key, line);
                 }
             }
+        }
+
+        private void OnSelectedAmountChange(int _ = 0) {
+            int selectedAmount = CountSelectedCrops();
+            int reward = selectedAmount  * (Time.Instance.IsTodayLoveDay ? 2 : 1);
+            _sellAmountText.text = selectedAmount.ToString();
+            _sellForAmountText.text = reward.ToString();
         }
 
         private void InitButtons(Dictionary<Crop, int> crops){
@@ -112,6 +127,10 @@ namespace UI{
             }
 
             _scalesPanel.SellSelected(cropsToSell);
+        }
+
+        private int CountSelectedCrops() {
+            return _cropLineMap.Values.Sum(s =>s.SelectedAmount);
         }
 
         public void SelectAll(){

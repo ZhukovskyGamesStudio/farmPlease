@@ -15,14 +15,16 @@ namespace UI{
         [SerializeField]
         private Button _minusButton, _plusButton;
 
+        public Action<int> OnSelectedAmountChange;
+
         public int SelectedAmount{ get; private set; }
         private int _haveAmount;
 
-        public void SetData(Crop type, int amount){
+        public void SetData(Crop type, int amount, Action<int> onSelectedAmountChange){
             if (amount == 0){
                 throw new ArgumentException();
             }
-
+            OnSelectedAmountChange += onSelectedAmountChange;
             _haveAmount = amount;
             SelectedAmount = 0;
 
@@ -35,6 +37,7 @@ namespace UI{
             _selectedText.text = $"{SelectedAmount}/{_haveAmount}";
             _minusButton.interactable = SelectedAmount > 0;
             _plusButton.interactable = SelectedAmount < _haveAmount;
+            OnSelectedAmountChange?.Invoke(SelectedAmount);
         }
 
         public void Plus(){
@@ -50,6 +53,10 @@ namespace UI{
         public void SelectAll(){
             SelectedAmount = _haveAmount;
             UpdateButtonsAndTextsState();
+        }
+
+        private void OnDestroy() {
+            OnSelectedAmountChange = null;
         }
     }
 }

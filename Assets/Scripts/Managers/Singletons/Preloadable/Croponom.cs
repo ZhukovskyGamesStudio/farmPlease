@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Abstract;
 using Managers;
 using ScriptableObjects;
@@ -12,17 +13,20 @@ namespace UI
         public FactsPage FactsPage;
         public Button GridButtonPrefab;
 
-        [Header("Crops")] public GameObject CropsGrid;
-
-        public Button CropsOpenButton;
+        [Header("Crops")]
+        public Toggle CropsOpenButton;
+        
+        public GameObject CropsGrid;
         public CropsTable CropsTablePrefab;
 
-        [Header("Weather")] public Button WeatherOpenButton;
+        [Header("Weather")]
+        public Toggle WeatherOpenButton;
 
         public GameObject WeatherGrid;
         public WeatherTable WeatherTablePrefab;
 
-        [Header("Tools")] public Button ToolsOpenButton;
+        [Header("Tools")]
+        public Toggle ToolsOpenButton;
 
         public GameObject ToolsGrid;
         public ToolsTable ToolsTablePrefab;
@@ -44,15 +48,15 @@ namespace UI
         }
 
         private void SubscribeTabButtons() {
-            CropsOpenButton.onClick.AddListener(() => OpenPage(CropsTablePrefab.Crops[0]));
-            WeatherOpenButton.onClick.AddListener(() => OpenPage(WeatherTablePrefab.WeathersSO[0]));
-            ToolsOpenButton.onClick.AddListener(() => OpenPage(ToolsTablePrefab.ToolsSO[0]));
-        }
+          /*  CropsOpenButton.onValueChanged.AddListener((_) => TryOpenPage(CropsTablePrefab.Crops[0],_));
+            WeatherOpenButton.onValueChanged.AddListener((_) => TryOpenPage(WeatherTablePrefab.WeathersSO[0],_));
+            ToolsOpenButton.onValueChanged.AddListener((_) => TryOpenPage(ToolsTablePrefab.ToolsSO[0],_));
+       */ }
 
         private void ReleaseAllButtons() {
-            CropsOpenButton.onClick.RemoveListener(() => OpenPage(CropsTablePrefab.Crops[0]));
-            WeatherOpenButton.onClick.RemoveListener(() => OpenPage(WeatherTablePrefab.WeathersSO[0]));
-            ToolsOpenButton.onClick.RemoveListener(() => OpenPage(ToolsTablePrefab.ToolsSO[0]));
+            CropsOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(CropsTablePrefab.Crops[0],_));
+            WeatherOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(WeatherTablePrefab.WeathersSO[0],_));
+            ToolsOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(ToolsTablePrefab.ToolsSO[0],_));
             foreach (Button button in _cropsButtons) button.onClick.RemoveAllListeners();
 
             foreach (Button button in _weatherButtons) button.onClick.RemoveAllListeners();
@@ -60,6 +64,11 @@ namespace UI
             foreach (Button button in _toolButtons) button.onClick.RemoveAllListeners();
         }
 
+        private void TryOpenPage( ConfigWithCroponomPage pageData,bool check) {
+            if (check) {
+                OpenPage(pageData);
+            }
+        }
         private void OpenPage(ConfigWithCroponomPage pageData) {
             FactsPage.UpdatePage(pageData);
         }
@@ -107,7 +116,7 @@ namespace UI
             }
         }
 
-        public new void PlaySound(int soundIndex) {
+        public void PlaySound(int soundIndex) {
             Audio.Instance.PlaySound((Sounds) soundIndex);
         }
     }
