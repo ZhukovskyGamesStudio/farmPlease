@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
@@ -20,7 +21,18 @@ namespace UI
         private GameObject[] _toolButtons;
         [SerializeField]
         private TextMeshProUGUI _coinsCounter;
+        
+        [SerializeField]
+        private GameObject _exitButton, _toolBox;
 
+        [SerializeField]
+        private Animation _landingPlatformAnimation;
+        
+        [SerializeField]
+        private Animation _tabletAnimation, _bagAnimation;
+
+        private bool _waitingToolMovedToBag;
+        
         /**********/
 
         private void OnEnable() {
@@ -47,6 +59,8 @@ namespace UI
                 _toolButtons[i].SetActive(false);
             }
         }
+
+       
         
         private void UpdateCoinsCounter(){
             _coinsCounter.text = SaveLoadManager.CurrentSave.Coins.ToString();
@@ -61,7 +75,7 @@ namespace UI
                 _toolButtons[i].SetActive(buttons[i]);
                 if (buttons[i]) {
                     if (counter < slotPosition.Length) {
-                        _toolButtons[i].transform.position = slotPosition[counter].position;
+                        SetSlotToPosition(_toolButtons[i], slotPosition[counter]);
                         counter++;
                     } else {
                         _toolButtons[i].SetActive(false);
@@ -71,6 +85,12 @@ namespace UI
             }
 
             ChangeButton.SetActive(isChangeButtonActive);
+        }
+
+        private void SetSlotToPosition(GameObject offer, Transform slot) {
+            offer.transform.SetParent(slot);
+            offer.transform.localPosition = Vector3.zero;
+            offer.transform.localScale = Vector3.one;
         }
 
         public bool[] GetButtons() {
@@ -100,7 +120,7 @@ namespace UI
                 buttons.Remove(button);
 
                 button.SetActive(true);
-                button.transform.position = slotPosition[i].position;
+                SetSlotToPosition(button, slotPosition[i]);
             }
 
             ChangeButton.SetActive(true);
@@ -120,11 +140,38 @@ namespace UI
         public void BuyTool(ToolConfig tool, GameObject button) {
             if (InventoryManager.Instance.EnoughMoney(tool.cost)) {
                 InventoryManager.Instance.BuyTool(tool.buff, tool.cost, tool.buyAmount);
-
+                
+                
                 button.SetActive(false);
+                StartCoroutine(Buying());
                 SaveLoadManager.SaveGame();
                 UpdateCoinsCounter();
             }
+        }
+
+       
+
+        public void OnMovedToBag() {
+            _waitingToolMovedToBag = false;
+            _toolBox.SetActive(false);
+        }
+        
+        private IEnumerator Buying() {
+            _toolBox.SetActive(true);
+            _exitButton.SetActive(false);
+            _waitingToolMovedToBag = true;
+            _landingPlatformAnimation.Play("LandingPlatformPrepare");
+            _tabletAnimation.Play("TabletHide");
+            yield return new WaitWhile(() => _landingPlatformAnimation.isPlaying);
+            _landingPlatformAnimation.Play("LandingPlatformLand");
+            yield return new WaitWhile(() => _landingPlatformAnimation.isPlaying);
+            _bagAnimation.Play("Show");
+            yield return new WaitWhile(() => _waitingToolMovedToBag);
+            _bagAnimation.Play("Hide");
+            yield return new WaitWhile(() => _bagAnimation.isPlaying);
+            _tabletAnimation.Play("TabletShow");
+            _landingPlatformAnimation.Play("LandingPlatformIdle");
+            _exitButton.SetActive(true);
         }
     }
 }
