@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Tables;
 using TMPro;
@@ -36,7 +38,7 @@ namespace UI{
 
         [SerializeField]
         private TextMeshProUGUI _sellAmountText, _sellForAmountText;
-        
+
         private bool _isOpened = true;
 
         private void Awake(){
@@ -86,9 +88,10 @@ namespace UI{
 
         private void OnSelectedAmountChange(int _ = 0) {
             int selectedAmount = CountSelectedCrops();
-            int reward = selectedAmount  * (Time.Instance.IsTodayLoveDay ? 2 : 1);
+            int reward = selectedAmount * (Time.Instance.IsTodayLoveDay ? 2 : 1);
             _sellAmountText.text = selectedAmount.ToString();
             _sellForAmountText.text = reward.ToString();
+            _sellAllButton.interactable = selectedAmount > 0;
         }
 
         private void InitButtons(Dictionary<Crop, int> crops){

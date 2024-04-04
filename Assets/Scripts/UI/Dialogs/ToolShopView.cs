@@ -54,7 +54,7 @@ namespace UI
                 toolOffer.BuyButton.onClick.AddListener(() => BuyTool(tool, toolOffer.gameObject));
                 toolOffer.BuyButton.onClick.AddListener(() => Audio.Instance.PlaySound(Sounds.Button));
 
-                toolOffer.OfferImage.sprite = tool.firstSprite;
+                toolOffer.OfferImage.sprite = tool.gridIcon;
                 _buttonD.Add(tool.buff, _toolButtons[i]);
                 _toolButtons[i].SetActive(false);
             }
