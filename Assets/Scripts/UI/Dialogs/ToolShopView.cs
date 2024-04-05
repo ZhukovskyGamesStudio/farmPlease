@@ -71,18 +71,21 @@ namespace UI
             bool isChangeButtonActive = save.ToolShopChangeButton;
             GenerateButtons();
             int counter = 0;
-            for (int i = 0; i < buttons.Length; i++) {
-                _toolButtons[i].SetActive(buttons[i]);
-                if (buttons[i]) {
-                    if (counter < slotPosition.Length) {
-                        SetSlotToPosition(_toolButtons[i], slotPosition[counter]);
-                        counter++;
-                    } else {
-                        _toolButtons[i].SetActive(false);
-                        UnityEngine.Debug.LogWarning("Лишняя активная кнопка");
+            if (buttons != null) {
+                for (int i = 0; i < buttons.Length; i++) {
+                    _toolButtons[i].SetActive(buttons[i]);
+                    if (buttons[i]) {
+                        if (counter < slotPosition.Length) {
+                            SetSlotToPosition(_toolButtons[i], slotPosition[counter]);
+                            counter++;
+                        } else {
+                            _toolButtons[i].SetActive(false);
+                            UnityEngine.Debug.LogWarning("Лишняя активная кнопка");
+                        }
                     }
                 }
             }
+            
 
             ChangeButton.SetActive(isChangeButtonActive);
         }

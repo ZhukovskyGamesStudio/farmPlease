@@ -24,6 +24,8 @@ namespace UI {
         [SerializeField]
         private TextMeshProUGUI _coinsCounter;
 
+        public SellTabletView SellTabletView => _sellTablet;
+        
         public bool IsSellingAnimation { get; private set; }
         public bool IsRainingCropsAnimation { get; private set; }
         public Button CloseButton => _closeButton;

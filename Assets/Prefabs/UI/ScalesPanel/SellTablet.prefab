@@ -360,6 +360,7 @@ GameObject:
   - component: {fileID: 4537891544812615766}
   - component: {fileID: 357551574911852}
   - component: {fileID: 484016781873300858}
+  - component: {fileID: 4155189183529524080}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -456,6 +457,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &4155189183529524080
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079252411882234972}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2903542176799854162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,6 +1587,7 @@ MonoBehaviour:
   _linesHolder: {fileID: 5580092498653044056}
   _openCloseAnimation: {fileID: 0}
   _draggable: {fileID: 6616774838286496272}
+  _scrollCanvasGroup: {fileID: 4155189183529524080}
   _scalesPanel: {fileID: 0}
   _openedPos: {x: 0, y: 4.1, z: 0}
   _closedPos: {x: 0, y: -1.9, z: 0}

@@ -1,7 +1,7 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
 using Abstract;
 using ScriptableObjects;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +9,7 @@ namespace UI
 {
     public class SpotlightWithText : HasAnimationAndCallback {
         [SerializeField]
-        protected Text _hintText;
+        protected TextMeshProUGUI _hintText;
 
         [SerializeField] private Image _centerImage;
         [SerializeField] private CanvasGroup _centerImageCanvasGroup;

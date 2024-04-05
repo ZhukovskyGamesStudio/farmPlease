@@ -22,6 +22,11 @@ namespace UI{
 
         [SerializeField]
         private DraggableSellTablet _draggable;
+        
+        [SerializeField]
+        private CanvasGroup _scrollCanvasGroup;
+
+        public CanvasGroup ScrollCanvasGroup => _scrollCanvasGroup;
 
         [SerializeField]
         private ScalesPanelView _scalesPanel;
@@ -41,13 +46,20 @@ namespace UI{
 
         private bool _isOpened = true;
 
+        public Button SelectAllButton => _selectAllButton;
+        
+        public Button SellButton => _sellAllButton;
+
+        public bool IsFixedByTraining = false;
+
         private void Awake(){
             _draggable.SetIsActiveFunc(IsDraggableActive);
             _draggable.SetClampValues(true, new Vector2(_closedPos.y, _openedPos.y));
             OnSelectedAmountChange();
+            Open();
         }
 
-        private bool IsDraggableActive() => !_scalesPanel.IsSellingAnimation;
+        private bool IsDraggableActive() => !_scalesPanel.IsSellingAnimation && !IsFixedByTraining;
 
         public void SetData(Queue<Crop> cropsCollected){
             Dictionary<Crop, int> crops = new Dictionary<Crop, int>();

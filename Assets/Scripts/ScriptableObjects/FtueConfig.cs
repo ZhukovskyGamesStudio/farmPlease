@@ -24,6 +24,7 @@ namespace ScriptableObjects {
         public SpotlightAnimConfig DoScytheHint;
 
         public SpotlightAnimConfig ScalesHint;
+        public SpotlightAnimConfig SelectAllHint;
         public SpotlightAnimConfig SellHint;
         public SpotlightAnimConfig CloseScalesHint;
 

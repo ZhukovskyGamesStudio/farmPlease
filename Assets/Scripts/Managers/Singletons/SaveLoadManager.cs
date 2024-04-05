@@ -82,10 +82,6 @@ namespace Managers
 
         public static void SaveGame()
         {
-            GameModeManager gameModeManager = GameModeManager.Instance;
-            if (gameModeManager is {DoNotSave : true})
-                return;
-
             string toSave = GenerateJsonString();
 
             if (!Directory.Exists(SaveDirectory))
@@ -327,5 +323,15 @@ namespace Managers
 */
 
         #endregion
+
+#if UNITY_EDITOR
+        private void OnApplicationQuit() {
+            if (GameModeManager.Instance.DoNotSave) {
+                ClearSave();
+            }
+        }
+#endif
+        
+       
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using Abstract;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI {
     public class KnowledgeCanSpeak : HasAnimationAndCallback {
         [SerializeField]
-        protected Text _speakText;
+        protected TextMeshProUGUI _speakText;
 
         private const string SHOW = "KnowledgeSpeakShow";
         private const string HIDE = "KnowledgeSpeakHide";
