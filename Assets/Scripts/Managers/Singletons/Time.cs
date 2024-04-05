@@ -90,7 +90,7 @@ namespace Managers {
             TimePanel.CreateDays(Days, SkipDaysAmount);
 
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
-            ToolShop.ChangeTools();
+            ToolShop.ChangeToolsNewDay();
 
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
@@ -181,12 +181,13 @@ namespace Managers {
                 EndMonth();*/
 
             SeedShopView.ChangeSeedsNewDay();
+       
 
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
 
             InventoryManager.Instance.BrokeTools();
             FastPanel.UpdateToolsImages();
-            ToolShop.ChangeTools();
+            ToolShop.ChangeToolsNewDay();
 
             HappeningType nextDay = Days[SaveLoadManager.CurrentSave.CurrentDay];
             

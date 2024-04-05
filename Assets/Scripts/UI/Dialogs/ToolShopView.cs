@@ -1,93 +1,79 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Managers;
-using ScriptableObjects;
 using Tables;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace UI
-{
+namespace UI {
     public class ToolShopView : MonoBehaviour {
         public RectTransform[] slotPosition;
-        public GameObject ToolOfferPrefab;
+        //public ToolOffer ToolOfferPrefab;
 
         public GameObject ChangeButton;
         public int ChangeToolCost;
-        private Dictionary<ToolBuff, GameObject> _buttonD;
 
-        private GameObject[] _toolButtons;
+        [SerializeField]
+        private ToolOffer _toolOffer1, _toolOffer2;
+
         [SerializeField]
         private TextMeshProUGUI _coinsCounter;
-        
+
         [SerializeField]
         private GameObject _exitButton, _toolBox;
 
         [SerializeField]
         private Animation _landingPlatformAnimation;
-        
+
         [SerializeField]
         private Animation _tabletAnimation, _bagAnimation;
 
         private bool _waitingToolMovedToBag;
-        
+
+        private ToolBuff _toolBuff1, _toolBuff2;
+
+        private bool _fistActive, _secondActive;
+[SerializeField]
+        private Transform _noToolsText;
         /**********/
+
+        private void Awake() {
+            InitButtons();
+        }
+
+        private void InitButtons() {
+            _toolOffer1.Init(buff => {
+                BuyTool(buff);
+                Audio.Instance.PlaySound(Sounds.Button);
+            });
+            _toolOffer2.Init(buff => {
+                BuyTool(buff);
+                Audio.Instance.PlaySound(Sounds.Button);
+            });
+        }
 
         private void OnEnable() {
             UpdateCoinsCounter();
         }
 
-        private void GenerateButtons() {
-            _toolButtons = new GameObject[ToolsTable.Instance.ToolsSO.Length];
-            _buttonD = new Dictionary<ToolBuff, GameObject>();
-            for (int i = 0; i < _toolButtons.Length; i++) {
-                _toolButtons[i] = Instantiate(ToolOfferPrefab, transform);
-
-                ToolConfig tool = ToolsTable.Instance.ToolsSO[i];
-                _toolButtons[i].name = ToolsTable.Instance.ToolsSO[i].ToString();
-                ToolOffer toolOffer = _toolButtons[i].GetComponent<ToolOffer>();
-                toolOffer.costText.text = tool.cost.ToString();
-                toolOffer.explainText.text = tool.explainText;
-
-                toolOffer.BuyButton.onClick.AddListener(() => BuyTool(tool, toolOffer.gameObject));
-                toolOffer.BuyButton.onClick.AddListener(() => Audio.Instance.PlaySound(Sounds.Button));
-
-                toolOffer.OfferImage.sprite = tool.gridIcon;
-                _buttonD.Add(tool.buff, _toolButtons[i]);
-                _toolButtons[i].SetActive(false);
-            }
-        }
-
-       
-        
-        private void UpdateCoinsCounter(){
+        private void UpdateCoinsCounter() {
             _coinsCounter.text = SaveLoadManager.CurrentSave.Coins.ToString();
         }
 
-        public void SetToolShopWithData( GameSaveProfile save) {
-            bool[] buttons = save.ToolShopButtonsData;
-            bool isChangeButtonActive = save.ToolShopChangeButton;
-            GenerateButtons();
-            int counter = 0;
-            if (buttons != null) {
-                for (int i = 0; i < buttons.Length; i++) {
-                    _toolButtons[i].SetActive(buttons[i]);
-                    if (buttons[i]) {
-                        if (counter < slotPosition.Length) {
-                            SetSlotToPosition(_toolButtons[i], slotPosition[counter]);
-                            counter++;
-                        } else {
-                            _toolButtons[i].SetActive(false);
-                            UnityEngine.Debug.LogWarning("Лишняя активная кнопка");
-                        }
-                    }
-                }
-            }
+        public void SetToolShopWithData(GameSaveProfile save) {
+            _toolOffer1.SetData(ToolsTable.ToolByType(save.ToolFirstOffer), save.ToolFirstOfferActive);
+            _toolBuff1 = save.ToolFirstOffer;
+            _fistActive = save.ToolFirstOfferActive;
             
+            _toolOffer2.SetData(ToolsTable.ToolByType(save.ToolSecondOffer), save.ToolSecondOfferActive);
+            _toolBuff2 = save.ToolSecondOffer;
+            _secondActive = save.ToolSecondOfferActive;
 
-            ChangeButton.SetActive(isChangeButtonActive);
+            ChangeButton.SetActive(save.ToolShopChangeButton);
+            UpdateNoToolsMessage();
         }
 
         private void SetSlotToPosition(GameObject offer, Transform slot) {
@@ -95,70 +81,66 @@ namespace UI
             offer.transform.localPosition = Vector3.zero;
             offer.transform.localScale = Vector3.one;
         }
-
-        public bool[] GetButtons() {
-            bool[] buttons = new bool[_toolButtons.Length];
-            for (int i = 0; i < buttons.Length; i++)
-                buttons[i] = _toolButtons[i].activeSelf;
-
-            return buttons;
+        
+        public void ChangeToolsNewDay() {
+            ChangeTools();
+            SaveLoadManager.CurrentSave.ToolShopChangeButton = true;
+            ChangeButton.SetActive(true);
         }
 
         public void ChangeTools() {
-            if (_toolButtons == null)
-                GenerateButtons();
-            List<GameObject> buttons = new();
-            foreach (ToolBuff key in _buttonD.Keys)
-                //Здесь должна быть двойная проверка: если всегда доступен ИЛИ уже куплен
-                if (ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.Instance.IsToolsBoughtD[key]) {
-                    GameObject button = _buttonD[key];
-                    button.SetActive(false);
-                    buttons.Add(button);
-                }
+            List<ToolBuff> possibleTools = ToolsTable.Tools
+                .Where(key => ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.Instance.IsToolsBoughtD[key]).ToList();
 
-            for (int i = 0; i < 2; i++) {
-                int x = Random.Range(0, buttons.Count);
-                GameObject button = buttons[x];
-
-                buttons.Remove(button);
-
-                button.SetActive(true);
-                SetSlotToPosition(button, slotPosition[i]);
-            }
-
-            ChangeButton.SetActive(true);
+            GameSaveProfile sv = SaveLoadManager.CurrentSave;
+            sv.ToolFirstOffer = possibleTools[Random.Range(0, possibleTools.Count)];
+            possibleTools.Remove(sv.ToolFirstOffer);
+            sv.ToolSecondOffer = possibleTools[Random.Range(0, possibleTools.Count)];
+            sv.ToolFirstOfferActive = true;
+            sv.ToolSecondOfferActive = true;
+            
+            SetToolShopWithData(sv);
             UpdateCoinsCounter();
         }
 
         public void ChangeToolsButton() {
             if (InventoryManager.Instance.EnoughMoney(ChangeToolCost)) {
                 InventoryManager.Instance.AddCoins(-1 * ChangeToolCost);
-
                 ChangeTools();
+                SaveLoadManager.CurrentSave.ToolShopChangeButton = false;
                 ChangeButton.SetActive(false);
                 SaveLoadManager.SaveGame();
             }
         }
 
-        public void BuyTool(ToolConfig tool, GameObject button) {
-            if (InventoryManager.Instance.EnoughMoney(tool.cost)) {
-                InventoryManager.Instance.BuyTool(tool.buff, tool.cost, tool.buyAmount);
-                
-                
-                button.SetActive(false);
+        public void BuyTool(ToolBuff tool) {
+            var config = ToolsTable.ToolByType(tool);
+            if (InventoryManager.Instance.EnoughMoney(config.cost)) {
+                InventoryManager.Instance.BuyTool(config.buff, config.cost, config.buyAmount);
+                if (_toolBuff1 == tool) {
+                    _fistActive = false;
+                    SaveLoadManager.CurrentSave.ToolFirstOfferActive = false;
+                } else {
+                    _secondActive = false;
+                    SaveLoadManager.CurrentSave.ToolSecondOfferActive = false;
+                }
+
                 StartCoroutine(Buying());
                 SaveLoadManager.SaveGame();
                 UpdateCoinsCounter();
+                UpdateNoToolsMessage();
             }
         }
 
-       
+        private void UpdateNoToolsMessage() {
+            _noToolsText.gameObject.SetActive(!_fistActive && !_secondActive);
+        }
 
         public void OnMovedToBag() {
             _waitingToolMovedToBag = false;
             _toolBox.SetActive(false);
         }
-        
+
         private IEnumerator Buying() {
             _toolBox.SetActive(true);
             _exitButton.SetActive(false);
@@ -175,6 +157,13 @@ namespace UI
             _tabletAnimation.Play("TabletShow");
             _landingPlatformAnimation.Play("LandingPlatformIdle");
             _exitButton.SetActive(true);
+        }
+
+        public void GetButtonsData(out ToolBuff first, out bool firstActive, out ToolBuff second, out bool secondActive) {
+            first = _toolOffer1.ToolBuff;
+            firstActive = _fistActive;
+            second = _toolOffer2.ToolBuff;
+            secondActive = _secondActive;
         }
     }
 }

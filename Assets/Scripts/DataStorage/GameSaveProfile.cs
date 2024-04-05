@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Managers;
@@ -28,13 +27,12 @@ public class GameSaveProfile {
     public SerializableDictionary<ToolBuff, int> ToolBuffs = new SerializableDictionary<ToolBuff, int>();
     public SerializableDictionary<string, int> CheatCodesActivated = new SerializableDictionary<string, int>();
 
-    public bool[] SeedShopButtonData;
     public Crop ShopFirstOffer, ShopSecondOffer;
-    public Tool ShopToolOffer;
     public bool SeedShopChangeButton;
     public Crop AmbarCrop;
 
-    public bool[] ToolShopButtonsData;
+    public ToolBuff ToolFirstOffer = ToolBuff.Doublehoe, ToolSecondOffer = ToolBuff.Unlimitedwatercan;
+    public bool ToolFirstOfferActive = true, ToolSecondOfferActive = true;
     public bool ToolShopChangeButton;
 
     public bool[] CropBoughtData;
@@ -46,7 +44,7 @@ public class GameSaveProfile {
 
     public static GameSaveProfile LoadFromString(string loadFrom) {
         try {
-            GameSaveProfile res = (GameSaveProfile) JsonUtility.FromJson(loadFrom, typeof(GameSaveProfile));
+            GameSaveProfile res = (GameSaveProfile)JsonUtility.FromJson(loadFrom, typeof(GameSaveProfile));
             return res;
         } catch {
             UnityEngine.Debug.LogError("Wrong Format");
@@ -55,10 +53,9 @@ public class GameSaveProfile {
     }
 
     public static GameSaveProfile LoadFromFile(string filepath) {
-
         if (File.Exists(filepath)) {
             string save = File.ReadAllText(filepath);
-            GameSaveProfile res = (GameSaveProfile) JsonUtility.FromJson(save, typeof(GameSaveProfile));
+            GameSaveProfile res = (GameSaveProfile)JsonUtility.FromJson(save, typeof(GameSaveProfile));
             return res;
         }
 

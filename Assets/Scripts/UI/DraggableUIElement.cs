@@ -79,6 +79,7 @@ namespace UI {
             _startingPos = transform.position;
             _startMousePos = Input.mousePosition;
             shift = Camera.main.ScreenToWorldPoint(_startMousePos) - _startingPos;
+            shift.z = 0;
             if (_smoothingCoroutine != null) {
                 StopCoroutine(_smoothingCoroutine);
             }
@@ -110,7 +111,7 @@ namespace UI {
             }
 
             Vector3 endMousePos = Input.mousePosition;
-
+            endMousePos.z = 0;
             TryInvokeRectEvents(endMousePos - _startMousePos);
         }
 

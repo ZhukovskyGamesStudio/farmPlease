@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -22,6 +24,8 @@ namespace Tables
             UnityEngine.Debug.Log("Нет класса Tool под тип " + buff);
             return null;
         }
+
+        public static List<ToolBuff> Tools=> Instance.ToolsSO.Select(t => t.buff).ToList();
     }
 
     [Serializable]

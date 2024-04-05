@@ -64,8 +64,7 @@ namespace Managers
             CurrentSave.ShopSecondOffer = second;
             
             CurrentSave.SeedShopChangeButton = UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.activeSelf;
-
-            CurrentSave.ToolShopButtonsData = UIHud.Instance.ShopsPanel.toolShopView.GetButtons();
+            
             CurrentSave.ToolShopChangeButton = UIHud.Instance.ShopsPanel.toolShopView.ChangeButton.activeSelf;
 
             if (GameModeManager.Instance.GameMode != GameMode.Training)
@@ -165,7 +164,7 @@ namespace Managers
             Energy.Instance.RefillEnergy();
             Clock.Instance.RefillToMaxEnergy();
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsNewDay();
-            UIHud.Instance.ShopsPanel.toolShopView.ChangeTools();
+            UIHud.Instance.ShopsPanel.toolShopView.ChangeToolsNewDay();
             Time.Instance.GenerateDays(0);
         }
 
