@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
@@ -10,7 +11,8 @@ namespace UI
 {
     public class Backpack : MonoBehaviour {
         public GridLayoutGroup SeedsGrid;
-        public GameObject SeedPrefab;
+        [SerializeField]
+        private BackpackItem _backpackItemPrefab;
         public GameObject SeedsPanel;
 
         public Image BackPackImage;
@@ -26,7 +28,7 @@ namespace UI
 
         public Button OpenButton => _openButton;
         private bool _isBuffed;
-        private List<GameObject> _seeds;
+        private Dictionary<string, BackpackItem> _backpackItemsViews;
         public Button TomatoButton { get; private set; }
         [HideInInspector]
         public bool IsLockOpenCloseByFtue;
@@ -40,7 +42,7 @@ namespace UI
             SeedsPanel.SetActive(isOpen);
         }
         
-        private void CloseBySelectedSeed() {
+        private void CloseBySelectedItem() {
             isOpen = false;
             UpdateSprite();
             SeedsPanel.SetActive(isOpen);
@@ -59,52 +61,69 @@ namespace UI
         }
 
         private void GenerateSeedButtons() {
-            _seeds = new();
+            _backpackItemsViews = new();
 
             for (int i = 0; i < CropsTablePrefab.Crops.Length; i++) {
                 CropConfig crop = CropsTablePrefab.Crops[i];
 
-                GameObject button = Instantiate(SeedPrefab, SeedsGrid.transform);
-                SeedView seedView = button.GetComponent<SeedView>();
+                BackpackItem backpackItem = Instantiate(_backpackItemPrefab, SeedsGrid.transform);
 
-                seedView.amountText.text = "0";
-                seedView.crop = crop.type;
-                seedView.SeedImage.sprite = crop.SeedSprite;
-                seedView.button.onClick.AddListener(() => InventoryManager.Instance.ChooseSeed(crop.type));
-                seedView.button.onClick.AddListener(() => CloseBySelectedSeed());
-                seedView.button.onClick.AddListener(() => PlayerController.Instance.ChangeTool(2));
-                seedView.gameObject.SetActive(false);
-                _seeds.Add(button);
+                backpackItem.InitButton(0, crop.SeedSprite, () => {
+                    InventoryManager.Instance.ChooseSeed(crop.type);
+                    CloseBySelectedItem();
+                    PlayerController.Instance.ChangeTool(2);
+                }, () => SaveLoadManager.CurrentSave.Seeds.SafeGet(crop.type, 0));
+                backpackItem.gameObject.SetActive(false);
+                _backpackItemsViews.Add(crop.type.ToString(), backpackItem);
                 if (crop.type == Crop.Tomato) {
-                    TomatoButton = button.GetComponent<Button>();
+                    TomatoButton = backpackItem.GetComponent<Button>();
                 }
             }
         }
 
+        private void GenerateToolsButtons() {
+            var cnfg = ToolsTable.Instance.ToolsSO;
+            for (int i = 0; i < cnfg.Length; i++) {
+                ToolConfig tool = cnfg[i];
+
+                BackpackItem backpackItem = Instantiate(_backpackItemPrefab, SeedsGrid.transform);
+
+                backpackItem.InitButton(0, tool.gridIcon, () => {
+                    ShowConfirmDialog(delegate {
+                        InventoryManager.Instance.ActivateTool(tool.buff);
+                        CloseBySelectedItem();
+                    });
+                }, () => SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(tool.buff, 0));
+                backpackItem.gameObject.SetActive(false);
+                _backpackItemsViews.Add(tool.buff.ToString(), backpackItem);
+            }
+        }
+
         public void UpdateGrid(SerializableDictionary<Crop, int> seedsInventory) {
-            if (_seeds == null)
+            if (_backpackItemsViews == null) {
                 GenerateSeedButtons();
+                GenerateToolsButtons();
+            }
+              
 
             int itemsToShow = 0;
 
-            for (int i = 0; i < _seeds.Count; i++) {
-                int amount = 0;
-                if (seedsInventory.ContainsKey(_seeds[i].GetComponent<SeedView>().crop))
-                    amount = seedsInventory[_seeds[i].GetComponent<SeedView>().crop];
-
-                if (amount > 0) {
+            foreach (BackpackItem item in _backpackItemsViews.Values) {
+                int newAmount = item.SyncAmount();
+                if (newAmount > 0) {
                     itemsToShow++;
-                    _seeds[i].SetActive(true);
-                    _seeds[i].GetComponent<SeedView>().amountText.text = amount.ToString();
-                } else {
-                    _seeds[i].SetActive(false);
                 }
             }
 
-            if (itemsToShow < 4)
-                SeedsGrid.constraintCount = itemsToShow;
-            else
-                SeedsGrid.constraintCount = 4;
+            AdjustGridSize(itemsToShow);
+        }
+
+        private void AdjustGridSize(int itemsToShow) {
+            SeedsGrid.constraintCount = itemsToShow < 4 ? itemsToShow : 4;
+        }
+
+        private void ShowConfirmDialog(Action confirmedCallback) {
+            confirmedCallback?.Invoke();
         }
     }
 }

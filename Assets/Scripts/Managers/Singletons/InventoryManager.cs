@@ -23,7 +23,8 @@ namespace Managers
 
         private bool _isUnlimitedFlag;
         public SerializableDictionary<Crop, int> SeedsInventory => SaveLoadManager.CurrentSave.Seeds;
-        public SerializableDictionary<ToolBuff, int> ToolsInventory => SaveLoadManager.CurrentSave.ToolBuffs;
+        public SerializableDictionary<ToolBuff, int> ToolsActivated => SaveLoadManager.CurrentSave.ToolBuffs;
+        public SerializableDictionary<ToolBuff, int> ToolsStored => SaveLoadManager.CurrentSave.ToolBuffsStored;
 
         private UIHud _uiHud;
 
@@ -60,8 +61,11 @@ namespace Managers
                     SeedsInventory.Add(CropsTable.Instance.Crops[i].type, 0);
 
             //создаём пустой словарь инструментов
-            for (int i = 0; i < ToolsTable.Instance.ToolsSO.Length; i++)
-                ToolsInventory.Add(ToolsTable.Instance.ToolsSO[i].buff, 0);
+            for (int i = 0; i < ToolsTable.Instance.ToolsSO.Length; i++) {
+                ToolsActivated.Add(ToolsTable.Instance.ToolsSO[i].buff, 0);
+                ToolsStored.Add(ToolsTable.Instance.ToolsSO[i].buff, 0);
+            }
+               
 
             if (GameModeManager.Instance.UnlimitedMoneyCrops) {
                 SaveLoadManager.CurrentSave.Coins = 1000;
@@ -262,37 +266,49 @@ namespace Managers
         /*****Инструменты*****/
 
         public void BuyTool(ToolBuff buff, int cost, int amount) {
-            if (!ToolsInventory.ContainsKey(buff))
-                ToolsInventory.Add(buff, 0);
+            if (!ToolsStored.ContainsKey(buff))
+                ToolsStored.Add(buff, 0);
 
             AddCoins(-1 * cost);
 
-            //Одна коса заменяет другую. Переделать в более универсальную систему
-            if (buff == ToolBuff.Wetscythe && ToolsInventory.ContainsKey(ToolBuff.Greenscythe))
-                ToolsInventory[ToolBuff.Greenscythe] = 0;
-            if (buff == ToolBuff.Greenscythe && ToolsInventory.ContainsKey(ToolBuff.Wetscythe))
-                ToolsInventory[ToolBuff.Wetscythe] = 0;
-            ToolsInventory[buff] += amount;
+          
+            ToolsStored[buff] ++;
+            UpdateInventoryUI();
+        }
+        
+        public void ActivateTool(ToolBuff buff) {
+            if (!ToolsStored.ContainsKey(buff)) {
+                ToolsStored.Add(buff, 0);
+            }
+
+            ToolsStored[buff]--;
+
+            if (!ToolsActivated.ContainsKey(buff)) {
+                ToolsActivated.Add(buff, 0);
+            }
+            
+            ToolsActivated[buff]+= ToolsTable.ToolByType(buff).buyAmount;
             _fastPanelScript.UpdateToolsImages();
+            UpdateInventoryUI();
         }
 
         public void BrokeTools() {
-            if (ToolsInventory == null) {
+            if (ToolsActivated == null) {
                 UnityEngine.Debug.LogError("dictionary is null");
                 return;
             }
 
-            foreach (ToolBuff type in ToolsInventory.Keys.ToList()) {
-                ToolsInventory[type]--;
-                if (ToolsInventory[type] < 0)
-                    ToolsInventory[type] = 0;
+            foreach (ToolBuff type in ToolsActivated.Keys.ToList()) {
+                ToolsActivated[type]--;
+                if (ToolsActivated[type] < 0)
+                    ToolsActivated[type] = 0;
             }
         }
 
         public bool IsToolWorking(ToolBuff buff) {
-            if (ToolsInventory.ContainsKey(buff))
-                return ToolsInventory[buff] > 0;
-            ToolsInventory.Add(buff, 0);
+            if (ToolsActivated.ContainsKey(buff))
+                return ToolsActivated[buff] > 0;
+            ToolsActivated.Add(buff, 0);
             return false;
         }
 

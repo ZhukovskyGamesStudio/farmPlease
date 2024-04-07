@@ -37,6 +37,10 @@ namespace ZhukovskyGamesPlugin {
 
             return Values[Keys.IndexOf(key)];
         }
+        
+        public T2 SafeGet(T1 key, T2 defaultValue) {
+            return !Keys.Contains(key) ? defaultValue : Values[Keys.IndexOf(key)];
+        }
 
         public void Add(T1 key, T2 value) {
             if (Keys.Contains(key)) {

@@ -168,7 +168,7 @@ namespace Managers {
         private void TryChangeMonth() {
             if (SaveLoadManager.CurrentSave.CurrentDay >= SaveLoadManager.CurrentSave.Days.Count) {
                 SaveLoadManager.CurrentSave.CurrentMonth++;
-                InventoryManager.Instance.ToolsInventory[ToolBuff.Weatherometr] = 0;
+                InventoryManager.Instance.ToolsActivated[ToolBuff.Weatherometr] = 0;
                 GenerateDays(SaveLoadManager.CurrentSave.CurrentMonth);
             }
         }

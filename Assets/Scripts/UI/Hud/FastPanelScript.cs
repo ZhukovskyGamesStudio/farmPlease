@@ -31,7 +31,7 @@ namespace UI
             ScytheImage.sprite = ScytheNormalSprite;
             _calendarImage.sprite = CalendarNormalSprite;
 
-            foreach (ToolBuff type in InventoryManager.Instance.ToolsInventory.Keys) {
+            foreach (ToolBuff type in InventoryManager.Instance.ToolsActivated.Keys) {
                 ToolConfig tool = ToolsTable.ToolByType(type);
                 Image toChange = HoeImage;
                 switch (tool.toolUIType) {
