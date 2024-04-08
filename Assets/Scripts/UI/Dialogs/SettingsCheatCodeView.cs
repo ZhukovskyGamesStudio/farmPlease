@@ -1,12 +1,16 @@
 ﻿using Managers;
 using ScriptableObjects;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI {
     public class SettingsCheatCodeView : MonoBehaviour {
-        [SerializeField] private InputField _cheatCodeInput;
-        [SerializeField] private Text _cheatCodeErrorText;
+        [SerializeField]
+        private TMP_InputField _cheatCodeInput;
+
+        [SerializeField]
+        private TextMeshProUGUI _cheatCodeErrorText;
+
         private CheatCodeManager _cheatCodeManager;
 
         public void Init(CheatCodeConfigList cheatCodeConfigList) {

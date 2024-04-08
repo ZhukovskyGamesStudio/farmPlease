@@ -54,24 +54,25 @@ namespace UI
         }
 
         private void UpdateBigCalendar(int curDay) {
+            int predictedDaysLeft = InventoryManager.Instance.ToolsActivated.SafeGet(ToolBuff.Weatherometr, 0);
             for (int i = 0; i < _days.Length; i++) {
                 CalendarDayView view = _days[i].GetComponent<CalendarDayView>();
-                if (_daysHappenings[i] == HappeningType.Love &&
-                    !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
+                if (_daysHappenings[i] == HappeningType.Love && !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
                     view.SetProps(i, HappeningType.None);
                 else if (_daysHappenings[i] != HappeningType.None && _daysHappenings[i] != HappeningType.Marketplace &&
-                         !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr) && i > curDay)
+                         predictedDaysLeft <= 0 && i > curDay)
                     view.SetProps(i, HappeningType.Unknown);
                 else
                     view.SetProps(i, _daysHappenings[i]);
 
                 if (i < curDay)
                     view.DayOver();
-                if (i == curDay) {
+                else if (i == curDay) {
                     CurrentDay = view.transform;
                     view.DayToday();
+                } else {
+                    predictedDaysLeft--;
                 }
-                   
             }
         }
 

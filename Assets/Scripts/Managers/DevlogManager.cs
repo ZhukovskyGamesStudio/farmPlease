@@ -1,12 +1,11 @@
 using ScriptableObjects;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Managers
-{
+namespace Managers {
     public class DevlogManager : MonoBehaviour {
         public DevlogConfig devlogConfig;
-        public Text Header, MainText;
+        public TextMeshProUGUI Header, MainText;
 
         public void Init() {
             Header.text = devlogConfig.Header;
