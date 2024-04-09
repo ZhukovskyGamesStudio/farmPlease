@@ -37,6 +37,9 @@ namespace UI
 
         [SerializeField] private GameObject Panel;
 
+
+        public Action OnClose;
+        
         /**********/
 
         protected override void OnFirstInit() {
@@ -45,6 +48,11 @@ namespace UI
 
         public void Open() {
             Panel.SetActive(true);
+        }
+        
+        public void Close() {
+            OnClose?.Invoke();
+            Panel.SetActive(false);
         }
 
         private void SubscribeTabButtons() {

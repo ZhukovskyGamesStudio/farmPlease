@@ -5,14 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+namespace UI {
     public class SpotlightWithText : HasAnimationAndCallback {
         [SerializeField]
         protected TextMeshProUGUI _hintText;
 
-        [SerializeField] private Image _centerImage;
-        [SerializeField] private CanvasGroup _centerImageCanvasGroup;
+        [SerializeField]
+        private CanvasGroup _centerImageCanvasGroup;
+
         [SerializeField]
         protected RectTransform _shadowCenter, _headShift;
 
@@ -23,29 +23,29 @@ namespace UI
         private Action _onButtonPressed;
         private bool _isHidingByAnyTap;
 
-        public void ShowSpotlightOnButton(Button target, SpotlightAnimConfig animDataConfig,
-            Action onButtonPressed = null) {
+        public void ShowSpotlightOnButton(Button target, SpotlightAnimConfig animDataConfig, Action onButtonPressed = null) {
             gameObject.SetActive(true);
             ShowSpotlight(target.transform.position, animDataConfig);
             _target = target;
             target.onClick.AddListener(OnTargetButtonPressed);
             OnAnimationEnded = onButtonPressed;
             _isHidingByAnyTap = false;
-            _centerImageCanvasGroup.blocksRaycasts = false;
+            ChangeCenterBlockRaycast(_isHidingByAnyTap);
+        }
+
+        public void ShowSpotlight(Transform target, SpotlightAnimConfig animDataConfig, Action onHideEnded = null,
+            bool isHidingByAnyTap = true) {
+            gameObject.SetActive(true);
+            ShowSpotlight(target.position, animDataConfig);
+            OnAnimationEnded = onHideEnded;
+            _isHidingByAnyTap = isHidingByAnyTap;
+            ChangeCenterBlockRaycast(_isHidingByAnyTap);
         }
 
         private void OnTargetButtonPressed() {
             HideSpotlight();
             _target.onClick.RemoveListener(OnTargetButtonPressed);
             _target = null;
-        }
-        public void ShowSpotlight(Transform target, SpotlightAnimConfig animDataConfig, Action onHideEnded = null, bool isHidingByAnyTap = true) {
-            gameObject.SetActive(true);
-            ShowSpotlight(target.position, animDataConfig);
-            OnAnimationEnded = onHideEnded;
-            _isHidingByAnyTap = true;
-            _centerImageCanvasGroup.blocksRaycasts = true;
-            _isHidingByAnyTap = isHidingByAnyTap;
         }
 
         private void ShowSpotlight(Vector3 targetPos, SpotlightAnimConfig config) {
@@ -56,12 +56,16 @@ namespace UI
             _animation.Play(SHOW);
         }
 
+        private void ChangeCenterBlockRaycast(bool isBlock) {
+            _centerImageCanvasGroup.blocksRaycasts = isBlock;
+        }
+
         public void Hide() {
             HideSpotlight();
         }
 
         public void HideButton() {
-            if(_isHidingByAnyTap) {
+            if (_isHidingByAnyTap) {
                 HideSpotlight();
             }
         }

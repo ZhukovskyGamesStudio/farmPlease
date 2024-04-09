@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6681134475219588096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -161,14 +161,14 @@ PrefabInstance:
     - target: {fileID: 393295665, guid: acb778dee434cc24c9e161c1951eec03, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2020260889718192458}
+      objectReference: {fileID: 8009046899272909380}
     - target: {fileID: 393295665, guid: acb778dee434cc24c9e161c1951eec03, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: Close
       objectReference: {fileID: 0}
     - target: {fileID: 393295665, guid: acb778dee434cc24c9e161c1951eec03, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: UI.Croponom, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1360548892609599378, guid: acb778dee434cc24c9e161c1951eec03,
         type: 3}
@@ -292,6 +292,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acb778dee434cc24c9e161c1951eec03, type: 3}
+--- !u!114 &8009046899272909380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5436296358305701725, guid: acb778dee434cc24c9e161c1951eec03,
+    type: 3}
+  m_PrefabInstance: {fileID: 2617790970788617497}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a4a29c2466255478957b712e7bceac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8504106704484394945 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5931492467795557080, guid: acb778dee434cc24c9e161c1951eec03,

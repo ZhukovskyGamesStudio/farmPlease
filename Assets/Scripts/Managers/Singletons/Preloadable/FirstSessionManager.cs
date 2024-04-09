@@ -354,7 +354,7 @@ namespace Managers {
                     UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.interactable = false;
                     UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.blocksRaycasts = false;
                     StepEnded();
-                });
+                }, false);
             yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Seeds[Crop.Tomato] < 3);
             UIHud.Instance.SpotlightWithText.Hide();
             yield return new WaitWhile(() => _isWatingForStepEnd);
@@ -368,7 +368,7 @@ namespace Managers {
                     UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.interactable = false;
                     UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
                     StepEnded();
-                });
+                }, false);
             yield return new WaitWhile(() => SaveLoadManager.CurrentSave.Seeds[Crop.Eggplant] < 3);
             UIHud.Instance.SpotlightWithText.Hide();
             yield return new WaitWhile(() => _isWatingForStepEnd);
@@ -387,8 +387,10 @@ namespace Managers {
             _isWatingForStepEnd = true;
 
             UIHud.Instance.CroponomButton.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.CroponomButton.transform, _ftueConfig.BookHint, StepEnded);
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.CroponomButton.transform, _ftueConfig.BookHint, StepEnded, false);
+            Croponom.Instance.OnClose +=  UIHud.Instance.SpotlightWithText.Hide;
             yield return new WaitWhile(() => _isWatingForStepEnd);
+            Croponom.Instance.OnClose -=  UIHud.Instance.SpotlightWithText.Hide;
         }
 
         protected override void OnFirstInit() {
