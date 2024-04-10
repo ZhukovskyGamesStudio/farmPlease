@@ -26,29 +26,29 @@ namespace Managers {
         }
 
         private void ChangeUnlimitedClockEnergy() {
-            GameModeManager.Instance.InfiniteClockEnergy = !GameModeManager.Instance.InfiniteClockEnergy;
+            GameModeManager.Instance.Config.InfiniteClockEnergy = !GameModeManager.Instance.InfiniteClockEnergy;
         }
 
         private void ChangeUnlimitedEnergy() {
-            GameModeManager.Instance.InfiniteEnergy = !GameModeManager.Instance.InfiniteEnergy;
+            GameModeManager.Instance.Config.InfiniteEnergy = !GameModeManager.Instance.InfiniteEnergy;
         }
 
 
         private void ChangeGameSpeedUp() {
-            GameModeManager.Instance.GameSpeed *= 2;
-            if (GameModeManager.Instance.GameSpeed >= 8) {
-                GameModeManager.Instance.GameSpeed = 8;
+            GameModeManager.Instance.Config.GameSpeed *= 2;
+            if (GameModeManager.Instance.Config.GameSpeed >= 8) {
+                GameModeManager.Instance.Config.GameSpeed = 8;
             }
         }
 
         private void ChangeGameSpeedToNormal() {
-            GameModeManager.Instance.GameSpeed = 1;
+            GameModeManager.Instance.Config.GameSpeed = 1;
         }
 
         private void ChangeGameSpeedDown() {
-            GameModeManager.Instance.GameSpeed /= 2;
-            if (GameModeManager.Instance.GameSpeed <= 0.125f) {
-                GameModeManager.Instance.GameSpeed = 0.125f;
+            GameModeManager.Instance.Config.GameSpeed /= 2;
+            if (GameModeManager.Instance.Config.GameSpeed <= 0.125f) {
+                GameModeManager.Instance.Config.GameSpeed = 0.125f;
             }
         }
     }

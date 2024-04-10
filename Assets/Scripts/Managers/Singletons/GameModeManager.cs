@@ -2,21 +2,24 @@
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 
-namespace Managers
-{
+namespace Managers {
     public class GameModeManager : Singleton<GameModeManager> {
-        public bool UnlimitedMoneyCrops;
-        public bool InfiniteEnergy;
-        public bool InfiniteClockEnergy;
-        public bool UnlimitedSeeds;
-        public bool ShowTileType;
-        public bool DoNotSave;
-        public bool DisableStrongWind;
-        public bool IsBuildingsShopAlwaysOpen;
-        public bool IsSkipTraining;
-        public int RandomCropsCollectedQueueAmount = 55;
-        [Range(1f, 5)] public float GameSpeed = 1;
+        [SerializeField]
+        private GameModeConfig _gameModeConfig;
 
+        public GameModeConfig Config => _gameModeConfig;
+        
+        public bool UnlimitedMoneyCrops => _gameModeConfig.UnlimitedMoneyCrops;
+        public bool InfiniteEnergy => _gameModeConfig.InfiniteEnergy;
+        public bool InfiniteClockEnergy => _gameModeConfig.InfiniteClockEnergy;
+        public bool UnlimitedSeeds => _gameModeConfig.UnlimitedSeeds;
+        public bool ShowTileType => _gameModeConfig.ShowTileType;
+        public bool DoNotSave => _gameModeConfig.DoNotSave;
+        public bool DisableStrongWind => _gameModeConfig.DisableStrongWind;
+        public bool IsBuildingsShopAlwaysOpen => _gameModeConfig.IsBuildingsShopAlwaysOpen;
+        public bool IsSkipTraining => _gameModeConfig.IsSkipTraining;
+        public int RandomCropsCollectedQueueAmount => _gameModeConfig.RandomCropsCollectedQueueAmount;
+        public float GameSpeed => _gameModeConfig.GameSpeed;
 
         public GameMode GameMode = GameMode.FakeTime;
         private KeyboardManager _keyboardManager;

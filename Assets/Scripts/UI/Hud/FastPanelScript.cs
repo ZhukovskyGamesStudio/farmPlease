@@ -1,6 +1,7 @@
 ﻿using Managers;
 using ScriptableObjects;
 using Tables;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ namespace UI
         public Button[] toolButtons;
         public Sprite HoeNormalSprite, WatercanNormalSprite, SeedNormalSprite, ScytheNormalSprite, CalendarNormalSprite;
         public Image HoeImage, WatercanImage, SeedImage, ScytheImage;
-        public Text SeedText;
+        public TextMeshProUGUI SeedText;
         public Image[] SlotsImages;
         public Sprite[] SlotsNormal, SlotsPressed;
         private Backpack _backpack;

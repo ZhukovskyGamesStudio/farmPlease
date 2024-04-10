@@ -6,12 +6,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using ZhukovskyGamesPlugin;
 
-namespace Managers
-{
+namespace Managers {
     public class LoadingManager : MonoBehaviour {
         public List<CustomMonoBehaviour> PreloadedManagers;
         private string _sceneName;
         private static bool isGameLoaded;
+
+        [SerializeField]
+        private float _delayBeforeSceneSwitch = 1;
 
         public void StartLoading() {
             if (isGameLoaded)
@@ -24,12 +26,12 @@ namespace Managers
                 manager.Init();
             }
 
+            yield return new WaitForSeconds(_delayBeforeSceneSwitch);
+
             isGameLoaded = true;
             if (SceneManager.GetActiveScene().name == "LoadingScene") {
                 LoadGameScene();
             }
-
-            yield break;
         }
 
         private void LoadGameScene() {

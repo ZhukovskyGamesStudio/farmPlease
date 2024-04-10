@@ -72,7 +72,8 @@ namespace UI
                     InventoryManager.Instance.ChooseSeed(crop.type);
                     CloseBySelectedItem();
                     PlayerController.Instance.ChangeTool(2);
-                }, () => SaveLoadManager.CurrentSave.Seeds.SafeGet(crop.type, 0));
+                }, () => SaveLoadManager.CurrentSave.Seeds.SafeGet(crop.type, 0),
+                    ItemColorType.Seed);
                 backpackItem.gameObject.SetActive(false);
                 _backpackItemsViews.Add(crop.type.ToString(), backpackItem);
                 if (crop.type == Crop.Tomato) {
@@ -93,7 +94,8 @@ namespace UI
                         InventoryManager.Instance.ActivateTool(tool.buff);
                         CloseBySelectedItem();
                     });
-                }, () => SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(tool.buff, 0));
+                }, () => SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(tool.buff, 0),
+                    ItemColorType.Tool);
                 backpackItem.gameObject.SetActive(false);
                 _backpackItemsViews.Add(tool.buff.ToString(), backpackItem);
             }
