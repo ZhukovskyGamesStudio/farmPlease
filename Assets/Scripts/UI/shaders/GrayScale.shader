@@ -3,7 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Brightness ("Brightness", Range(0, 2)) = 1
+        _Brightness ("Brightness", Range(0, 5)) = 1
         _Color ("Color", Color) = (1, 1, 1, 1)
         _UseMask ("Use Mask", Float) = 1
     }

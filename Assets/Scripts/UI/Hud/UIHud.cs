@@ -26,7 +26,7 @@ namespace UI
         public CountersView CountersView;
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
-
+        public CoinsCounter CoinsCounter;
         public void ClosePanel() {
             if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
                 Settings.Instance.SettingsPanel.gameObject.SetActive(false);
