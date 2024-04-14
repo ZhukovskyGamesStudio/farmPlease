@@ -16,7 +16,7 @@ namespace Managers {
 
         private static void Init() {
             PlayerController.Instance.Init();
-            PlayerController.Instance.GetComponent<FastPanelScript>().Init();
+            UIHud.Instance.FastPanelScript.Init();
             InventoryManager.Instance.Init();
             TilesTable.Instance.CreateDictionary();
         }

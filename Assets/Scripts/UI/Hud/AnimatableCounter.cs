@@ -22,9 +22,11 @@ namespace UI {
         public void ChangeAmount(int changeAmount) {
             _amount += changeAmount;
             SetAmount(_amount);
-            CounterChangeFx fx = changeAmount > 0 ? _changeUpFx : _changeDownFx;
-            CounterChangeFx fxObj = Instantiate(fx, transform.position, Quaternion.identity, transform);
-            fxObj.Init(_icon, changeAmount);
+            if (gameObject.activeInHierarchy) {
+                CounterChangeFx fx = changeAmount > 0 ? _changeUpFx : _changeDownFx;
+                CounterChangeFx fxObj = Instantiate(fx, transform.position, Quaternion.identity, transform);
+                fxObj.Init(_icon, changeAmount);
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Managers
         public void Init() {
             _uiHud = UIHud.Instance;
 
-            _fastPanelScript = PlayerController.Instance.gameObject.GetComponent<FastPanelScript>();
+            _fastPanelScript = UIHud.Instance.FastPanelScript;
 
             _backpack = _uiHud.Backpack;
         }
@@ -173,8 +173,15 @@ namespace Managers
 
         public void AddCollectedCrop(Crop crop, int amount) {
             for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
-            SaveLoadManager.CurrentSave.CropPoints += amount;
+            AddCropPoint(amount);
             UpdateInventoryUI();
+            _uiHud.CountersView.CropsCounter.ChangeAmount(amount);
+        }
+
+        public void AddCropPoint(int amount) {
+            SaveLoadManager.CurrentSave.CropPoints += amount;
+            if (SaveLoadManager.CurrentSave.CropPoints < 0)
+                SaveLoadManager.CurrentSave.CropPoints = 0;
             _uiHud.CountersView.CropsCounter.ChangeAmount(amount);
         }
 
@@ -315,19 +322,18 @@ namespace Managers
         public void BuyFoodMarket(Crop type, int cost) {
             IsCropsBoughtD[type] = true;
             BuySeed(type, 0, CropsTable.CropByType(type).buyAmount);
-            SaveLoadManager.CurrentSave.CropPoints -= cost;
+            AddCropPoint(-cost);
         }
 
         public void BuyFoodMarket(ToolBuff buff, int cost) {
             IsToolsBoughtD[buff] = true;
             BuyTool(buff, 0, ToolsTable.ToolByType(buff).buyAmount);
-            SaveLoadManager.CurrentSave.CropPoints -= cost;
-            _fastPanelScript.UpdateToolsImages();
+            AddCropPoint(-cost);
         }
 
         public void BuyFoodMarket(BuildingType type, int cost) {
             IsBuildingsBoughtD[type] = true;
-            SaveLoadManager.CurrentSave.CropPoints -= cost;
+            AddCropPoint(-cost);
         }
 
         /**********/

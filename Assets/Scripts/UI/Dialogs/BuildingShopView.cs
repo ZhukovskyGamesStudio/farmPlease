@@ -4,13 +4,9 @@ using Managers;
 using ScriptableObjects;
 using Tables;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace UI
-{
+namespace UI {
     public class BuildingShopView : MonoBehaviour, ISoundStarter {
-        public Text cropsCollectedText;
-
         [Header("Buildings")]
         public GameObject BuildingPanelButton;
 
@@ -22,27 +18,25 @@ namespace UI
         public Transform ToolsGrid;
         public Transform CropsGrid;
 
-        public GameObject BuildingPrefab;
-        public GameObject ToolPrefab;
-        public GameObject CropPrefab;
+        public FoodMarketOffer BuildingPrefab;
+        public FoodMarketOffer ToolPrefab;
+        public FoodMarketOffer CropPrefab;
 
         [Header("Confirm Page")]
-        [SerializeField] 
+        [SerializeField]
         private GameObject _confirmPage;
-        [SerializeField] 
+
+        [SerializeField]
         private GameObject _notChoosedPage;
 
-        public Button ConfirmButton;
-        public Text nameText;
-        public Text explanationText;
-        public Text costText;
-        public Image confirmImage;
-        private Dictionary<BuildingType, Button> _buildingButtonsD;
+        [SerializeField]
+        private FoodMarketConfirmDialog _confirmDialog;
 
-        private Dictionary<Crop, Button> _cropButtonsD;
+        private Dictionary<BuildingType, FoodMarketOffer> _buildingButtonsD;
+        private Dictionary<Crop, FoodMarketOffer> _cropButtonsD;
 
         private int _currentBuildingPrice;
-        private Dictionary<ToolBuff, Button> _toolButtonsD;
+        private Dictionary<ToolBuff, FoodMarketOffer> _toolButtonsD;
 
         public void InitializeWithData(int buildingPrice) {
             _currentBuildingPrice = buildingPrice;
@@ -58,7 +52,7 @@ namespace UI
             GenerateButtons();
             UpdateButtonsInteractable();
         }
-        
+
         public void GenerateButtons() {
             GenerateBuildingsButtons();
             GenerateCropsButtons();
@@ -67,66 +61,51 @@ namespace UI
 
         private void GenerateToolsButtons() {
             ToolConfig[] tools = ToolsTable.Instance.ToolsSO;
-            _toolButtonsD = new Dictionary<ToolBuff, Button>();
+            _toolButtonsD = new Dictionary<ToolBuff, FoodMarketOffer>();
 
             for (int i = 0; i < tools.Length; i++) {
                 if (tools[i].isAlwaysAvailable)
                     continue;
 
-                GameObject obj = Instantiate(ToolPrefab, ToolsGrid);
-                obj.SetActive(true);
-                FoodMarketOffer offer = obj.GetComponent<FoodMarketOffer>();
-                offer.name.text = tools[i].header;
-                offer.image.sprite = tools[i].FoodMarketSprite;
-
-                Button button = obj.GetComponent<Button>();
-
                 ToolBuff tmpBuff = tools[i].buff;
-                button.onClick.AddListener(() => OpenConfirmPage(tmpBuff));
-                _toolButtonsD.Add(tmpBuff, button);
+                FoodMarketOffer offer = Instantiate(ToolPrefab, ToolsGrid);
+                offer.gameObject.SetActive(true);
+                offer.Init(tools[i].FoodMarketSprite, tools[i].header, delegate { OpenConfirmPage(tmpBuff); });
+
+                _toolButtonsD.Add(tmpBuff, offer);
             }
         }
 
         private void GenerateCropsButtons() {
             CropConfig[] crops = CropsTable.Instance.Crops;
-            _cropButtonsD = new Dictionary<Crop, Button>();
+            _cropButtonsD = new Dictionary<Crop, FoodMarketOffer>();
 
             for (int i = 0; i < crops.Length; i++) {
                 if (crops[i].CanBeBought || crops[i].type == Crop.Weed)
                     continue;
 
-                GameObject obj = Instantiate(CropPrefab, CropsGrid);
-                obj.SetActive(true);
-                Button button = obj.GetComponent<Button>();
-
-                FoodMarketOffer offer = obj.GetComponent<FoodMarketOffer>();
-                offer.name.text = crops[i].header;
-                offer.image.sprite = crops[i].VegSprite;
-
+                FoodMarketOffer offer = Instantiate(CropPrefab, CropsGrid);
+                offer.gameObject.SetActive(true);
                 Crop tmp = crops[i].type;
-                button.onClick.AddListener(() => OpenConfirmPage(tmp));
+                offer.Init(crops[i].VegSprite, crops[i].header, delegate { OpenConfirmPage(tmp); });
 
-                _cropButtonsD.Add(tmp, button);
+                _cropButtonsD.Add(tmp, offer);
             }
         }
 
         private void GenerateBuildingsButtons() {
             BuildingConfig[] buildings = BuildingsTable.Instance.Buildings;
-            _buildingButtonsD = new Dictionary<BuildingType, Button>();
+            _buildingButtonsD = new Dictionary<BuildingType, FoodMarketOffer>();
 
             for (int i = 0; i < buildings.Length; i++) {
                 if (buildings[i].IsFakeBuilding)
                     continue;
-                GameObject offerObject = Instantiate(BuildingPrefab, BuildingsGrid);
-                offerObject.SetActive(true);
-                FoodMarketOffer offer = offerObject.GetComponent<FoodMarketOffer>();
-                offer.name.text = buildings[i].offerHeader;
-                offer.image.sprite = buildings[i].offerSprite;
+                FoodMarketOffer offer = Instantiate(BuildingPrefab, BuildingsGrid);
+                offer.gameObject.SetActive(true);
                 BuildingType type = buildings[i].type;
-                Button button = offer.GetComponent<Button>();
-                _buildingButtonsD.Add(type, button);
+                offer.Init(buildings[i].offerSprite, buildings[i].offerHeader, delegate { OpenConfirmPage(type); });
 
-                button.onClick.AddListener(() => OpenConfirmPage(type));
+                _buildingButtonsD.Add(type, offer);
             }
         }
 
@@ -137,80 +116,45 @@ namespace UI
         public void UpdateButtonsInteractable() {
             foreach (Crop item in _cropButtonsD.Keys)
                 if (InventoryManager.Instance.IsCropsBoughtD.ContainsKey(item))
-                    _cropButtonsD[item].interactable = !InventoryManager.Instance.IsCropsBoughtD[item];
+                    _cropButtonsD[item].UpdateInteractable(!InventoryManager.Instance.IsCropsBoughtD[item]);
                 else
-                    _cropButtonsD[item].interactable = true;
+                    _cropButtonsD[item].UpdateInteractable(true);
 
             foreach (ToolBuff item in _toolButtonsD.Keys)
                 if (InventoryManager.Instance.IsToolsBoughtD.ContainsKey(item))
-                    _toolButtonsD[item].interactable = !InventoryManager.Instance.IsToolsBoughtD[item];
+                    _toolButtonsD[item].UpdateInteractable(!InventoryManager.Instance.IsToolsBoughtD[item]);
                 else
-                    _toolButtonsD[item].interactable = true;
+                    _toolButtonsD[item].UpdateInteractable(true);
 
             foreach (BuildingType item in _buildingButtonsD.Keys)
                 if (InventoryManager.Instance.IsBuildingsBoughtD.ContainsKey(item))
-                    _buildingButtonsD[item].interactable = !InventoryManager.Instance.IsBuildingsBoughtD[item];
+                    _buildingButtonsD[item].UpdateInteractable(!InventoryManager.Instance.IsBuildingsBoughtD[item]);
                 else
-                    _buildingButtonsD[item].interactable = true;
-        }
-
-        public void UpdateCropsCollected() {
-            cropsCollectedText.text = SaveLoadManager.CurrentSave.CropPoints.ToString();
+                    _buildingButtonsD[item].UpdateInteractable(true);
         }
 
         private void OpenConfirmPage(Crop type) {
-            ConfirmButton.onClick.RemoveAllListeners();
-            if (InventoryManager.Instance.EnoughCrops(cropPrice)) {
-                ConfirmButton.onClick.AddListener(() => BuyCropButton(type));
-                ConfirmButton.interactable = true;
-            } else {
-                ConfirmButton.interactable = false;
-            }
-
             CropConfig crop = CropsTable.CropByType(type);
-
-            confirmImage.sprite = crop.VegSprite;
-            nameText.text = crop.header;
-            explanationText.text = crop.explainText;
-            costText.text = "Открыть за " + cropPrice;
+            _confirmDialog.SetData(crop.VegSprite, crop.header, crop.explainText, cropPrice, delegate { BuyCropButton(type); });
+            _confirmDialog.UpdateInteractable(InventoryManager.Instance.EnoughCrops(cropPrice));
 
             SetConfirmPageActive(true);
         }
 
         private void OpenConfirmPage(ToolBuff buff) {
-            ConfirmButton.onClick.RemoveAllListeners();
-            if (InventoryManager.Instance.EnoughCrops(toolPrice)) {
-                ConfirmButton.onClick.AddListener(() => BuyToolButton(buff));
-                ConfirmButton.interactable = true;
-            } else {
-                ConfirmButton.interactable = false;
-            }
-
             ToolConfig tool = ToolsTable.ToolByType(buff);
-
-            confirmImage.sprite = tool.FoodMarketSprite;
-            nameText.text = tool.header;
-            explanationText.text = tool.explainText;
-            costText.text = "Открыть за " + toolPrice;
+            _confirmDialog.SetData(tool.FoodMarketSprite, tool.header, tool.explainText, toolPrice, delegate { BuyToolButton(buff); });
+            _confirmDialog.UpdateInteractable(InventoryManager.Instance.EnoughCrops(toolPrice));
 
             SetConfirmPageActive(true);
         }
 
         private void OpenConfirmPage(BuildingType type) {
-            ConfirmButton.onClick.RemoveAllListeners();
-            if (InventoryManager.Instance.EnoughCrops(buildingPriceProgression[_currentBuildingPrice])) {
-                ConfirmButton.onClick.AddListener(() => StartBuyingBuilding(type));
-                ConfirmButton.interactable = true;
-            } else {
-                ConfirmButton.interactable = false;
-            }
-
             BuildingConfig building = BuildingsTable.BuildingByType(type);
-
-            confirmImage.sprite = building.offerSprite;
-            nameText.text = building.offerHeader;
-            explanationText.text = building.offerText;
-            costText.text = "Открыть за " + buildingPriceProgression[_currentBuildingPrice];
+            int buildingCost = buildingPriceProgression[_currentBuildingPrice];
+            _confirmDialog.SetData(building.offerSprite, building.offerHeader, building.offerText, buildingCost,
+                delegate { StartBuyingBuilding(type); });
+            _confirmDialog.UpdateInteractable(InventoryManager.Instance.EnoughCrops(buildingCost));
 
             SetConfirmPageActive(true);
         }

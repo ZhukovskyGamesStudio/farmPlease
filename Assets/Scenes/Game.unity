@@ -1335,6 +1335,7 @@ GameObject:
   - component: {fileID: 1615526922}
   - component: {fileID: 1615526921}
   - component: {fileID: 1615526920}
+  - component: {fileID: 1615526924}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1399,7 +1400,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -1425,6 +1426,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1615526924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615526918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e552e9cf6dbf44848b2eaec67969aa47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useToolKey: 323
+  seedBagCrop: 0
+  currentBuildingSprite: {fileID: 0}
+  isBuilding: 0
+  BuildingTiles:
+  - {fileID: 11400000, guid: d25b07b9643c0404ab5a5b8781bae8ea, type: 2}
+  - {fileID: 11400000, guid: 7bcec5bc3a7f4794f83a194a6a4949bb, type: 2}
 --- !u!4 &1666298051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7061237457894212407, guid: 6a938c8078a483143a261d4915034a91,
@@ -2294,6 +2314,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -12.899902
       objectReference: {fileID: 0}
+    - target: {fileID: 2059594366114801230, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 52.04187
+      objectReference: {fileID: 0}
     - target: {fileID: 2636154940846173309, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2308,6 +2333,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 77.5224
+      objectReference: {fileID: 0}
+    - target: {fileID: 3609461386691935237, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -14.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712544368335912774, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.4120007
       objectReference: {fileID: 0}
     - target: {fileID: 5250315263990059251, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
@@ -2344,11 +2379,51 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -9
       objectReference: {fileID: 0}
+    - target: {fileID: 6132217836220894189, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 13.017086
+      objectReference: {fileID: 0}
     - target: {fileID: 6347561145942513112, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
       propertyPath: GraphicRaycaster
       value: 
       objectReference: {fileID: 1615526920}
+    - target: {fileID: 6601861240976216152, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -14.499634
+      objectReference: {fileID: 0}
+    - target: {fileID: 7702417917921923460, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: LeftclickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1615526924}
+    - target: {fileID: 7702417917921923460, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: RightclickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1615526924}
+    - target: {fileID: 7702417917921923460, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: LeftclickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 7702417917921923460, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: RightclickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RightClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7702417919375004133, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1615526924}
+    - target: {fileID: 7702417919375004133, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartStopBuilding
+      objectReference: {fileID: 0}
     - target: {fileID: 7702417919601327518, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
       propertyPath: m_Pivot.x

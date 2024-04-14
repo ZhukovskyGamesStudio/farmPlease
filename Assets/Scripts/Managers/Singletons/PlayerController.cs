@@ -332,24 +332,13 @@ public class PlayerController : Singleton<PlayerController> {
 
     public void StartStopBuilding() {
         if (isBuilding) {
-            _buildingPanel.SetActive(false);
+            _uiHud.SetBuildingPanelState(false);
             isBuilding = false;
         } else {
-            _buildingPanel.SetActive(true);
-
+            _uiHud.SetBuildingPanelState(true);
             _buildingTilemap.ClearAllTiles();
             isBuilding = true;
         }
-
-        _uiHud.TimePanel.gameObject.SetActive(!isBuilding);
-        _uiHud.ShopsPanel.gameObject.SetActive(!isBuilding);
-
-        for (int i = 0; i < _uiHud.FastPanelScript.SlotsImages.Length; i++)
-            _uiHud.FastPanelScript.SlotsImages[i].gameObject.SetActive(!isBuilding);
-
-        _uiHud.CroponomButton.gameObject.SetActive(!isBuilding);
-        _uiHud.Backpack.gameObject.SetActive(!isBuilding);
-        _uiHud.BatteryView.gameObject.SetActive(!isBuilding);
     }
 
     public void InitializeBuilding(BuildingType type, int price = 0) {

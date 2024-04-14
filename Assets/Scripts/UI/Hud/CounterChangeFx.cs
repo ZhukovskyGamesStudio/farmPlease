@@ -20,7 +20,11 @@ public class CounterChangeFx : MonoBehaviour {
     public void Init(Sprite icon, int amount) {
         _image.sprite = icon;
         _amountText.text = (amount > 0 ? "+" : "") + amount;
-        StartCoroutine(PlayAnimAndDestroy());
+        if (gameObject.activeInHierarchy) {
+            StartCoroutine(PlayAnimAndDestroy());
+        } else {
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator PlayAnimAndDestroy() {

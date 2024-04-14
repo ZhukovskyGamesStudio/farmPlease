@@ -16,8 +16,6 @@ namespace UI {
         public ShopsPanel ShopsPanel;
         public HelloPanelView HelloPanel;
 
-        public Transform FxHolder;
-        
         public GameObject CroponomButton;
         public GameObject BuildingPanel;
         public GraphicRaycaster GraphicRaycaster;
@@ -95,6 +93,19 @@ namespace UI {
 
         public void GlobalRecordsButton() {
             GpsManager.Instance.ShowLeaderBoard();
+        }
+
+        public void SetBuildingPanelState(bool isActive) {
+            BuildingPanel.SetActive(isActive);
+            ClockView.gameObject.SetActive(!isActive);
+            CountersView.gameObject.SetActive(!isActive);
+            SettingsButton.gameObject.SetActive(!isActive);
+            CroponomButton.gameObject.SetActive(!isActive);
+            ShopsPanel.gameObject.SetActive(!isActive);
+            Backpack.gameObject.SetActive(!isActive);
+            TimePanel.gameObject.SetActive(!isActive);
+            FastPanelScript.gameObject.SetActive(!isActive);
+            BatteryView.gameObject.SetActive(!isActive);
         }
     }
 }

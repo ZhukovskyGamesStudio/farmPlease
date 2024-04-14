@@ -80,5 +80,9 @@ namespace UI
             if (_curCropSeed == crop)
                 SeedText.text = amount.ToString();
         }
+        
+        public void ChangeTool(int index) {
+            PlayerController.Instance.ChangeTool(index);
+        }
     }
 }
