@@ -175,7 +175,6 @@ namespace Managers
             for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
             AddCropPoint(amount);
             UpdateInventoryUI();
-            _uiHud.CountersView.CropsCounter.ChangeAmount(amount);
         }
 
         public void AddCropPoint(int amount) {

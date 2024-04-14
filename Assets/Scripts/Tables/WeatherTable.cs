@@ -27,7 +27,7 @@ namespace Tables
     [Serializable]
     public enum HappeningType {
         None = 0,
-        Marketplace,
+        FoodMarket,
         Unknown,
         Rain,
         Erosion,

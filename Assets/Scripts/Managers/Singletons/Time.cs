@@ -23,13 +23,12 @@ namespace Managers {
         public EndMonthPanel EndMonthPanel;
 
         [SerializeField]
-        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint;
+        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint, _foodMarketHint;
 
         public List<HappeningType> Days => SaveLoadManager.CurrentSave.Days;
 
         public float SessionTime;
-
-        private FastPanelScript FastPanel => PlayerController.GetComponent<FastPanelScript>();
+        
         private bool _isTimerWorking;
         private PlayerController PlayerController => global::PlayerController.Instance;
         private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
@@ -71,7 +70,7 @@ namespace Managers {
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
             SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDay]);
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
+                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
                     UIHud.OpenBuildingsShop();
                 } else {
                     UIHud.CloseBuildingsShop();
@@ -97,7 +96,7 @@ namespace Managers {
             ToolShop.ChangeToolsNewDay();
 
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
+                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
                     UIHud.OpenBuildingsShop();
                 } else {
                     UIHud.CloseBuildingsShop();
@@ -118,7 +117,7 @@ namespace Managers {
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + SkipDaysAmount;
                 if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training) {
-                    Days[i] = HappeningType.Marketplace;
+                    Days[i] = HappeningType.FoodMarket;
                 } else if ((i + 1) % 5 == 0) {
                     if (isTrainingRainNext) {
                         Days[i] = HappeningType.Rain;
@@ -153,6 +152,10 @@ namespace Managers {
             if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.LilCalendar)) {
                 TryShowHappeningHint();
             }
+            
+            if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.FoodMarket)) {
+                TryShowFoodMarketHint();
+            }
         }
 
         private void TryShowCalendarHint() {
@@ -175,6 +178,14 @@ namespace Managers {
                 delegate { KnowledgeManager.AddKnowledge(Knowledge.Weather); });
         }
 
+        private void TryShowFoodMarketHint() {
+            if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.ShopsPanel.BuildingShopButton, _foodMarketHint,
+                    delegate { KnowledgeManager.AddKnowledge(Knowledge.FoodMarket); });
+                
+            }
+        }
+
         private void TryChangeMonth() {
             if (SaveLoadManager.CurrentSave.CurrentDay >= SaveLoadManager.CurrentSave.Days.Count) {
                 SaveLoadManager.CurrentSave.CurrentMonth++;
@@ -194,7 +205,7 @@ namespace Managers {
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
 
             InventoryManager.Instance.BrokeTools();
-            FastPanel.UpdateToolsImages();
+            UIHud.Instance.FastPanelScript.UpdateToolsImages();
             ToolShop.ChangeToolsNewDay();
 
             HappeningType nextDay = Days[SaveLoadManager.CurrentSave.CurrentDay];
@@ -202,7 +213,7 @@ namespace Managers {
             StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
             yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (nextDay == HappeningType.Marketplace) {
+                if (nextDay == HappeningType.FoodMarket) {
                     UIHud.OpenBuildingsShop();
                 } else {
                     UIHud.CloseBuildingsShop();

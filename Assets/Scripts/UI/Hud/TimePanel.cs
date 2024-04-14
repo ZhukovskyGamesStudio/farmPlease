@@ -60,7 +60,7 @@ namespace UI
                 CalendarDayView view = _days[i].GetComponent<CalendarDayView>();
                 if (_daysHappenings[i] == HappeningType.Love && !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
                     view.SetProps(i, HappeningType.None);
-                else if (_daysHappenings[i] != HappeningType.None && _daysHappenings[i] != HappeningType.Marketplace &&
+                else if (_daysHappenings[i] != HappeningType.None && _daysHappenings[i] != HappeningType.FoodMarket &&
                          predictedDaysLeft <= 0 && i > curDay)
                     view.SetProps(i, HappeningType.Unknown);
                 else

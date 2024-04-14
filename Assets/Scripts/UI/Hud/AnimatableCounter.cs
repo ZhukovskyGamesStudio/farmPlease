@@ -16,10 +16,18 @@ namespace UI {
         
         public void SetAmount(int amount) {
             _amount = amount;
-            _amountText.text = amount.ToString();
+            if (amount > 99999) {
+                _amountText.text = "много";
+            } else {
+                _amountText.text = amount.ToString();
+            }
+          
         }
 
         public void ChangeAmount(int changeAmount) {
+            if (changeAmount == 0) {
+                return;
+            }
             _amount += changeAmount;
             SetAmount(_amount);
             if (gameObject.activeInHierarchy) {

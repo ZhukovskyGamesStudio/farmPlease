@@ -20,6 +20,7 @@ namespace Tables {
     public enum Knowledge {
         Training = 0,
         Weather = 1,
-        LilCalendar = 2
+        LilCalendar = 2,
+        FoodMarket = 3,
     }
 }

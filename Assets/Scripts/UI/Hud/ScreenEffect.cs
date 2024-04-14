@@ -77,7 +77,7 @@ namespace UI {
         }
 
         private List<HappeningType> NoneHappenings => new List<HappeningType>() {
-            HappeningType.Marketplace, HappeningType.Love
+            HappeningType.FoodMarket, HappeningType.Love
         };
     }
 }
