@@ -459,8 +459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d6c249333f66548bdf8779266f99bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinsCounter: {fileID: 9160431200961651070}
-  cropsCounter: {fileID: 4138969555579823535}
+  _coinsCounter: {fileID: 9160431200961651070}
+  _cropsCounter: {fileID: 4138969555579823535}
 --- !u!223 &7033974025541791860
 Canvas:
   m_ObjectHideFlags: 0
@@ -1215,7 +1215,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332da8ba0486bab4d963249e4a9c465b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CointsText: {fileID: 6660693447737643806}
+  _amountText: {fileID: 6660693447737643806}
+  _icon: {fileID: 21300000, guid: 8ccadc07877a73547b3f9a61218724ac, type: 3}
+  _changeUpFx: {fileID: 679118312577467819, guid: f9788f6e6fc0e274da4018ea950ce783,
+    type: 3}
+  _changeDownFx: {fileID: 838444593790247414, guid: e266cec8db8e3244f9c05f6b2a0b22b3,
+    type: 3}
 --- !u!114 &3407468907692013038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1340,7 +1345,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332da8ba0486bab4d963249e4a9c465b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CointsText: {fileID: 7844244521313318236}
+  _amountText: {fileID: 7844244521313318236}
+  _icon: {fileID: 21300000, guid: 9f0e1343ecde9e942ac9375180f08db7, type: 3}
+  _changeUpFx: {fileID: 679118312577467819, guid: f9788f6e6fc0e274da4018ea950ce783,
+    type: 3}
+  _changeDownFx: {fileID: 838444593790247414, guid: e266cec8db8e3244f9c05f6b2a0b22b3,
+    type: 3}
 --- !u!114 &3800350824625743479
 MonoBehaviour:
   m_ObjectHideFlags: 0

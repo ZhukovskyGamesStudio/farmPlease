@@ -1,4 +1,5 @@
 using Tables;
+using UI;
 using UnityEngine;
 
 namespace ScriptableObjects

@@ -106,6 +106,7 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(false);
             UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(false);
             UIHud.Instance.CroponomButton.gameObject.SetActive(false);
+            UIHud.Instance.SettingsButton.gameObject.SetActive(false);
 
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(false);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton.gameObject.SetActive(false);
@@ -144,6 +145,7 @@ namespace Managers {
             UIHud.Instance.FastPanelScript.toolButtons[3].interactable = true;
             UIHud.Instance.ClockView.IsLockedByFtue = false;
             UIHud.Instance.CroponomButton.gameObject.SetActive(true);
+            UIHud.Instance.SettingsButton.gameObject.SetActive(true);
 
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton.gameObject.SetActive(true);
@@ -151,6 +153,7 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = true;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = false;
+            
         }
 
         private void WaitForLoadingEnd() {

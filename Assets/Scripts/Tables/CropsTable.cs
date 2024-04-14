@@ -1,5 +1,6 @@
 ﻿using System;
 using ScriptableObjects;
+using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 
@@ -9,6 +10,8 @@ namespace Tables
         public static CropsTable Instance;
 
         public CropConfig[] Crops;
+
+        public FlyingCropFx FlyingCropFxPrefab;
 
         public void Awake() {
             if (Instance == null)

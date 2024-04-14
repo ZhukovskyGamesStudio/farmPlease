@@ -13,12 +13,18 @@ namespace Managers {
     public class Time : Singleton<Time> {
         public static DateTime FirstDayOfGame => new DateTime(2051, 5, 1);
 
-        [Range(1, 31)] public int MaxDays;
+        [Range(1, 31)]
+        public int MaxDays;
 
-        [Range(0, 7)] public int SkipDaysAmount;
+        [Range(0, 7)]
+        public int SkipDaysAmount;
 
         public EndTrainingPanel EndTrainingPanel;
         public EndMonthPanel EndMonthPanel;
+
+        [SerializeField]
+        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint;
+
         public List<HappeningType> Days => SaveLoadManager.CurrentSave.Days;
 
         public float SessionTime;
@@ -37,7 +43,6 @@ namespace Managers {
         protected override void OnFirstInit() {
             _isTimerWorking = false;
             SessionTime = 0;
-         
         }
 
         private void Update() {
@@ -60,7 +65,7 @@ namespace Managers {
 
             MaxDays = daysData.Count;
             SkipDaysAmount = FirstDayInMonth(date.Year, date.Month);
-            
+
             TimePanel.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
             TimePanel.CreateDays(Days, SkipDaysAmount);
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
@@ -68,13 +73,12 @@ namespace Managers {
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
-                }
-                else {
+                } else {
                     UIHud.CloseBuildingsShop();
                 }
             }
-            StartCoroutine(
-                UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDay], false));
+
+            StartCoroutine(UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDay], false));
         }
 
         public void GenerateDays(int month) {
@@ -95,8 +99,7 @@ namespace Managers {
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
-                }
-                else {
+                } else {
                     UIHud.CloseBuildingsShop();
                 }
             }
@@ -109,14 +112,20 @@ namespace Managers {
             }
 
             int love = -1;
+            bool isTrainingRainNext = SaveLoadManager.CurrentSave.CurrentMonth == 0 && SaveLoadManager.CurrentSave.CurrentDay == 0;
             while ((love + SkipDaysAmount) % 7 == 0 || (love + 1) % 5 == 0) love = Random.Range(7 + SkipDaysAmount, 20);
 
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + SkipDaysAmount;
                 if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training) {
                     Days[i] = HappeningType.Marketplace;
-                }
-                else if ((i + 1) % 5 == 0) {
+                } else if ((i + 1) % 5 == 0) {
+                    if (isTrainingRainNext) {
+                        Days[i] = HappeningType.Rain;
+                        isTrainingRainNext = false;
+                        continue;
+                    }
+
                     int rnd = Random.Range(0, 4);
 
                     Days[i] = rnd switch {
@@ -126,8 +135,7 @@ namespace Managers {
                         3 => HappeningType.Insects,
                         _ => Days[i]
                     };
-                }
-                else if (i == love) {
+                } else if (i == love) {
                     Days[i] = HappeningType.Love;
                 }
             }
@@ -138,31 +146,33 @@ namespace Managers {
             TryChangeMonth();
             StartCoroutine(DayPointCoroutine());
             Energy.Instance.RestoreEnergy();
-            if(!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather)) {
+            if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather)) {
                 TryShowCalendarHint();
             }
-          
+
+            if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.LilCalendar)) {
+                TryShowHappeningHint();
+            }
         }
 
-        [SerializeField] private SpotlightAnimConfig _calendarHint, _weatherHint; 
-        
         private void TryShowCalendarHint() {
-         
             int nextDay = SaveLoadManager.CurrentSave.CurrentDay + 1;
             if (Days.Count > nextDay && Days[nextDay] != HappeningType.None) {
                 UIHud.TimePanel.gameObject.SetActive(true);
-                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.CalendarButton,
-                    _calendarHint, ShowWeatherHint);
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.CalendarButton, _calendarHint, ShowWeatherHint);
             }
         }
-        
-        private void ShowWeatherHint() {
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanel.CalendarPanel.transform,
-                _weatherHint, GotWeatherKnowledge);
+
+        private void TryShowHappeningHint() {
+            if (Days[SaveLoadManager.CurrentSave.CurrentDay] != HappeningType.None) {
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.HappeningButton, _happeningHint,
+                    delegate { KnowledgeManager.AddKnowledge(Knowledge.LilCalendar); });
+            }
         }
 
-        private void GotWeatherKnowledge() {
-            KnowledgeManager.AddKnowledge(Knowledge.Weather);
+        private void ShowWeatherHint() {
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanel.CalendarPanel.transform, _weatherHint,
+                delegate { KnowledgeManager.AddKnowledge(Knowledge.Weather); });
         }
 
         private void TryChangeMonth() {
@@ -173,15 +183,13 @@ namespace Managers {
             }
         }
 
-        public IEnumerator DayPointCoroutine()
-        {
+        public IEnumerator DayPointCoroutine() {
             PlayerController.CanInteract = false;
             SaveLoadManager.CurrentSave.DayOfWeek = NextDay(SaveLoadManager.CurrentSave.DayOfWeek);
             /*if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
                 EndMonth();*/
 
             SeedShopView.ChangeSeedsNewDay();
-       
 
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
 
@@ -190,18 +198,17 @@ namespace Managers {
             ToolShop.ChangeToolsNewDay();
 
             HappeningType nextDay = Days[SaveLoadManager.CurrentSave.CurrentDay];
-            
+
             StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
             yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 if (nextDay == HappeningType.Marketplace) {
                     UIHud.OpenBuildingsShop();
-                }
-                else {
+                } else {
                     UIHud.CloseBuildingsShop();
                 }
             }
-            
+
             yield return StartCoroutine(SmartTilemap.NewDay(nextDay));
             UIHud.Instance.ClockView.SetInteractable(true);
             PlayerController.CanInteract = true;
@@ -237,7 +244,7 @@ namespace Managers {
 
         private int FirstDayInMonth(int year, int month) {
             DateTime date = new(year, month, 1);
-            return (int) date.DayOfWeek;
+            return (int)date.DayOfWeek;
         }
 
         private int LastDayInMonth(int currentday, int maxDays, int currentDayofWeek) {

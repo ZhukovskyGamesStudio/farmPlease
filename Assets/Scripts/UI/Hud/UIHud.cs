@@ -3,12 +3,10 @@ using Managers;
 using Tables;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using ZhukovskyGamesPlugin;
 
-namespace UI
-{
+namespace UI {
     public class UIHud : Singleton<UIHud>, ISoundStarter {
         public BatteryView BatteryView;
         public ScreenEffect screenEffect;
@@ -18,15 +16,19 @@ namespace UI
         public ShopsPanel ShopsPanel;
         public HelloPanelView HelloPanel;
 
+        public Transform FxHolder;
+        
         public GameObject CroponomButton;
         public GameObject BuildingPanel;
         public GraphicRaycaster GraphicRaycaster;
+
+        public GameObject SettingsButton;
 
         public ClockView ClockView;
         public CountersView CountersView;
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
-        public CoinsCounter CoinsCounter;
+
         public void ClosePanel() {
             if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
                 Settings.Instance.SettingsPanel.gameObject.SetActive(false);
@@ -48,8 +50,8 @@ namespace UI
             BatteryView.NoEnergy();
         }
 
-        public void UpdateCounters() {
-            CountersView.UpdateCounters();
+        public void SetCounters() {
+            CountersView.SetCounters();
         }
 
         public void ChangeInventoryHover(int index) {

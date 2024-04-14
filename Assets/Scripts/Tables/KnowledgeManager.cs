@@ -19,6 +19,7 @@ namespace Tables {
     [Serializable]
     public enum Knowledge {
         Training = 0,
-        Weather = 1
+        Weather = 1,
+        LilCalendar = 2
     }
 }

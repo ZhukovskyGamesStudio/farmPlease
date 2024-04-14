@@ -3,11 +3,15 @@ using UnityEngine;
 
 namespace UI {
     public class CountersView : MonoBehaviour {
-        [SerializeField] public CoinsCounter coinsCounter, cropsCounter;
+        [SerializeField]
+        private AnimatableCounter _cropsCounter, _coinsCounter;
 
-        public void UpdateCounters() {
-            coinsCounter.UpdateCoins(SaveLoadManager.CurrentSave.Coins);
-            cropsCounter.UpdateCoins(SaveLoadManager.CurrentSave.CropPoints);
+        public AnimatableCounter CropsCounter => _cropsCounter;
+        public AnimatableCounter CoinsCounter => _coinsCounter;
+
+        public void SetCounters() {
+            _coinsCounter.SetAmount(SaveLoadManager.CurrentSave.Coins);
+            _cropsCounter.SetAmount(SaveLoadManager.CurrentSave.CropPoints);
         }
     }
 }

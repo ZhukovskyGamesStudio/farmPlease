@@ -18,9 +18,10 @@ namespace UI {
         public void Init(Action<ToolBuff> onButtonClick) {
             BuyButton.onClick.AddListener(() => {
                 onButtonClick?.Invoke(ToolBuff);
-                gameObject.SetActive(false);
             });
         }
+        
+        
 
         public void SetData(ToolConfig tool, bool isActive) {
             gameObject.SetActive(isActive);

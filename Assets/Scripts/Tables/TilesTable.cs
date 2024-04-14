@@ -8,8 +8,7 @@ using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 using Time = Managers.Time;
 
-namespace Tables
-{
+namespace Tables {
     [ExecuteAlways]
     public class TilesTable : MonoBehaviour {
         public static TileData[] TileDatas;
@@ -282,7 +281,7 @@ namespace Tables
             if (TilesTable.TileByType(type).CanBeNewDayed) return true;
 
             if (type == TileType.SprinklerTarget) {
-                TileType[] tocheck = new TileType[2] {TileType.SprinklerConstruction, TileType.SprinklerEmpty};
+                TileType[] tocheck = new TileType[2] { TileType.SprinklerConstruction, TileType.SprinklerEmpty };
                 return !_tilemap.HasTile(tocheck);
             }
 
@@ -364,16 +363,13 @@ namespace Tables
 
             yield return new WaitForSeconds(animtime);
 
-            if (neighborTiles[3].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeHoed())
+            if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeHoed())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnHoed(animtime);
 
-            if (neighborTiles[4].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeHoed())
+            if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeHoed())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnHoed(animtime);
 
-            if (neighborTiles[5].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeHoed())
+            if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeHoed())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnHoed(animtime);
 
             Audio.Instance.PlaySound(Sounds.Hoed);
@@ -387,14 +383,11 @@ namespace Tables
 
             TileData data = TilesTable.TileByType(type);
             if (data.TIndex == 1)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(1, -1, 0))
-                    .OnSeeded(seedtype, animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(1, -1, 0)).OnSeeded(seedtype, animtime));
             else if (data.TIndex == 2)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(0, -1, 0))
-                    .OnSeeded(seedtype, animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(0, -1, 0)).OnSeeded(seedtype, animtime));
             else if (data.TIndex == 3)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(-1, 0, 0))
-                    .OnSeeded(seedtype, animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(-1, 0, 0)).OnSeeded(seedtype, animtime));
             else
                 switch (type) {
                     case TileType.SeedDoublerEmpty:
@@ -518,20 +511,17 @@ namespace Tables
             yield return new WaitForSeconds(animtime);
 
             if (InventoryManager.Instance.SeedsInventory[seedtype] > 0) {
-                if (neighborTiles[3].type == TileType.Radish1 &&
-                    _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeSeeded()) {
+                if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeSeeded()) {
                     yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnSeeded(seedtype, animtime);
                     InventoryManager.Instance.LoseSeed(seedtype);
                 }
 
-                if (neighborTiles[4].type == TileType.Radish1 &&
-                    _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeSeeded()) {
+                if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeSeeded()) {
                     yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnSeeded(seedtype, animtime);
                     InventoryManager.Instance.LoseSeed(seedtype);
                 }
 
-                if (neighborTiles[5].type == TileType.Radish1 &&
-                    _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeSeeded()) {
+                if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeSeeded()) {
                     yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnSeeded(seedtype, animtime);
                     InventoryManager.Instance.LoseSeed(seedtype);
                 }
@@ -579,16 +569,13 @@ namespace Tables
 
             yield return new WaitForSeconds(animtime);
 
-            if (neighborTiles[3].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeWatered())
+            if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeWatered())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnWatered(animtime);
 
-            if (neighborTiles[4].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeWatered())
+            if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeWatered())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnWatered(animtime);
 
-            if (neighborTiles[5].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeWatered())
+            if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeWatered())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime);
 
             Audio.Instance.PlaySound(Sounds.Watered);
@@ -607,15 +594,19 @@ namespace Tables
                 multiplier *= 2;
 
             if (TilesTable.TileByType(type).collectAmount > 0) {
-                InventoryManager.Instance.AddCollectedCrop(TilesTable.TileByType(type).cropCollected,
-                    TilesTable.TileByType(type).collectAmount * multiplier);
+                var crop = TilesTable.TileByType(type).cropCollected;
+                var amount = TilesTable.TileByType(type).collectAmount * multiplier;
+                HarvestCrop(crop, amount);
+
                 SwitchType(TileType.Soil, AnimationType.Hoe);
             } else {
                 switch (type) {
                     case TileType.Weed:
                         InventoryManager.Instance.AddCoins(1 * multiplier);
-                        if (isPlayerHaveGreenScythe)
-                            InventoryManager.Instance.AddCollectedCrop(Crop.Weed, 1 * multiplier);
+                        if (isPlayerHaveGreenScythe) {
+                            HarvestCrop(Crop.Weed, 1 * multiplier);
+                        }
+
                         SwitchType(TileType.Soil, AnimationType.Hoe);
                         break;
 
@@ -631,12 +622,12 @@ namespace Tables
 
                         multiplier *= counter;
 
-                        InventoryManager.Instance.AddCollectedCrop(Crop.Onion, multiplier);
+                        HarvestCrop(Crop.Onion, 1 * multiplier);
                         SwitchType(TileType.Soil, AnimationType.Hoe);
                         break;
 
                     case TileType.Peanut1:
-                        InventoryManager.Instance.AddCollectedCrop(Crop.Peanut, 1 * multiplier);
+                        HarvestCrop(Crop.Peanut, 1 * multiplier);
                         List<SmartTile> soilTiles = _tilemap.GetNeighborsWithType(_position, TileType.Peanut1);
 
                         if (soilTiles.Count > 0)
@@ -650,20 +641,14 @@ namespace Tables
 
             yield return new WaitForSeconds(animtime);
 
-            if (neighborTiles[3].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeCollected())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5]
-                    .OnCollected(isPlayerHaveGreenScythe, animtime);
+            if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeCollected())
+                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnCollected(isPlayerHaveGreenScythe, animtime);
 
-            if (neighborTiles[4].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeCollected())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4]
-                    .OnCollected(isPlayerHaveGreenScythe, animtime);
+            if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeCollected())
+                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnCollected(isPlayerHaveGreenScythe, animtime);
 
-            if (neighborTiles[5].type == TileType.Radish1 &&
-                _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeCollected())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3]
-                    .OnCollected(isPlayerHaveGreenScythe, animtime);
+            if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeCollected())
+                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnCollected(isPlayerHaveGreenScythe, animtime);
 
             Audio.Instance.PlaySound(Sounds.Collect);
             BecomeActive();
@@ -688,8 +673,7 @@ namespace Tables
                         List<SmartTile> soilTiles = new();
 
                         for (int i = 0; i < surroundingtiles.Length; i++)
-                            if (surroundingtiles[i].CanBeSeeded() &&
-                                !TilesTable.TileByType(surroundingtiles[i].type).IsBuilding)
+                            if (surroundingtiles[i].CanBeSeeded() && !TilesTable.TileByType(surroundingtiles[i].type).IsBuilding)
                                 soilTiles.Add(surroundingtiles[i]);
 
                         if (soilTiles.Count > 0) {
@@ -778,8 +762,7 @@ namespace Tables
                         soilTiles = new List<SmartTile>();
 
                         for (int i = 0; i < surroundingtiles.Length; i++)
-                            if (surroundingtiles[i].CanBeSeeded() &&
-                                !TilesTable.TileByType(surroundingtiles[i].type).IsBuilding)
+                            if (surroundingtiles[i].CanBeSeeded() && !TilesTable.TileByType(surroundingtiles[i].type).IsBuilding)
                                 soilTiles.Add(surroundingtiles[i]);
 
                         if (soilTiles.Count > 0) {
@@ -790,8 +773,7 @@ namespace Tables
                             //Сложная система смерти всей цепочки при смерти последнего растения
                             surroundingtiles = _tilemap.GetHexNeighbors(soilTiles[rnd]._position);
 
-                            for (int i = 0; i < surroundingtiles.Length; i++)
-                            {
+                            for (int i = 0; i < surroundingtiles.Length; i++) {
                                 TileData tile = TilesTable.TileByType(surroundingtiles[i].type);
                                 if (!tile.IsBuilding && tile.crop != Crop.Peanut && tile.crop != Crop.None) {
                                     soilTiles[rnd].SwitchType(TileType.PeanutDead);
@@ -807,9 +789,8 @@ namespace Tables
                                         soilTiles = _tilemap.GetNeighborsWithType(curPose, TileType.Peanut1);
                                         whileStopper++;
                                     }
-                                }  
+                                }
                             }
-                              
                         }
 
                         break;
@@ -914,6 +895,19 @@ namespace Tables
             _tilemap.PlaceTile(_position, type);
 
             _tilemap.toolsAnimTilemap.StartAnimationInCoord(_position, animationType);
+        }
+
+        public void HarvestCrop(Crop croptype, int amount) {
+            InventoryManager.Instance.AddCollectedCrop(croptype, amount);
+            DropCrop(croptype, amount);
+        }
+
+        private void DropCrop(Crop croptype, int amount) {
+            Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld(_position);
+            for (int i = 0; i < amount; i++) {
+                var obj = Instantiate(CropsTable.Instance.FlyingCropFxPrefab);
+                obj.Init(CropsTable.CropByType(croptype).VegSprite, worldPosition);
+            }
         }
     }
 

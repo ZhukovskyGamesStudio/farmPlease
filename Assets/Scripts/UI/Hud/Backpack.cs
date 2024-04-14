@@ -32,6 +32,9 @@ namespace UI
         public Button TomatoButton { get; private set; }
         [HideInInspector]
         public bool IsLockOpenCloseByFtue;
+
+        [SerializeField]
+        private Animation _animation;
         
         public void OpenClose() {
             if (IsLockOpenCloseByFtue) {
@@ -126,6 +129,10 @@ namespace UI
 
         private void ShowConfirmDialog(Action confirmedCallback) {
             confirmedCallback?.Invoke();
+        }
+
+        public void ShowAddedAnimation() {
+            _animation.Play("BackpackAddedAnimation");
         }
     }
 }

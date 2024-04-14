@@ -33,9 +33,9 @@ namespace Managers
         private void Update() {
             if (GameModeManager.Instance.UnlimitedMoneyCrops && !_isUnlimitedFlag) {
                 _isUnlimitedFlag = true;
-                SaveLoadManager.CurrentSave.Coins = 1000;
-                SaveLoadManager.CurrentSave.CropPoints = 100000;
-                _uiHud.UpdateCounters();
+                SaveLoadManager.CurrentSave.Coins = 99999;
+                SaveLoadManager.CurrentSave.CropPoints = 99999;
+                _uiHud.SetCounters();
             }
         }
 
@@ -75,7 +75,7 @@ namespace Managers
             GenerateIsBoughtData();
 
             UpdateInventoryUI();
-            _uiHud.UpdateCounters();
+            _uiHud.SetCounters();
             _fastPanelScript.ChangeSeedFastPanel(Crop.Tomato, SeedsInventory[Crop.Tomato]);
             _fastPanelScript.UpdateToolsImages();
         }
@@ -92,7 +92,7 @@ namespace Managers
 
             UpdateInventoryUI();
 
-            _uiHud.UpdateCounters();
+            _uiHud.SetCounters();
             _fastPanelScript.ChangeSeedFastPanel(Crop.Tomato, SeedsInventory[Crop.Tomato]);
         }
 
@@ -175,14 +175,14 @@ namespace Managers
             for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
             SaveLoadManager.CurrentSave.CropPoints += amount;
             UpdateInventoryUI();
-            _uiHud.UpdateCounters();
+            _uiHud.CountersView.CropsCounter.ChangeAmount(amount);
         }
 
         public void AddCoins(int amount) {
             SaveLoadManager.CurrentSave.Coins += amount;
             if (SaveLoadManager.CurrentSave.Coins < 0)
                 SaveLoadManager.CurrentSave.Coins = 0;
-            _uiHud.UpdateCounters();
+            _uiHud.CountersView.CoinsCounter.ChangeAmount(amount);
         }
 
         /*****Семена*****/
@@ -205,7 +205,6 @@ namespace Managers
             if (SaveLoadManager.CurrentSave.Coins >= cost) {
                 SeedsInventory[crop] += amount;
                 AddCoins(-1 * cost);
-
                 UpdateInventoryUI();
                 _fastPanelScript.UpdateSeedFastPanel(crop, SeedsInventory[crop]);
                 SaveLoadManager.SaveGame();
@@ -271,7 +270,6 @@ namespace Managers
 
             AddCoins(-1 * cost);
 
-          
             ToolsStored[buff] ++;
             UpdateInventoryUI();
         }

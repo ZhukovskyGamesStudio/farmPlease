@@ -10,6 +10,7 @@ namespace UI
         public CalendarDayView lilCalendarDay;
         public Image CalendarImage;
         public Button CalendarButton;
+        public Button HappeningButton;
 
         public GameObject CalendarPanel;
         public GameObject DayPref;
@@ -21,7 +22,7 @@ namespace UI
         private int _daysAmount;
         private List<HappeningType> _daysHappenings;
         private GameObject[] _skipDays;
-
+        private HappeningType _currentDay;
         private int _skipDaysAmount;
         public Transform CurrentDay { get; private set; }
 
@@ -77,9 +78,14 @@ namespace UI
         }
 
         public void UpdateLilCalendar(int date) {
-            lilCalendarDay.SetProps(date, _daysHappenings[date], true);
+            _currentDay = _daysHappenings[date];
+            lilCalendarDay.SetProps(date, _currentDay, true);
         }
 
+        public void TapOnCurrentDay() {
+            Croponom.Instance.OpenOnPage( WeatherTable.WeatherByType( _currentDay).type.ToString());
+        }
+        
         public void CalendarPanelOpenClose() {
             isOpen = !isOpen;
             CalendarPanel.SetActive(isOpen);

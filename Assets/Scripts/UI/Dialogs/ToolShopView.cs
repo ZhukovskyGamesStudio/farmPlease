@@ -46,21 +46,13 @@ namespace UI {
 
         private void InitButtons() {
             _toolOffer1.Init(buff => {
-                BuyTool(buff);
+                BuyTool(_toolOffer1, buff);
                 Audio.Instance.PlaySound(Sounds.Button);
             });
             _toolOffer2.Init(buff => {
-                BuyTool(buff);
+                BuyTool(_toolOffer2, buff);
                 Audio.Instance.PlaySound(Sounds.Button);
             });
-        }
-
-        private void OnEnable() {
-            UpdateCoinsCounter();
-        }
-
-        private void UpdateCoinsCounter() {
-            _coinsCounter.text = SaveLoadManager.CurrentSave.Coins.ToString();
         }
 
         public void SetToolShopWithData(GameSaveProfile save) {
@@ -100,7 +92,7 @@ namespace UI {
             sv.ToolSecondOfferActive = true;
             
             SetToolShopWithData(sv);
-            UpdateCoinsCounter();
+          
         }
 
         public void ChangeToolsButton() {
@@ -113,7 +105,7 @@ namespace UI {
             }
         }
 
-        public void BuyTool(ToolBuff tool) {
+        public void BuyTool(ToolOffer offer, ToolBuff tool) {
             var config = ToolsTable.ToolByType(tool);
             if (InventoryManager.Instance.EnoughMoney(config.cost)) {
                 InventoryManager.Instance.BuyTool(config.buff, config.cost, config.buyAmount);
@@ -124,10 +116,9 @@ namespace UI {
                     _secondActive = false;
                     SaveLoadManager.CurrentSave.ToolSecondOfferActive = false;
                 }
-
+                offer.gameObject.SetActive(false);
                 StartCoroutine(Buying());
                 SaveLoadManager.SaveGame();
-                UpdateCoinsCounter();
                 UpdateNoToolsMessage();
             }
         }

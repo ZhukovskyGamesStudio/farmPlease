@@ -124,9 +124,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 668624855883810923}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 5436296358305701725}
+        m_TargetAssemblyTypeName: UI.Croponom, Assembly-CSharp
+        m_MethodName: OpenToolsPage
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -419,9 +419,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2461299918889400461}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 5436296358305701725}
+        m_TargetAssemblyTypeName: UI.Croponom, Assembly-CSharp
+        m_MethodName: OpenCropsPage
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -689,9 +689,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7624643442541433230}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 5436296358305701725}
+        m_TargetAssemblyTypeName: UI.Croponom, Assembly-CSharp
+        m_MethodName: OpenWeathersPage
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1102,7 +1102,7 @@ RectTransform:
   m_Children:
   - {fileID: 1865466270262533082}
   m_Father: {fileID: 3152340191515257471}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1396,16 +1396,19 @@ MonoBehaviour:
   GridButtonPrefab: {fileID: 7820225069482988042, guid: 196b84713c97ff747874c0d147ce898b,
     type: 3}
   CropsOpenButton: {fileID: 5676029525752983823}
+  CropsPage: {fileID: 2461299918889400461}
   CropsGrid: {fileID: 5087224604682190098}
   CropsTablePrefab: {fileID: 7249268025481029784, guid: ca7cf88824dfd6a46b35fef16b78072c,
     type: 3}
-  WeatherOpenButton: {fileID: 5206631804175374020}
-  WeatherGrid: {fileID: 5643534211711966004}
-  WeatherTablePrefab: {fileID: 8252645107134170256, guid: 0ec3775c93df9bd47b2537b8f15dec87,
-    type: 3}
   ToolsOpenButton: {fileID: 5255237708276984889}
+  ToolsPage: {fileID: 668624855883810923}
   ToolsGrid: {fileID: 4146667916684091812}
   ToolsTablePrefab: {fileID: 1117787979885520554, guid: b88ff5bffb221684db9d0d5d5e17dc09,
+    type: 3}
+  WeatherOpenButton: {fileID: 5206631804175374020}
+  WeatherPage: {fileID: 7624643442541433230}
+  WeatherGrid: {fileID: 5643534211711966004}
+  WeatherTablePrefab: {fileID: 8252645107134170256, guid: 0ec3775c93df9bd47b2537b8f15dec87,
     type: 3}
   Panel: {fileID: 0}
 --- !u!1 &1511100021988914020
@@ -1674,8 +1677,8 @@ RectTransform:
   - {fileID: 976402663}
   - {fileID: 6082283748628366863}
   - {fileID: 2377347069880286267}
-  - {fileID: 315632557002182628}
   - {fileID: 4059581569283936394}
+  - {fileID: 315632557002182628}
   - {fileID: 6979914270273557584}
   m_Father: {fileID: 5931492467795557080}
   m_RootOrder: 0
@@ -2843,7 +2846,7 @@ RectTransform:
   m_Children:
   - {fileID: 3989580605043685392}
   m_Father: {fileID: 3152340191515257471}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

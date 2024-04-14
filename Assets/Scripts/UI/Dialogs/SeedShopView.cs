@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
 using Tables;
-using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,9 +15,7 @@ public class SeedShopView : MonoBehaviour
     public int ChangeCost;
 
     public GameObject ChangeSeedsButton;
-
-    [SerializeField]
-    private TextMeshProUGUI _coinsCounter;
+    
     public CanvasGroup FirstBagCanvas => _firstOffer.CanvasGroup;
     public CanvasGroup SecondBagCanvas => _secondOffer.CanvasGroup;
 
@@ -34,7 +30,6 @@ public class SeedShopView : MonoBehaviour
     private bool _isShowChangeNeeded;
     private void OnEnable()
     {
-        UpdateCoinsCounter();
         if (_isShowChangeNeeded)
         {
             _mainAnimation.Play("HideUIInstant");
@@ -75,14 +70,10 @@ public class SeedShopView : MonoBehaviour
         offer.SetData(cropConfig, delegate
         {
             InventoryManager.Instance.BuySeed(cropConfig.type, cropConfig.cost, cropConfig.buyAmount);
-            UpdateCoinsCounter();
             Audio.Instance.PlaySound(Sounds.Button);
         }, CloseHints);
     }
-
-    private void UpdateCoinsCounter(){
-        _coinsCounter.text = SaveLoadManager.CurrentSave.Coins.ToString();
-    }
+    
 
     public void SetAmbarCrop(Crop type)
     {
