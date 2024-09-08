@@ -11,9 +11,9 @@ namespace ZhukovskyGamesPlugin {
         }
 
         private void UpdateSafeArea() {
-            var safeArea = Screen.safeArea;
-            var anchorMin = safeArea.position;
-            var anchorMax = safeArea.position = safeArea.size;
+            Rect safeArea = Screen.safeArea;
+            Vector2 anchorMin = safeArea.position;
+            Vector2 anchorMax = safeArea.position = safeArea.size;
 
             anchorMin.x /= Screen.width;
             anchorMin.y /= Screen.height;
