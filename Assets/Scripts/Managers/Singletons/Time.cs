@@ -169,7 +169,7 @@ namespace Managers {
         private void TryShowHappeningHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDay] != HappeningType.None) {
                 UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.HappeningButton, _happeningHint,
-                    delegate { KnowledgeManager.AddKnowledge(Knowledge.LilCalendar); });
+                    delegate { KnowledgeManager.AddKnowledge(Knowledge.LilCalendar); }, true);
             }
         }
 
@@ -181,7 +181,7 @@ namespace Managers {
         private void TryShowFoodMarketHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
                 UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.ShopsPanel.BuildingShopButton, _foodMarketHint,
-                    delegate { KnowledgeManager.AddKnowledge(Knowledge.FoodMarket); });
+                    delegate { KnowledgeManager.AddKnowledge(Knowledge.FoodMarket); }, true);
                 
             }
         }

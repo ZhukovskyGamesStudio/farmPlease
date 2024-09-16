@@ -8,44 +8,45 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class SeedShopView : MonoBehaviour
-{
-    [SerializeField] private Button _closeButton;
+public class SeedShopView : MonoBehaviour {
+    [SerializeField]
+    private Button _closeButton;
+
     public Button CloseButton => _closeButton;
-    public int ChangeCost;
 
     public GameObject ChangeSeedsButton;
-    
+
     public CanvasGroup FirstBagCanvas => _firstOffer.CanvasGroup;
     public CanvasGroup SecondBagCanvas => _secondOffer.CanvasGroup;
 
-    [SerializeField] private SeedOffer _firstOffer, _secondOffer, _ambarOffer;
+    [SerializeField]
+    private SeedOffer _firstOffer, _secondOffer, _ambarOffer;
 
     [SerializeField]
     private Animation _cartAnimation;
+
     [SerializeField]
     private Animation _mainAnimation;
 
-    [SerializeField] private Animation _buyingBagAnimation;
+    [SerializeField]
+    private Animation _buyingBagAnimation;
+
     private bool _isShowChangeNeeded;
-    private void OnEnable()
-    {
-        if (_isShowChangeNeeded)
-        {
+
+    private void OnEnable() {
+        if (_isShowChangeNeeded) {
             _mainAnimation.Play("HideUIInstant");
             StartCoroutine(ShowChangeEndAnimation());
             _isShowChangeNeeded = false;
         }
     }
 
-    public void GetButtonsData(out Crop first, out Crop second)
-    {
+    public void GetButtonsData(out Crop first, out Crop second) {
         first = _firstOffer.CurrentCrop;
         second = _secondOffer.CurrentCrop;
     }
 
-    public void SetSeedShopWithData(GameSaveProfile save)
-    {
+    public void SetSeedShopWithData(GameSaveProfile save) {
         bool isChangeButtonActive = save.SeedShopChangeButton;
 
         SetSeedsShop(save.ShopFirstOffer, save.ShopSecondOffer);
@@ -58,28 +59,22 @@ public class SeedShopView : MonoBehaviour
         ChangeSeedsButton.SetActive(isChangeButtonActive);
     }
 
-    public void SetSeedsShop(Crop first, Crop second)
-    {
+    public void SetSeedsShop(Crop first, Crop second) {
         SetOffer(_firstOffer, first);
         SetOffer(_secondOffer, second);
     }
 
-    private void SetOffer(SeedOffer offer, Crop crop)
-    {
+    private void SetOffer(SeedOffer offer, Crop crop) {
         CropConfig cropConfig = CropsTable.CropByType(crop);
-        offer.SetData(cropConfig, delegate
-        {
+        offer.SetData(cropConfig, delegate {
             InventoryManager.Instance.BuySeed(cropConfig.type, cropConfig.cost, cropConfig.buyAmount);
             Audio.Instance.PlaySound(Sounds.Button);
         }, CloseHints);
     }
-    
 
-    public void SetAmbarCrop(Crop type)
-    {
+    public void SetAmbarCrop(Crop type) {
         SaveLoadManager.CurrentSave.AmbarCrop = type;
-        if (type == Crop.Weed)
-        {
+        if (type == Crop.Weed) {
             _ambarOffer.gameObject.SetActive(false);
             return;
         }
@@ -88,22 +83,15 @@ public class SeedShopView : MonoBehaviour
         _ambarOffer.gameObject.SetActive(true);
     }
 
-    private void ChangeSeeds()
-    {
+    private void ChangeSeeds() {
         List<Crop> possibleCrops = new();
-        foreach (CropConfig key in CropsTable.Instance.Crops)
-        {
-            if (key.CanBeBought)
-            {
+        foreach (CropConfig key in CropsTable.Instance.Crops) {
+            if (key.CanBeBought) {
                 possibleCrops.Add(key.type);
-            }
-            else if (InventoryManager.Instance.IsCropsBoughtD.ContainsKey(key.type) &&
-                     InventoryManager.Instance.IsCropsBoughtD[key.type])
-            {
+            } else if (InventoryManager.Instance.IsCropsBoughtD.ContainsKey(key.type) && InventoryManager.Instance.IsCropsBoughtD[key.type]) {
                 possibleCrops.Add(key.type);
             }
         }
-
 
         Crop firstCrop = possibleCrops[Random.Range(0, possibleCrops.Count)];
         possibleCrops.Remove(firstCrop);
@@ -111,18 +99,17 @@ public class SeedShopView : MonoBehaviour
         SetSeedsShop(firstCrop, secondCrop);
     }
 
-    private IEnumerator ShowUI()
-    {
+    private IEnumerator ShowUI() {
         _mainAnimation.Play("ShowUI");
         yield return new WaitWhile(() => _mainAnimation.isPlaying);
     }
-    private IEnumerator HideUI()
-    {
+
+    private IEnumerator HideUI() {
         _mainAnimation.Play("HideUI");
         yield return new WaitWhile(() => _mainAnimation.isPlaying);
     }
-    private IEnumerator ShowChangeAnimation()
-    {
+
+    private IEnumerator ShowChangeAnimation() {
         CloseHints();
         PlayerController.CanInteract = false;
         StartCoroutine(HideUI());
@@ -132,8 +119,7 @@ public class SeedShopView : MonoBehaviour
         yield return ShowChangeEndAnimation();
     }
 
-    private IEnumerator ShowChangeEndAnimation()
-    {
+    private IEnumerator ShowChangeEndAnimation() {
         PlayerController.CanInteract = false;
         _cartAnimation.Play("CartChangeEnd");
         yield return new WaitWhile(() => _cartAnimation.isPlaying);
@@ -142,25 +128,21 @@ public class SeedShopView : MonoBehaviour
         PlayerController.CanInteract = true;
     }
 
-    public void ChangeSeedsByButton()
-    {
-        if (SaveLoadManager.CurrentSave.Coins >= ChangeCost)
-        {
-            InventoryManager.Instance.AddCoins(-1 * ChangeCost);
+    public void ChangeSeedsByButton() {
+        if (InventoryManager.Instance.EnoughMoney(ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost)) {
+            InventoryManager.Instance.AddCoins(-1 * ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost);
             StartCoroutine(ShowChangeAnimation());
             ChangeSeedsButton.SetActive(false);
         }
     }
 
-    public void ChangeSeedsNewDay()
-    {
+    public void ChangeSeedsNewDay() {
         _isShowChangeNeeded = true;
         ChangeSeeds();
         ChangeSeedsButton.SetActive(true);
     }
 
-    public void SetBuyingBag(bool isActive)
-    {
+    public void SetBuyingBag(bool isActive) {
         _buyingBagAnimation.Play(isActive ? "Show" : "Hide");
     }
 
@@ -179,8 +161,7 @@ public class SeedShopView : MonoBehaviour
         }
     }
 
-    public void CloseHints()
-    {
+    public void CloseHints() {
         _firstOffer.CloseHint();
         _secondOffer.CloseHint();
         _ambarOffer.CloseHint();

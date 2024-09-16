@@ -31,6 +31,7 @@ namespace UI {
             IsRainingCropsAnimation = true;
             scalesView.StartRainingCrops(SaveLoadManager.CurrentSave.CropsCollectedQueue, delegate { IsRainingCropsAnimation = false; });
             _sellTablet.SetData(SaveLoadManager.CurrentSave.CropsCollectedQueue);
+            _sellTablet.Open();
         }
 
         public void Close() {
@@ -66,7 +67,7 @@ namespace UI {
             yield return new WaitWhile(() => _animation.isPlaying);
             _animation.Play("ContinueSelling");
             yield return new WaitWhile(() => _animation.isPlaying);
-
+            _sellTablet.Open();
             if (false) {
                 _animation.Play("MarkMission");
                 yield return new WaitWhile(() => _animation.isPlaying);

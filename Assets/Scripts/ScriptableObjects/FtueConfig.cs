@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace ScriptableObjects {
-    [CreateAssetMenu(fileName = "FtueConfig", menuName = "ScriptableObjects/FtueConfig", order = 6)]
+    [CreateAssetMenu(fileName = "FtueConfig", menuName = "Scriptable Objects/FtueConfig", order = 6)]
     public class FtueConfig : ScriptableObject {
         [Multiline] public string StartHint;
         [Multiline] public string StartHint2;

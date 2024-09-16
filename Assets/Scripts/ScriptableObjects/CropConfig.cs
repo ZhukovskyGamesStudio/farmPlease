@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Crop", menuName = "ScriptableObjects/Crop", order = 2)]
+    [CreateAssetMenu(fileName = "Crop", menuName = "Scriptable Objects/Crop", order = 2)]
     public class CropConfig : ConfigWithCroponomPage {
         [Header("Crop")]
         public new string name;

@@ -64,7 +64,7 @@ namespace UI
         }
 
         private void GenerateSeedButtons() {
-            _backpackItemsViews = new();
+            _backpackItemsViews = new Dictionary<string, BackpackItem>();
 
             for (int i = 0; i < CropsTablePrefab.Crops.Length; i++) {
                 CropConfig crop = CropsTablePrefab.Crops[i];

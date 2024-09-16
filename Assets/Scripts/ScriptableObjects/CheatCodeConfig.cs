@@ -3,7 +3,7 @@ using UnityEngine;
 using ZhukovskyGamesPlugin;
 
 namespace ScriptableObjects {
-    [CreateAssetMenu(fileName = "CheatCode", menuName = "ScriptableObjects/CheatCode", order = 7)]
+    [CreateAssetMenu(fileName = "CheatCode", menuName = "Scriptable Objects/CheatCode", order = 7)]
     public class CheatCodeConfig : ScriptableObject {
         public string Code;
         public int NumberOfUses;

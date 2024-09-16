@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Tile", menuName = "ScriptableObjects/Tile", order = 1)]
+    [CreateAssetMenu(fileName = "Tile", menuName = "Scriptable Objects/Tile", order = 1)]
     public class TileConfig : ScriptableObject {
         public TileType type;
         public TileBase TileBase;

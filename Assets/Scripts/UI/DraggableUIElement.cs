@@ -158,8 +158,14 @@ namespace UI {
 
         private IEnumerator SmoothToPlace() {
             _isDragging = false;
+            float time = 0;
+            float maxTime = 0.35f;
+            while (time <= maxTime) {
+                transform.position = Vector3.Lerp(transform.position, _startingPos, Mathf.SmoothStep(0, 1, time / maxTime));
+                time += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
             transform.position = _startingPos;
-            yield break;
         }
 
         public void ChangeStartingPlace(Vector3 startingPlace) {

@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Building", order = 5)]
+    [CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/Building", order = 5)]
     public class BuildingConfig : ScriptableObject {
         public new string name;
         public bool IsFakeBuilding;

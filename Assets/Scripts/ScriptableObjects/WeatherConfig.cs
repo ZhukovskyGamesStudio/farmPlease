@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Weather", menuName = "ScriptableObjects/Weather", order = 4)]
+    [CreateAssetMenu(fileName = "Weather", menuName = "Scriptable Objects/Weather", order = 4)]
     [Serializable]
     public class WeatherConfig : ConfigWithCroponomPage {
         [Header("Weather")]

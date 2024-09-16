@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/GameModeConfig", fileName = "GameModeConfig", order = 2)]
+[CreateAssetMenu(menuName = "Scriptable Objects/GameModeConfig", fileName = "GameModeConfig", order = 2)]
 public class GameModeConfig : ScriptableObject {
     public bool UnlimitedMoneyCrops;
     public bool InfiniteEnergy;

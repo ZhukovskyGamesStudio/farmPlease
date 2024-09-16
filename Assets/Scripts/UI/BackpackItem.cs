@@ -1,5 +1,4 @@
 ﻿using System;
-using Tables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,8 +6,6 @@ using ZhukovskyGamesPlugin;
 
 namespace UI {
     public class BackpackItem : MonoBehaviour {
-        private Crop crop;
-
         [SerializeField]
         private Image _icon;
 

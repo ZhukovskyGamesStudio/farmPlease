@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Tool", menuName = "ScriptableObjects/Tool", order = 3)]
+    [CreateAssetMenu(fileName = "Tool", menuName = "Scriptable Objects/Tool", order = 3)]
     [Serializable]
     public class ToolConfig : ConfigWithCroponomPage {
         [Header("Tool")]

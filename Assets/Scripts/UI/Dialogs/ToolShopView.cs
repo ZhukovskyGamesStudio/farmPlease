@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using Tables;
-using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace UI {
     public class ToolShopView : MonoBehaviour {
-        public RectTransform[] slotPosition;
-        //public ToolOffer ToolOfferPrefab;
 
         public GameObject ChangeButton;
-        public int ChangeToolCost;
 
         [SerializeField]
         private ToolOffer _toolOffer1, _toolOffer2;
-
-        [SerializeField]
-        private TextMeshProUGUI _coinsCounter;
 
         [SerializeField]
         private GameObject _exitButton, _toolBox;
@@ -36,7 +28,8 @@ namespace UI {
         private ToolBuff _toolBuff1, _toolBuff2;
 
         private bool _fistActive, _secondActive;
-[SerializeField]
+
+        [SerializeField]
         private Transform _noToolsText;
         /**********/
 
@@ -59,7 +52,7 @@ namespace UI {
             _toolOffer1.SetData(ToolsTable.ToolByType(save.ToolFirstOffer), save.ToolFirstOfferActive);
             _toolBuff1 = save.ToolFirstOffer;
             _fistActive = save.ToolFirstOfferActive;
-            
+
             _toolOffer2.SetData(ToolsTable.ToolByType(save.ToolSecondOffer), save.ToolSecondOfferActive);
             _toolBuff2 = save.ToolSecondOffer;
             _secondActive = save.ToolSecondOfferActive;
@@ -68,12 +61,6 @@ namespace UI {
             UpdateNoToolsMessage();
         }
 
-        private void SetSlotToPosition(GameObject offer, Transform slot) {
-            offer.transform.SetParent(slot);
-            offer.transform.localPosition = Vector3.zero;
-            offer.transform.localScale = Vector3.one;
-        }
-        
         public void ChangeToolsNewDay() {
             ChangeTools();
             SaveLoadManager.CurrentSave.ToolShopChangeButton = true;
@@ -90,14 +77,13 @@ namespace UI {
             sv.ToolSecondOffer = possibleTools[Random.Range(0, possibleTools.Count)];
             sv.ToolFirstOfferActive = true;
             sv.ToolSecondOfferActive = true;
-            
+
             SetToolShopWithData(sv);
-          
         }
 
         public void ChangeToolsButton() {
-            if (InventoryManager.Instance.EnoughMoney(ChangeToolCost)) {
-                InventoryManager.Instance.AddCoins(-1 * ChangeToolCost);
+            if (InventoryManager.Instance.EnoughMoney(ConfigsManager.Instance.CostsConfig.ToolsShopChangeCost)) {
+                InventoryManager.Instance.AddCoins(-1 * ConfigsManager.Instance.CostsConfig.ToolsShopChangeCost);
                 ChangeTools();
                 SaveLoadManager.CurrentSave.ToolShopChangeButton = false;
                 ChangeButton.SetActive(false);
@@ -116,6 +102,7 @@ namespace UI {
                     _secondActive = false;
                     SaveLoadManager.CurrentSave.ToolSecondOfferActive = false;
                 }
+
                 offer.gameObject.SetActive(false);
                 StartCoroutine(Buying());
                 SaveLoadManager.SaveGame();
@@ -148,13 +135,6 @@ namespace UI {
             _tabletAnimation.Play("TabletShow");
             _landingPlatformAnimation.Play("LandingPlatformIdle");
             _exitButton.SetActive(true);
-        }
-
-        public void GetButtonsData(out ToolBuff first, out bool firstActive, out ToolBuff second, out bool secondActive) {
-            first = _toolOffer1.ToolBuff;
-            firstActive = _fistActive;
-            second = _toolOffer2.ToolBuff;
-            secondActive = _secondActive;
         }
     }
 }

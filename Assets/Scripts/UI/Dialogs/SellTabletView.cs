@@ -59,7 +59,8 @@ namespace UI{
             Open();
         }
 
-        private bool IsDraggableActive() => !_scalesPanel.IsSellingAnimation && !IsFixedByTraining;
+        private bool IsDraggableActive() => 
+            false && !_scalesPanel.IsSellingAnimation && !IsFixedByTraining;
 
         public void SetData(Queue<Crop> cropsCollected){
             Dictionary<Crop, int> crops = new Dictionary<Crop, int>();

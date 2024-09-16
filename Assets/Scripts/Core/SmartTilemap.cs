@@ -29,12 +29,14 @@ public class SmartTilemap : MonoBehaviour {
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
     private Dictionary<Vector3Int, SmartTile> _tiles;
-
+    private Camera _mainCamera;
     /**********/
 
     public void Awake() {
-        if (Instance == null)
+        if (Instance == null) {
             Instance = this;
+            _mainCamera = Camera.main;
+        }
         else if (Instance != this)
             Destroy(gameObject);
     }
@@ -44,17 +46,13 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public void Update() {
-        Playercoord = MainTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        Vector3 mousePos = Input.mousePosition;
+        if (mousePos.x > 1000000) {
+            //wraps unimportant editor bug Screen position out of view frustum (screen pos inf, -inf, 0.000000) 
+            mousePos = Vector3.zero;
+        }
+        Playercoord = MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
     }
-
-    /* private void OnApplicationPause(bool pause)
-     {
-         if (pause)
-             Time.timeScale = 100;
-         else
-             Time.timeScale = 1;
-     }  
-    */
 
     public void GenerateTiles() {
         _tiles = new Dictionary<Vector3Int, SmartTile>();
