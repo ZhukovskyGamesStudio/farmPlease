@@ -34,7 +34,6 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
 
-
       - name: Upload Windows Build
         uses: actions/upload-artifact@v4
         with:
@@ -69,32 +68,57 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
 
-      - name: List Build Directory
-        run: ls -la build/StandaloneOSX
-
-      - name: Check Build Path
-        run: |
-          if [ ! -d "build/StandaloneOSX/StandaloneOSX.app" ]; then echo "Build failed!"; exit 1; fi
-          echo "Build found, proceeding to upload."
-
       - name: Rename Build
         run: |
-          mkdir -p "build/$GAME_NAME"  # Ensure the target directory exists
+          mkdir -p "build/$GAME_NAME"
           mv "build/StandaloneOSX/StandaloneOSX.app" "build/$GAME_NAME/$GAME_NAME.app"
-          echo "Build renamed to $GAME_NAME."
         env:
           GAME_NAME: ${{ vars.ITCH_IO_GAME_NAME }}
-          
+
       - name: Upload macOS Build
         uses: actions/upload-artifact@v4
         with:
           name: MacOS-Build
-          path: "build/${{ env.GAME_NAME }}"  
+          path: "build/${{ env.GAME_NAME }}"
         env:
           GAME_NAME: ${{ vars.ITCH_IO_GAME_NAME }}
 
+  build-webgl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache Unity Library
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/Library
+            **/Temp
+            **/Obj
+            **/Logs
+          key: ${{ runner.os }}-unity-${{ hashFiles('**/Packages/manifest.json') }}
+          restore-keys: |
+            ${{ runner.os }}-unity-
+
+      - name: Set up Unity
+        uses: game-ci/unity-builder@v4
+        with:
+          targetPlatform: WebGL
+          unityVersion: ${{ vars.UNITY_VERSION }}
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - name: Upload WebGL Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: WebGL-Build
+          path: build/WebGL
+
   deploy-itch:
-    needs: [build-windows, build-macos]
+    needs: [build-windows, build-macos, build-webgl]
     runs-on: ubuntu-latest
     steps:
       - name: Download Windows Build
@@ -108,6 +132,12 @@ jobs:
         with:
           name: MacOS-Build
           path: build/macos
+
+      - name: Download WebGL Build
+        uses: actions/download-artifact@v4
+        with:
+          name: WebGL-Build
+          path: build/webgl
 
       - name: Install itch.io butler
         run: |
@@ -126,6 +156,7 @@ jobs:
         run: |
           butler push build/windows $ITCH_IO_USERNAME/$ITCH_IO_GAME_NAME:windows
           butler push build/macos $ITCH_IO_USERNAME/$ITCH_IO_GAME_NAME:macos
+          butler push build/webgl $ITCH_IO_USERNAME/$ITCH_IO_GAME_NAME:html
         env:
           BUTLER_API_KEY: ${{ secrets.ITCH_IO_API_KEY }}
           ITCH_IO_USERNAME: ${{ vars.ITCH_IO_USERNAME }}
