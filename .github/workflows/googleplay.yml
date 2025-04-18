@@ -26,9 +26,12 @@ jobs:
             ${{ runner.os }}-unity-
 
       - name: Decode keystore
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > ${{ vars.ANDROID_KEYSTORE_NAME }}
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > ${{ vars.ANDROID_KEYSTORE_NAME }}
+          fi
 
       - name: Build Android .aab
         uses: game-ci/unity-builder@v4
