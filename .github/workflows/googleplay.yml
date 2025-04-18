@@ -46,18 +46,27 @@ jobs:
         with:
           name: Android-AAB
           path: build/Android/*.aab
+      
+  deploy-googleplay:
+        runs-on: ubuntu-latest
+        needs: build-android
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
 
-      - name: Find AAB file
-        id: find_aab
-        run: |
-          AAB_PATH=$(find build/Android -name "*.aab" | head -n 1)
-          echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
+          - name: Find AAB file
+            id: find_aab
+            run: |
+              AAB_PATH=$(find build/Android -name "*.aab" | head -n 1)
+              echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
 
-      - name: Deploy to Google Play Internal Track
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
-          packageName: ${{ vars.GP_PACKAGE_NAME }}
-          releaseFile: ${{ env.AAB_PATH }}
-          track: internal
-          status: draft
+          - name: Deploy to Google Play Internal Track
+            uses: r0adkll/upload-google-play@v1
+            with:
+              serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+              packageName: ${{ vars.GP_PACKAGE_NAME }}
+              releaseFiles: ${{ env.AAB_PATH }}
+              track: internal
+              status: draft
+              inAppUpdatePriority: 0
+              changesNotSentForReview: false
