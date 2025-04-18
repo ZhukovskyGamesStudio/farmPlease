@@ -14,12 +14,12 @@
 //    limitations under the License.
 // </copyright>
 
+#if UNITY_ANDROID
+
 using GooglePlayGames.Android;
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 using Logger = GooglePlayGames.OurUtils.Logger;
-
-#if UNITY_ANDROID
 
 namespace GooglePlayGames {
     internal class PlayGamesClientFactory {

@@ -4,27 +4,18 @@ using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 
-namespace Tables
-{
+namespace Tables {
     public class CropsTable : Singleton<CropsTable> {
-        public static CropsTable Instance;
-
         public CropConfig[] Crops;
 
         public FlyingCropFx FlyingCropFxPrefab;
 
-        public void Awake() {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
-        }
-
         public static CropConfig CropByType(Crop type) {
-            for (int i = 0; i < Instance.Crops.Length; i++)
-                if (Instance.Crops[i].type == type)
-                    return Instance.Crops[i];
-            UnityEngine.Debug.Log("Нет класса Crop под тип " + type);
+            foreach (CropConfig t in Instance.Crops)
+                if (t.type == type)
+                    return t;
+
+            Debug.Log("Нет класса Crop под тип " + type);
             return null;
         }
 

@@ -16,13 +16,14 @@
 
 // Android only feature
 
+#if (UNITY_ANDROID)
+
 using System;
 using GooglePlayGames.Android;
 using GooglePlayGames.BasicApi.Nearby;
 using UnityEngine;
 using Logger = GooglePlayGames.OurUtils.Logger;
 
-#if (UNITY_ANDROID)
 namespace GooglePlayGames {
     public static class NearbyConnectionClientFactory {
         public static void Create(Action<INearbyConnectionClient> callback) {

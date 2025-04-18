@@ -24,9 +24,9 @@ namespace UI
         }
         
         public void OnTapped() {
-            return;
-            StartCoroutine(KaBoom());
-            GetComponent<Button>().interactable = false;
+            //return;
+            //StartCoroutine(KaBoom());
+            //GetComponent<Button>().interactable = false;
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
@@ -61,7 +61,7 @@ namespace UI
         
         private IEnumerator WithoutPhysicsMoveTo(Vector3 newPos, float time) {
             float curTime = 0;
-            _rb.isKinematic = true;
+            _rb.bodyType = RigidbodyType2D.Kinematic;
             _colliders.SetActive(false);
             gameObject.layer = LayerMask.NameToLayer("NoCollisions");
             Vector3 startPos = transform.position;
@@ -72,7 +72,7 @@ namespace UI
             }
 
             transform.position = newPos;
-            _rb.isKinematic = false;
+            _rb.bodyType = RigidbodyType2D.Dynamic;
             _rb.AddForce(Vector2.down * blowImpulse * _rb.mass, ForceMode2D.Impulse);
         }
 

@@ -1,14 +1,19 @@
 ﻿using System;
 using Abstract;
-using GooglePlayGames;
+
 using NotificationSamples;
 using UnityEngine;
+#if UNITY_ANDROID
+using GooglePlayGames;
+#endif
 
 namespace Managers
 {
     public class GpsManager : PreloadableSingleton<GpsManager> {
 
+#pragma warning disable CS0414 // Field is assigned but its value is never used
         [HideInInspector] private static readonly string TutorialLeaderboard = "CgkI1N701sUbEAIQAQ";
+#pragma warning restore CS0414 // Field is assigned but its value is never used
 
         public static bool IsAuthenticated;
 

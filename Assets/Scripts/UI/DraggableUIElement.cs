@@ -19,8 +19,7 @@ namespace UI {
 
         [SerializeField]
         private Vector2 _mouseDeltaBoundsX = new Vector2(0, 1), _mouseDeltaBoundsY = new Vector2(0, 1);
-
-        private bool _isDragging;
+        
         private Vector3 _startingPos;
         private Vector3 _startMousePos;
         private Coroutine _smoothingCoroutine;
@@ -144,7 +143,6 @@ namespace UI {
         }
 
         public void GoBackToPlace() {
-            _isDragging = false;
             transform.position = _startingPos;
         }
 
@@ -157,7 +155,6 @@ namespace UI {
         }
 
         private IEnumerator SmoothToPlace() {
-            _isDragging = false;
             float time = 0;
             float maxTime = 0.35f;
             while (time <= maxTime) {

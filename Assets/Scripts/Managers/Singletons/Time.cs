@@ -29,7 +29,6 @@ namespace Managers {
 
         public float SessionTime;
         
-        private bool _isTimerWorking;
         private PlayerController PlayerController => global::PlayerController.Instance;
         private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
         private SmartTilemap SmartTilemap => SmartTilemap.Instance;
@@ -40,7 +39,6 @@ namespace Managers {
 
         /**********/
         protected override void OnFirstInit() {
-            _isTimerWorking = false;
             SessionTime = 0;
         }
 

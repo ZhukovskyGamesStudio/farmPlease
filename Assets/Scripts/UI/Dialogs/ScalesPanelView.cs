@@ -68,10 +68,10 @@ namespace UI {
             _animation.Play("ContinueSelling");
             yield return new WaitWhile(() => _animation.isPlaying);
             _sellTablet.Open();
-            if (false) {
-                _animation.Play("MarkMission");
-                yield return new WaitWhile(() => _animation.isPlaying);
-            }
+
+            //_animation.Play("MarkMission");
+            // yield return new WaitWhile(() => _animation.isPlaying);
+            
 
             _animation.Play("EndSelling");
             //yield return new WaitWhile(() => _animation.isPlaying);

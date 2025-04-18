@@ -323,6 +323,7 @@ namespace GooglePlayGames.Editor {
                 GPGSUtil.ANDROIDBUNDLEIDKEY, string.Empty);
             string currentId;
 #if UNITY_5_6_OR_NEWER
+            
             currentId = PlayerSettings.GetApplicationIdentifier(
                 BuildTargetGroup.Android);
 #else
