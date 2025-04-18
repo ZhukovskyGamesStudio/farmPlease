@@ -24,18 +24,6 @@ jobs:
           key: ${{ runner.os }}-unity-${{ hashFiles('**/Packages/manifest.json') }}
           restore-keys: |
             ${{ runner.os }}-unity-
-
-      - name: Decode keystore
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-        run: |
-          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
-            echo "Keystore base64 length: $(echo -n "$ANDROID_KEYSTORE_BASE64" | wc -c)"
-            echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > ${{ vars.ANDROID_KEYSTORE_NAME }}
-          else
-            echo "Keystore base64 is empty!"
-            exit 1
-          fi
       
       - name: Build Android .aab
         uses: game-ci/unity-builder@v4
@@ -44,6 +32,7 @@ jobs:
           androidExportType: androidAppBundle
           unityVersion: ${{ vars.UNITY_VERSION }}
           androidKeystoreName: ${{ vars.ANDROID_KEYSTORE_NAME }}
+          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           androidKeyaliasName: 'alias'
           androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
           androidKeyaliasPass: ${{ secrets.ANDROID_ALIAS_PASS }}
