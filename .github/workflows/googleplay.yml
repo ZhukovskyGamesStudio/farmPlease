@@ -53,19 +53,19 @@ jobs:
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
-
-          - name: Find AAB file
-            id: find_aab
-            run: |
-              AAB_PATH=$(find build/Android -name "*.aab" | head -n 1)
-              echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
+            
+          - name: Download Android AAB
+            uses: actions/download-artifact@v4
+            with:
+              name: Android-AAB
+              path: build/Android
 
           - name: Deploy to Google Play Internal Track
             uses: r0adkll/upload-google-play@v1
             with:
               serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
               packageName: ${{ vars.GP_PACKAGE_NAME }}
-              releaseFiles: ${{ env.AAB_PATH }}
+              releaseFiles: build/Android/*.aab
               track: internal
               status: draft
               inAppUpdatePriority: 0
