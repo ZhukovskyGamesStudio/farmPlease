@@ -26,6 +26,7 @@ namespace UI {
         public CountersView CountersView;
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
+        public ProfileDialog ProfileDialog;
 
         public void ClosePanel() {
             if (Settings.Instance.SettingsPanel.gameObject.activeSelf)

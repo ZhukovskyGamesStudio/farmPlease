@@ -23,6 +23,7 @@ namespace UI {
         }
 
         public void InputCheatcode(string code) {
+            code = code.ToUpper();
             bool isSuccess = _cheatCodeManager.CheatCodeAvailable(code, out string errorMessage);
             if (isSuccess) {
                 _cheatCodeManager.ExecuteCheatCode(code);

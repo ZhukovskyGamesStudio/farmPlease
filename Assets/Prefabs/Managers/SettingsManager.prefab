@@ -35,7 +35,6 @@ RectTransform:
   - {fileID: 2893600836725959459}
   - {fileID: 4017437609838986500}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -59,7 +58,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
@@ -123,6 +124,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3185803265734327996}
     m_Modifications:
     - target: {fileID: 3336900784167979407, guid: 6077023749404fb40b715fd538be5eb4,
@@ -241,6 +243,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6077023749404fb40b715fd538be5eb4, type: 3}
 --- !u!224 &4017437609838986500 stripped
 RectTransform:
@@ -265,6 +270,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3185803265734327996}
     m_Modifications:
     - target: {fileID: 280575250436477396, guid: f30f513e2193eb74f9c0e509a4b8b23e,
@@ -301,11 +307,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 942312361467330985, guid: f30f513e2193eb74f9c0e509a4b8b23e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 942312361467330985, guid: f30f513e2193eb74f9c0e509a4b8b23e,
         type: 3}
@@ -432,11 +433,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6588005280869415314, guid: f30f513e2193eb74f9c0e509a4b8b23e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6690565520696487650, guid: f30f513e2193eb74f9c0e509a4b8b23e,
         type: 3}
       propertyPath: Devlog
@@ -468,6 +464,9 @@ PrefabInstance:
       value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f30f513e2193eb74f9c0e509a4b8b23e, type: 3}
 --- !u!224 &2893600836725959459 stripped
 RectTransform:
