@@ -15,6 +15,9 @@ namespace UI {
 
         [SerializeField] private HelloPanelView _helloPanel;
 
+        [SerializeField]
+        private AnimationClip _refillClock;
+
         public bool IsLockedByFtue { get; set; }
 
         public void ClockPressedButton() {
@@ -35,6 +38,11 @@ namespace UI {
             ShowWasteAnimation();
         }
 
+        public void SetFullAmount(int amount) {
+            SetPiecesAmount(amount);
+            ShowRefillAnimation();
+        }
+
         private void SetPiecesAmount(int amount) {
             for (int i = 0; i < _greenPieces.Count; i++) {
                 _greenPieces[_greenPieces.Count - 1 - i].SetActive(amount > i);
@@ -51,6 +59,9 @@ namespace UI {
 
         private void ShowWasteAnimation() {
             _animation.Play(WASTE_ONE);
+        }
+        private void ShowRefillAnimation() {
+            _animation.Play(_refillClock.name);
         }
 
         public void SetInteractable(bool isInteractable) {

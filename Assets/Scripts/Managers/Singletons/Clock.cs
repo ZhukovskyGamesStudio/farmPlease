@@ -50,6 +50,7 @@ namespace Managers {
 
         public void RefillToMaxEnergy() {
             SetEnergy(MAX_ENERGY);
+            UIHud.Instance.ClockView.SetFullAmount(Save.ClockEnergy);
         }
 
         public void TryRefillForRealtimePassed() {

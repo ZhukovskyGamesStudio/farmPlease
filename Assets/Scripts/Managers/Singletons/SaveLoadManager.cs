@@ -127,9 +127,32 @@ namespace Managers
                 Debug.Instance.Log("Generating finished. Saving started");
                 SaveGame();
                 Debug.Instance.Log("New profile is saved");
+            } else {
+                TryUpdateSave();
             }
 
             TryAddAdminCropsCollectedQueue();
+        }
+
+        private static void TryUpdateSave() {
+            UpdateTools();
+            //TODO update everything else and move to another manager
+        }
+
+        private static void UpdateTools() {
+            if (CurrentSave.ToolBuffs.Count < ToolsTable.Tools.Count) {
+                foreach (var buff in ToolsTable.Tools) {
+                    if (!CurrentSave.ToolBuffs.ContainsKey(buff)) {
+                        CurrentSave.ToolBuffs.Add(buff,0);
+                    }
+                }
+            }
+
+            foreach (ToolBuff buff in CurrentSave.ToolBuffsStored.Keys) {
+                if (CurrentSave.ToolBuffsStored[buff] < 0) {
+                    CurrentSave.ToolBuffsStored[buff] = 0;
+                }
+            }
         }
 
         private static void TryAddAdminCropsCollectedQueue()

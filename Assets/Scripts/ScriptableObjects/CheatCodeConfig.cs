@@ -12,5 +12,6 @@ namespace ScriptableObjects {
         public int CoinsAdded;
         public int CropsCollectedAdded;
         public SerializableDictionary<Crop, int> SeedsAdded;
+        public SerializableDictionary<ToolBuff, int> ToolsAdded;
     }
 }

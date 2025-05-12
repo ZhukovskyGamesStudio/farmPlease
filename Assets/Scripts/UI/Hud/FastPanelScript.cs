@@ -34,7 +34,7 @@ namespace UI
 
             foreach (ToolBuff type in InventoryManager.Instance.ToolsActivated.Keys) {
                 ToolConfig tool = ToolsTable.ToolByType(type);
-                Image toChange = HoeImage;
+                Image toChange = null;
                 switch (tool.toolUIType) {
                     case ToolUIType.Hoe:
                         toChange = HoeImage;
@@ -58,8 +58,9 @@ namespace UI
 
                 if (tool.toolUIType == ToolUIType.Seed) _backpack.SetBuffed(InventoryManager.Instance.IsToolWorking(type));
 
-                if (InventoryManager.Instance.IsToolWorking(type))
+                if (InventoryManager.Instance.IsToolWorking(type) && toChange != null) {
                     toChange.sprite = tool.buffedIcon;
+                }
             }
         }
 

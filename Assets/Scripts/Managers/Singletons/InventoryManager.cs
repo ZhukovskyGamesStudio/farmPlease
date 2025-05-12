@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ScriptableObjects;
 using Tables;
 using UI;
 using UnityEngine;
@@ -276,7 +277,7 @@ namespace Managers
 
             AddCoins(-1 * cost);
 
-            ToolsStored[buff] ++;
+            ToolsStored[buff] +=amount;
             UpdateInventoryUI();
         }
         
@@ -290,9 +291,18 @@ namespace Managers
             if (!ToolsActivated.ContainsKey(buff)) {
                 ToolsActivated.Add(buff, 0);
             }
-            
-            ToolsActivated[buff]+= ToolsTable.ToolByType(buff).buyAmount;
-            _fastPanelScript.UpdateToolsImages();
+
+            ToolConfig config = ToolsTable.ToolByType(buff);
+           
+
+            if (config.IsInstant ) {
+                if (buff == ToolBuff.WeekBattery) {
+                    Clock.Instance.RefillToMaxEnergy();
+                }
+            } else {
+                ToolsActivated[buff]+= config.buyAmount;
+                _fastPanelScript.UpdateToolsImages();
+            }
             UpdateInventoryUI();
         }
 

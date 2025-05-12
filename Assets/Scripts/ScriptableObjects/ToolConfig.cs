@@ -17,6 +17,7 @@ namespace ScriptableObjects
 
         public string explainText;
         public int buyAmount;
+        public bool IsInstant;
 
         [Header("HUDElements")]
         public ToolUIType toolUIType;

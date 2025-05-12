@@ -35,7 +35,8 @@ namespace Tables
         Weatherometr,
         Carpetseeder,
         Greenscythe,
-        Wetscythe
+        Wetscythe,
+        WeekBattery
     }
 
     [Serializable]
@@ -44,6 +45,7 @@ namespace Tables
         Watercan,
         Seed,
         Scythe,
-        Calendar
+        Calendar,
+        None
     }
 }

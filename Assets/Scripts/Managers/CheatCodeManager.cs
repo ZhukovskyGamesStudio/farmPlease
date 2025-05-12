@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ScriptableObjects;
+using Tables;
 using ZhukovskyGamesPlugin;
 
 namespace Managers {
@@ -40,6 +41,7 @@ namespace Managers {
                 TryAddCoins(cheatCodeConfig);
                 TryAddCrops(cheatCodeConfig);
                 TryAddSeeds(cheatCodeConfig);
+                TryAddTools(cheatCodeConfig);
                 SaveCodeUsed(code);
                 SaveLoadManager.SaveGame();
                 
@@ -76,8 +78,15 @@ namespace Managers {
 
         private void TryAddSeeds(CheatCodeConfig cheatCode) {
             if (cheatCode.SeedsAdded is {Count: > 0}) {
-                foreach (var cropType in cheatCode.SeedsAdded.Keys) {
+                foreach (Crop cropType in cheatCode.SeedsAdded.Keys) {
                     SaveLoadManager.CurrentSave.Seeds[cropType] += cheatCode.SeedsAdded[cropType];
+                }
+            }
+        } 
+        private void TryAddTools(CheatCodeConfig cheatCode) {
+            if (cheatCode.ToolsAdded is {Count: > 0}) {
+                foreach (ToolBuff toolType in cheatCode.ToolsAdded.Keys) {
+                    InventoryManager.Instance.BuyTool(toolType,0,cheatCode.ToolsAdded[toolType]);
                 }
             }
         }
