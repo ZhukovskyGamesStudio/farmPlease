@@ -1,19 +1,10 @@
 ﻿using System;
+using Abstract;
 using ScriptableObjects;
-using UnityEngine;
 
-namespace Tables
-{
-    public class WeatherTable : MonoBehaviour {
-        public static WeatherTable Instance;
+namespace Tables {
+    public class WeatherTable : PreloadableSingleton<WeatherTable> {
         public WeatherConfig[] WeathersSO;
-
-        public void Awake() {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
-        }
 
         public static WeatherConfig WeatherByType(HappeningType type) {
             for (int i = 0; i < Instance.WeathersSO.Length; i++)

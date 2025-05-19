@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class TimePanel : MonoBehaviour {
+    public class TimePanelView : MonoBehaviour {
         public CalendarDayView lilCalendarDay;
         public Image CalendarImage;
         public Button CalendarButton;
@@ -55,7 +55,7 @@ namespace UI
         }
 
         private void UpdateBigCalendar(int curDay) {
-            int predictedDaysLeft = InventoryManager.Instance.ToolsActivated.SafeGet(ToolBuff.Weatherometr, 0);
+            int predictedDaysLeft = InventoryManager.ToolsActivated.SafeGet(ToolBuff.Weatherometr, 0);
             for (int i = 0; i < _days.Length; i++) {
                 CalendarDayView view = _days[i].GetComponent<CalendarDayView>();
                 if (_daysHappenings[i] == HappeningType.Love && !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))

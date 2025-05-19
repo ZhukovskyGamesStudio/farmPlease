@@ -8,28 +8,21 @@ using UnityEngine;
 using ZhukovskyGamesPlugin;
 using Random = UnityEngine.Random;
 
-namespace Managers
-{
+namespace Managers {
     public class InventoryManager : Singleton<InventoryManager> {
-        
+        public static SerializableDictionary<Crop, bool> IsCropsBoughtD => SaveLoadManager.CurrentSave.IsCropsBoughtD;
+        public static SerializableDictionary<ToolBuff, bool> IsToolsBoughtD => SaveLoadManager.CurrentSave.IsToolsBoughtD;
+        public static SerializableDictionary<BuildingType, bool> IsBuildingsBoughtD => SaveLoadManager.CurrentSave.IsBuildingsBoughtD;
 
-        private Backpack _backpack;
-        private FastPanelScript _fastPanelScript;
-
-        [Header("FoodMarketBought")]
-        public Dictionary<Crop, bool> IsCropsBoughtD;
-
-        public Dictionary<ToolBuff, bool> IsToolsBoughtD;
-        public Dictionary<BuildingType, bool> IsBuildingsBoughtD;
+        public static SerializableDictionary<Crop, int> SeedsInventory => SaveLoadManager.CurrentSave.Seeds;
+        public static SerializableDictionary<ToolBuff, int> ToolsActivated => SaveLoadManager.CurrentSave.ToolBuffs;
+        public static SerializableDictionary<ToolBuff, int> ToolsStored => SaveLoadManager.CurrentSave.ToolBuffsStored;
 
         private bool _isUnlimitedFlag;
-        public SerializableDictionary<Crop, int> SeedsInventory => SaveLoadManager.CurrentSave.Seeds;
-        public SerializableDictionary<ToolBuff, int> ToolsActivated => SaveLoadManager.CurrentSave.ToolBuffs;
-        public SerializableDictionary<ToolBuff, int> ToolsStored => SaveLoadManager.CurrentSave.ToolBuffsStored;
 
-        private UIHud _uiHud;
-
-        /**********/
+        private UIHud _uiHud => UIHud.Instance;
+        private Backpack _backpack => UIHud.Instance.Backpack;
+        private FastPanelScript _fastPanelScript => UIHud.Instance.FastPanelScript;
 
         private void Update() {
             if (GameModeManager.Instance.UnlimitedMoneyCrops && !_isUnlimitedFlag) {
@@ -40,33 +33,24 @@ namespace Managers
             }
         }
 
-        public void Init() {
-            _uiHud = UIHud.Instance;
-
-            _fastPanelScript = UIHud.Instance.FastPanelScript;
-
-            _backpack = _uiHud.Backpack;
-        }
-
         /*****Сохранение и загрузка*****/
 
-        public void GenerateInventory() {
+        public static void GenerateInventory() {
             SaveLoadManager.CurrentSave.Seeds = new SerializableDictionary<Crop, int>();
             SaveLoadManager.CurrentSave.ToolBuffs = new SerializableDictionary<ToolBuff, int>();
 
             //создаём пустой словарь семян. заполняем его по 100, если включены читы
-            for (int i = 0; i < CropsTable.Instance.Crops.Length; i++)
-                if (GameModeManager.Instance.UnlimitedSeeds && CropsTable.Instance.Crops[i].type != Crop.Weed)
-                    SeedsInventory.Add(CropsTable.Instance.Crops[i].type, 100);
+            foreach (CropConfig t in CropsTable.Instance.Crops)
+                if (GameModeManager.Instance.UnlimitedSeeds && t.type != Crop.Weed)
+                    SeedsInventory.Add(t.type, 100);
                 else
-                    SeedsInventory.Add(CropsTable.Instance.Crops[i].type, 0);
+                    SeedsInventory.Add(t.type, 0);
 
             //создаём пустой словарь инструментов
             for (int i = 0; i < ToolsTable.Instance.ToolsSO.Length; i++) {
                 ToolsActivated.Add(ToolsTable.Instance.ToolsSO[i].buff, 0);
                 ToolsStored.Add(ToolsTable.Instance.ToolsSO[i].buff, 0);
             }
-               
 
             if (GameModeManager.Instance.UnlimitedMoneyCrops) {
                 SaveLoadManager.CurrentSave.Coins = 1000;
@@ -74,21 +58,14 @@ namespace Managers
             }
 
             GenerateIsBoughtData();
-
+/*
             UpdateInventoryUI();
             _uiHud.SetCounters();
             _fastPanelScript.ChangeSeedFastPanel(Crop.Tomato, SeedsInventory[Crop.Tomato]);
-            _fastPanelScript.UpdateToolsImages();
+            _fastPanelScript.UpdateToolsImages();*/
         }
 
-        public void SetInventoryWithData(GameSaveProfile save) {
-            bool[] isCropBought = save.CropBoughtData;
-            bool[] isToolBought = save.ToolBoughtData;
-            bool[] isBuildBought = save.BuildingBoughtData;
-            SetIsBoughtData(0, isCropBought);
-            SetIsBoughtData(1, isToolBought);
-            SetIsBoughtData(2, isBuildBought);
-
+        public void SetInventoryWithData() {
             _fastPanelScript.UpdateToolsImages();
 
             UpdateInventoryUI();
@@ -97,80 +74,17 @@ namespace Managers
             _fastPanelScript.ChangeSeedFastPanel(Crop.Tomato, SeedsInventory[Crop.Tomato]);
         }
 
-        public bool[] GetIsBoughtData(int index) {
-            bool[] res = null;
-            if (index == 0) {
-                res = new bool[CropsTable.Instance.Crops.Length];
-                for (int i = 0; i < res.Length; i++)
-                    if (IsCropsBoughtD.ContainsKey((Crop) i))
-                        res[i] = IsCropsBoughtD[(Crop) i];
-                    else
-                        res[i] = false;
-            }
+        private static void GenerateIsBoughtData() {
+            SaveLoadManager.CurrentSave.IsCropsBoughtD = new SerializableDictionary<Crop, bool>();
+            for (int i = 0; i < CropsTable.Instance.Crops.Length; i++) IsCropsBoughtD.Add((Crop)i, false);
 
-            if (index == 1) {
-                res = new bool[ToolsTable.Instance.ToolsSO.Length];
-                for (int i = 0; i < res.Length; i++)
-                    if (IsToolsBoughtD.ContainsKey((ToolBuff) i))
-                        res[i] = IsToolsBoughtD[(ToolBuff) i];
-                    else
-                        res[i] = false;
-            }
+            SaveLoadManager.CurrentSave.IsToolsBoughtD = new SerializableDictionary<ToolBuff, bool>();
+            for (int i = 0; i < ToolsTable.Instance.ToolsSO.Length; i++) IsToolsBoughtD.Add((ToolBuff)i, false);
 
-            if (index == 2) {
-                res = new bool[BuildingsTable.Instance.Buildings.Length];
-                for (int i = 0; i < res.Length; i++)
-                    if (IsBuildingsBoughtD.ContainsKey((BuildingType) i))
-                        res[i] = IsBuildingsBoughtD[(BuildingType) i];
-                    else
-                        res[i] = false;
-            }
-
-            return res;
-        }
-
-        private void GenerateIsBoughtData() {
-            IsCropsBoughtD = new Dictionary<Crop, bool>();
-            for (int i = 0; i < CropsTable.Instance.Crops.Length; i++) IsCropsBoughtD.Add((Crop) i, false);
-
-            IsToolsBoughtD = new Dictionary<ToolBuff, bool>();
-            for (int i = 0; i < ToolsTable.Instance.ToolsSO.Length; i++) IsToolsBoughtD.Add((ToolBuff) i, false);
-
-            IsBuildingsBoughtD = new Dictionary<BuildingType, bool>();
+            SaveLoadManager.CurrentSave.IsBuildingsBoughtD = new SerializableDictionary<BuildingType, bool>();
             for (int i = 0; i < BuildingsTable.Instance.Buildings.Length; i++)
-                IsBuildingsBoughtD.Add((BuildingType) i, false);
+                IsBuildingsBoughtD.Add((BuildingType)i, false);
         }
-
-        public void SetIsBoughtData(int index, bool[] toSet) {
-            if (index == 0) {
-                IsCropsBoughtD = new Dictionary<Crop, bool>();
-                for (int i = 0; i < CropsTable.Instance.Crops.Length; i++)
-                    if (toSet != null && toSet.Length > i)
-                        IsCropsBoughtD.Add((Crop) i, toSet[i]);
-                    else
-                        IsCropsBoughtD.Add((Crop) i, false);
-            }
-
-            if (index == 1) {
-                IsToolsBoughtD = new Dictionary<ToolBuff, bool>();
-                for (int i = 0; i < ToolsTable.Instance.ToolsSO.Length; i++)
-                    if (toSet != null && toSet.Length > i)
-                        IsToolsBoughtD.Add((ToolBuff) i, toSet[i]);
-                    else
-                        IsToolsBoughtD.Add((ToolBuff) i, false);
-            }
-
-            if (index == 2) {
-                IsBuildingsBoughtD = new Dictionary<BuildingType, bool>();
-                for (int i = 0; i < BuildingsTable.Instance.Buildings.Length; i++)
-                    if (toSet != null && toSet.Length > i)
-                        IsBuildingsBoughtD.Add((BuildingType) i, toSet[i]);
-                    else
-                        IsBuildingsBoughtD.Add((BuildingType) i, false);
-            }
-        }
-
-        /**********/
 
         public void AddCollectedCrop(Crop crop, int amount) {
             for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
@@ -277,10 +191,10 @@ namespace Managers
 
             AddCoins(-1 * cost);
 
-            ToolsStored[buff] +=amount;
+            ToolsStored[buff] += amount;
             UpdateInventoryUI();
         }
-        
+
         public void ActivateTool(ToolBuff buff) {
             if (!ToolsStored.ContainsKey(buff)) {
                 ToolsStored.Add(buff, 0);
@@ -293,16 +207,16 @@ namespace Managers
             }
 
             ToolConfig config = ToolsTable.ToolByType(buff);
-           
 
-            if (config.IsInstant ) {
+            if (config.IsInstant) {
                 if (buff == ToolBuff.WeekBattery) {
                     Clock.Instance.RefillToMaxEnergy();
                 }
             } else {
-                ToolsActivated[buff]+= config.buyAmount;
+                ToolsActivated[buff] += config.buyAmount;
                 _fastPanelScript.UpdateToolsImages();
             }
+
             UpdateInventoryUI();
         }
 
@@ -326,8 +240,6 @@ namespace Managers
             return false;
         }
 
-        /**********/
-
         public void BuyFoodMarket(Crop type, int cost) {
             IsCropsBoughtD[type] = true;
             BuySeed(type, 0, CropsTable.CropByType(type).buyAmount);
@@ -344,8 +256,6 @@ namespace Managers
             IsBuildingsBoughtD[type] = true;
             AddCropPoint(-cost);
         }
-
-        /**********/
 
         public bool EnoughMoney(int cost) {
             return SaveLoadManager.CurrentSave.Coins >= cost;

@@ -1,9 +1,11 @@
 using Abstract;
+using ScriptableObjects;
 using UnityEngine;
 
 public class ConfigsManager : PreloadableSingleton<ConfigsManager> {
-    [SerializeField]
-    private CostsConfig _costsConfig;
+    [field: SerializeField]
+    public CostsConfig CostsConfig { get; private set; }
 
-    public CostsConfig CostsConfig => _costsConfig;
+    [field: SerializeField]
+    public FtueConfig FtueConfig { get; private set; }
 }

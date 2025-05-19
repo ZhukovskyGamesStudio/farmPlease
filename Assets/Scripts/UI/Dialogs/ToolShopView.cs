@@ -31,7 +31,7 @@ namespace UI {
 
         [SerializeField]
         private Transform _noToolsText;
-        /**********/
+         
 
         private void Awake() {
             InitButtons();
@@ -69,7 +69,7 @@ namespace UI {
 
         public void ChangeTools() {
             List<ToolBuff> possibleTools = ToolsTable.Tools
-                .Where(key => ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.Instance.IsToolsBoughtD[key]).ToList();
+                .Where(key => ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.IsToolsBoughtD[key]).ToList();
 
             GameSaveProfile sv = SaveLoadManager.CurrentSave;
             sv.ToolFirstOffer = possibleTools[Random.Range(0, possibleTools.Count)];

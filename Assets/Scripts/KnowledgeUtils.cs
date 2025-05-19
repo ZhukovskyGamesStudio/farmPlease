@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Managers;
 
 namespace Tables {
-    public class KnowledgeManager {
+    public static class KnowledgeUtils {
         private static List<Knowledge> SavedKnowledge => SaveLoadManager.CurrentSave?.KnowledgeList;
 
         public static bool HasKnowledge(Knowledge kn) => SavedKnowledge?.Contains(kn) ?? false;

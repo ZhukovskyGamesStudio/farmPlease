@@ -13,27 +13,26 @@ namespace UI {
         public Toggle NotificationsToggle;
         public Dropdown DaypointDropDown;
         public GameObject ResetButton;
-        public bool IsMainMenu;
         public DevlogManager Devlog;
 
-        [SerializeField] private SettingsCheatCodeView _settingsCheatCodeView;
+        [SerializeField]
+        private SettingsCheatCodeView _settingsCheatCodeView;
 
-        private SettingsProfile _curProfile, _unchangedProfile;
+        private SettingsData SettingsData => SaveLoadManager.CurrentSave.SettingsData;
+        private SettingsData _unchangedData;
 
         public void Initialize(CheatCodeConfigList cheatCodeConfigList) {
-            _curProfile = new SettingsProfile();
             _settingsCheatCodeView.Init(cheatCodeConfigList);
             Devlog.Init();
         }
 
-        public void UpdateSettingsPanel(SettingsProfile profile) {
-            _curProfile = new SettingsProfile(profile);
-            _unchangedProfile = profile;
-            DaypointDropDown.SetValueWithoutNotify(profile.NewDayPoint);
-            masterSoundSlider.SetValueWithoutNotify(profile.MasterVolume);
-            musicSoundSlider.SetValueWithoutNotify(profile.MusicVolume);
-            effectsSoundSlider.SetValueWithoutNotify(profile.EffectsVolume);
-            NotificationsToggle.SetIsOnWithoutNotify(profile.SendNotifications);
+        public void UpdateSettingsPanel(SettingsData data) {
+            _unchangedData = data;
+            DaypointDropDown.SetValueWithoutNotify(data.NewDayPoint);
+            masterSoundSlider.SetValueWithoutNotify(data.MasterVolume);
+            musicSoundSlider.SetValueWithoutNotify(data.MusicVolume);
+            effectsSoundSlider.SetValueWithoutNotify(data.EffectsVolume);
+            NotificationsToggle.SetIsOnWithoutNotify(data.SendNotifications);
             GpgsUpdated(GpsManager.IsAuthenticated);
 
             ResetButton.SetActive(false);
@@ -46,36 +45,36 @@ namespace UI {
 
         public void OnNotificationChanged() {
             ResetButton.SetActive(true);
-            _curProfile.SendNotifications = NotificationsToggle.isOn;
-            Settings.Instance.ChangeSettings(_curProfile);
+            SettingsData.SendNotifications = NotificationsToggle.isOn;
+            Settings.Instance.ChangeSettings(SettingsData);
             Settings.Instance.NotificationChanged();
         }
 
         public void OnVolumeChanged() {
             ResetButton.SetActive(true);
 
-            _curProfile.MasterVolume = masterSoundSlider.value;
-            _curProfile.MusicVolume = musicSoundSlider.value;
-            _curProfile.EffectsVolume = effectsSoundSlider.value;
-            Settings.Instance.ChangeSettings(_curProfile);
-            Audio.Instance.ChangeVolume(_curProfile.MasterVolume, _curProfile.MusicVolume, _curProfile.EffectsVolume);
+            SettingsData.MasterVolume = masterSoundSlider.value;
+            SettingsData.MusicVolume = musicSoundSlider.value;
+            SettingsData.EffectsVolume = effectsSoundSlider.value;
+            Settings.Instance.ChangeSettings(SettingsData);
+            Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
         }
 
         public void OnDayMomentChanged() {
             ResetButton.SetActive(true);
 
-            _curProfile.NewDayPoint = DaypointDropDown.value;
-            Settings.Instance.ChangeSettings(_curProfile);
+            SettingsData.NewDayPoint = DaypointDropDown.value;
+            Settings.Instance.ChangeSettings(SettingsData);
             Settings.Instance.DayMomentChanged();
         }
 
         public void ResetChanges() {
-            _curProfile = _unchangedProfile;
-            UpdateSettingsPanel(_curProfile);
-            Settings.Instance.ChangeSettings(_curProfile);
+            SaveLoadManager.CurrentSave.SettingsData = _unchangedData;
+            UpdateSettingsPanel(SettingsData);
+            Settings.Instance.ChangeSettings(SettingsData);
             Settings.Instance.DayMomentChanged();
             Settings.Instance.NotificationChanged();
-            Audio.Instance.ChangeVolume(_curProfile.MasterVolume, _curProfile.MusicVolume, _curProfile.EffectsVolume);
+            Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
         }
 
         public void ConnectGpgs() {
@@ -104,13 +103,13 @@ namespace UI {
         }
 
         public void ClearSettings() {
-            _curProfile.Clear();
-            _curProfile.Load();
-            UpdateSettingsPanel(_curProfile);
-            Settings.Instance.ChangeSettings(_curProfile);
+            SaveLoadManager.CurrentSave.SettingsData = new SettingsData();
+            UpdateSettingsPanel(SettingsData);
+            Settings.Instance.ChangeSettings(SettingsData);
             Settings.Instance.DayMomentChanged();
             Settings.Instance.NotificationChanged();
-            Audio.Instance.ChangeVolume(_curProfile.MasterVolume, _curProfile.MusicVolume, _curProfile.EffectsVolume);
+            Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
+            SaveLoadManager.SaveGame();
         }
     }
 }

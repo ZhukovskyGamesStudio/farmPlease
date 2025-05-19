@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Database;
 using Managers;
 using Tables;
 using UI;
@@ -20,24 +19,21 @@ public class SmartTilemap : MonoBehaviour {
 
     public TilesTable tilesTablePrefab;
     public Transform TilesHolder;
-    public Vector3Int Playercoord;
+    public Vector2Int Playercoord;
 
     public float animtime = 0.5f;
     private const int TILES_RADIUS = 11;
     private const int STARTING_CIRCLE_RADIUS = 6;
-    public int[] tileData;
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
-    private Dictionary<Vector3Int, SmartTile> _tiles;
+    private Dictionary<Vector2Int, SmartTile> _tiles;
     private Camera _mainCamera;
-    /**********/
 
     public void Awake() {
         if (Instance == null) {
             Instance = this;
             _mainCamera = Camera.main;
-        }
-        else if (Instance != this)
+        } else if (Instance != this)
             Destroy(gameObject);
     }
 
@@ -51,33 +47,24 @@ public class SmartTilemap : MonoBehaviour {
             //wraps unimportant editor bug Screen position out of view frustum (screen pos inf, -inf, 0.000000) 
             mousePos = Vector3.zero;
         }
-        Playercoord = MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
+
+        Playercoord = (Vector2Int)MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
     }
 
-    public void GenerateTiles() {
-        _tiles = new Dictionary<Vector3Int, SmartTile>();
+    public static void GenerateTiles() {
+        var tilesData = new TilesData();
 
         int circle = 0;
         int step = 0;
         int i = 0;
-        Vector3Int curCoord = new(0, 0, 0);
+        Vector2Int curCoord = new(0, 0);
 
         while (circle < TILES_RADIUS) {
-            GameObject tileObject = new();
-            tileObject.transform.parent = TilesHolder;
+            TileType type = circle < STARTING_CIRCLE_RADIUS ? TileType.Sand : TileType.Rocks;
 
-            SmartTile smarttile = tileObject.AddComponent<SmartTile>();
-            if (circle < STARTING_CIRCLE_RADIUS) {
-                smarttile.Init(this, TileType.Sand, curCoord);
-                PlaceTile(curCoord, TileType.Sand);
-            } else {
-                smarttile.Init(this, TileType.Rocks, curCoord);
-                PlaceTile(curCoord, TileType.Rocks);
-            }
+            tilesData.Tiles.Add(curCoord, type);
 
-            _tiles.Add(curCoord, smarttile);
-
-            curCoord = Next(curCoord, circle, step);
+            curCoord = TilemapTools.Next(curCoord, circle, step);
 
             step++;
             if (step == circle * 6 || circle == 0) {
@@ -90,112 +77,47 @@ public class SmartTilemap : MonoBehaviour {
                 break;
             }
         }
-        /*
-        for (int i = fieldSizeI.x; i < fieldSizeI.y; i++)
-        {
-            for (int j = fieldSizeJ.x; j < fieldSizeJ.y; j++)
-            {
 
-                Vector3Int position = new Vector3Int(j, i, 0);
-                GameObject tileObject = new GameObject();
-                tileObject.transform.parent = TilesHolder;
-                SmartTile smarttile = tileObject.AddComponent<SmartTile>();
-                if (i < -5 || i > 5 || j < -6 || j > 5)
-                {
-                    smarttile.Init(this, TileType.Rocks, position);
-                    PlaceTile(position, TileType.Rocks);
-                }
-                else
-                {
-                        smarttile.Init(this, TileType.Sand, position);
-                        PlaceTile(position, TileType.Sand);
-                }
-
-                tiles.Add(position, smarttile);
-            }
-        }  */
+        SaveLoadManager.CurrentSave.TilesData = tilesData;
     }
 
-    public void GenerateTilesWithData(string tilesString) {
+    public TilesData GetTilesData() {
+        if (_tiles == null) {
+            return SaveLoadManager.CurrentSave.TilesData;
+        }
+        Dictionary<Vector2Int, SmartTile> tiles2 = new();
+        TilesData data = new TilesData();
+        foreach (KeyValuePair<Vector2Int, SmartTile> item in _tiles) {
+            data.Tiles.Add(new Vector2Int(item.Key.x, item.Key.y), item.Value.type);
+        }
+
+        return data;
+    }
+
+    public void GenerateTilesWithData(TilesData data) {
         MainTilemap.ClearAllTiles();
-        _tiles = new Dictionary<Vector3Int, SmartTile>();
-
-        Vector2Int curCoord = new(0, 0);
-
-        /***/
-
-        int circle = 0;
-        int step = 0;
-
-        for (int i = 0; i < tilesString.Length; i += 2) {
-            int typeVal = DBConverter.UTFToInt(tilesString[i] + "" + tilesString[i + 1]);
-
-            Vector3Int position = new(curCoord.x, curCoord.y, 0);
+        _tiles = new Dictionary<Vector2Int, SmartTile>();
+        foreach (var pos in data.Tiles.Keys) {
+            TileType tile = data.Tiles[pos];
+            Vector2Int position = new(pos.x, pos.y);
             GameObject tileObject = new();
             tileObject.transform.parent = TilesHolder;
             SmartTile smarttile = tileObject.AddComponent<SmartTile>();
 
-            smarttile.Init(this, (TileType) typeVal, position);
-            PlaceTile(position, (TileType) typeVal);
+            smarttile.Init(this, tile, position);
+            PlaceTile(position, tile);
 
             _tiles.Add(position, smarttile);
-
-            curCoord = DBConverter.Next(curCoord, circle, step);
-            step++;
-            if (step == circle * 6 || circle == 0) {
-                circle++;
-                step = 0;
-            }
-        }
-
-        /*
-        if (i < -5 || i > 5 || j < -6 || j > 5)
-        {
-            smarttile.Init(this, TileType.Rocks, position);
-            PlaceTile(position, TileType.Rocks);
-        } */
-    }
-
-    public void UpdateTilesWithData(int[] newTileData) {
-        int xAmount = _fieldSizeI.y - _fieldSizeI.x;
-
-        for (int i = 0; i < newTileData.Length; i++) {
-            int x = i / xAmount + _fieldSizeI.x;
-            int y = i % xAmount + _fieldSizeJ.x;
-
-            Vector3Int position = new(y, x, 0);
-            PlaceTile(position, (TileType) newTileData[i]);
         }
     }
-
-    public Dictionary<Vector2Int, SmartTile> GetTiles() {
-        Dictionary<Vector2Int, SmartTile> res = new();
-
-        foreach (KeyValuePair<Vector3Int, SmartTile> item in _tiles)
-            res.Add(new Vector2Int(item.Key.x, item.Key.y), item.Value);
-
-        return res;
-    }
-
-    public string GetTilesData() {
-        Dictionary<Vector2Int, SmartTile> tiles2 = new();
-
-        foreach (KeyValuePair<Vector3Int, SmartTile> item in _tiles)
-            tiles2.Add(new Vector2Int(item.Key.x, item.Key.y), item.Value);
-
-        string str = DBConverter.FieldToString(tiles2);
-        return str;
-    }
-
-    /**********/
 
     public IEnumerator NewDay(HappeningType type) {
         SetHappeningType(type);
         SaveLoadManager.Instance.Sequence(true);
-        Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
+        Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
         List<SmartTile> toNewDay = new();
 
-        foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
+        foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanbeNewDayed())
                 toNewDay.Add(smartTile.Value);
         for (int i = 0; i < toNewDay.Count; i++) yield return StartCoroutine(toNewDay[i].OnNeyDayed(animtime / 5));
@@ -204,10 +126,11 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     private HappeningType _happeningType;
+
     public void SetHappeningType(HappeningType happeningType) {
         _happeningType = happeningType;
     }
-    
+
     public IEnumerator HappeningSequence() {
         SaveLoadManager.Instance.Sequence(true);
         switch (_happeningType) {
@@ -231,12 +154,11 @@ public class SmartTilemap : MonoBehaviour {
         SaveLoadManager.Instance.Sequence(false);
     }
 
-    public void PlaceTile(Vector3Int coord, TileType type) {
-        MainTilemap.SetTile(coord, TilesTable.TileByType(type).TileBase);
+    public void PlaceTile(Vector2Int coord, TileType type) {
+        MainTilemap.SetTile((Vector3Int)coord, TilesTable.TileByType(type).TileBase);
     }
 
-    /**********/
-    public bool BuildingCanBePlaced(BuildingType type, Vector3Int coord) {
+    public bool BuildingCanBePlaced(BuildingType type, Vector2Int coord) {
         switch (type) {
             case BuildingType.Freshener:
             case BuildingType.Biogen:
@@ -259,7 +181,7 @@ public class SmartTilemap : MonoBehaviour {
         }
     }
 
-    public void PlaceBuilding(BuildingType type, Vector3Int coord) {
+    public void PlaceBuilding(BuildingType type, Vector2Int coord) {
         SmartTile[] neighbors = GetHexNeighbors(coord);
         switch (type) {
             case BuildingType.Biogen:
@@ -304,7 +226,7 @@ public class SmartTilemap : MonoBehaviour {
         }
     }
 
-    public void DeactiveBuilding(BuildingType type, Vector3Int coord) {
+    public void DeactiveBuilding(BuildingType type, Vector2Int coord) {
         switch (type) {
             case BuildingType.Freshener:
             case BuildingType.Biogen:
@@ -324,7 +246,7 @@ public class SmartTilemap : MonoBehaviour {
         }
     }
 
-    public void ActiveBuilding(BuildingType type, Vector3Int coord) {
+    public void ActiveBuilding(BuildingType type, Vector2Int coord) {
         switch (type) {
             case BuildingType.Freshener:
             case BuildingType.Biogen:
@@ -345,7 +267,7 @@ public class SmartTilemap : MonoBehaviour {
         }
     }
 
-    public void RemoveBuilding(BuildingType type, Vector3Int coord) {
+    public void RemoveBuilding(BuildingType type, Vector2Int coord) {
         switch (type) {
             case BuildingType.Freshener:
             case BuildingType.Biogen:
@@ -365,14 +287,13 @@ public class SmartTilemap : MonoBehaviour {
         }
     }
 
-    /**********/
-
     // 0 - hoe; 1 - seed; 2 - water; 3 - collect
     public bool AvailabilityCheck(string actionName) {
         if (!_tiles.ContainsKey(Playercoord)) {
             Debug.Instance.Log("No tile with this coordinates " + Playercoord);
             return false;
         }
+
         switch (actionName) {
             case "building":
                 return _tiles[Playercoord].IsBuilding();
@@ -397,8 +318,6 @@ public class SmartTilemap : MonoBehaviour {
         return false;
     }
 
-    /**********/
-
     public IEnumerator NewDayTile() {
         yield return StartCoroutine(_tiles[Playercoord].OnClicked(animtime));
     }
@@ -414,8 +333,8 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public IEnumerator CollectTile() {
-        yield return StartCoroutine(_tiles[Playercoord]
-            .OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), animtime / 3));
+        yield return StartCoroutine(
+            _tiles[Playercoord].OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), animtime / 3));
         yield return StartCoroutine(HappeningSequence());
     }
 
@@ -429,7 +348,7 @@ public class SmartTilemap : MonoBehaviour {
         yield return StartCoroutine(HappeningSequence());
     }
 
-    public IEnumerator HoeRandomNeighbor(Vector3Int center) {
+    public IEnumerator HoeRandomNeighbor(Vector2Int center) {
         SmartTile[] neighbors = GetHexNeighbors(center);
         List<SmartTile> neighborsList = new();
 
@@ -443,9 +362,9 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public IEnumerator Erosion() {
-        Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
+        Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
         List<SmartTile> toErosion = new();
-        foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
+        foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanBeErosioned())
                 if (smartTile.Value.type != TileType.FreshenerFull) {
                     toErosion.Add(smartTile.Value);
@@ -458,15 +377,15 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public IEnumerator Rain() {
-        Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
-        foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
+        Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
+        foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanBeWatered())
                 yield return StartCoroutine(smartTile.Value.OnWatered(animtime / 5));
     }
 
     public IEnumerator Insects() {
-        List<Vector3Int> flycatcherPosition = new();
-        foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in _tiles)
+        List<Vector2Int> flycatcherPosition = new();
+        foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in _tiles)
             if (smartTile.Value.type == TileType.FlycatherSeed3)
                 flycatcherPosition.Add(smartTile.Key);
 
@@ -490,8 +409,8 @@ public class SmartTilemap : MonoBehaviour {
 
             for (int i = 0; i < flycatcherPosition.Count; i++) _tiles[flycatcherPosition[i]].BecomeActive();
         } else {
-            Dictionary<Vector3Int, SmartTile> tempTiles = new(_tiles);
-            foreach (KeyValuePair<Vector3Int, SmartTile> smartTile in tempTiles)
+            Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
+            foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
                 if (smartTile.Value.CanBeCollected())
                     yield return StartCoroutine(smartTile.Value.OnInsected(animtime / 5));
         }
@@ -501,7 +420,7 @@ public class SmartTilemap : MonoBehaviour {
         SmartTile[] resTiles = new SmartTile[_tiles.Count];
 
         int i = 0;
-        foreach (KeyValuePair<Vector3Int, SmartTile> tile in _tiles) {
+        foreach (KeyValuePair<Vector2Int, SmartTile> tile in _tiles) {
             resTiles[i] = tile.Value;
             i++;
         }
@@ -512,7 +431,7 @@ public class SmartTilemap : MonoBehaviour {
     public SmartTile[] GetAllTiles(TileType type) {
         List<SmartTile> tilesL = new();
 
-        foreach (KeyValuePair<Vector3Int, SmartTile> tile in _tiles)
+        foreach (KeyValuePair<Vector2Int, SmartTile> tile in _tiles)
             if (tile.Value.type == type)
                 tilesL.Add(tile.Value);
 
@@ -539,106 +458,56 @@ public class SmartTilemap : MonoBehaviour {
         return null;
     }
 
-    public SmartTile[] GetHexNeighbors(Vector3Int center) {
+    public SmartTile[] GetHexNeighbors(Vector2Int center) {
         SmartTile[] neighbors = new SmartTile[6];
 
         if (center.y % 2 == 0) {
-            neighbors[0] = _tiles[center + new Vector3Int(0, 1, 0)];
-            neighbors[1] = _tiles[center + new Vector3Int(1, 0, 0)];
-            neighbors[2] = _tiles[center + new Vector3Int(0, -1, 0)];
-            neighbors[3] = _tiles[center + new Vector3Int(-1, -1, 0)];
-            neighbors[4] = _tiles[center + new Vector3Int(-1, 0, 0)];
-            neighbors[5] = _tiles[center + new Vector3Int(-1, 1, 0)];
+            neighbors[0] = _tiles[center + new Vector2Int(0, 1)];
+            neighbors[1] = _tiles[center + new Vector2Int(1, 0)];
+            neighbors[2] = _tiles[center + new Vector2Int(0, -1)];
+            neighbors[3] = _tiles[center + new Vector2Int(-1, -1)];
+            neighbors[4] = _tiles[center + new Vector2Int(-1, 0)];
+            neighbors[5] = _tiles[center + new Vector2Int(-1, 1)];
         } else {
-            neighbors[0] = _tiles[center + new Vector3Int(1, 1, 0)];
-            neighbors[1] = _tiles[center + new Vector3Int(1, 0, 0)];
-            neighbors[2] = _tiles[center + new Vector3Int(1, -1, 0)];
-            neighbors[3] = _tiles[center + new Vector3Int(0, -1, 0)];
-            neighbors[4] = _tiles[center + new Vector3Int(-1, 0, 0)];
-            neighbors[5] = _tiles[center + new Vector3Int(0, 1, 0)];
+            neighbors[0] = _tiles[center + new Vector2Int(1, 1)];
+            neighbors[1] = _tiles[center + new Vector2Int(1, 0)];
+            neighbors[2] = _tiles[center + new Vector2Int(1, -1)];
+            neighbors[3] = _tiles[center + new Vector2Int(0, -1)];
+            neighbors[4] = _tiles[center + new Vector2Int(-1, 0)];
+            neighbors[5] = _tiles[center + new Vector2Int(0, 1)];
         }
 
         return neighbors;
     }
 
-    public Vector3Int[] GetHexCoordinates(Vector3Int center) {
-        Vector3Int[] neighbors = new Vector3Int[6];
+    public Vector2Int[] GetHexCoordinates(Vector2Int center) {
+        Vector2Int[] neighbors = new Vector2Int[6];
 
         if (center.y % 2 == 0) {
-            neighbors[0] = center + new Vector3Int(0, 1, 0);
-            neighbors[1] = center + new Vector3Int(1, 0, 0);
-            neighbors[2] = center + new Vector3Int(0, -1, 0);
-            neighbors[3] = center + new Vector3Int(-1, -1, 0);
-            neighbors[4] = center + new Vector3Int(-1, 0, 0);
-            neighbors[5] = center + new Vector3Int(-1, 1, 0);
+            neighbors[0] = center + new Vector2Int(0, 1);
+            neighbors[1] = center + new Vector2Int(1, 0);
+            neighbors[2] = center + new Vector2Int(0, -1);
+            neighbors[3] = center + new Vector2Int(-1, -1);
+            neighbors[4] = center + new Vector2Int(-1, 0);
+            neighbors[5] = center + new Vector2Int(-1, 1);
         } else {
-            neighbors[0] = center + new Vector3Int(1, 1, 0);
-            neighbors[1] = center + new Vector3Int(1, 0, 0);
-            neighbors[2] = center + new Vector3Int(1, -1, 0);
-            neighbors[3] = center + new Vector3Int(0, -1, 0);
-            neighbors[4] = center + new Vector3Int(-1, 0, 0);
-            neighbors[5] = center + new Vector3Int(0, 1, 0);
+            neighbors[0] = center + new Vector2Int(1, 1);
+            neighbors[1] = center + new Vector2Int(1, 0);
+            neighbors[2] = center + new Vector2Int(1, -1);
+            neighbors[3] = center + new Vector2Int(0, -1);
+            neighbors[4] = center + new Vector2Int(-1, 0);
+            neighbors[5] = center + new Vector2Int(0, 1);
         }
 
         return neighbors;
     }
 
-    private Vector3Int Next(Vector3Int now, int circle, int step) {
-        if (circle == 0)
-            return GetHexNeighbor(now, 0);
-
-        if (step == circle * 6 - 1)
-            return GetHexNeighbor(GetHexNeighbor(now, 5), 0);
-
-        step /= circle;
-
-        switch (step) {
-            case 0: return GetHexNeighbor(now, 4);
-
-            case 1: return GetHexNeighbor(now, 3);
-
-            case 2: return GetHexNeighbor(now, 2);
-
-            case 3: return GetHexNeighbor(now, 1);
-
-            case 4: return GetHexNeighbor(now, 0);
-
-            case 5: return GetHexNeighbor(now, 5);
-        }
-
-        UnityEngine.Debug.LogError("Not meant to be here");
-
-        return now + new Vector3Int(0, 0, 1);
-    }
-
-    private Vector3Int GetHexNeighbor(Vector3Int center, int index) {
-        Vector3Int[] neighbors = new Vector3Int[6];
-
-        if (center.y % 2 == 0) {
-            neighbors[0] = center + new Vector3Int(0, 1, 0);
-            neighbors[1] = center + new Vector3Int(1, 0, 0);
-            neighbors[2] = center + new Vector3Int(0, -1, 0);
-            neighbors[3] = center + new Vector3Int(-1, -1, 0);
-            neighbors[4] = center + new Vector3Int(-1, 0, 0);
-            neighbors[5] = center + new Vector3Int(-1, 1, 0);
-        } else {
-            neighbors[0] = center + new Vector3Int(1, 1, 0);
-            neighbors[1] = center + new Vector3Int(1, 0, 0);
-            neighbors[2] = center + new Vector3Int(1, -1, 0);
-            neighbors[3] = center + new Vector3Int(0, -1, 0);
-            neighbors[4] = center + new Vector3Int(-1, 0, 0);
-            neighbors[5] = center + new Vector3Int(0, 1, 0);
-        }
-
-        return neighbors[index];
-    }
-
-    public SmartTile GetRandomNeighbor(Vector3Int center) {
+    public SmartTile GetRandomNeighbor(Vector2Int center) {
         int i = Random.Range(0, 6);
         return GetHexNeighbors(center)[i];
     }
 
-    public List<SmartTile> GetNeighborsWithType(Vector3Int center, TileType type) {
+    public List<SmartTile> GetNeighborsWithType(Vector2Int center, TileType type) {
         SmartTile[] neighbors = GetHexNeighbors(center);
         List<SmartTile> neighborsList = new();
         for (int i = 0; i < neighbors.Length; i++)
@@ -648,7 +517,7 @@ public class SmartTilemap : MonoBehaviour {
         return neighborsList;
     }
 
-    public List<SmartTile> GetNeighborsWithType(Vector3Int center, TileType type1, TileType type2) {
+    public List<SmartTile> GetNeighborsWithType(Vector2Int center, TileType type1, TileType type2) {
         SmartTile[] neighbors = GetHexNeighbors(center);
         List<SmartTile> neighborsList = new();
         for (int i = 0; i < neighbors.Length; i++)
@@ -658,7 +527,7 @@ public class SmartTilemap : MonoBehaviour {
         return neighborsList;
     }
 
-    public SmartTile GetTile(Vector3Int center) {
+    public SmartTile GetTile(Vector2Int center) {
         return _tiles[center];
     }
 
@@ -666,8 +535,8 @@ public class SmartTilemap : MonoBehaviour {
         return _tiles[Playercoord];
     }
 
-    public Vector3Int GetBuildingCoordinatesByPart(Vector3Int coord) {
-        Vector3Int[] neighbors = GetHexCoordinates(coord);
+    public Vector2Int GetBuildingCoordinatesByPart(Vector2Int coord) {
+        Vector2Int[] neighbors = GetHexCoordinates(coord);
 
         TileData data = TilesTable.TileByType(_tiles[coord].type);
         if (data.IsBuilding)
@@ -686,10 +555,10 @@ public class SmartTilemap : MonoBehaviour {
             }
 
         UnityEngine.Debug.Log("Trouble");
-        return Vector3Int.zero;
+        return Vector2Int.zero;
     }
 
-    public SmartTile GetBuildingByPart(Vector3Int coord) {
+    public SmartTile GetBuildingByPart(Vector2Int coord) {
         return _tiles[GetBuildingCoordinatesByPart(coord)];
     }
 }

@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abstract;
 using ScriptableObjects;
 using UnityEngine;
 
 namespace Tables
 {
-    public class ToolsTable : MonoBehaviour {
-        public static ToolsTable Instance;
+    public class ToolsTable : PreloadableSingleton<ToolsTable> {
         public ToolConfig[] ToolsSO;
-
-        public void Awake() {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
-        }
 
         public static ToolConfig ToolByType(ToolBuff buff) {
             for (int i = 0; i < Instance.ToolsSO.Length; i++)

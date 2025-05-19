@@ -1,11 +1,12 @@
 ﻿using System;
+using Abstract;
 using ScriptableObjects;
 using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 
 namespace Tables {
-    public class CropsTable : Singleton<CropsTable> {
+    public class CropsTable : PreloadableSingleton<CropsTable> {
         public CropConfig[] Crops;
 
         public FlyingCropFx FlyingCropFxPrefab;

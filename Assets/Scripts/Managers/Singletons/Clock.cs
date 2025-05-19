@@ -23,7 +23,7 @@ namespace Managers {
             }
 
             LoseOneEnergy();
-            Time.Instance.AddDay();
+            TimeManager.Instance.AddDay();
         }
 
         private static void ShowNoEnergyAnimation() {
@@ -48,6 +48,10 @@ namespace Managers {
             SaveLoadManager.SaveGame();
         }
 
+        public static void GenerateEnergy() {
+            SaveLoadManager.CurrentSave.ClockEnergy = MAX_ENERGY;
+        }
+        
         public void RefillToMaxEnergy() {
             SetEnergy(MAX_ENERGY);
             UIHud.Instance.ClockView.SetFullAmount(Save.ClockEnergy);

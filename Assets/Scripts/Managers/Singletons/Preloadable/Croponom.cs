@@ -7,9 +7,10 @@ using ScriptableObjects;
 using Tables;
 using UnityEngine;
 using UnityEngine.UI;
+using ZhukovskyGamesPlugin;
 
 namespace UI {
-    public class Croponom : PreloadableSingleton<Croponom>, ISoundStarter {
+    public class Croponom : Singleton<Croponom>, ISoundStarter {
         public FactsPage FactsPage;
         public Button GridButtonPrefab;
 
@@ -43,7 +44,7 @@ namespace UI {
 
         public Action OnClose;
 
-        /**********/
+        protected override bool IsDontDestroyOnLoad => false;
 
         protected override void OnFirstInit() {
             GenerateAllButtons();

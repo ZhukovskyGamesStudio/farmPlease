@@ -40,7 +40,6 @@ namespace Managers {
     public enum GameMode {
         Training,
         RealTime,
-        FakeTime,
-        Online
+        FakeTime
     }
 }

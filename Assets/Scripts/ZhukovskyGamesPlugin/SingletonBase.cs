@@ -1,19 +1,20 @@
 ﻿namespace ZhukovskyGamesPlugin {
     public abstract class SingletonBase<T> : CustomMonoBehaviour where T : CustomMonoBehaviour {
-        public static T Instance => _instance as T;
-
-        protected static CustomMonoBehaviour _instance;
+        public static T Instance { get; private set; }
+        protected virtual bool IsDontDestroyOnLoad => true;
 
         protected void CreateSingleton() {
-            if (_instance == null) {
-                _instance = this;
+            if (Instance == null) {
+                Instance = this as T;
                 OnFirstInit();
-            } else if (_instance != this) {
+                if (IsDontDestroyOnLoad) {
+                    transform.SetParent(Managers.DontDestroyOnLoad.Container);
+                }
+            } else if (Instance != this) {
                 Destroy(gameObject);
             }
         }
 
-        protected virtual void OnFirstInit() {
-        }
+        protected virtual void OnFirstInit() { }
     }
 }

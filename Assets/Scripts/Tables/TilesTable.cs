@@ -6,7 +6,6 @@ using UI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
-using Time = Managers.Time;
 
 namespace Tables {
     [ExecuteAlways]
@@ -195,18 +194,16 @@ namespace Tables {
         public TileType type;
         public bool isActive;
 
-        private Vector3Int _position;
+        private Vector2Int _position;
         private SmartTilemap _tilemap;
 
-        public void Init(SmartTilemap tilemap, TileType type, Vector3Int pos) {
+        public void Init(SmartTilemap tilemap, TileType type, Vector2Int pos) {
             this._tilemap = tilemap;
             this.type = type;
             _position = pos;
             isActive = true;
-            this._tilemap.MainTilemap.SetColor(_position, Color.red);
+            this._tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.red);
         }
-
-        /**********/
 
         public bool CanBeHoed() {
             if (!isActive)
@@ -316,19 +313,15 @@ namespace Tables {
             return false;
         }
 
-        /**********/
-
         public void BecomeActive() {
             isActive = true;
-            _tilemap.MainTilemap.SetColor(_position, Color.white);
+            _tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.white);
         }
 
         public void BecomeInactive() {
             isActive = false;
-            _tilemap.MainTilemap.SetColor(_position, Color.grey);
+            _tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.grey);
         }
-
-        /**********/
 
         public IEnumerator OnHoed(float animtime) {
             BecomeInactive();
@@ -383,11 +376,11 @@ namespace Tables {
 
             TileData data = TilesTable.TileByType(type);
             if (data.TIndex == 1)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(1, -1, 0)).OnSeeded(seedtype, animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnSeeded(seedtype, animtime));
             else if (data.TIndex == 2)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(0, -1, 0)).OnSeeded(seedtype, animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnSeeded(seedtype, animtime));
             else if (data.TIndex == 3)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(-1, 0, 0)).OnSeeded(seedtype, animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnSeeded(seedtype, animtime));
             else
                 switch (type) {
                     case TileType.SeedDoublerEmpty:
@@ -510,7 +503,7 @@ namespace Tables {
 
             yield return new WaitForSeconds(animtime);
 
-            if (InventoryManager.Instance.SeedsInventory[seedtype] > 0) {
+            if (InventoryManager.SeedsInventory[seedtype] > 0) {
                 if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeSeeded()) {
                     yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnSeeded(seedtype, animtime);
                     InventoryManager.Instance.LoseSeed(seedtype);
@@ -540,11 +533,11 @@ namespace Tables {
             } else {
                 TileData data = TilesTable.TileByType(type);
                 if (data.TIndex == 1)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(1, -1, 0)).OnWatered(animtime));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnWatered(animtime));
                 else if (data.TIndex == 2)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(0, -1, 0)).OnWatered(animtime));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnWatered(animtime));
                 else if (data.TIndex == 3)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(-1, 0, 0)).OnWatered(animtime));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime));
                 else
                     switch (type) {
                         case TileType.Dandellion1:
@@ -590,7 +583,7 @@ namespace Tables {
                 if ((neighborTiles[i].type == TileType.Fern1 && type != TileType.Onion1) ||
                     (neighborTiles[i].type == TileType.WateredFern1 && type != TileType.Onion1))
                     multiplier = 2;
-            if (Time.Instance.IsTodayLoveDay)
+            if (TimeManager.Instance.IsTodayLoveDay)
                 multiplier *= 2;
 
             if (TilesTable.TileByType(type).collectAmount > 0) {
@@ -778,7 +771,7 @@ namespace Tables {
                                 if (!tile.IsBuilding && tile.crop != Crop.Peanut && tile.crop != Crop.None) {
                                     soilTiles[rnd].SwitchType(TileType.PeanutDead);
 
-                                    Vector3Int curPose = soilTiles[rnd]._position;
+                                    Vector2Int curPose = soilTiles[rnd]._position;
                                     soilTiles = _tilemap.GetNeighborsWithType(curPose, TileType.Peanut1);
 
                                     int whileStopper = 0;
@@ -849,22 +842,22 @@ namespace Tables {
 
             TileData data = TilesTable.TileByType(type);
             if (data.TIndex == 1)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(1, -1, 0)).OnClicked(animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnClicked(animtime));
             else if (data.TIndex == 2)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(0, -1, 0)).OnClicked(animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnClicked(animtime));
             else if (data.TIndex == 3)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector3Int(-1, 0, 0)).OnClicked(animtime));
+                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnClicked(animtime));
             else
                 switch (type) {
                     case TileType.BiogenEmpty:
 
                         List<SmartTile> weedArea = new() {
-                            _tilemap.GetTile(_position + new Vector3Int(2, 0, 0)),
-                            _tilemap.GetTile(_position + new Vector3Int(3, 0, 0)),
-                            _tilemap.GetTile(_position + new Vector3Int(4, 0, 0)),
-                            _tilemap.GetTile(_position + new Vector3Int(1, 1, 0)),
-                            _tilemap.GetTile(_position + new Vector3Int(2, 1, 0)),
-                            _tilemap.GetTile(_position + new Vector3Int(3, 1, 0))
+                            _tilemap.GetTile(_position + new Vector2Int(2, 0)),
+                            _tilemap.GetTile(_position + new Vector2Int(3, 0)),
+                            _tilemap.GetTile(_position + new Vector2Int(4, 0)),
+                            _tilemap.GetTile(_position + new Vector2Int(1, 1)),
+                            _tilemap.GetTile(_position + new Vector2Int(2, 1)),
+                            _tilemap.GetTile(_position + new Vector2Int(3, 1))
                         };
                         while (weedArea.Count > 0) {
                             SmartTile tile = weedArea[Random.Range(0, weedArea.Count)];
@@ -888,8 +881,6 @@ namespace Tables {
             BecomeActive();
         }
 
-        /**********/
-
         public void SwitchType(TileType newType, AnimationType animationType = AnimationType.None) {
             type = newType;
             _tilemap.PlaceTile(_position, type);
@@ -903,7 +894,7 @@ namespace Tables {
         }
 
         private void DropCrop(Crop croptype, int amount) {
-            Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld(_position);
+            Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
             for (int i = 0; i < amount; i++) {
                 var obj = Instantiate(CropsTable.Instance.FlyingCropFxPrefab);
                 obj.Init(CropsTable.CropByType(croptype).VegSprite, worldPosition);

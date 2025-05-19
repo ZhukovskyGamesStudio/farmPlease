@@ -43,7 +43,7 @@ namespace UI {
 
             //Если куплена хотя бы 1 постройка - то кнопка перестраивания построек становится активной
             BuildingPanelButton.SetActive(false);
-            foreach (bool build in InventoryManager.Instance.IsBuildingsBoughtD.Values)
+            foreach (bool build in InventoryManager.IsBuildingsBoughtD.Values)
                 if (build) {
                     BuildingPanelButton.SetActive(true);
                     break;
@@ -115,20 +115,20 @@ namespace UI {
 
         public void UpdateButtonsInteractable() {
             foreach (Crop item in _cropButtonsD.Keys)
-                if (InventoryManager.Instance.IsCropsBoughtD.ContainsKey(item))
-                    _cropButtonsD[item].UpdateInteractable(!InventoryManager.Instance.IsCropsBoughtD[item]);
+                if (InventoryManager.IsCropsBoughtD.ContainsKey(item))
+                    _cropButtonsD[item].UpdateInteractable(!InventoryManager.IsCropsBoughtD[item]);
                 else
                     _cropButtonsD[item].UpdateInteractable(true);
 
             foreach (ToolBuff item in _toolButtonsD.Keys)
-                if (InventoryManager.Instance.IsToolsBoughtD.ContainsKey(item))
-                    _toolButtonsD[item].UpdateInteractable(!InventoryManager.Instance.IsToolsBoughtD[item]);
+                if (InventoryManager.IsToolsBoughtD.ContainsKey(item))
+                    _toolButtonsD[item].UpdateInteractable(!InventoryManager.IsToolsBoughtD[item]);
                 else
                     _toolButtonsD[item].UpdateInteractable(true);
 
             foreach (BuildingType item in _buildingButtonsD.Keys)
-                if (InventoryManager.Instance.IsBuildingsBoughtD.ContainsKey(item))
-                    _buildingButtonsD[item].UpdateInteractable(!InventoryManager.Instance.IsBuildingsBoughtD[item]);
+                if (InventoryManager.IsBuildingsBoughtD.ContainsKey(item))
+                    _buildingButtonsD[item].UpdateInteractable(!InventoryManager.IsBuildingsBoughtD[item]);
                 else
                     _buildingButtonsD[item].UpdateInteractable(true);
         }

@@ -33,7 +33,7 @@ public class PlayerController : Singleton<PlayerController> {
     private bool _fromShop;
 
     private GraphicRaycaster _graphicRaycaster;
-    private Vector3Int _newBuildingcoord, _oldBuilddingscoord, _helpBuildingsCoord;
+    private Vector2Int _newBuildingcoord, _oldBuilddingscoord, _helpBuildingsCoord;
 
     private SmartTilemap _smartTilemap;
     private UIHud _uiHud;
@@ -82,11 +82,11 @@ public class PlayerController : Singleton<PlayerController> {
 
         if (isBuilding && _currentTile != null) {
             Vector3Int tmp = _buildingTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            if (tmp != _newBuildingcoord) {
+            if ((Vector2Int)tmp != _newBuildingcoord) {
                 _buildingTilemap.ClearAllTiles();
                 _buildingTilemap.SetTile(tmp, _currentTile);
 
-                _newBuildingcoord = tmp;
+                _newBuildingcoord = (Vector2Int)tmp;
             }
         }
     }
@@ -101,10 +101,10 @@ public class PlayerController : Singleton<PlayerController> {
 
         ChangeTool(0);
         isBuilding = false;
-        _oldBuilddingscoord = new Vector3Int(1000, 1000, 1000);
+        _oldBuilddingscoord = new Vector2Int(1000, 1000);
     }
 
-    /**********/
+     
 
     public void Click() {
         if (isBuilding) {
@@ -235,7 +235,7 @@ public class PlayerController : Singleton<PlayerController> {
                     if (Energy.Instance.HasEnergy())
                         if (_smartTilemap.AvailabilityCheck("hoe")) {
                             Energy.Instance.LoseOneEnergy();
-                            Vector3Int coord = _smartTilemap.Playercoord;
+                            Vector2Int coord = _smartTilemap.Playercoord;
                             yield return StartCoroutine(_smartTilemap.HoeTile());
 
                             if (InventoryManager.Instance.IsToolWorking(ToolBuff.Doublehoe))
@@ -256,7 +256,7 @@ public class PlayerController : Singleton<PlayerController> {
 
                 case Tool.SeedBag:
                     if (Energy.Instance.HasEnergy() || InventoryManager.Instance.IsToolWorking(ToolBuff.Carpetseeder))
-                        if (InventoryManager.Instance.SeedsInventory[seedBagCrop] > 0)
+                        if (InventoryManager.SeedsInventory[seedBagCrop] > 0)
                             if (_smartTilemap.AvailabilityCheck("seed")) {
                                 InventoryManager.Instance.LoseSeed(seedBagCrop);
                                 if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Carpetseeder))
@@ -274,7 +274,7 @@ public class PlayerController : Singleton<PlayerController> {
                     if (InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe) &&
                         _smartTilemap.GetPlayerTile().type == TileType.WateredSoil) {
                         if (Energy.Instance.HasEnergy()) {
-                            Vector3Int coord = _smartTilemap.Playercoord;
+                            Vector2Int coord = _smartTilemap.Playercoord;
                             while (_smartTilemap.GetTile(coord).type == TileType.WateredSoil)
                                 yield return StartCoroutine(_smartTilemap.GetTile(coord)
                                     .OnNeyDayed(_smartTilemap.animtime));

@@ -11,7 +11,7 @@ namespace UI {
         public BatteryView BatteryView;
         public ScreenEffect screenEffect;
         public FastPanelScript FastPanelScript;
-        public TimePanel TimePanel;
+        public TimePanelView TimePanelView;
         public Backpack Backpack;
         public ShopsPanel ShopsPanel;
         public HelloPanelView HelloPanel;
@@ -27,12 +27,14 @@ namespace UI {
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
         public ProfileDialog ProfileDialog;
+        public Croponom Croponom;
+        protected override bool IsDontDestroyOnLoad => false;
 
         public void ClosePanel() {
             if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
                 Settings.Instance.SettingsPanel.gameObject.SetActive(false);
-            else if (TimePanel.isOpen)
-                TimePanel.CalendarPanelOpenClose();
+            else if (TimePanelView.isOpen)
+                TimePanelView.CalendarPanelOpenClose();
             else if (ShopsPanel.toolShopView.gameObject.activeSelf)
                 ShopsPanel.toolShopView.gameObject.SetActive(false);
             else if (ShopsPanel.seedShopView.gameObject.activeSelf)
@@ -104,7 +106,7 @@ namespace UI {
             CroponomButton.gameObject.SetActive(!isActive);
             ShopsPanel.gameObject.SetActive(!isActive);
             Backpack.gameObject.SetActive(!isActive);
-            TimePanel.gameObject.SetActive(!isActive);
+            TimePanelView.gameObject.SetActive(!isActive);
             FastPanelScript.gameObject.SetActive(!isActive);
             BatteryView.gameObject.SetActive(!isActive);
         }

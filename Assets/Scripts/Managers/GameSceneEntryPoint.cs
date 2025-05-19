@@ -10,14 +10,13 @@ namespace Managers {
         protected override void Start() {
             Init();
             LoadGame();
-
+            Settings.Instance.InitSettingsView();
             Clock.Instance.TryRefillForRealtimePassed();
         }
 
         private static void Init() {
             PlayerController.Instance.Init();
             UIHud.Instance.FastPanelScript.Init();
-            InventoryManager.Instance.Init();
             TilesTable.Instance.CreateDictionary();
         }
 
@@ -26,6 +25,8 @@ namespace Managers {
                 SaveLoadManager.ClearSave();
 
             SaveLoadManager.LoadGame();
+            FirstSessionManager firstSessionManager = new();
+            firstSessionManager.TryStartFtue();
 
             SetLoadedData();
         }
@@ -39,15 +40,15 @@ namespace Managers {
 
             SmartTilemap.Instance.GenerateTilesWithData(save.TilesData);
 
-            InventoryManager.Instance.SetInventoryWithData(save);
+            InventoryManager.Instance.SetInventoryWithData();
             UIHud.Instance.FastPanelScript.UpdateToolsImages();
-            
+
             UIHud.Instance.ShopsPanel.BuildingShopView.InitializeWithData(save.BuildingPrice);
-            
-            // В этом методе запускаете ежесекудный корутин, который подсчитывает кол-во прошедших дней.
+
+            // В этом методе запускается ежесекудный корутин, который подсчитывает кол-во прошедших дней.
 
             DateTime dateTime = DateTime.Parse(save.Date, CultureInfo.InvariantCulture);
-            Time.Instance.SetDaysWithData(save.Days, dateTime);
+            TimeManager.Instance.SetDaysWithData(save.Days, dateTime);
         }
     }
 }

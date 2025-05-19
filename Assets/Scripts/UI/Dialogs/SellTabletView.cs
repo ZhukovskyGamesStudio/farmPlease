@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using Tables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using ZhukovskyGamesPlugin;
-using Time = Managers.Time;
 
 namespace UI{
     public class SellTabletView : CustomMonoBehaviour{
@@ -101,7 +99,7 @@ namespace UI{
 
         private void OnSelectedAmountChange(int _ = 0) {
             int selectedAmount = CountSelectedCrops();
-            int reward = selectedAmount * (Time.Instance.IsTodayLoveDay ? 2 : 1);
+            int reward = selectedAmount * (TimeManager.Instance.IsTodayLoveDay ? 2 : 1);
             _sellAmountText.text = selectedAmount.ToString();
             _sellForAmountText.text = reward.ToString();
             _sellAllButton.interactable = selectedAmount > 0;

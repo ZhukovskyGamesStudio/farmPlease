@@ -4,7 +4,6 @@ using Managers;
 using Tables;
 using UnityEngine;
 using UnityEngine.UI;
-using Time = Managers.Time;
 
 namespace UI {
     public class ScalesPanelView : MonoBehaviour {
@@ -58,7 +57,7 @@ namespace UI {
             yield return new WaitWhile(() => _animation.isPlaying);
             yield return StartCoroutine(scalesView.SellCrops(crops));
             int cropsAmount = crops.Count;
-            int coinsGain = cropsAmount * (Time.Instance.IsTodayLoveDay ? 2 : 1);
+            int coinsGain = cropsAmount * (TimeManager.Instance.IsTodayLoveDay ? 2 : 1);
             InventoryManager.Instance.AddCoins(coinsGain);
             RemoveCropsFromCollected(crops);
             SaveLoadManager.SaveGame();

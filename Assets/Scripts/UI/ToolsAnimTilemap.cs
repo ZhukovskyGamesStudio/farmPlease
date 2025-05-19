@@ -12,23 +12,24 @@ namespace UI
 
         public float animationTime;
 
-        public void StartAnimationInCoord(Vector3Int coord, AnimationType type) {
+        public void StartAnimationInCoord(Vector2Int coord, AnimationType type) {
             StartCoroutine(PlaceAnimation(coord, type));
         }
 
-        public IEnumerator PlaceAnimation(Vector3Int coord, AnimationType type) {
+        public IEnumerator PlaceAnimation(Vector2Int coord, AnimationType type) {
+            var vec3 = (Vector3Int)coord;
             switch (type) {
                 case AnimationType.Hoe:
-                    AnimationsTilemap.SetTile(coord, hoeAnimation);
+                    AnimationsTilemap.SetTile(vec3, hoeAnimation);
                     break;
                 case AnimationType.Watercan:
-                    AnimationsTilemap.SetTile(coord, watercanAnimation);
+                    AnimationsTilemap.SetTile(vec3, watercanAnimation);
                     break;
             }
 
             yield return new WaitForSeconds(animationTime);
 
-            AnimationsTilemap.SetTile(coord, null);
+            AnimationsTilemap.SetTile(vec3, null);
             yield return false;
         }
     }

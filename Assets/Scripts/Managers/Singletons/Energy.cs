@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using Managers;
+﻿using Managers;
 using UI;
 using ZhukovskyGamesPlugin;
 
 public class Energy : Singleton<Energy> { 
         
-    private const int MAX_ENERGY = 7;
+    public const int MAX_ENERGY = 7;
     public int CurEnergy => SaveLoadManager.CurrentSave.Energy;
+
+    public static void GenerateEnergy() {
+        SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+    }
 
     public void LoseOneEnergy() {
         SaveLoadManager.CurrentSave.Energy--;

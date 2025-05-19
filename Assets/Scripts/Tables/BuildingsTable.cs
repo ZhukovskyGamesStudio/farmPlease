@@ -1,20 +1,13 @@
 ﻿using System;
+using Abstract;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Tables
 {
-    public class BuildingsTable : MonoBehaviour {
-        public static BuildingsTable Instance;
+    public class BuildingsTable : PreloadableSingleton<BuildingsTable> {
         public BuildingConfig[] Buildings;
-
-        public void Awake() {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
-        }
 
         public static BuildingConfig BuildingByType(BuildingType type) {
             for (int i = 0; i < Instance.Buildings.Length; i++)

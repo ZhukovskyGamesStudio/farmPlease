@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Abstract;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +6,6 @@ using ZhukovskyGamesPlugin;
 
 namespace Managers {
     public class LoadingManager : MonoBehaviour {
-        public List<CustomMonoBehaviour> PreloadedManagers;
         private string _sceneName;
         private static bool isGameLoaded;
 
@@ -22,8 +19,13 @@ namespace Managers {
         }
 
         private IEnumerator LoadManagers() {
-            foreach (IPreloadable manager in PreloadedManagers.Cast<IPreloadable>()) {
-                manager.Init();
+            CustomMonoBehaviour[] preloadedManagers =
+                FindObjectsByType<CustomMonoBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            foreach (CustomMonoBehaviour manager in preloadedManagers) {
+                if (manager is IPreloadable preloadable) {
+                    preloadable.Init();
+                }
+               
             }
 
             yield return new WaitForSeconds(_delayBeforeSceneSwitch);

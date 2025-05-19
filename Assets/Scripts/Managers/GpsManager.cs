@@ -31,13 +31,13 @@ namespace Managers
             } else {
                 PlayGamesPlatform.DebugLogEnabled = true;
                 PlayGamesPlatform.Activate();
-                Social.localUser.Authenticate(success => {
+                /*Social.localUser.Authenticate(success => {
                     IsAuthenticated = success;
                     Settings.Instance.SettingsPanel.GpgsUpdated(IsAuthenticated);
                     if (!success)
                         Debug.Instance.Log(
                             "Google Play Services не подключены. Глобальная статистика и рекорды могут не работать");
-                });
+                });*/
             }
 #endif
         }
@@ -96,7 +96,7 @@ namespace Managers
             if (IsAuthenticated)
                 switch (what) {
                     case "tutorialLeaderboard":
-                        Social.ReportScore(score, TutorialLeaderboard, success => { });
+                        //Social.ReportScore(score, TutorialLeaderboard, success => { });
                         break;
                 }
 #endif
@@ -104,7 +104,7 @@ namespace Managers
 
         public void ShowLeaderBoard() {
 #if UNITY_ANDROID
-            Social.ShowLeaderboardUI();
+            //Social.ShowLeaderboardUI();
 #endif
         }
 

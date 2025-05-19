@@ -20,7 +20,7 @@ namespace UI
         private Crop _curCropSeed;
 
         public void Init() {
-            _calendarImage = UIHud.Instance.TimePanel.CalendarImage;
+            _calendarImage = UIHud.Instance.TimePanelView.CalendarImage;
             _backpack = UIHud.Instance.Backpack;
         }
 
@@ -32,7 +32,7 @@ namespace UI
             ScytheImage.sprite = ScytheNormalSprite;
             _calendarImage.sprite = CalendarNormalSprite;
 
-            foreach (ToolBuff type in InventoryManager.Instance.ToolsActivated.Keys) {
+            foreach (ToolBuff type in InventoryManager.ToolsActivated.Keys) {
                 ToolConfig tool = ToolsTable.ToolByType(type);
                 Image toChange = null;
                 switch (tool.toolUIType) {

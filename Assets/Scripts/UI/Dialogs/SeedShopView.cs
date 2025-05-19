@@ -88,7 +88,7 @@ public class SeedShopView : MonoBehaviour {
         foreach (CropConfig key in CropsTable.Instance.Crops) {
             if (key.CanBeBought) {
                 possibleCrops.Add(key.type);
-            } else if (InventoryManager.Instance.IsCropsBoughtD.ContainsKey(key.type) && InventoryManager.Instance.IsCropsBoughtD[key.type]) {
+            } else if (InventoryManager.IsCropsBoughtD.ContainsKey(key.type) && InventoryManager.IsCropsBoughtD[key.type]) {
                 possibleCrops.Add(key.type);
             }
         }
