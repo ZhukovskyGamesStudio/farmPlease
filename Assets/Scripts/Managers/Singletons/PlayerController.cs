@@ -234,8 +234,10 @@ public class PlayerController : Singleton<PlayerController> {
                 case Tool.Hoe:
                     if (Energy.Instance.HasEnergy())
                         if (_smartTilemap.AvailabilityCheck("hoe")) {
+                         
                             Energy.Instance.LoseOneEnergy();
                             Vector2Int coord = _smartTilemap.Playercoord;
+                            InventoryManager.Instance.AddXp(1);
                             yield return StartCoroutine(_smartTilemap.HoeTile());
 
                             if (InventoryManager.Instance.IsToolWorking(ToolBuff.Doublehoe))
@@ -247,8 +249,10 @@ public class PlayerController : Singleton<PlayerController> {
                 case Tool.Watercan:
                     if (Energy.Instance.HasEnergy() || InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan))
                         if (_smartTilemap.AvailabilityCheck("water")) {
-                            if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan))
+                            if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan)) {
                                 Energy.Instance.LoseOneEnergy();
+                            }
+                            InventoryManager.Instance.AddXp(1);
                             yield return StartCoroutine(_smartTilemap.WaterTile());
                         }
 
@@ -259,8 +263,10 @@ public class PlayerController : Singleton<PlayerController> {
                         if (InventoryManager.SeedsInventory[seedBagCrop] > 0)
                             if (_smartTilemap.AvailabilityCheck("seed")) {
                                 InventoryManager.Instance.LoseSeed(seedBagCrop);
-                                if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Carpetseeder))
+                                if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Carpetseeder)) {
                                     Energy.Instance.LoseOneEnergy();
+                                }
+                                InventoryManager.Instance.AddXp(1);
                                 yield return StartCoroutine(_smartTilemap.SeedTile(seedBagCrop));
                             }
 
@@ -268,8 +274,10 @@ public class PlayerController : Singleton<PlayerController> {
 
                 case Tool.Collect:
                     if (InventoryManager.Instance.IsToolWorking(ToolBuff.Wetscythe) &&
-                        _smartTilemap.AvailabilityCheck("water"))
+                        _smartTilemap.AvailabilityCheck("water")) {
+                        InventoryManager.Instance.AddXp(1);
                         yield return StartCoroutine(_smartTilemap.WaterTile());
+                    }
 
                     if (InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe) &&
                         _smartTilemap.GetPlayerTile().type == TileType.WateredSoil) {
@@ -280,6 +288,7 @@ public class PlayerController : Singleton<PlayerController> {
                                     .OnNeyDayed(_smartTilemap.animtime));
                         }
                     } else if (_smartTilemap.AvailabilityCheck("collect")) {
+                        InventoryManager.Instance.AddXp(1);
                         yield return StartCoroutine(_smartTilemap.CollectTile());
                     }
 

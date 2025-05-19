@@ -105,6 +105,14 @@ namespace Managers {
                 SaveLoadManager.CurrentSave.Coins = 0;
             _uiHud.CountersView.CoinsCounter.ChangeAmount(amount);
         }
+        
+        public void AddXp(int amount) {
+            SaveLoadManager.CurrentSave.Xp += amount;
+            //TODO check for level up
+            UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
+        }
+        
+       
 
         /*****Семена*****/
 
@@ -130,6 +138,7 @@ namespace Managers {
                 _fastPanelScript.UpdateSeedFastPanel(crop, SeedsInventory[crop]);
                 SaveLoadManager.SaveGame();
                 StartCoroutine(SmartTilemap.Instance.HappeningSequence());
+                Instance.AddXp(cost);
             }
         }
 

@@ -7,6 +7,7 @@ using ZhukovskyGamesPlugin;
 [Serializable]
 public class GameSaveProfile {
     public int Coins;
+    public int Xp;
     public int Energy;
     public int ClockEnergy;
     public long LastClockRefilledTimestamp = Clock.NowTotalMilliseconds;

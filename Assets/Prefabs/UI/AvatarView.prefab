@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.048880003, g: 0.9622642, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.7869592, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slider: {fileID: 4953582296564284769}
+  <XpProgressBar>k__BackingField: {fileID: 4404307413438001314}
 --- !u!114 &9106665343045435997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5141272808258502190}
   - component: {fileID: 4953582296564284769}
+  - component: {fileID: 4404307413438001314}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -511,6 +513,23 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4404307413438001314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806893459782721323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b17a76fcf514e6a823463abbbe66ad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slider: {fileID: 4953582296564284769}
+  _amountText: {fileID: 0}
+  _icon: {fileID: 21300000, guid: f12f6c5dd263037468fd531f64985d4e, type: 3}
+  _changeUpFx: {fileID: 679118312577467819, guid: 6a2b9ef6d19c498488d72fe81f757f2b,
+    type: 3}
 --- !u!1 &7997292962296428060
 GameObject:
   m_ObjectHideFlags: 0

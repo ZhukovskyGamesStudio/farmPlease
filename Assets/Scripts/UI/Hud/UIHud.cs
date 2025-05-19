@@ -28,6 +28,7 @@ namespace UI {
         public KnowledgeCanSpeak KnowledgeCanSpeak;
         public ProfileDialog ProfileDialog;
         public Croponom Croponom;
+        public ProfileView ProfileView;
         protected override bool IsDontDestroyOnLoad => false;
 
         public void ClosePanel() {
@@ -53,6 +54,7 @@ namespace UI {
 
         public void SetCounters() {
             CountersView.SetCounters();
+            ProfileView.SetCounters();
         }
 
         public void ChangeInventoryHover(int index) {
