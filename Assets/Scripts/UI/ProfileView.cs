@@ -9,4 +9,8 @@ public class ProfileView : MonoBehaviour {
     public void OnClick() {
         UIHud.Instance.ProfileDialog.Show();
     }
+
+    public void SetProgress(int from, int to) {
+        
+    }
 }

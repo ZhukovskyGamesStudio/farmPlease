@@ -83,7 +83,7 @@ namespace UI
         }
 
         public void TapOnCurrentDay() {
-            Croponom.Instance.OpenOnPage( WeatherTable.WeatherByType( _currentDay).type.ToString());
+            UIHud.Instance.Croponom.OpenOnPage( WeatherTable.WeatherByType( _currentDay).type.ToString());
         }
         
         public void CalendarPanelOpenClose() {

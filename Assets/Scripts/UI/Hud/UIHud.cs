@@ -83,7 +83,7 @@ namespace UI {
         }
 
         public void OpenCroponom() {
-            Croponom.Instance.Open();
+            UIHud.Instance.Croponom.Open();
         }
 
         public void OpenSettings() {
