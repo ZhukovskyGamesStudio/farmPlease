@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 
 namespace Managers {
     public class SaveLoadManager : Singleton<SaveLoadManager> {
-        public static int Profile = -2;
 
         private BuildingShopView _buildingShopView;
         private FastPanelScript _fastPanelScript;
@@ -23,8 +22,6 @@ namespace Managers {
 
         private ToolShopView _toolShop;
         public static GameSaveProfile CurrentSave;
-
-        public static string SaveDirectory => $"{Application.persistentDataPath}/saves";
 
         // Пока в игре происходят какие-то действия, игрок не может ничего сделать
         // По окончанию этих действий игрок снова может что-то делать, а игра сохраняется. Если последовательность не была завершена - то игра не сохранится и откатится назад при след. загрузке
