@@ -125,16 +125,17 @@ namespace Managers {
 #endif
         }
 
-        public static void GenerateGame() {
+        private static void GenerateGame() {
             CurrentSave = new GameSaveProfile() {
                 Coins = 3,
                 CropPoints = 0,
                 SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
                 Date = TimeManager.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
-                AmbarCrop = Crop.None
+                AmbarCrop = Crop.None,
+                Unlocked = UnlockableUtils.GetInitialUnlockables(),
+                TilesData =  SmartTilemap.GenerateTiles()
             };
-
-            SmartTilemap.GenerateTiles();
+            
             InventoryManager.GenerateInventory();
 
             Energy.GenerateEnergy();

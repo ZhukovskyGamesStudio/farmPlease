@@ -7,13 +7,13 @@ using ZhukovskyGamesPlugin;
 namespace Managers {
     public class LoadingManager : MonoBehaviour {
         private string _sceneName;
-        private static bool isGameLoaded;
+        public static bool IsGameLoaded { get; private set; }
 
         [SerializeField]
         private float _delayBeforeSceneSwitch = 1;
 
         public void StartLoading() {
-            if (isGameLoaded)
+            if (IsGameLoaded)
                 return;
             StartCoroutine(LoadManagers());
         }
@@ -30,7 +30,7 @@ namespace Managers {
 
             yield return new WaitForSeconds(_delayBeforeSceneSwitch);
 
-            isGameLoaded = true;
+            IsGameLoaded = true;
             if (SceneManager.GetActiveScene().name == "LoadingScene") {
                 LoadGameScene();
             }

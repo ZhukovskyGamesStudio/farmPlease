@@ -23,6 +23,7 @@ namespace Tables
 
     [Serializable]
     public enum ToolBuff {
+        None = -1,
         Doublehoe,
         Unlimitedwatercan,
         Weatherometr,

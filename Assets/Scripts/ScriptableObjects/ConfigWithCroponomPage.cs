@@ -1,6 +1,5 @@
 using UnityEngine;
 
-namespace ScriptableObjects {
     public abstract class ConfigWithCroponomPage : ScriptableObject {
         [Header("CroponomPage")]
         public Sprite gridIcon;
@@ -19,5 +18,6 @@ namespace ScriptableObjects {
         public string secondText;
 
         public Sprite secondSprite;
+        
+        public abstract string GetUnlockable();
     }
-}

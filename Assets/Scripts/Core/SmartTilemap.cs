@@ -51,7 +51,7 @@ public class SmartTilemap : MonoBehaviour {
         Playercoord = (Vector2Int)MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
     }
 
-    public static void GenerateTiles() {
+    public static TilesData GenerateTiles() {
         var tilesData = new TilesData();
 
         int circle = 0;
@@ -78,7 +78,7 @@ public class SmartTilemap : MonoBehaviour {
             }
         }
 
-        SaveLoadManager.CurrentSave.TilesData = tilesData;
+        return tilesData;
     }
 
     public TilesData GetTilesData() {

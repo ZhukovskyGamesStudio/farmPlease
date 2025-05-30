@@ -14,9 +14,11 @@ namespace Managers
 
         protected override void OnFirstInit() {
             if (IsDevelopmentBuild) {
+                DebugPanel.SetActive(true);
                 LogButton.SetActive(true);
                 Instance.Clear();
             } else {
+                DebugPanel.SetActive(false);
                 LogButton.SetActive(false);
             }
         }

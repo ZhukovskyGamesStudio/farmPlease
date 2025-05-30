@@ -105,11 +105,17 @@ namespace Managers {
                 SaveLoadManager.CurrentSave.Coins = 0;
             _uiHud.CountersView.CoinsCounter.ChangeAmount(amount);
         }
-        
+
         public void AddXp(int amount) {
             SaveLoadManager.CurrentSave.Xp += amount;
-            //TODO check for level up
-            UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
+            if (XpUtils.IsNextLevel(SaveLoadManager.CurrentSave.CurrentLevel, SaveLoadManager.CurrentSave.Xp)) {
+                var reward = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
+                SaveLoadManager.CurrentSave.CurrentLevel++;
+                DialogsManager.Instance.ShowRewardDialog(reward);
+                UIHud.Instance.ProfileView.SetCounters();
+            } else {
+                UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
+            }
         }
         
        
@@ -132,14 +138,18 @@ namespace Managers {
 
         public void BuySeed(Crop crop, int cost, int amount) {
             if (SaveLoadManager.CurrentSave.Coins >= cost) {
-                SeedsInventory[crop] += amount;
-                AddCoins(-1 * cost);
-                UpdateInventoryUI();
-                _fastPanelScript.UpdateSeedFastPanel(crop, SeedsInventory[crop]);
-                SaveLoadManager.SaveGame();
-                StartCoroutine(SmartTilemap.Instance.HappeningSequence());
                 Instance.AddXp(cost);
+                AddCoins(-1 * cost);
+                AddSeed(crop, amount);
+                StartCoroutine(SmartTilemap.Instance.HappeningSequence());
             }
+        }
+
+        public void AddSeed(Crop crop, int amount) {
+            SeedsInventory[crop] += amount;
+            UpdateInventoryUI();
+            _fastPanelScript.UpdateSeedFastPanel(crop, SeedsInventory[crop]);
+            SaveLoadManager.SaveGame();
         }
 
         public void LoseSeed(Crop crop) {
@@ -195,10 +205,14 @@ namespace Managers {
         /*****Инструменты*****/
 
         public void BuyTool(ToolBuff buff, int cost, int amount) {
-            if (!ToolsStored.ContainsKey(buff))
-                ToolsStored.Add(buff, 0);
-
             AddCoins(-1 * cost);
+            AddTool(buff, amount);
+        }
+        
+        public void AddTool(ToolBuff buff, int amount) {
+            if (!ToolsStored.ContainsKey(buff)) {
+                ToolsStored.Add(buff, 0);
+            }
 
             ToolsStored[buff] += amount;
             UpdateInventoryUI();

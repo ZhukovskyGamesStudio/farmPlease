@@ -8,6 +8,7 @@ using ZhukovskyGamesPlugin;
 public class GameSaveProfile {
     public int Coins;
     public int Xp;
+    public int CurrentLevel;
     public int Energy;
     public int ClockEnergy;
     public long LastClockRefilledTimestamp = Clock.NowTotalMilliseconds;
@@ -42,5 +43,6 @@ public class GameSaveProfile {
     public int BuildingPrice;
 
     public List<Knowledge> KnowledgeList = new List<Knowledge>();
+    public List<string> Unlocked = new List<string>();
     public SettingsData SettingsData = new SettingsData();
 }

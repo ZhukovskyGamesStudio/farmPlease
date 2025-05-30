@@ -37,6 +37,7 @@ public class PlayerController : Singleton<PlayerController> {
 
     private SmartTilemap _smartTilemap;
     private UIHud _uiHud;
+    protected override bool IsDontDestroyOnLoad => false;
 
     private void Update() {
         if (CanInteract) {

@@ -2,8 +2,7 @@ using System;
 using Tables;
 using UnityEngine;
 
-namespace ScriptableObjects
-{
+namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "Weather", menuName = "Scriptable Objects/Weather", order = 4)]
     [Serializable]
     public class WeatherConfig : ConfigWithCroponomPage {
@@ -14,5 +13,7 @@ namespace ScriptableObjects
 
         [Header("HUDElements")]
         public Sprite DaySprite;
+
+        public override string GetUnlockable() => type.ToString();
     }
 }

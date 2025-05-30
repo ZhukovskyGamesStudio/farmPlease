@@ -28,5 +28,6 @@ namespace ScriptableObjects
         public bool isAlwaysAvailable;
 
         public Sprite FoodMarketSprite;
+        public override string GetUnlockable() => buff.ToString();
     }
 }

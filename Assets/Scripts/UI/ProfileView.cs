@@ -11,7 +11,9 @@ public class ProfileView : MonoBehaviour {
     public AnimatableProgressbar XpProgressBar { get; private set; }
 
     public void SetCounters() {
-        XpProgressBar.SetAmount(SaveLoadManager.CurrentSave.Xp, XpUtils.GetNextLevelByXp(SaveLoadManager.CurrentSave.Xp));
+        int curLevelMin = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel);
+        int nextLevel = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel + 1);
+        XpProgressBar.SetAmount(SaveLoadManager.CurrentSave.Xp - curLevelMin, nextLevel - curLevelMin);
     }
 
     public void OnClick() {

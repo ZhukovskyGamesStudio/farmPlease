@@ -20,5 +20,6 @@ namespace ScriptableObjects
         public string explainText;
         public int buyAmount;
         public int Rarity;
+        public override string GetUnlockable() => type.ToString();
     }
 }

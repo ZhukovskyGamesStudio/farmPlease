@@ -7,6 +7,13 @@ using UnityEngine.SceneManagement;
 
 namespace Managers {
     public class GameSceneEntryPoint : SceneEntryPoint {
+        private void Awake() {
+            if(ChangeToLoading.TryChangeScene()) {
+                SceneManager.LoadScene("LoadingScene");
+                return;
+            }
+        }
+
         protected override void Start() {
             Init();
             LoadGame();

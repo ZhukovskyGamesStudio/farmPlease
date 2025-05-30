@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Abstract;
 using Managers;
-using ScriptableObjects;
 using Tables;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +11,7 @@ using ZhukovskyGamesPlugin;
 namespace UI {
     public class Croponom : Singleton<Croponom>, ISoundStarter {
         public FactsPage FactsPage;
-        public Button GridButtonPrefab;
+        public CroponomGridButtonView GridButtonPrefab;
 
         [Header("Crops")]
         public Toggle CropsOpenButton;
@@ -35,9 +34,9 @@ namespace UI {
         public GameObject WeatherGrid;
         public WeatherTable WeatherTablePrefab;
 
-        private List<Button> _cropsButtons;
-        private List<Button> _toolButtons;
-        private List<Button> _weatherButtons;
+        private List<CroponomGridButtonView> _cropsButtons;
+        private List<CroponomGridButtonView> _toolButtons;
+        private List<CroponomGridButtonView> _weatherButtons;
 
         [SerializeField]
         private GameObject Panel;
@@ -52,6 +51,17 @@ namespace UI {
 
         public void Open() {
             Panel.SetActive(true);
+            foreach (CroponomGridButtonView button in _cropsButtons) {
+                button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
+            }
+
+            foreach (CroponomGridButtonView button in _toolButtons) {
+                button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
+            }
+
+            foreach (CroponomGridButtonView button in _weatherButtons) {
+                button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
+            }
         }
 
         public void OpenCropsPage(bool isOpen) {
@@ -111,11 +121,6 @@ namespace UI {
             CropsOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(CropsTablePrefab.Crops[0], _));
             WeatherOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(WeatherTablePrefab.WeathersSO[0], _));
             ToolsOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(ToolsTablePrefab.ToolsSO[0], _));
-            foreach (Button button in _cropsButtons) button.onClick.RemoveAllListeners();
-
-            foreach (Button button in _weatherButtons) button.onClick.RemoveAllListeners();
-
-            foreach (Button button in _toolButtons) button.onClick.RemoveAllListeners();
         }
 
         private void TryOpenPage(ConfigWithCroponomPage pageData, bool check) {
@@ -129,46 +134,25 @@ namespace UI {
         }
 
         private void GenerateAllButtons() {
-            GenerateCropsButtons();
-            GenerateWeatherButtons();
-            GenerateToolsButtons();
+            _cropsButtons = GenerateButtons(CropsTablePrefab.Crops, CropsGrid.transform);
+            _weatherButtons = GenerateButtons(WeatherTablePrefab.WeathersSO, WeatherGrid.transform);
+            _toolButtons = GenerateButtons(ToolsTablePrefab.ToolsSO, ToolsGrid.transform);
 
             SubscribeTabButtons();
 
-            FactsPage.UpdatePage(CropsTablePrefab.Crops[0]);
+            OpenPage(CropsTablePrefab.Crops[0]);
         }
 
-        private void GenerateWeatherButtons() {
-            _weatherButtons = new List<Button>();
-            foreach (WeatherConfig weatherData in WeatherTablePrefab.WeathersSO) {
-                Button weatherButton = Instantiate(GridButtonPrefab, WeatherGrid.transform);
-                weatherButton.onClick.AddListener(() => FactsPage.UpdatePage(weatherData));
-
-                weatherButton.GetComponent<Image>().sprite = weatherData.gridIcon;
-                _weatherButtons.Add(weatherButton);
+        private List<CroponomGridButtonView> GenerateButtons<TConfig>(IEnumerable<TConfig> configs, Transform parent)
+            where TConfig : ConfigWithCroponomPage {
+            List<CroponomGridButtonView> buttonList = new List<CroponomGridButtonView>();
+            foreach (var config in configs) {
+                CroponomGridButtonView button = Instantiate(GridButtonPrefab, parent);
+                button.SetData(config, FactsPage.UpdatePage);
+                buttonList.Add(button);
             }
-        }
 
-        private void GenerateCropsButtons() {
-            _cropsButtons = new List<Button>();
-            foreach (CropConfig cropData in CropsTablePrefab.Crops) {
-                Button cropButton = Instantiate(GridButtonPrefab, CropsGrid.transform);
-                cropButton.onClick.AddListener(() => FactsPage.UpdatePage(cropData));
-
-                cropButton.GetComponent<Image>().sprite = cropData.gridIcon;
-                _cropsButtons.Add(cropButton);
-            }
-        }
-
-        private void GenerateToolsButtons() {
-            _toolButtons = new List<Button>();
-            foreach (ToolConfig toolData in ToolsTablePrefab.ToolsSO) {
-                Button toolButton = Instantiate(GridButtonPrefab, ToolsGrid.transform);
-                toolButton.onClick.AddListener(() => FactsPage.UpdatePage(toolData));
-
-                toolButton.GetComponent<Image>().sprite = toolData.gridIcon;
-                _toolButtons.Add(toolButton);
-            }
+            return buttonList;
         }
 
         public void PlaySound(int soundIndex) {
