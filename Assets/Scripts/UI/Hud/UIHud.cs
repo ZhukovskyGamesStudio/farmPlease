@@ -112,5 +112,10 @@ namespace UI {
             FastPanelScript.gameObject.SetActive(!isActive);
             BatteryView.gameObject.SetActive(!isActive);
         }
+
+        public void DisableLockedUI() {
+            ShopsPanel.ToolShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.ToolShop.ToString()));
+            ShopsPanel.BuildingShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString()));
+        }
     }
 }

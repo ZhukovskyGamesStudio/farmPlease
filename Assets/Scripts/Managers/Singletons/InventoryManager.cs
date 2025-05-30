@@ -107,6 +107,9 @@ namespace Managers {
         }
 
         public void AddXp(int amount) {
+            if (!KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+                return;
+            }
             SaveLoadManager.CurrentSave.Xp += amount;
             if (XpUtils.IsNextLevel(SaveLoadManager.CurrentSave.CurrentLevel, SaveLoadManager.CurrentSave.Xp)) {
                 var reward = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel].Reward;

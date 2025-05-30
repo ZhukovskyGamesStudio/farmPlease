@@ -53,8 +53,7 @@ namespace Managers {
             DisableUiParts();
 
             PlayerController.Instance.ChangeTool(Tool.Collect);
-            ShowSpeakingBot(FtueConfig.StartHint);
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
+            await ShowSpeakingBot(FtueConfig.StartHint);
             _isWaitingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ChangeSpeak(FtueConfig.StartHint2, StepEnded, true);
             //ShowSpeakingBot(_ftueConfig.StartHint2);
@@ -98,15 +97,16 @@ namespace Managers {
 
             await (ShowSeedShopSpotlight());
             await (ShowBuyTomatoSpotlight());
-            await (ShowBuyEggplantSpotlight());
+            //await (ShowBuyEggplantSpotlight());
             await (ShowCloseSeedShopSpotlight());
 
-            await (ShowCroponomSpotlight());
+            //await (ShowCroponomSpotlight());
 
+           
+            await ShowSpeakingBot(FtueConfig.EndHint, true);
+            await ShowGetNextLevelSpotlight();
+            
             EnableUiParts();
-            ShowSpeakingBot(FtueConfig.EndHint, true);
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-
             KnowledgeUtils.AddKnowledge(Knowledge.Training);
             _endFtueCts.Cancel();
             _endFtueCts.Dispose();
@@ -173,15 +173,18 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = true;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = false;
+            
+            UIHud.Instance.DisableLockedUI();
         }
 
         private void StepEnded() {
             _isWaitingForStepEnd = false;
         }
 
-        private void ShowSpeakingBot(string hintText, bool isHidingAfter = false) {
+        private async UniTask ShowSpeakingBot(string hintText, bool isHidingAfter = false) {
             _isWaitingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ShowSpeak(hintText, StepEnded, isHidingAfter);
+            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
         private async UniTask ShowEnergySpotlight() {
@@ -356,7 +359,7 @@ namespace Managers {
         private async UniTask ShowSeedShopSpotlight() {
             _isWaitingForStepEnd = true;
             UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.SetSeedsShop(Crop.Tomato, Crop.Eggplant);
+            UIHud.Instance.ShopsPanel.seedShopView.SetSeedsShop(Crop.Tomato, Crop.Tomato);
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.gameObject.SetActive(false);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.SeedShopButton, FtueConfig.SeedShopHint, StepEnded,
                 true);
@@ -397,7 +400,7 @@ namespace Managers {
 
             UIHud.Instance.ShopsPanel.seedShopView.CloseButton.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.JumpSpotlightFromVeryBigOnButton(UIHud.Instance.ShopsPanel.seedShopView.CloseButton,
-                FtueConfig.CloseSeedsShopHint, StepEnded);
+                FtueConfig.CloseSeedsShopHint, StepEnded, true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
@@ -410,6 +413,12 @@ namespace Managers {
             UIHud.Instance.Croponom.OnClose += UIHud.Instance.SpotlightWithText.Hide;
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             UIHud.Instance.Croponom.OnClose -= UIHud.Instance.SpotlightWithText.Hide;
+        }
+        
+        private async UniTask ShowGetNextLevelSpotlight() {
+            _isWaitingForStepEnd = true;
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ProfileView.transform, FtueConfig.ProfileHint, StepEnded);
+            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
     }
 }

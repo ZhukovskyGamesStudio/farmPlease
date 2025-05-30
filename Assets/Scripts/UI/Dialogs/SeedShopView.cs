@@ -86,11 +86,19 @@ public class SeedShopView : MonoBehaviour {
     private void ChangeSeeds() {
         List<Crop> possibleCrops = new();
         foreach (CropConfig key in CropsTable.Instance.Crops) {
+            if (!UnlockableUtils.HasUnlockable(key.type)) {
+                continue;
+            }
             if (key.CanBeBought) {
                 possibleCrops.Add(key.type);
             } else if (InventoryManager.IsCropsBoughtD.ContainsKey(key.type) && InventoryManager.IsCropsBoughtD[key.type]) {
                 possibleCrops.Add(key.type);
             }
+        }
+
+        if (possibleCrops.Count == 1) {
+            SetSeedsShop(possibleCrops[0], possibleCrops[0]);
+            return;
         }
 
         Crop firstCrop = possibleCrops[Random.Range(0, possibleCrops.Count)];

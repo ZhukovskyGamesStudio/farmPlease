@@ -34,6 +34,7 @@ namespace ScriptableObjects {
         public SpotlightAnimConfig CloseSeedsShopHint;
 
         public SpotlightAnimConfig BookHint;
+        public SpotlightAnimConfig ProfileHint;
 
         [Multiline] public string EndHint;
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Tables;
 using UI;
 using UnityEngine;
@@ -83,6 +84,13 @@ namespace Managers {
                 Debug.Instance.Log("Generating finished. Saving started");
                 SaveGame();
                 Debug.Instance.Log("New profile is saved");
+            }
+
+            if (CurrentSave.Unlocked == null) {
+                CurrentSave.Unlocked = UnlockableUtils.GetInitialUnlockables();
+            } else {
+                CurrentSave.Unlocked.AddRange(UnlockableUtils.GetInitialUnlockables());
+                CurrentSave.Unlocked = CurrentSave.Unlocked.Distinct().ToList();
             }
             //TODO update everything else and move to another manager
         }

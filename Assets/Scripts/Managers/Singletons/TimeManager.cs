@@ -18,7 +18,7 @@ namespace Managers {
         private static int _skipDaysAmount;
 
         [SerializeField]
-        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint, _foodMarketHint;
+        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint,_toolMarketHint, _foodMarketHint;
 
         public static List<HappeningType> Days => SaveLoadManager.CurrentSave.Days;
 
@@ -104,7 +104,7 @@ namespace Managers {
 
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + _skipDaysAmount;
-                if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training) {
+                if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training && SaveLoadManager.CurrentSave.CurrentMonth > 0) {
                     Days[i] = HappeningType.FoodMarket;
                 } else if ((i + 1) % 5 == 0) {
                     if (isTrainingRainNext) {
@@ -113,16 +113,25 @@ namespace Managers {
                         continue;
                     }
 
-                    int rnd = Random.Range(0, 4);
-
-                    Days[i] = rnd switch {
-                        0 => HappeningType.Rain,
-                        1 => HappeningType.Erosion,
-                        2 => HappeningType.Wind,
-                        3 => HappeningType.Insects,
-                        _ => Days[i]
+                  
+                    List<HappeningType> possibleHappenings = new List<HappeningType> {
+                        HappeningType.Rain, HappeningType.Erosion, HappeningType.Wind, HappeningType.Insects
                     };
-                } else if (i == love) {
+                    if (UnlockableUtils.HasUnlockable(HappeningType.Rain)) {
+                        possibleHappenings.Add(HappeningType.Rain);
+                    }
+                    if (UnlockableUtils.HasUnlockable(HappeningType.Erosion)) {
+                        possibleHappenings.Add(HappeningType.Erosion);
+                    }
+                    if (UnlockableUtils.HasUnlockable(HappeningType.Wind)) {
+                        possibleHappenings.Add(HappeningType.Wind);
+                    }
+                    if (UnlockableUtils.HasUnlockable(HappeningType.Insects)) {
+                        possibleHappenings.Add(HappeningType.Insects);
+                    }
+                    int rnd = Random.Range(0, possibleHappenings.Count);
+                    Days[i] = possibleHappenings[rnd];
+                } else if (i == love &&  UnlockableUtils.HasUnlockable(HappeningType.Love)) {
                     Days[i] = HappeningType.Love;
                 }
             }
@@ -140,7 +149,7 @@ namespace Managers {
             if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.LilCalendar)) {
                 TryShowHappeningHint();
             }
-
+            
             if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.FoodMarket)) {
                 TryShowFoodMarketHint();
             }
@@ -165,11 +174,13 @@ namespace Managers {
             UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanelView.CalendarPanel.transform, _weatherHint,
                 delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); });
         }
+        
+        
+       
 
         private void TryShowFoodMarketHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
-                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.ShopsPanel.BuildingShopButton, _foodMarketHint,
-                    delegate { KnowledgeUtils.AddKnowledge(Knowledge.FoodMarket); }, true);
+               UnlockableUtils.Unlock(HappeningType.FoodMarket);
             }
         }
 

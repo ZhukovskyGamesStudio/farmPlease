@@ -69,12 +69,18 @@ namespace UI {
 
         public void ChangeTools() {
             List<ToolBuff> possibleTools = ToolsTable.Tools
-                .Where(key => ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.IsToolsBoughtD[key]).ToList();
+                .Where(key => UnlockableUtils.HasUnlockable(key) && (ToolsTable.ToolByType(key).isAlwaysAvailable || InventoryManager.IsToolsBoughtD[key])).ToList();
 
             GameSaveProfile sv = SaveLoadManager.CurrentSave;
-            sv.ToolFirstOffer = possibleTools[Random.Range(0, possibleTools.Count)];
-            possibleTools.Remove(sv.ToolFirstOffer);
-            sv.ToolSecondOffer = possibleTools[Random.Range(0, possibleTools.Count)];
+            if (possibleTools.Count == 1) {
+                sv.ToolFirstOffer = possibleTools[0];
+                sv.ToolSecondOffer = possibleTools[0];
+            } else {
+                sv.ToolFirstOffer = possibleTools[Random.Range(0, possibleTools.Count)];
+                possibleTools.Remove(sv.ToolFirstOffer);
+                sv.ToolSecondOffer = possibleTools[Random.Range(0, possibleTools.Count)];
+            }
+         
             sv.ToolFirstOfferActive = true;
             sv.ToolSecondOfferActive = true;
 

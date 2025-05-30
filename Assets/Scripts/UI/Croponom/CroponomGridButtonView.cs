@@ -6,6 +6,9 @@ public class CroponomGridButtonView : MonoBehaviour {
     [SerializeField]
     private Image _image;
 
+    [SerializeField]
+    private Button _button;
+
     private ConfigWithCroponomPage _config;
     private Action<ConfigWithCroponomPage> _onClick;
 
@@ -16,6 +19,7 @@ public class CroponomGridButtonView : MonoBehaviour {
 
     public void SetLockState(bool isUnlocked) {
         _image.sprite = isUnlocked ? _config.gridIcon : _config.LockedGridIcon;
+        _button.interactable = isUnlocked;
     }
 
     public void OpenPage() {

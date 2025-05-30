@@ -20,5 +20,6 @@ public enum Knowledge {
     Training = 0,
     Weather = 1,
     LilCalendar = 2,
-    FoodMarket = 3,
+    ToolShop = 3,
+    FoodMarket = 4,
 }

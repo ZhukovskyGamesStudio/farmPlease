@@ -31,6 +31,7 @@ public static class RewardUtils {
     public static void ClaimReward(Reward reward) {
         if (reward is RewardWithUnlockable rewardWithUnlockable) {
             UnlockableUtils.Unlock(rewardWithUnlockable.Unlockable);
+            KnowledgeHintsFactory.Instance.TryShowHintByUnlockable(rewardWithUnlockable.Unlockable);
         }
 
         foreach (var item in reward.Items) {

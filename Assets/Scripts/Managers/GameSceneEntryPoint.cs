@@ -19,6 +19,8 @@ namespace Managers {
             LoadGame();
             Settings.Instance.InitSettingsView();
             Clock.Instance.TryRefillForRealtimePassed();
+            KnowledgeHintsFactory.Instance.CheckAllUnshownHints();
+            UIHud.Instance.DisableLockedUI();
         }
 
         private static void Init() {

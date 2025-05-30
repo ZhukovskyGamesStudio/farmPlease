@@ -45,6 +45,8 @@ public static class UnlockableUtils {
 
         // Add initial unlockables here
         initialUnlockables.Add(Crop.Tomato.ToString());
+        initialUnlockables.Add(ToolBuff.Unlimitedwatercan.ToString());
+        initialUnlockables.Add(HappeningType.Rain.ToString());
 
         return initialUnlockables;
     }
@@ -55,6 +57,6 @@ public static class UnlockableUtils {
 [Serializable]
 public enum Unlockable {
     None = -1,
-    Happenings = 0,
-    ToolMarket = 1,
+    ToolShop = 0,
+    FoodMarket = 1,
 }
