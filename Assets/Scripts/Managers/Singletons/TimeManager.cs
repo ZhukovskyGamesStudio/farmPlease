@@ -174,9 +174,6 @@ namespace Managers {
             UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanelView.CalendarPanel.transform, _weatherHint,
                 delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); });
         }
-        
-        
-       
 
         private void TryShowFoodMarketHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {

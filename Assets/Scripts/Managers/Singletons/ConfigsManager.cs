@@ -15,7 +15,10 @@ public class ConfigsManager : PreloadableSingleton<ConfigsManager> {
     public List<UnclockableIcon> UnclockableIcons { get; private set; }
     
     [field:SerializeField]
-    public List<LevelConfig> LevelConfigs { get; private set; } 
+    public List<LevelConfig> LevelConfigs { get; private set; }
+
+    [field: SerializeField]
+    public List<Sprite> LevelsIcon { get; private set; }
 }
 [Serializable]
 public class UnclockableIcon {

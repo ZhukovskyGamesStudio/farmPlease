@@ -40,7 +40,6 @@ public class KnowledgeHintsFactory: MonoBehaviour
         }
     }
     
-    
     public void ShowToolShopHint() {
        
         UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
@@ -51,11 +50,9 @@ public class KnowledgeHintsFactory: MonoBehaviour
     
     public void ShowFoodMarketHint() {
         UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
-        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.BuildingShopButton, _foodMarketHint,
+        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ShopsPanel.BuildingShopButton.transform, _foodMarketHint,
             delegate { KnowledgeUtils.AddKnowledge(Knowledge.FoodMarket); }, true);
         
     }
-
-
  
 }
