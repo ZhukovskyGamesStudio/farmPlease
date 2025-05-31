@@ -31,20 +31,19 @@ public class RewardDialog : DialogBase {
        
 
         int rewardsAmount = reward.Items.Count + (reward is RewardWithUnlockable ? 1 : 0);
-        for (int i = 0; i < rewardsAmount; i++) {
-            if (i == 0 && reward is RewardWithUnlockable rewardWithUnlockable) {
-                combinedRewardViews[i].SetData(RewardUtils.GetRewardIcon(rewardWithUnlockable.Unlockable), rewardWithUnlockable.Unlockable);
-                continue;
-            }
-
-            var item = reward.Items[i+ (reward is RewardWithUnlockable ? -1 : 0)];
-            Sprite icon = item.Type == RewardUtils.COINS_KEY ? _coinRewardIcon : RewardUtils.GetRewardIcon(item.Type);
-            combinedRewardViews[i].SetData(icon, item.Amount);
+        RewardUtils.SetRewardsView(_reward, combinedRewardViews, _coinRewardIcon);
+        for (int i = 0; i < reward.Items.Count; i++) {
+            var item = reward.Items[i];
+          
             if (item.Type != RewardUtils.COINS_KEY) {
                 _clicksNeeded += item.Amount;
             } else {
                 _clicksNeeded++;
             }
+        }
+
+        if (reward is RewardWithUnlockable) {
+            _clicksNeeded++;
         }
 
         _clicksNeeded++;
@@ -55,6 +54,9 @@ public class RewardDialog : DialogBase {
     }
 
     public void ClickChest() {
+        if (_clicksMade >= _clicksNeeded) {
+            return;
+        }
         _clicksMade++;
         _chestAnimation.Play(_chestClick.name);
         _chestAnimation.PlayQueued(_chestIdle.name);

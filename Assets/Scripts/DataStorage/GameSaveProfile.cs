@@ -6,6 +6,8 @@ using ZhukovskyGamesPlugin;
 
 [Serializable]
 public class GameSaveProfile {
+    
+    public string Nickname = "Player";
     public int Coins;
     public int Xp;
     public int CurrentLevel;

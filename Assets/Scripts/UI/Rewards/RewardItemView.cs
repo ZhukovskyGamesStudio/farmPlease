@@ -13,11 +13,13 @@ public class RewardItemView : MonoBehaviour {
         _icon.sprite = sprite;
         _nameText.text = rewardName;
         _amountText.gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     public void SetData(Sprite sprite, int amount) {
         _icon.sprite = sprite;
         _nameText.gameObject.SetActive(false);
         _amountText.text = amount.ToString();
+        gameObject.SetActive(true);
     }
 }

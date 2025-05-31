@@ -49,4 +49,21 @@ public static class RewardUtils {
             }
         }
     }
+    
+    public static void SetRewardsView(Reward reward, List<RewardItemView> views, Sprite coinRewardIcon) {
+        int rewardsAmount = reward.Items.Count + (reward is RewardWithUnlockable ? 1 : 0);
+        foreach (RewardItemView itemView in views) {
+            itemView.gameObject.SetActive(false);
+        }
+        for (int i = 0; i < rewardsAmount; i++) {
+            if (i == 0 && reward is RewardWithUnlockable rewardWithUnlockable) {
+                views[i].SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), rewardWithUnlockable.Unlockable);
+                continue;
+            }
+
+            RewardItem item = reward.Items[i + (reward is RewardWithUnlockable ? -1 : 0)];
+            Sprite icon = item.Type == COINS_KEY ? coinRewardIcon : GetRewardIcon(item.Type);
+            views[i].SetData(icon, item.Amount);
+        }
+    }
 }

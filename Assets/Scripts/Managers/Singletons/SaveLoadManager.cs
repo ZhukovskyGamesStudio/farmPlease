@@ -92,6 +92,9 @@ namespace Managers {
                 CurrentSave.Unlocked.AddRange(UnlockableUtils.GetInitialUnlockables());
                 CurrentSave.Unlocked = CurrentSave.Unlocked.Distinct().ToList();
             }
+            if(string.IsNullOrEmpty(CurrentSave.Nickname)) {
+                CurrentSave.Nickname = "Farmer #" + Random.Range(999, 10000);
+            }
             //TODO update everything else and move to another manager
         }
         private static void UpdateKnowledge() {
@@ -141,7 +144,8 @@ namespace Managers {
                 Date = TimeManager.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
                 AmbarCrop = Crop.None,
                 Unlocked = UnlockableUtils.GetInitialUnlockables(),
-                TilesData =  SmartTilemap.GenerateTiles()
+                TilesData =  SmartTilemap.GenerateTiles(),
+                Nickname = "Farmer #" + Random.Range(999, 10000), 
             };
             
             InventoryManager.GenerateInventory();
