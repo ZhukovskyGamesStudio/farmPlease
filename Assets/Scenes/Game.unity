@@ -825,6 +825,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rewardDialogPrefab: {fileID: 4100012467026694995, guid: ce8098d34c5b6d249ad93169b7936be8,
     type: 3}
+  _profileDialogPrefab: {fileID: 8929954527904516390, guid: ec53dd9c13fe8d14ab7fd10d1ec08103,
+    type: 3}
 --- !u!1 &1388346009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1758,6 +1760,12 @@ PrefabInstance:
       objectReference: {fileID: 1541421340}
     - target: {fileID: 6347561145942513112, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
+      propertyPath: ProfileDialog
+      value: 
+      objectReference: {fileID: 8929954527904516390, guid: ec53dd9c13fe8d14ab7fd10d1ec08103,
+        type: 3}
+    - target: {fileID: 6347561145942513112, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
       propertyPath: GraphicRaycaster
       value: 
       objectReference: {fileID: 1615526920}
@@ -2042,7 +2050,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 9198133271140059764, guid: b5a3b0e0e6b51a641aba3ac432c70f38, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5a3b0e0e6b51a641aba3ac432c70f38, type: 3}

@@ -15,13 +15,16 @@ public class AnimatableProgressbar : MonoBehaviour {
     [SerializeField]
     private CounterChangeFx _changeUpFx;
 
+    [SerializeField]
+    private bool _isSpacesAroundSlashes = false;
+    
     private int _amount = 0;
     private int _maxAmount;
 
     public void SetAmount(int amount, int maxAmount) {
         _amount = amount;
         if (_amountText) {
-            _amountText.text = $"{amount}/{maxAmount}";
+            _amountText.text = _isSpacesAroundSlashes ? $"{amount} / {maxAmount}" : $"{amount}/{maxAmount}";
         }
 
         _slider.maxValue = maxAmount;

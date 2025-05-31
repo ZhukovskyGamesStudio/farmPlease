@@ -19,6 +19,7 @@ namespace Managers {
             LoadGame();
             Settings.Instance.InitSettingsView();
             Clock.Instance.TryRefillForRealtimePassed();
+            InventoryManager.CheckNewLevelDialog();
             KnowledgeHintsFactory.Instance.CheckAllUnshownHints();
             UIHud.Instance.DisableLockedUI();
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -22,9 +23,11 @@ public class RewardDialog : DialogBase {
     private List<AnimationClip> _rewardsAnimationClips = new List<AnimationClip>();
 
     private int _clicksNeeded, _clicksMade;
+    private Action _onClaimed;
 
-    public void Show(Reward reward) {
+    public void Show(Reward reward, Action onClaimed) {
         _reward = reward;
+        _onClaimed = onClaimed;
         List<RewardItemView> combinedRewardViews = new List<RewardItemView>();
         combinedRewardViews.Add(_mainReward);
         combinedRewardViews.AddRange(_additionalRewards);
@@ -80,6 +83,7 @@ public class RewardDialog : DialogBase {
     public void Claim() {
         //TODO show items flying animation
         RewardUtils.ClaimReward(_reward);
+        _onClaimed?.Invoke();
         gameObject.SetActive(false);
         Destroy(gameObject);
     }

@@ -426,10 +426,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: 'Enter text       '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e7a2cb92283c30b4ba2a5675fcd5a061, type: 2}
-  m_sharedMaterial: {fileID: 2310940034657577601, guid: e7a2cb92283c30b4ba2a5675fcd5a061,
+  m_fontAsset: {fileID: 11400000, guid: f0a6550d211d6f340a47d490280a2a1f, type: 2}
+  m_sharedMaterial: {fileID: 8439959304933965626, guid: f0a6550d211d6f340a47d490280a2a1f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 10
+  m_fontStyle: 8
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1000,6 +1000,7 @@ MonoBehaviour:
   _amountText: {fileID: 7212961798935463216}
   _icon: {fileID: 0}
   _changeUpFx: {fileID: 0}
+  _isSpacesAroundSlashes: 1
 --- !u!1 &1525341021434054336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,7 +1140,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1536235285882251264}
   m_Enabled: 1
-  m_Alpha: 0.15
+  m_Alpha: 0.075
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -2852,10 +2853,10 @@ RectTransform:
   - {fileID: 5933614297919229408}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5999797288324086461
 CanvasRenderer:
@@ -2880,6 +2881,7 @@ MonoBehaviour:
   _nicknameInput: {fileID: 8942918247818781408}
   _cropsCollectedText: {fileID: 6825953587441685762}
   _coinsText: {fileID: 334219020805352451}
+  _nextLevelNameText: {fileID: 8920123779124808077}
   _currentLevelIcon: {fileID: 8506579879382391300}
   _nextLevelIcon: {fileID: 4434970761513685217}
   _xpProgressBar: {fileID: 4081842610923271332}
@@ -4697,7 +4699,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 8
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5128,7 +5130,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 8
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

@@ -10,7 +10,7 @@ public class ProfileDialog : MonoBehaviour {
     private TMP_InputField _nicknameInput;
     
     [SerializeField]
-    private TextMeshProUGUI _cropsCollectedText, _coinsText;
+    private TextMeshProUGUI _cropsCollectedText, _coinsText, _nextLevelNameText;
 
     [SerializeField]
     private Image _currentLevelIcon, _nextLevelIcon;
@@ -46,10 +46,11 @@ public class ProfileDialog : MonoBehaviour {
         int curLevelMin = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel);
         int nextLevel = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel + 1);
         _xpProgressBar.SetAmount(SaveLoadManager.CurrentSave.Xp - curLevelMin, nextLevel - curLevelMin);
+        _nextLevelNameText.text = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel + 1].LevelName;
     }
 
     private void SetRewards() {
-        var nextLevel = SaveLoadManager.CurrentSave.CurrentLevel + 1;
+        var nextLevel = SaveLoadManager.CurrentSave.CurrentLevel;
         var reward = ConfigsManager.Instance.LevelConfigs[nextLevel].Reward;
         RewardUtils.SetRewardsView(reward, _rewardItemViews, _coinRewardIcon);
     }
@@ -64,6 +65,6 @@ public class ProfileDialog : MonoBehaviour {
     }
     
     public void Close() {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

@@ -17,6 +17,6 @@ public class ProfileView : MonoBehaviour {
     }
 
     public void OnClick() {
-        UIHud.Instance.ProfileDialog.Show();
+        DialogsManager.Instance.ShowProfileDialog();
     }
 }

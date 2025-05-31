@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelConfig", menuName = "Scriptable Objects/LevelConfig", order = 0)]
 public class LevelConfig : ScriptableObject {
     public int XpNeeded;
+    public string LevelName;
 
     public RewardWithUnlockable Reward;
 }

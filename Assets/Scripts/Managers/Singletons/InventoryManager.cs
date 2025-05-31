@@ -111,17 +111,24 @@ namespace Managers {
                 return;
             }
             SaveLoadManager.CurrentSave.Xp += amount;
-            if (XpUtils.IsNextLevel(SaveLoadManager.CurrentSave.CurrentLevel, SaveLoadManager.CurrentSave.Xp)) {
-                var reward = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
-                SaveLoadManager.CurrentSave.CurrentLevel++;
-                DialogsManager.Instance.ShowRewardDialog(reward);
-                UIHud.Instance.ProfileView.SetCounters();
-            } else {
-                UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
-            }
+            UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
+            CheckNewLevelDialog();
         }
-        
-       
+
+        public static void CheckNewLevelDialog() {
+            if (!XpUtils.IsNextLevel(SaveLoadManager.CurrentSave.CurrentLevel, SaveLoadManager.CurrentSave.Xp)) {
+                return;
+            }
+
+            RewardWithUnlockable reward = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
+               
+            DialogsManager.Instance.ShowRewardDialog(reward, () => {
+                SaveLoadManager.CurrentSave.CurrentLevel++;
+                UIHud.Instance.ProfileView.SetCounters();
+                SaveLoadManager.SaveGame();
+            });
+          
+        }
 
         /*****Семена*****/
 
@@ -141,7 +148,7 @@ namespace Managers {
 
         public void BuySeed(Crop crop, int cost, int amount) {
             if (SaveLoadManager.CurrentSave.Coins >= cost) {
-                Instance.AddXp(cost);
+                Instance.AddXp(3);
                 AddCoins(-1 * cost);
                 AddSeed(crop, amount);
                 StartCoroutine(SmartTilemap.Instance.HappeningSequence());
@@ -209,6 +216,7 @@ namespace Managers {
 
         public void BuyTool(ToolBuff buff, int cost, int amount) {
             AddCoins(-1 * cost);
+            AddXp(5);
             AddTool(buff, amount);
         }
         
