@@ -28,7 +28,11 @@ namespace Managers {
             if (GameModeManager.Instance.UnlimitedMoneyCrops && !_isUnlimitedFlag) {
                 _isUnlimitedFlag = true;
                 SaveLoadManager.CurrentSave.Coins = 99999;
-                SaveLoadManager.CurrentSave.CropPoints = 99999;
+                int left = 150 - SaveLoadManager.CurrentSave.CropsCollected.Count;
+                for (int i = 0; i < left; i++) {
+                    SaveLoadManager.CurrentSave.CropsCollected.Add(Crop.Tomato);
+                    SaveLoadManager.CurrentSave.CropsCollectedQueue.Enqueue(Crop.Tomato);
+                }
                 _uiHud.SetCounters();
             }
         }
@@ -54,7 +58,11 @@ namespace Managers {
 
             if (GameModeManager.Instance.UnlimitedMoneyCrops) {
                 SaveLoadManager.CurrentSave.Coins = 1000;
-                SaveLoadManager.CurrentSave.CropPoints = 1000;
+                int left = 150 - SaveLoadManager.CurrentSave.CropsCollected.Count;
+                for (int i = 0; i < left; i++) {
+                    SaveLoadManager.CurrentSave.CropsCollected.Add(Crop.Tomato);
+                    SaveLoadManager.CurrentSave.CropsCollectedQueue.Enqueue(Crop.Tomato);
+                }
             }
 
             GenerateIsBoughtData();
@@ -93,10 +101,14 @@ namespace Managers {
         }
 
         public void AddCropPoint(int amount) {
-            SaveLoadManager.CurrentSave.CropPoints += amount;
-            if (SaveLoadManager.CurrentSave.CropPoints < 0)
-                SaveLoadManager.CurrentSave.CropPoints = 0;
             _uiHud.CountersView.CropsCounter.ChangeAmount(amount);
+        }
+
+        public void RemoveRandomCollectedCrops(int amount) {
+            var list = SaveLoadManager.CurrentSave.CropsCollected;
+            list = list.OrderBy((_)=>Random.Range(0, 1f)).ToList();
+            list.RemoveRange(0,amount);
+            AddCropPoint(-amount);
         }
 
         public void AddCoins(int amount) {
@@ -107,9 +119,6 @@ namespace Managers {
         }
 
         public void AddXp(int amount) {
-            if (!KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
-                return;
-            }
             SaveLoadManager.CurrentSave.Xp += amount;
             UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
             CheckNewLevelDialog();
@@ -277,18 +286,18 @@ namespace Managers {
         public void BuyFoodMarket(Crop type, int cost) {
             IsCropsBoughtD[type] = true;
             BuySeed(type, 0, CropsTable.CropByType(type).buyAmount);
-            AddCropPoint(-cost);
+            RemoveRandomCollectedCrops(cost);
         }
 
         public void BuyFoodMarket(ToolBuff buff, int cost) {
             IsToolsBoughtD[buff] = true;
             BuyTool(buff, 0, ToolsTable.ToolByType(buff).buyAmount);
-            AddCropPoint(-cost);
+            RemoveRandomCollectedCrops(cost);
         }
 
         public void BuyFoodMarket(BuildingType type, int cost) {
             IsBuildingsBoughtD[type] = true;
-            AddCropPoint(-cost);
+            RemoveRandomCollectedCrops(cost);
         }
 
         public bool EnoughMoney(int cost) {

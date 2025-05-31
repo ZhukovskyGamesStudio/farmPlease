@@ -72,7 +72,8 @@ namespace Managers {
 
         private void TryAddCrops(CheatCodeConfig cheatCode) {
             if (cheatCode.CropsCollectedAdded > 0) {
-                SaveLoadManager.CurrentSave.CropPoints += cheatCode.CropsCollectedAdded;
+                SaveLoadManager.CurrentSave.CropsCollected.Add(Crop.Tomato);
+                SaveLoadManager.CurrentSave.CropsCollectedQueue.Enqueue(Crop.Tomato);
             }
         }
 

@@ -595,6 +595,7 @@ namespace Tables {
             } else {
                 switch (type) {
                     case TileType.Weed:
+                        UnlockableUtils.Unlock(Crop.Weed);
                         InventoryManager.Instance.AddCoins(1 * multiplier);
                         if (isPlayerHaveGreenScythe) {
                             HarvestCrop(Crop.Weed, 1 * multiplier);

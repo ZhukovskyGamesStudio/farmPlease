@@ -53,7 +53,7 @@ namespace UI {
             _cropsButtons = GenerateButtons(CropsTablePrefab.Crops, CropsGrid.transform);
             _weatherButtons = GenerateButtons(WeatherTablePrefab.WeathersSO, WeatherGrid.transform);
             _toolButtons = GenerateButtons(ToolsTablePrefab.ToolsSO, ToolsGrid.transform);
-            OpenPage(CropsTablePrefab.Crops[0]);
+            OpenPage(CropsTablePrefab.Crops.FirstOrDefault(c => c.type == Crop.Tomato));
         }
 
         private List<CroponomGridButtonView> GenerateButtons<TConfig>(IEnumerable<TConfig> configs, Transform parent)
@@ -70,6 +70,7 @@ namespace UI {
 
         public void Open() {
             Panel.SetActive(true);
+            UIHud.Instance.ProfileView.Hide();
             foreach (CroponomGridButtonView button in _cropsButtons) {
                 button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
             }
@@ -127,6 +128,7 @@ namespace UI {
         public void Close() {
             OnClose?.Invoke();
             Panel.SetActive(false);
+            UIHud.Instance.ProfileView.Show();
         }
 
         private void OpenPage(ConfigWithCroponomPage pageData) {

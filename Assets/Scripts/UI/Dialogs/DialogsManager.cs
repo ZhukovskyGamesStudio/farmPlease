@@ -17,8 +17,8 @@ public class DialogsManager : MonoBehaviour {
         dialog.Show(reward, onClaim);
     }
     
-    public void ShowProfileDialog() {
+    public void ShowProfileDialog( Action onClose) {
         ProfileDialog dialog = Instantiate(_profileDialogPrefab, transform);
-        dialog.Show();
+        dialog.Show(onClose);
     }
 }

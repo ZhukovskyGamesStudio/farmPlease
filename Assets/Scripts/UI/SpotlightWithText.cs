@@ -134,6 +134,9 @@ namespace UI {
         }
 
         public void HideButton() {
+            if (_animation.isPlaying) {
+                return;
+            }
             if (_isHidingByAnyTap) {
                 HideSpotlight();
             }

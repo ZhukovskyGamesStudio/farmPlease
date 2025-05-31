@@ -62,7 +62,10 @@ namespace Managers {
             await (ShowHoeSpotlight());
             await (ShowDoHoeSpotlight());
             await (ShowEnergySpotlight());
-
+            ShowClockSpotlight();
+            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy < 7);
+            
             ShowBackpackSpotlight();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.Delay(100); //waiting for backpack to open
@@ -75,10 +78,6 @@ namespace Managers {
             ShowWaterSpotlight();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await (ShowDoWaterSpotlight());
-
-            ShowClockSpotlight();
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy < 7);
 
             ShowClockLostEnergySpotlight();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
@@ -137,6 +136,7 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = false;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = true;
+            UIHud.Instance.ProfileView.IsLockedByFtue = true;
         }
 
         private void EnableUiParts() {
@@ -173,6 +173,7 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = true;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = false;
+            UIHud.Instance.ProfileView.IsLockedByFtue = false;
             
             UIHud.Instance.DisableLockedUI();
         }
@@ -200,7 +201,7 @@ namespace Managers {
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             PlayerController.Instance.ChangeTool(Tool.SeedBag);
             PlayerController.Instance.seedBagCrop = Crop.Weed;
-            InventoryManager.Instance.BuySeed(Crop.Tomato, 0, 1);
+            InventoryManager.Instance.BuySeed(Crop.Tomato, 0, 7);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.Backpack.OpenButton, FtueConfig.BackpackHint, delegate {
                 UIHud.Instance.Backpack.IsLockOpenCloseByFtue = true;
                 StepEnded();
@@ -221,10 +222,11 @@ namespace Managers {
             UIHud.Instance.FastPanelScript.toolButtons[0].interactable = false;
 
             UIHud.Instance.Backpack.gameObject.SetActive(true);
+            UIHud.Instance.FastPanelScript.toolButtons[2].gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoSeedHint,
                 StepEnded, false);
 
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 6);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 0);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.Delay(300);
@@ -245,7 +247,7 @@ namespace Managers {
 
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoScytheHint,
                 StepEnded, false);
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.CropPoints == 0);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.CropPoints < 7+7);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.Delay(300);
@@ -267,7 +269,7 @@ namespace Managers {
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoHoeHint,
                 StepEnded, false);
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 7);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 0);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
@@ -277,6 +279,7 @@ namespace Managers {
             UIHud.Instance.Backpack.OpenButton.interactable = false;
             UIHud.Instance.FastPanelScript.toolButtons[2].interactable = false;
             UIHud.Instance.FastPanelScript.toolButtons[1].gameObject.SetActive(true);
+            UIHud.Instance.FastPanelScript.toolButtons[1].interactable = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.FastPanelScript.toolButtons[1], FtueConfig.WaterHint,
                 StepEnded);
         }
@@ -285,8 +288,11 @@ namespace Managers {
             _isWaitingForStepEnd = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoWaterHint,
                 StepEnded, false);
-
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 5);
+            UIHud.Instance.ClockView.IsLockedByFtue = false;
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 0);
+            UIHud.Instance.ClockView.IsLockedByFtue = true;
+            await UniTask.Delay(100);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy >0);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.Delay(300);
@@ -298,8 +304,8 @@ namespace Managers {
             UIHud.Instance.ClockView.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ClockView.GetComponent<Button>(), FtueConfig.ClockHint,
                 delegate {
-                    StepEnded();
                     UIHud.Instance.ClockView.IsLockedByFtue = true;
+                    StepEnded();
                 });
         }
 
@@ -310,10 +316,15 @@ namespace Managers {
 
         private async UniTask ShowDoWaterAgainSpotlight() {
             _isWaitingForStepEnd = true;
-            UIHud.Instance.ClockView.GetComponent<Button>().interactable = false;
+            
             UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform,
                 FtueConfig.DoWaterAgainHint, StepEnded, false);
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 5);
+            UIHud.Instance.ClockView.IsLockedByFtue = false;
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 0);
+            UIHud.Instance.ClockView.IsLockedByFtue = true;
+            UIHud.Instance.ClockView.GetComponent<Button>().interactable = false;
+            await UniTask.Delay(100);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy >0);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
@@ -370,13 +381,16 @@ namespace Managers {
             _isWaitingForStepEnd = true;
             await UniTask.Delay(2500);
             UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.blocksRaycasts = true;
+            UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.transform,
                 FtueConfig.BuyTomatoHint, delegate {
                     UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.interactable = false;
                     UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.blocksRaycasts = false;
+                    UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
+                    UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
                     StepEnded();
                 }, false);
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Seeds[Crop.Tomato] < 3);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Seeds[Crop.Tomato] < 12);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
@@ -417,7 +431,8 @@ namespace Managers {
         
         private async UniTask ShowGetNextLevelSpotlight() {
             _isWaitingForStepEnd = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ProfileView.transform, FtueConfig.ProfileHint, StepEnded);
+            UIHud.Instance.ProfileView.IsLockedByFtue = false;
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ProfileView.GetComponent<Button>(), FtueConfig.ProfileHint, StepEnded, true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
     }

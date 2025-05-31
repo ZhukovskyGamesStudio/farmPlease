@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Managers;
 using TMPro;
@@ -24,8 +25,10 @@ public class ProfileDialog : MonoBehaviour {
     [SerializeField]
     private Sprite _coinRewardIcon;
 
+    private Action _onClose;
     
-    public void Show() {
+    public void Show(Action onClose) {
+        _onClose = onClose;
         _nicknameInput.SetTextWithoutNotify(SaveLoadManager.CurrentSave.Nickname);
         _cropsCollectedText.text = SaveLoadManager.CurrentSave.CropPoints.ToString();
         _coinsText.text = SaveLoadManager.CurrentSave.Coins.ToString();
@@ -66,5 +69,6 @@ public class ProfileDialog : MonoBehaviour {
     
     public void Close() {
         Destroy(gameObject);
+        _onClose?.Invoke();
     }
 }

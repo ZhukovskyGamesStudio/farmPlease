@@ -14,7 +14,7 @@ public class GameSaveProfile {
     public int Energy;
     public int ClockEnergy;
     public long LastClockRefilledTimestamp = Clock.NowTotalMilliseconds;
-    public int CropPoints;
+    public int CropPoints => CropsCollected.Count;
     public string Date;
     public string SavedDate;
     public TilesData TilesData = new TilesData();

@@ -10,6 +10,8 @@ public class ProfileView : MonoBehaviour {
     [field: SerializeField]
     public AnimatableProgressbar XpProgressBar { get; private set; }
 
+    public bool IsLockedByFtue;
+
     public void SetCounters() {
         int curLevelMin = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel);
         int nextLevel = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel + 1);
@@ -17,6 +19,18 @@ public class ProfileView : MonoBehaviour {
     }
 
     public void OnClick() {
-        DialogsManager.Instance.ShowProfileDialog();
+        if (IsLockedByFtue) {
+            return;
+        }
+        DialogsManager.Instance.ShowProfileDialog(Show);
+        Hide();
+    }
+
+    public void Show() {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide() {
+        gameObject.SetActive(false);
     }
 }

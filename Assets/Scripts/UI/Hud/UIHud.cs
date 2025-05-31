@@ -26,7 +26,6 @@ namespace UI {
         public CountersView CountersView;
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
-        public ProfileDialog ProfileDialog;
         public Croponom Croponom;
         public ProfileView ProfileView;
         protected override bool IsDontDestroyOnLoad => false;

@@ -59,6 +59,8 @@ namespace UI {
             int cropsAmount = crops.Count;
             int coinsGain = cropsAmount * (TimeManager.Instance.IsTodayLoveDay ? 2 : 1);
             InventoryManager.Instance.AddCoins(coinsGain);
+            InventoryManager.Instance.AddCropPoint(-cropsAmount);
+            
             RemoveCropsFromCollected(crops);
             SaveLoadManager.SaveGame();
             IsSellingAnimation = false;

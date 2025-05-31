@@ -44,7 +44,6 @@ public static class UnlockableUtils {
         var initialUnlockables = new List<string>();
 
         // Add initial unlockables here
-        initialUnlockables.Add(Crop.Weed.ToString());
         initialUnlockables.Add(Crop.Tomato.ToString());
         initialUnlockables.Add(ToolBuff.WeekBattery.ToString());
         initialUnlockables.Add(ToolBuff.Unlimitedwatercan.ToString());

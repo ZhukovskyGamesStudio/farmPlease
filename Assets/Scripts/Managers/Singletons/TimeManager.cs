@@ -99,24 +99,22 @@ namespace Managers {
             }
 
             int love = -1;
-            bool isTrainingRainNext = SaveLoadManager.CurrentSave.CurrentMonth == 0 && SaveLoadManager.CurrentSave.CurrentDay == 0;
             while ((love + _skipDaysAmount) % 7 == 0 || (love + 1) % 5 == 0) love = Random.Range(7 + _skipDaysAmount, 20);
+            bool skippedFirstRain = false;
 
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + _skipDaysAmount;
                 if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training && SaveLoadManager.CurrentSave.CurrentMonth > 0) {
                     Days[i] = HappeningType.FoodMarket;
                 } else if ((i + 1) % 5 == 0) {
-                    if (isTrainingRainNext) {
-                        Days[i] = HappeningType.Rain;
-                        isTrainingRainNext = false;
+                    if (SaveLoadManager.CurrentSave.CurrentMonth == 0 && !skippedFirstRain) {
+                        //TODO skipping happenings before calendar is unlocked
+                        skippedFirstRain = true;
                         continue;
                     }
 
                   //TODO fix generation of days too early
-                    List<HappeningType> possibleHappenings = new List<HappeningType> {
-                        HappeningType.Rain, HappeningType.Erosion, HappeningType.Wind, HappeningType.Insects
-                    };
+                    List<HappeningType> possibleHappenings = new List<HappeningType> ();
                     if (UnlockableUtils.HasUnlockable(HappeningType.Rain)) {
                         possibleHappenings.Add(HappeningType.Rain);
                     }

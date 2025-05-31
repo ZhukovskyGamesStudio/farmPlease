@@ -138,8 +138,7 @@ namespace Managers {
 
         private static void GenerateGame() {
             CurrentSave = new GameSaveProfile() {
-                Coins = 3,
-                CropPoints = 0,
+                Coins = 0,
                 SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
                 Date = TimeManager.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
                 AmbarCrop = Crop.None,
