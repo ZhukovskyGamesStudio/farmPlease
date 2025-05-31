@@ -21,6 +21,9 @@ namespace UI
 
         public void DayToday() {
             Today.SetActive(true);
+            Finished.SetActive(false);
+            Date.color = new Color(1, 1, 1, 1);
+            Happening.color = new Color(1, 1, 1, 1);
         }
         
         public void DayOver() {
@@ -28,6 +31,12 @@ namespace UI
             Today.SetActive(false);
             Date.color = new Color(1, 1, 1, 0.5f);
             Happening.color = new Color(1, 1, 1, 0.5f);
+        }
+        public void DayFuture() {
+            Finished.SetActive(false);
+            Today.SetActive(false);
+            Date.color = new Color(1, 1, 1, 1);
+            Happening.color = new Color(1, 1, 1, 1);
         }
 
         public void SetProps(int dayNumber, HappeningType type, bool showDefault = false) {

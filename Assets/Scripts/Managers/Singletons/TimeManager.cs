@@ -113,7 +113,7 @@ namespace Managers {
                         continue;
                     }
 
-                  
+                  //TODO fix generation of days too early
                     List<HappeningType> possibleHappenings = new List<HappeningType> {
                         HappeningType.Rain, HappeningType.Erosion, HappeningType.Wind, HappeningType.Insects
                     };

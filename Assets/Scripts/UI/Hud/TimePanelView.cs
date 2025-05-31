@@ -73,6 +73,7 @@ namespace UI
                     view.DayToday();
                 } else {
                     predictedDaysLeft--;
+                    view.DayFuture();
                 }
             }
         }
