@@ -59,8 +59,8 @@ namespace UI
             for (int i = 0; i < _days.Length; i++) {
                 CalendarDayView view = _days[i].GetComponent<CalendarDayView>();
                 if (_daysHappenings[i] == HappeningType.Love && !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
-                    view.SetProps(i, HappeningType.None);
-                else if (_daysHappenings[i] != HappeningType.None && _daysHappenings[i] != HappeningType.FoodMarket &&
+                    view.SetProps(i, HappeningType.NormalSunnyDay);
+                else if (_daysHappenings[i] != HappeningType.NormalSunnyDay && _daysHappenings[i] != HappeningType.FoodMarket &&
                          predictedDaysLeft <= 0 && i > curDay)
                     view.SetProps(i, HappeningType.Unknown);
                 else

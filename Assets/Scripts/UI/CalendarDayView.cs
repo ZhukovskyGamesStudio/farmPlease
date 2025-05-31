@@ -49,7 +49,7 @@ namespace UI
             Happening.gameObject.SetActive(true);
             Happening.sprite = WeatherTable.WeatherByType(type).DaySprite;
 
-            if (type == HappeningType.None && !showDefault) {
+            if (type == HappeningType.NormalSunnyDay && !showDefault) {
                 Happening.gameObject.SetActive(false);
                 return;
             }

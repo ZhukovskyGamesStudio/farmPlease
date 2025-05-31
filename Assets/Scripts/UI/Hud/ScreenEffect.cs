@@ -23,7 +23,7 @@ namespace UI {
 
         public IEnumerator SetEffectCoroutine(HappeningType type, bool isTomorrow) {
             if (NoneHappenings.Contains(type)) {
-                type = HappeningType.None;
+                type = HappeningType.NormalSunnyDay;
             }
 
             _curHappeningType = type;
@@ -39,7 +39,7 @@ namespace UI {
 
         public IEnumerator ChangeEffectCoroutine(HappeningType type, bool isTomorrow) {
             if (NoneHappenings.Contains(type)) {
-                type = HappeningType.None;
+                type = HappeningType.NormalSunnyDay;
             }
 
             if (_curHappeningType == type) {

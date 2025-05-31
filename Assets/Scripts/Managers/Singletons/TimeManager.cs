@@ -95,7 +95,7 @@ namespace Managers {
         private static void GenerateHappenings() {
             SaveLoadManager.CurrentSave.Days = new List<HappeningType>();
             for (int i = 0; i < MaxDays; i++) {
-                Days.Add(HappeningType.None);
+                Days.Add(HappeningType.NormalSunnyDay);
             }
 
             int love = -1;
@@ -157,14 +157,14 @@ namespace Managers {
 
         private void TryShowCalendarHint() {
             int nextDay = SaveLoadManager.CurrentSave.CurrentDay + 1;
-            if (Days.Count > nextDay && Days[nextDay] != HappeningType.None) {
+            if (Days.Count > nextDay && Days[nextDay] != HappeningType.NormalSunnyDay) {
                 UIHud.TimePanelView.gameObject.SetActive(true);
                 UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelView.CalendarButton, _calendarHint, ShowWeatherHint);
             }
         }
 
         private void TryShowHappeningHint() {
-            if (Days[SaveLoadManager.CurrentSave.CurrentDay] != HappeningType.None) {
+            if (Days[SaveLoadManager.CurrentSave.CurrentDay] != HappeningType.NormalSunnyDay) {
                 UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelView.HappeningButton, _happeningHint,
                     delegate { KnowledgeUtils.AddKnowledge(Knowledge.LilCalendar); }, true);
             }

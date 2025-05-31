@@ -7,19 +7,24 @@ public class RewardItemView : MonoBehaviour {
     private TextMeshProUGUI _nameText, _amountText;
 
     [SerializeField]
+    private BackpackItemBackView _backView;
+    
+    [SerializeField]
     private Image _icon;
 
-    public void SetData(Sprite sprite, string rewardName) {
+    public void SetData(Sprite sprite, string rewardName, ItemColorType colorType) {
         _icon.sprite = sprite;
         _nameText.text = rewardName;
         _amountText.gameObject.SetActive(false);
+        _backView.InitColor(colorType);
         gameObject.SetActive(true);
     }
 
-    public void SetData(Sprite sprite, int amount) {
+    public void SetData(Sprite sprite, int amount, ItemColorType colorType) {
         _icon.sprite = sprite;
         _nameText.gameObject.SetActive(false);
         _amountText.text = amount.ToString();
+        _backView.InitColor(colorType);
         gameObject.SetActive(true);
     }
 }

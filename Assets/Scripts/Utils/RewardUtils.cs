@@ -28,6 +28,21 @@ public static class RewardUtils {
         throw new KeyNotFoundException();
     }
     
+    public static ItemColorType GetRewardColorType(string reward) {
+        if (Enum.TryParse(reward, out Crop crop)) {
+            return ItemColorType.Seed;
+        }
+
+        if (Enum.TryParse(reward, out ToolBuff tool)) {
+            if (tool == ToolBuff.WeekBattery) {
+                return ItemColorType.Energy;
+            }
+            return ItemColorType.Tool;
+        }
+
+        return ItemColorType.None;
+    }
+    
     public static void ClaimReward(Reward reward) {
         if (reward is RewardWithUnlockable rewardWithUnlockable) {
             UnlockableUtils.Unlock(rewardWithUnlockable.Unlockable);
@@ -56,14 +71,19 @@ public static class RewardUtils {
             itemView.gameObject.SetActive(false);
         }
         for (int i = 0; i < rewardsAmount; i++) {
+           
+            
             if (i == 0 && reward is RewardWithUnlockable rewardWithUnlockable) {
-                views[i].SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), rewardWithUnlockable.Unlockable);
+                ItemColorType colorType = GetRewardColorType(rewardWithUnlockable.Unlockable);
+                
+                views[i].SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), rewardWithUnlockable.Unlockable,colorType);
                 continue;
             }
-
+        
             RewardItem item = reward.Items[i + (reward is RewardWithUnlockable ? -1 : 0)];
             Sprite icon = item.Type == COINS_KEY ? coinRewardIcon : GetRewardIcon(item.Type);
-            views[i].SetData(icon, item.Amount);
+            ItemColorType colorType2 = GetRewardColorType(item.Type);
+            views[i].SetData(icon, item.Amount,colorType2);
         }
     }
 }

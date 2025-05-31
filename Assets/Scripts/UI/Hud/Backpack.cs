@@ -98,7 +98,7 @@ namespace UI
                         CloseBySelectedItem();
                     });
                 }, () => SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(tool.buff, 0),
-                    ItemColorType.Tool);
+                     tool.buff == ToolBuff.WeekBattery ? ItemColorType.Energy : ItemColorType.Tool);
                 backpackItem.gameObject.SetActive(false);
                 _backpackItemsViews.Add(tool.buff.ToString(), backpackItem);
             }
