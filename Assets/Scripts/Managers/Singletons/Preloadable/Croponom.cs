@@ -48,6 +48,25 @@ namespace UI {
         protected override void OnFirstInit() {
             GenerateAllButtons();
         }
+        
+        private void GenerateAllButtons() {
+            _cropsButtons = GenerateButtons(CropsTablePrefab.Crops, CropsGrid.transform);
+            _weatherButtons = GenerateButtons(WeatherTablePrefab.WeathersSO, WeatherGrid.transform);
+            _toolButtons = GenerateButtons(ToolsTablePrefab.ToolsSO, ToolsGrid.transform);
+            OpenPage(CropsTablePrefab.Crops[0]);
+        }
+
+        private List<CroponomGridButtonView> GenerateButtons<TConfig>(IEnumerable<TConfig> configs, Transform parent)
+            where TConfig : ConfigWithCroponomPage {
+            List<CroponomGridButtonView> buttonList = new List<CroponomGridButtonView>();
+            foreach (var config in configs) {
+                CroponomGridButtonView button = Instantiate(GridButtonPrefab, parent);
+                button.SetData(config, FactsPage.UpdatePage);
+                buttonList.Add(button);
+            }
+
+            return buttonList;
+        }
 
         public void Open() {
             Panel.SetActive(true);
@@ -110,50 +129,11 @@ namespace UI {
             Panel.SetActive(false);
         }
 
-        private void SubscribeTabButtons() {
-            /*  CropsOpenButton.onValueChanged.AddListener((_) => TryOpenPage(CropsTablePrefab.Crops[0],_));
-              WeatherOpenButton.onValueChanged.AddListener((_) => TryOpenPage(WeatherTablePrefab.WeathersSO[0],_));
-              ToolsOpenButton.onValueChanged.AddListener((_) => TryOpenPage(ToolsTablePrefab.ToolsSO[0],_));
-         */
-        }
-
-        private void ReleaseAllButtons() {
-            CropsOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(CropsTablePrefab.Crops[0], _));
-            WeatherOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(WeatherTablePrefab.WeathersSO[0], _));
-            ToolsOpenButton.onValueChanged.RemoveListener((_) => TryOpenPage(ToolsTablePrefab.ToolsSO[0], _));
-        }
-
-        private void TryOpenPage(ConfigWithCroponomPage pageData, bool check) {
-            if (check) {
-                OpenPage(pageData);
-            }
-        }
-
         private void OpenPage(ConfigWithCroponomPage pageData) {
             FactsPage.UpdatePage(pageData);
         }
 
-        private void GenerateAllButtons() {
-            _cropsButtons = GenerateButtons(CropsTablePrefab.Crops, CropsGrid.transform);
-            _weatherButtons = GenerateButtons(WeatherTablePrefab.WeathersSO, WeatherGrid.transform);
-            _toolButtons = GenerateButtons(ToolsTablePrefab.ToolsSO, ToolsGrid.transform);
-
-            SubscribeTabButtons();
-
-            OpenPage(CropsTablePrefab.Crops[0]);
-        }
-
-        private List<CroponomGridButtonView> GenerateButtons<TConfig>(IEnumerable<TConfig> configs, Transform parent)
-            where TConfig : ConfigWithCroponomPage {
-            List<CroponomGridButtonView> buttonList = new List<CroponomGridButtonView>();
-            foreach (var config in configs) {
-                CroponomGridButtonView button = Instantiate(GridButtonPrefab, parent);
-                button.SetData(config, FactsPage.UpdatePage);
-                buttonList.Add(button);
-            }
-
-            return buttonList;
-        }
+       
 
         public void PlaySound(int soundIndex) {
             Audio.Instance.PlaySound((Sounds)soundIndex);
