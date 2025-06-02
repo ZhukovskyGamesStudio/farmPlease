@@ -71,6 +71,8 @@ namespace UI {
         public void Open() {
             Panel.SetActive(true);
             UIHud.Instance.ProfileView.Hide();
+            UIHud.Instance.CroponomAttention.Hide();
+            
             foreach (CroponomGridButtonView button in _cropsButtons) {
                 button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
             }

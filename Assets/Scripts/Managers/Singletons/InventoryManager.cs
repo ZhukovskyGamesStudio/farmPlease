@@ -33,6 +33,7 @@ namespace Managers {
                     SaveLoadManager.CurrentSave.CropsCollected.Add(Crop.Tomato);
                     SaveLoadManager.CurrentSave.CropsCollectedQueue.Enqueue(Crop.Tomato);
                 }
+
                 _uiHud.SetCounters();
             }
         }
@@ -106,8 +107,8 @@ namespace Managers {
 
         public void RemoveRandomCollectedCrops(int amount) {
             var list = SaveLoadManager.CurrentSave.CropsCollected;
-            list = list.OrderBy((_)=>Random.Range(0, 1f)).ToList();
-            list.RemoveRange(0,amount);
+            list = list.OrderBy((_) => Random.Range(0, 1f)).ToList();
+            list.RemoveRange(0, amount);
             AddCropPoint(-amount);
         }
 
@@ -119,9 +120,10 @@ namespace Managers {
         }
 
         public void AddXp(int amount) {
-            if(GameModeManager.Instance.Config.Is10xXp) {
+            if (GameModeManager.Instance.Config.Is10xXp) {
                 amount *= 10;
             }
+
             SaveLoadManager.CurrentSave.Xp += amount;
             UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
             CheckNewLevelDialog();
@@ -133,10 +135,10 @@ namespace Managers {
             }
 
             RewardWithUnlockable reward = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
-               
+
             DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
                 Reward = reward,
-                OnClaim =() => {
+                OnClaim = () => {
                     SaveLoadManager.CurrentSave.CurrentLevel++;
                     UIHud.Instance.ProfileView.SetCounters();
                     SaveLoadManager.SaveGame();
@@ -233,7 +235,7 @@ namespace Managers {
             AddXp(3);
             AddTool(buff, amount);
         }
-        
+
         public void AddTool(ToolBuff buff, int amount) {
             if (!ToolsStored.ContainsKey(buff)) {
                 ToolsStored.Add(buff, 0);
@@ -264,6 +266,7 @@ namespace Managers {
                 ToolsActivated[buff] += config.buyAmount;
                 _fastPanelScript.UpdateToolsImages();
             }
+
             SaveLoadManager.SaveGame();
             UpdateInventoryUI();
         }
@@ -291,17 +294,20 @@ namespace Managers {
         public void BuyFoodMarket(Crop type, int cost) {
             IsCropsBoughtD[type] = true;
             BuySeed(type, 0, CropsTable.CropByType(type).buyAmount);
+            UnlockableUtils.Unlock(type);
             RemoveRandomCollectedCrops(cost);
         }
 
         public void BuyFoodMarket(ToolBuff buff, int cost) {
             IsToolsBoughtD[buff] = true;
             BuyTool(buff, 0, ToolsTable.ToolByType(buff).buyAmount);
+            UnlockableUtils.Unlock(buff);
             RemoveRandomCollectedCrops(cost);
         }
 
         public void BuyFoodMarket(BuildingType type, int cost) {
             IsBuildingsBoughtD[type] = true;
+            UnlockableUtils.Unlock(type);
             RemoveRandomCollectedCrops(cost);
         }
 

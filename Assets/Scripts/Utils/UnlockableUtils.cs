@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
 using Tables;
+using UI;
 using UnityEngine;
 
 public static class UnlockableUtils {
@@ -11,9 +12,14 @@ public static class UnlockableUtils {
     public static bool HasUnlockable(Crop unlockable) => HasUnlockable(unlockable.ToString());
     public static bool HasUnlockable(ToolBuff unlockable) => HasUnlockable(unlockable.ToString());
     public static bool HasUnlockable(HappeningType unlockable) => HasUnlockable(unlockable.ToString());
+    public static bool HasUnlockable(BuildingType unlockable) => HasUnlockable(unlockable.ToString());
     public static bool HasUnlockable(string unlockable) => Unlocked?.Contains(unlockable) ?? false;
 
     public static void Unlock(Crop unlockable) {
+        AddAndSave(unlockable.ToString());
+    }
+    
+    public static void Unlock(BuildingType unlockable) {
         AddAndSave(unlockable.ToString());
     }
 
@@ -34,6 +40,7 @@ public static class UnlockableUtils {
             return;
         }
 
+        UIHud.Instance.CroponomAttention.ShowAttention();
         Unlocked?.Add(unlockable);
         if (SaveLoadManager.Instance != null) {
             SaveLoadManager.SaveGame();
