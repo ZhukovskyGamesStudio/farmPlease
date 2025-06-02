@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProfileDialog : DialogBase {
+public class ProfileDialog : DialogWithData<ProfileDialogData> {
     [SerializeField]
     private TMP_InputField _nicknameInput;
 
@@ -24,7 +24,11 @@ public class ProfileDialog : DialogBase {
     [SerializeField]
     private Sprite _coinRewardIcon;
 
-    private Action _onClose;
+    private ProfileDialogData _data;
+
+    public override void SetData(ProfileDialogData data) {
+        _data = data;
+    }
 
     public override void Show(Action onClose) {
         _nicknameInput.SetTextWithoutNotify(SaveLoadManager.CurrentSave.Nickname);
@@ -63,4 +67,14 @@ public class ProfileDialog : DialogBase {
         SaveLoadManager.CurrentSave.Nickname = input;
         SaveLoadManager.SaveGame();
     }
+
+    public override void Close() {
+        base.Close();
+        _data.ReshowProfileView?.Invoke();
+    }
+}
+
+[Serializable]
+public class ProfileDialogData {
+    public Action ReshowProfileView;
 }

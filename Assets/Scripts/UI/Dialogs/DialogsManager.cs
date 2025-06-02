@@ -27,7 +27,7 @@ public class DialogsManager : MonoBehaviour {
         DialogBase prefab = _dialogs.First(d => d.GetComponent(dialogType) != null);
         DialogBase dialogInstance = Instantiate(prefab, transform);
         DialogBase dialogBase = dialogInstance.GetComponent(dialogType) as DialogBase;
-
+        dialogBase.gameObject.SetActive(false);
         AddToQueue(dialogBase);
     }
 
@@ -46,7 +46,7 @@ public class DialogsManager : MonoBehaviour {
         if (dialogBase is DialogWithData<T> dialogWithData) {
             dialogWithData.SetData(data);
         }
-
+        dialogBase.gameObject.SetActive(false);
         AddToQueue(dialogBase);
     }
 

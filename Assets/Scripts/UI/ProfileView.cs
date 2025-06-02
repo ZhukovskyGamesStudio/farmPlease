@@ -1,5 +1,4 @@
 using Managers;
-using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +22,9 @@ public class ProfileView : MonoBehaviour {
             return;
         }
 
-        DialogsManager.Instance.ShowDialog(typeof(ProfileDialog));
+        DialogsManager.Instance.ShowDialogWithData(typeof(ProfileDialog), new ProfileDialogData() {
+            ReshowProfileView = Show
+        });
         Hide();
     }
 

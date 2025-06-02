@@ -10,22 +10,19 @@ namespace UI {
     public class ToolOffer : MonoBehaviour {
         public TextMeshProUGUI costText;
         public TextMeshProUGUI explainText;
-        public Button BuyButton;
         public Image OfferImage;
 
-        public ToolBuff ToolBuff;
+        private ToolBuff _toolBuff;
+        private Action<ToolBuff> _onButtonClick;
 
-        public void Init(Action<ToolBuff> onButtonClick) {
-            BuyButton.onClick.AddListener(() => {
-                onButtonClick?.Invoke(ToolBuff);
-            });
+        public void OnClick() {
+            _onButtonClick?.Invoke(_toolBuff);
         }
-        
-        
 
-        public void SetData(ToolConfig tool, bool isActive) {
+        public void SetData(ToolConfig tool, bool isActive, Action<ToolBuff> onButtonClick) {
+            _onButtonClick = onButtonClick;
             gameObject.SetActive(isActive);
-            ToolBuff = tool.buff;
+            _toolBuff = tool.buff;
             costText.text = tool.cost.ToString();
             explainText.text = tool.explainText;
 

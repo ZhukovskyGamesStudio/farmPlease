@@ -38,10 +38,6 @@ public class GameSaveProfile {
     public Crop ShopFirstOffer, ShopSecondOffer;
     public bool SeedShopChangeButton;
     public Crop AmbarCrop;
-
-    public ToolBuff ToolFirstOffer = ToolBuff.Doublehoe, ToolSecondOffer = ToolBuff.Unlimitedwatercan;
-    public bool ToolFirstOfferActive = true, ToolSecondOfferActive = true;
-    public bool ToolShopChangeButton;
     
     public int BuildingPrice;
 
@@ -49,5 +45,18 @@ public class GameSaveProfile {
     public List<string> Unlocked = new List<string>();
     public SettingsData SettingsData = new SettingsData();
     
+    public ToolShopData ToolShopData = new ToolShopData();
+    
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
+    
+}
+
+
+[Serializable]
+public class ToolShopData {
+    public ToolBuff FirstOffer = ToolBuff.Unlimitedwatercan;
+    public ToolBuff SecondOffer= ToolBuff.Unlimitedwatercan;
+    public bool FirstOfferActive = true;
+    public bool SecondOfferActive = true;
+    public bool ChangeButtonActive = true;
 }

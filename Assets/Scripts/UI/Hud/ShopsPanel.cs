@@ -1,3 +1,4 @@
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +12,12 @@ namespace UI
       
         public GameObject BuildingButton;
         public SeedShopView seedShopView;
-        public ToolShopView toolShopView;
         public BuildingShopView BuildingShopView;
         public Button BuildingShopButton;
+
+        public void OpenToolShop() {
+            DialogsManager.Instance.ShowDialogWithData(typeof(ToolShopDialog), SaveLoadManager.CurrentSave.ToolShopData);
+        }
         
     }
 }

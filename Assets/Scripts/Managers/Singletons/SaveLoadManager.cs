@@ -21,7 +21,7 @@ namespace Managers {
         private SeedShopView _seedShop;
         private SmartTilemap _smartTilemap;
 
-        private ToolShopView _toolShop;
+        private ToolShopDialog _toolShop;
         public static GameSaveProfile CurrentSave;
         
 
@@ -44,10 +44,7 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.seedShopView.GetButtonsData(out Crop first, out Crop second);
             CurrentSave.ShopFirstOffer = first;
             CurrentSave.ShopSecondOffer = second;
-
             CurrentSave.SeedShopChangeButton = UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.activeSelf;
-
-            CurrentSave.ToolShopChangeButton = UIHud.Instance.ShopsPanel.toolShopView.ChangeButton.activeSelf;
 
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 CurrentSave.BuildingPrice = UIHud.Instance.ShopsPanel.BuildingShopView.GetBuildingPrice();
@@ -153,7 +150,6 @@ namespace Managers {
             Energy.GenerateEnergy();
             Clock.GenerateEnergy();
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsNewDay();
-            UIHud.Instance.ShopsPanel.toolShopView.ChangeToolsNewDay();
             TimeManager.GenerateDays(CurrentSave.ParsedDate);
         }
 

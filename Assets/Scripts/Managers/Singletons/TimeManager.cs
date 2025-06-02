@@ -29,7 +29,6 @@ namespace Managers {
         private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
         private SmartTilemap SmartTilemap => SmartTilemap.Instance;
         private TimePanel TimePanel => UIHud.TimePanel;
-        private ToolShopView ToolShop => UIHud.ShopsPanel.toolShopView;
 
         private UIHud UIHud => global::UI.UIHud.Instance;
 
@@ -183,7 +182,7 @@ namespace Managers {
 
             InventoryManager.Instance.BrokeTools();
             UIHud.Instance.FastPanelScript.UpdateToolsImages();
-            ToolShop.ChangeToolsNewDay();
+            ChangeToolsNewDay();
 
             HappeningType nextDay = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth);
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
@@ -200,6 +199,11 @@ namespace Managers {
             yield return StartCoroutine(SmartTilemap.NewDay(nextDay));
             UIHud.Instance.ClockView.SetInteractable(true);
             PlayerController.CanInteract = true;
+        }
+
+        private void ChangeToolsNewDay() {
+            SaveLoadManager.CurrentSave.ToolShopData.ChangeButtonActive = true;
+            ToolsUtils.ChangeTools();
         }
 
         public static HappeningType UnveilUnknownHappening(int day) {

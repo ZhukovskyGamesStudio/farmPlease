@@ -9,6 +9,7 @@ public abstract class DialogBase : MonoBehaviour {
     protected event Action OnClose;
 
     public virtual void Show(Action onClose) {
+        gameObject.SetActive(true);
         OnClose = onClose;
     }
 

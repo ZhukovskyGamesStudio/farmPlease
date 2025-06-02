@@ -823,14 +823,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a0dd9f52654a6aa5ad3f8e460b709a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rewardDialogPrefab: {fileID: 4100012467026694995, guid: ce8098d34c5b6d249ad93169b7936be8,
-    type: 3}
-  _profileDialogPrefab: {fileID: 8929954527904516390, guid: ec53dd9c13fe8d14ab7fd10d1ec08103,
-    type: 3}
   _dialogs:
   - {fileID: 5362431377471798030, guid: 79c5a54a4e38d9646a33c477b5612fee, type: 3}
   - {fileID: 4100012467026694995, guid: ce8098d34c5b6d249ad93169b7936be8, type: 3}
   - {fileID: 8929954527904516390, guid: ec53dd9c13fe8d14ab7fd10d1ec08103, type: 3}
+  - {fileID: 6337549249744704064, guid: bdd3d373e6d1f91498613378f7ef4c9f, type: 3}
 --- !u!1 &1388346009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1754,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -6.052
       objectReference: {fileID: 0}
+    - target: {fileID: 5275298168023841343, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -255.99994
+      objectReference: {fileID: 0}
     - target: {fileID: 5723466598257281580, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2067,6 +2069,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 9198133271140059764, guid: b5a3b0e0e6b51a641aba3ac432c70f38, type: 3}
     - {fileID: 7644605568967940834, guid: b5a3b0e0e6b51a641aba3ac432c70f38, type: 3}
+    - {fileID: 8238885725044776614, guid: b5a3b0e0e6b51a641aba3ac432c70f38, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5a3b0e0e6b51a641aba3ac432c70f38, type: 3}

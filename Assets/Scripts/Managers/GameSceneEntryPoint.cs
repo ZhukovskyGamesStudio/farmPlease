@@ -44,7 +44,6 @@ namespace Managers {
         private static void SetLoadedData() {
             GameSaveProfile save = SaveLoadManager.CurrentSave;
             UIHud.Instance.ShopsPanel.seedShopView.SetSeedShopWithData(save);
-            UIHud.Instance.ShopsPanel.toolShopView.SetToolShopWithData(save);
             Energy.Instance.SetEnergy(save.Energy);
             Clock.Instance.SetEnergy(save.ClockEnergy);
 
