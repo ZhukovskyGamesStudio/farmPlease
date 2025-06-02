@@ -22,7 +22,8 @@ public class ProfileView : MonoBehaviour {
         if (IsLockedByFtue) {
             return;
         }
-        DialogsManager.Instance.ShowProfileDialog(Show);
+
+        DialogsManager.Instance.ShowDialog(typeof(ProfileDialog), () => { });
         Hide();
     }
 

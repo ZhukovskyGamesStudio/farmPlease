@@ -11,7 +11,7 @@ namespace UI {
         public BatteryView BatteryView;
         public ScreenEffect screenEffect;
         public FastPanelScript FastPanelScript;
-        public TimePanelDialog TimePanelDialog;
+        public TimePanel TimePanel;
         public Backpack Backpack;
         public ShopsPanel ShopsPanel;
         public HelloPanelView HelloPanel;
@@ -33,8 +33,6 @@ namespace UI {
         public void ClosePanel() {
             if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
                 Settings.Instance.SettingsPanel.gameObject.SetActive(false);
-            else if (TimePanelDialog.isOpen)
-                TimePanelDialog.OpenBigCalendar();
             else if (ShopsPanel.toolShopView.gameObject.activeSelf)
                 ShopsPanel.toolShopView.gameObject.SetActive(false);
             else if (ShopsPanel.seedShopView.gameObject.activeSelf)
@@ -107,7 +105,7 @@ namespace UI {
             CroponomButton.gameObject.SetActive(!isActive);
             ShopsPanel.gameObject.SetActive(!isActive);
             Backpack.gameObject.SetActive(!isActive);
-            TimePanelDialog.gameObject.SetActive(!isActive);
+            TimePanel.gameObject.SetActive(!isActive);
             FastPanelScript.gameObject.SetActive(!isActive);
             BatteryView.gameObject.SetActive(!isActive);
         }

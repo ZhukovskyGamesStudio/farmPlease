@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class RewardDialog : DialogBase {
+public class RewardDialog : DialogWithData<Reward> {
     private Reward _reward;
 
     [SerializeField]
@@ -14,8 +14,10 @@ public class RewardDialog : DialogBase {
 
     [SerializeField]
     private Sprite _coinRewardIcon;
+
     [SerializeField]
     private Animation _chestAnimation, _rewardsAnimation;
+
     [SerializeField]
     private AnimationClip _chestAppear, _chestIdle, _chestClick, _chestOpen;
 
@@ -23,21 +25,17 @@ public class RewardDialog : DialogBase {
     private List<AnimationClip> _rewardsAnimationClips = new List<AnimationClip>();
 
     private int _clicksNeeded, _clicksMade;
-    private Action _onClaimed;
 
-    public void Show(Reward reward, Action onClaimed) {
+    public override void SetData(Reward reward) {
         _reward = reward;
-        _onClaimed = onClaimed;
         List<RewardItemView> combinedRewardViews = new List<RewardItemView>();
         combinedRewardViews.Add(_mainReward);
         combinedRewardViews.AddRange(_additionalRewards);
-       
-
         int rewardsAmount = reward.Items.Count + (reward is RewardWithUnlockable ? 1 : 0);
         RewardUtils.SetRewardsView(_reward, combinedRewardViews, _coinRewardIcon);
         for (int i = 0; i < reward.Items.Count; i++) {
             var item = reward.Items[i];
-          
+
             if (item.Type != RewardUtils.COINS_KEY) {
                 _clicksNeeded += item.Amount;
             } else {
@@ -51,7 +49,10 @@ public class RewardDialog : DialogBase {
 
         _clicksNeeded++;
         _clicksMade = 0;
-        gameObject.SetActive(true);
+    }
+
+    public override void Show(Action onClose) {
+        base.Show(onClose);
         _chestAnimation.Play(_chestAppear.name);
         _chestAnimation.PlayQueued(_chestIdle.name);
     }
@@ -60,6 +61,7 @@ public class RewardDialog : DialogBase {
         if (_clicksMade >= _clicksNeeded) {
             return;
         }
+
         _clicksMade++;
         _chestAnimation.Play(_chestClick.name);
         _chestAnimation.PlayQueued(_chestIdle.name);
@@ -83,8 +85,6 @@ public class RewardDialog : DialogBase {
     public void Claim() {
         //TODO show items flying animation
         RewardUtils.ClaimReward(_reward);
-        _onClaimed?.Invoke();
-        gameObject.SetActive(false);
-        Destroy(gameObject);
+        Close();
     }
 }

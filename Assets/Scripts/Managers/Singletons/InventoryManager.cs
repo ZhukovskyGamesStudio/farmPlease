@@ -134,12 +134,11 @@ namespace Managers {
 
             RewardWithUnlockable reward = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
                
-            DialogsManager.Instance.ShowRewardDialog(reward, () => {
+            DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), reward, () => {
                 SaveLoadManager.CurrentSave.CurrentLevel++;
                 UIHud.Instance.ProfileView.SetCounters();
                 SaveLoadManager.SaveGame();
             });
-          
         }
 
         /*****Семена*****/

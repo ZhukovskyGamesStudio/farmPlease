@@ -5,16 +5,20 @@ using Tables;
 using UI;
 using UnityEngine;
 
-public class BigCalendarDialog : MonoBehaviour {
+public class BigCalendarDialog : DialogWithData<BigCalendarData> {
     private List<CalendarDayView> _days;
     private List<CalendarDayView> _skippedDays;
     public CalendarDayView DayPref;
     public Transform DaysParent;
     private Action _onClose;
 
+    public override void SetData(BigCalendarData data) {
+        CreateDaysViews(data.DaysHappenings, data.SkipAmount);
+        UpdateBigCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
+    }
+
     public void Show(Action onClose) {
         _onClose = onClose;
-        gameObject.SetActive(true);
         var date = SaveLoadManager.CurrentSave.ParsedDate;
         var skipDaysAmount = TimeManager.FirstDayInMonth(date.Year, date.Month);
         CreateDaysViews(SaveLoadManager.CurrentSave.Days, skipDaysAmount);
@@ -68,4 +72,10 @@ public class BigCalendarDialog : MonoBehaviour {
         _onClose?.Invoke();
         Destroy(gameObject);
     }
+}
+
+[Serializable]
+public class BigCalendarData {
+    public List<HappeningType> DaysHappenings;
+    public int SkipAmount;
 }

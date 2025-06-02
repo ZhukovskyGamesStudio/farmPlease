@@ -1,16 +1,11 @@
 ﻿using System;
-using UI;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DialogsManager : MonoBehaviour {
     [SerializeField]
-    private RewardDialog _rewardDialogPrefab;
-
-    [SerializeField]
-    private ProfileDialog _profileDialogPrefab;
-
-    [SerializeField]
-    private BigCalendarDialog _bigCalendarDialog;
+    private List<DialogBase> _dialogs = new List<DialogBase>();
 
     public static DialogsManager Instance { get; private set; }
 
@@ -18,18 +13,21 @@ public class DialogsManager : MonoBehaviour {
         Instance = this;
     }
 
-    public void ShowRewardDialog(Reward reward, Action onClaim) {
-        RewardDialog dialog = Instantiate(_rewardDialogPrefab, transform);
-        dialog.Show(reward, onClaim);
+    public void ShowDialog(Type dialogType, Action onClose) {
+        DialogBase prefab = _dialogs.First(d => d.GetComponent(dialogType) != null);
+        DialogBase dialogInstance = Instantiate(prefab, transform);
+        DialogBase dialogBase = dialogInstance.GetComponent(dialogType) as DialogBase;
+        dialogBase.Show(onClose);
     }
 
-    public void ShowProfileDialog(Action onClose) {
-        ProfileDialog dialog = Instantiate(_profileDialogPrefab, transform);
-        dialog.Show(onClose);
-    }
+    public void ShowDialogWithData<T>(Type dialogType, T data, Action onClose) {
+        DialogBase prefab = _dialogs.First(d => d.GetComponent(dialogType) != null);
+        DialogBase dialogInstance = Instantiate(prefab, transform);
+        DialogBase dialogBase = dialogInstance.GetComponent(dialogType) as DialogBase;
+        if (dialogBase is DialogWithData<T> dialogWithData) {
+            dialogWithData.SetData(data);
+        }
 
-    public void ShowBigCalendarDialog(Action onClose) {
-        BigCalendarDialog dialog = Instantiate(_bigCalendarDialog, transform);
-        dialog.Show(onClose);
+        dialogBase.Show(onClose);
     }
 }

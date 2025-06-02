@@ -15,11 +15,11 @@ namespace Managers {
 
         [Range(1, 31)]
         public static int MaxDays;
-        
+
         private static int _skipDaysAmount;
 
         [SerializeField]
-        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint,_toolMarketHint, _foodMarketHint;
+        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint, _toolMarketHint, _foodMarketHint;
 
         public static List<HappeningType> Days => SaveLoadManager.CurrentSave.Days;
 
@@ -28,7 +28,7 @@ namespace Managers {
         private PlayerController PlayerController => global::PlayerController.Instance;
         private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
         private SmartTilemap SmartTilemap => SmartTilemap.Instance;
-        private TimePanelDialog TimePanelDialog => UIHud.TimePanelDialog;
+        private TimePanel TimePanel => UIHud.TimePanel;
         private ToolShopView ToolShop => UIHud.ShopsPanel.toolShopView;
 
         private UIHud UIHud => global::UI.UIHud.Instance;
@@ -44,7 +44,6 @@ namespace Managers {
         public bool IsTodayLoveDay => Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.Love;
 
         public void SetDaysWithData(List<HappeningType> daysData, DateTime date) {
-
             if (daysData == null) {
                 GenerateDays(date);
                 return;
@@ -53,11 +52,9 @@ namespace Managers {
             MaxDays = daysData.Count;
             _skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
-            TimePanelDialog.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
-            TimePanelDialog.CreateDaysViews(Days, _skipDaysAmount);
-            
-            
-            TimePanelDialog.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
+            TimePanel.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
+
+            TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
             SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth]);
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket) {
@@ -83,13 +80,13 @@ namespace Managers {
             //TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
             //ToolShop.ChangeToolsNewDay();
 
-           /* if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
-                    UIHud.OpenBuildingsShop();
-                } else {
-                    UIHud.CloseBuildingsShop();
-                }
-            }*/
+            /* if (GameModeManager.Instance.GameMode != GameMode.Training) {
+                 if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
+                     UIHud.OpenBuildingsShop();
+                 } else {
+                     UIHud.CloseBuildingsShop();
+                 }
+             }*/
         }
 
         private static void GenerateHappenings() {
@@ -104,20 +101,21 @@ namespace Managers {
 
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + _skipDaysAmount;
-                if (x % 7 == 0 && x > 0  && SaveLoadManager.CurrentSave.CurrentMonth > 0 &&  UnlockableUtils.HasUnlockable(HappeningType.FoodMarket)) {
+                if (x % 7 == 0 && x > 0 && SaveLoadManager.CurrentSave.CurrentMonth > 0 &&
+                    UnlockableUtils.HasUnlockable(HappeningType.FoodMarket)) {
                     Days[i] = HappeningType.FoodMarket;
                 } else if ((i + 1) % 5 == 0) {
                     if (SaveLoadManager.CurrentSave.CurrentMonth == 0 && !skippedFirstRain) {
                         skippedFirstRain = true;
                         continue;
                     }
+
                     Days[i] = HappeningType.Unknown;
-                } else if (i == love &&  UnlockableUtils.HasUnlockable(HappeningType.Love)) {
+                } else if (i == love && UnlockableUtils.HasUnlockable(HappeningType.Love)) {
                     Days[i] = HappeningType.Love;
                 }
             }
         }
-        
 
         public void AddDay() {
             SaveLoadManager.CurrentSave.CurrentDayInMonth++;
@@ -127,7 +125,7 @@ namespace Managers {
             if (SaveLoadManager.CurrentSave.CurrentDayInMonth > daysInMonth - 1) {
                 ChangeMonth();
             }
-           
+
             StartCoroutine(DayPointCoroutine());
             Energy.Instance.RestoreEnergy();
             if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather)) {
@@ -137,7 +135,7 @@ namespace Managers {
             if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.LilCalendar)) {
                 TryShowHappeningHint();
             }
-            
+
             if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.FoodMarket)) {
                 TryShowFoodMarketHint();
             }
@@ -146,14 +144,14 @@ namespace Managers {
         private void TryShowCalendarHint() {
             int nextDay = SaveLoadManager.CurrentSave.CurrentDayInMonth + 1;
             if (Days.Count > nextDay && Days[nextDay] != HappeningType.NormalSunnyDay) {
-                UIHud.TimePanelDialog.gameObject.SetActive(true);
-                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelDialog.CalendarButton, _calendarHint, ShowWeatherHint);
+                UIHud.TimePanel.gameObject.SetActive(true);
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.CalendarButton, _calendarHint, ShowWeatherHint);
             }
         }
 
         private void TryShowHappeningHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] != HappeningType.NormalSunnyDay) {
-                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelDialog.HappeningButton, _happeningHint,
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.HappeningButton, _happeningHint,
                     delegate { KnowledgeUtils.AddKnowledge(Knowledge.LilCalendar); }, true);
             }
         }
@@ -166,7 +164,7 @@ namespace Managers {
 
         private void TryShowFoodMarketHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket) {
-               UnlockableUtils.Unlock(HappeningType.FoodMarket);
+                UnlockableUtils.Unlock(HappeningType.FoodMarket);
             }
         }
 
@@ -182,14 +180,13 @@ namespace Managers {
                 EndMonth();*/
 
             SeedShopView.ChangeSeedsNewDay();
-          
 
             InventoryManager.Instance.BrokeTools();
             UIHud.Instance.FastPanelScript.UpdateToolsImages();
             ToolShop.ChangeToolsNewDay();
 
             HappeningType nextDay = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth);
-            TimePanelDialog.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
+            TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
             StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
             yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
@@ -207,23 +204,27 @@ namespace Managers {
 
         public static HappeningType UnveilUnknownHappening(int day) {
             HappeningType happening = Days[day];
-            if(happening == HappeningType.Unknown) {
-                List<HappeningType> possibleHappenings = new List<HappeningType> ();
+            if (happening == HappeningType.Unknown) {
+                List<HappeningType> possibleHappenings = new List<HappeningType>();
                 if (UnlockableUtils.HasUnlockable(HappeningType.Rain)) {
                     possibleHappenings.Add(HappeningType.Rain);
                 }
+
                 if (UnlockableUtils.HasUnlockable(HappeningType.Erosion)) {
                     possibleHappenings.Add(HappeningType.Erosion);
                 }
+
                 if (UnlockableUtils.HasUnlockable(HappeningType.Wind)) {
                     possibleHappenings.Add(HappeningType.Wind);
                 }
+
                 if (UnlockableUtils.HasUnlockable(HappeningType.Insects)) {
                     possibleHappenings.Add(HappeningType.Insects);
                 }
+
                 int rnd = Random.Range(0, possibleHappenings.Count);
                 Days[day] = possibleHappenings[rnd];
-                happening= possibleHappenings[rnd];
+                happening = possibleHappenings[rnd];
             }
 
             return happening;
@@ -245,7 +246,6 @@ namespace Managers {
             }
         }*/
 
-
         private int NextDay(int currentDayOfWeek) {
             int next = (currentDayOfWeek + 1) % 7;
             return next;
@@ -262,6 +262,15 @@ namespace Managers {
             int tmp3 = (maxDays % 7 + tmp2 - 1) % 7;
 
             return tmp3;
+        }
+
+        public void ShowBigCalendarDialog() {
+            var date = SaveLoadManager.CurrentSave.ParsedDate;
+            var skipDaysAmount = TimeManager.FirstDayInMonth(date.Year, date.Month);
+            DialogsManager.Instance.ShowDialogWithData(typeof(BigCalendarDialog), new BigCalendarData() {
+                DaysHappenings = Days,
+                SkipAmount = skipDaysAmount
+            }, null);
         }
     }
 }
