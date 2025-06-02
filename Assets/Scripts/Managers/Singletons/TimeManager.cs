@@ -266,11 +266,11 @@ namespace Managers {
 
         public void ShowBigCalendarDialog() {
             var date = SaveLoadManager.CurrentSave.ParsedDate;
-            var skipDaysAmount = TimeManager.FirstDayInMonth(date.Year, date.Month);
+            var skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
             DialogsManager.Instance.ShowDialogWithData(typeof(BigCalendarDialog), new BigCalendarData() {
                 DaysHappenings = Days,
                 SkipAmount = skipDaysAmount
-            }, null);
+            });
         }
     }
 }

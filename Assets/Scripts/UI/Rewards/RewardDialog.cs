@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class RewardDialog : DialogWithData<Reward> {
-    private Reward _reward;
+public class RewardDialog : DialogWithData<RewardDialogData> {
+    private RewardDialogData _data;
 
     [SerializeField]
     private RewardItemView _mainReward;
@@ -26,15 +26,15 @@ public class RewardDialog : DialogWithData<Reward> {
 
     private int _clicksNeeded, _clicksMade;
 
-    public override void SetData(Reward reward) {
-        _reward = reward;
+    public override void SetData(RewardDialogData data) {
+        _data = data;
         List<RewardItemView> combinedRewardViews = new List<RewardItemView>();
         combinedRewardViews.Add(_mainReward);
         combinedRewardViews.AddRange(_additionalRewards);
-        int rewardsAmount = reward.Items.Count + (reward is RewardWithUnlockable ? 1 : 0);
-        RewardUtils.SetRewardsView(_reward, combinedRewardViews, _coinRewardIcon);
-        for (int i = 0; i < reward.Items.Count; i++) {
-            var item = reward.Items[i];
+        var items = _data.Reward.Items;
+        RewardUtils.SetRewardsView(_data.Reward, combinedRewardViews, _coinRewardIcon);
+        for (int i = 0; i < items.Count; i++) {
+            var item = items[i];
 
             if (item.Type != RewardUtils.COINS_KEY) {
                 _clicksNeeded += item.Amount;
@@ -43,7 +43,7 @@ public class RewardDialog : DialogWithData<Reward> {
             }
         }
 
-        if (reward is RewardWithUnlockable) {
+        if (data.Reward is RewardWithUnlockable) {
             _clicksNeeded++;
         }
 
@@ -74,8 +74,8 @@ public class RewardDialog : DialogWithData<Reward> {
         _chestAnimation.Play(_chestOpen.name);
         await UniTask.WaitWhile(() => _chestAnimation.isPlaying);
 
-        int rewardsAmount = _reward.Items.Count;
-        if (_reward is RewardWithUnlockable) {
+        int rewardsAmount = _data.Reward.Items.Count;
+        if (_data.Reward is RewardWithUnlockable) {
             rewardsAmount++;
         }
 
@@ -84,7 +84,13 @@ public class RewardDialog : DialogWithData<Reward> {
 
     public void Claim() {
         //TODO show items flying animation
-        RewardUtils.ClaimReward(_reward);
+        RewardUtils.ClaimReward(_data.Reward);
+        _data.OnClaim?.Invoke();
         Close();
     }
+}
+[Serializable]
+public class RewardDialogData {
+    public Reward Reward;
+    public Action OnClaim;
 }

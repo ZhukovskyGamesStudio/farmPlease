@@ -23,7 +23,7 @@ public class ProfileView : MonoBehaviour {
             return;
         }
 
-        DialogsManager.Instance.ShowDialog(typeof(ProfileDialog), () => { });
+        DialogsManager.Instance.ShowDialog(typeof(ProfileDialog));
         Hide();
     }
 
