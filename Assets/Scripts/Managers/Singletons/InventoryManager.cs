@@ -162,7 +162,7 @@ namespace Managers {
 
         public void BuySeed(Crop crop, int cost, int amount) {
             if (SaveLoadManager.CurrentSave.Coins >= cost) {
-                Instance.AddXp(3);
+                Instance.AddXp(1);
                 AddCoins(-1 * cost);
                 AddSeed(crop, amount);
                 StartCoroutine(SmartTilemap.Instance.HappeningSequence());
@@ -230,7 +230,7 @@ namespace Managers {
 
         public void BuyTool(ToolBuff buff, int cost, int amount) {
             AddCoins(-1 * cost);
-            AddXp(5);
+            AddXp(3);
             AddTool(buff, amount);
         }
         
