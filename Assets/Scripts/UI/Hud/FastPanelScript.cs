@@ -20,7 +20,7 @@ namespace UI
         private Crop _curCropSeed;
 
         public void Init() {
-            _calendarImage = UIHud.Instance.TimePanelView.CalendarImage;
+            _calendarImage = UIHud.Instance.TimePanelDialog.CalendarImage;
             _backpack = UIHud.Instance.Backpack;
         }
 

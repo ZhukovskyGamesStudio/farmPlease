@@ -13,7 +13,7 @@ namespace Managers
         private bool _isBatteriEmpted, _isNextDayBegan, _isSeedBought;
 
         public void Start() {
-            if (SaveLoadManager.CurrentSave.CurrentDay > 0)
+            if (SaveLoadManager.CurrentSave.CurrentDayInMonth > 0)
                 SaveLoadManager.Instance.ClearSaveAndReload();
             _curStep = -1;
             _isBatteriEmpted = false;
@@ -29,7 +29,7 @@ namespace Managers
                 }
 
             if (!_isNextDayBegan)
-                if (SaveLoadManager.CurrentSave.CurrentDay == 1) {
+                if (SaveLoadManager.CurrentSave.CurrentDayInMonth == 1) {
                     _isNextDayBegan = true;
                     NextStep();
                 }

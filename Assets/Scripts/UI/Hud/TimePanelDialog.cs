@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Managers;
 using Tables;
@@ -6,13 +7,12 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class TimePanelView : MonoBehaviour {
+    public class TimePanelDialog : MonoBehaviour {
         public CalendarDayView lilCalendarDay;
         public Image CalendarImage;
         public Button CalendarButton;
         public Button HappeningButton;
-
-        public GameObject CalendarPanel;
+        
         public GameObject DayPref;
         public GameObject DaysParent;
         public GameObject timeHintPanel;
@@ -20,14 +20,25 @@ namespace UI
         public bool isOpen;
         private GameObject[] _days;
         private int _daysAmount;
-        private List<HappeningType> _daysHappenings;
         private GameObject[] _skipDays;
         private HappeningType _currentDay;
         private int _skipDaysAmount;
         public Transform CurrentDay { get; private set; }
 
-        public void CreateDays(List<HappeningType> daysHappenings, int skipAmount) {
-            _daysHappenings = daysHappenings;
+        private Action _onClose;
+        
+        public void Show(Action onClose) {
+            _onClose = onClose;
+            var date = SaveLoadManager.CurrentSave.ParsedDate;
+            var skipDaysAmount = TimeManager.FirstDayInMonth(date.Year, date.Month);
+            CreateDaysViews(SaveLoadManager.CurrentSave.Days, skipDaysAmount);
+        }
+
+        public void Close() {
+            _onClose?.Invoke();
+        }
+
+        public void CreateDaysViews(List<HappeningType> daysHappenings, int skipAmount) {
             _daysAmount = daysHappenings.Count;
             _skipDaysAmount = skipAmount-1;
 
@@ -54,32 +65,8 @@ namespace UI
             }
         }
 
-        private void UpdateBigCalendar(int curDay) {
-            int predictedDaysLeft = InventoryManager.ToolsActivated.SafeGet(ToolBuff.Weatherometr, 0);
-            for (int i = 0; i < _days.Length; i++) {
-                CalendarDayView view = _days[i].GetComponent<CalendarDayView>();
-                if (_daysHappenings[i] == HappeningType.Love && !InventoryManager.Instance.IsToolWorking(ToolBuff.Weatherometr))
-                    view.SetProps(i, HappeningType.NormalSunnyDay);
-                else if (_daysHappenings[i] != HappeningType.NormalSunnyDay && _daysHappenings[i] != HappeningType.FoodMarket &&
-                         predictedDaysLeft <= 0 && i > curDay)
-                    view.SetProps(i, HappeningType.Unknown);
-                else
-                    view.SetProps(i, _daysHappenings[i]);
-
-                if (i < curDay)
-                    view.DayOver();
-                else if (i == curDay) {
-                    CurrentDay = view.transform;
-                    view.DayToday();
-                } else {
-                    predictedDaysLeft--;
-                    view.DayFuture();
-                }
-            }
-        }
-
         public void UpdateLilCalendar(int date) {
-            _currentDay = _daysHappenings[date];
+            _currentDay = TimeManager.Days[date];
             lilCalendarDay.SetProps(date, _currentDay, true);
         }
 
@@ -87,12 +74,8 @@ namespace UI
             UIHud.Instance.Croponom.OpenOnPage( WeatherTable.WeatherByType( _currentDay).type.ToString());
         }
         
-        public void CalendarPanelOpenClose() {
-            isOpen = !isOpen;
-            CalendarPanel.SetActive(isOpen);
-            if (isOpen) {
-                UpdateBigCalendar(SaveLoadManager.CurrentSave.CurrentDay);
-            }
+        public void OpenBigCalendar() {
+            DialogsManager.Instance.ShowBigCalendarDialog(null);
         }
     }
 }

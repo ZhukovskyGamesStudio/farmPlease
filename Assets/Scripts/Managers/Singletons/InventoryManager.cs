@@ -119,6 +119,9 @@ namespace Managers {
         }
 
         public void AddXp(int amount) {
+            if(GameModeManager.Instance.Config.Is10xXp) {
+                amount *= 10;
+            }
             SaveLoadManager.CurrentSave.Xp += amount;
             UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
             CheckNewLevelDialog();
@@ -259,7 +262,7 @@ namespace Managers {
                 ToolsActivated[buff] += config.buyAmount;
                 _fastPanelScript.UpdateToolsImages();
             }
-
+            SaveLoadManager.SaveGame();
             UpdateInventoryUI();
         }
 

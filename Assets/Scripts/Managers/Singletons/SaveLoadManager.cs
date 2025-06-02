@@ -23,6 +23,7 @@ namespace Managers {
 
         private ToolShopView _toolShop;
         public static GameSaveProfile CurrentSave;
+        
 
         // Пока в игре происходят какие-то действия, игрок не может ничего сделать
         // По окончанию этих действий игрок снова может что-то делать, а игра сохраняется. Если последовательность не была завершена - то игра не сохранится и откатится назад при след. загрузке
@@ -98,12 +99,12 @@ namespace Managers {
             //TODO update everything else and move to another manager
         }
         private static void UpdateKnowledge() {
-            bool isPlayedEnough = CurrentSave.CropPoints > 3 || CurrentSave.Coins > 5 || CurrentSave.CurrentDay > 2;
+            bool isPlayedEnough = CurrentSave.CropPoints > 3 || CurrentSave.Coins > 5 || CurrentSave.CurrentDayInMonth > 2;
             if (!KnowledgeUtils.HasKnowledge(Knowledge.Training) && isPlayedEnough) {
                 KnowledgeUtils.AddKnowledge(Knowledge.Training);
             }
 
-            if (!KnowledgeUtils.HasKnowledge(Knowledge.Weather) && CurrentSave.CurrentDay > 3) {
+            if (!KnowledgeUtils.HasKnowledge(Knowledge.Weather) && CurrentSave.CurrentDayInMonth > 3) {
                 KnowledgeUtils.AddKnowledge(Knowledge.Weather);
             }
         }
@@ -153,7 +154,7 @@ namespace Managers {
             Clock.GenerateEnergy();
             UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsNewDay();
             UIHud.Instance.ShopsPanel.toolShopView.ChangeToolsNewDay();
-            TimeManager.GenerateDays(0);
+            TimeManager.GenerateDays(CurrentSave.ParsedDate);
         }
 
         public void ClearSaveAndReload() {

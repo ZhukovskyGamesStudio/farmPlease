@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Managers;
 using Tables;
 using ZhukovskyGamesPlugin;
@@ -18,7 +19,7 @@ public class GameSaveProfile {
     public string Date;
     public string SavedDate;
     public TilesData TilesData = new TilesData();
-    public int CurrentDay;
+    public int CurrentDayInMonth;
     public int CurrentMonth;
     public int DayOfWeek;
 
@@ -47,4 +48,6 @@ public class GameSaveProfile {
     public List<Knowledge> KnowledgeList = new List<Knowledge>();
     public List<string> Unlocked = new List<string>();
     public SettingsData SettingsData = new SettingsData();
+    
+    public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
 }

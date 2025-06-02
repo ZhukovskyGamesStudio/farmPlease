@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using ScriptableObjects;
 using Tables;
 using UI;
@@ -27,7 +28,7 @@ namespace Managers {
         private PlayerController PlayerController => global::PlayerController.Instance;
         private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
         private SmartTilemap SmartTilemap => SmartTilemap.Instance;
-        private TimePanelView TimePanelView => UIHud.TimePanelView;
+        private TimePanelDialog TimePanelDialog => UIHud.TimePanelDialog;
         private ToolShopView ToolShop => UIHud.ShopsPanel.toolShopView;
 
         private UIHud UIHud => global::UI.UIHud.Instance;
@@ -40,41 +41,40 @@ namespace Managers {
             SessionTime += UnityEngine.Time.deltaTime;
         }
 
-        public bool IsTodayLoveDay => Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.Love;
+        public bool IsTodayLoveDay => Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.Love;
 
         public void SetDaysWithData(List<HappeningType> daysData, DateTime date) {
 
             if (daysData == null) {
-                GenerateDays(0);
+                GenerateDays(date);
                 return;
             }
-
-            TryChangeMonth();
 
             MaxDays = daysData.Count;
             _skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
-            TimePanelView.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
-            TimePanelView.CreateDays(Days, _skipDaysAmount);
-            TimePanelView.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
-            SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDay]);
+            TimePanelDialog.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
+            TimePanelDialog.CreateDaysViews(Days, _skipDaysAmount);
+            
+            
+            TimePanelDialog.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
+            SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth]);
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
+                if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket) {
                     UIHud.OpenBuildingsShop();
                 } else {
                     UIHud.CloseBuildingsShop();
                 }
             }
 
-            StartCoroutine(UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDay], false));
+            StartCoroutine(UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth], false));
         }
 
-        public static void GenerateDays(int month) {
-            DateTime date = FirstDayOfGame.AddMonths(month);
+        public static void GenerateDays(DateTime date) {
             MaxDays = DateTime.DaysInMonth(date.Year, date.Month);
             _skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
-            SaveLoadManager.CurrentSave.CurrentDay = 0;
+            SaveLoadManager.CurrentSave.CurrentDayInMonth = 0;
 
             GenerateHappenings();
 
@@ -104,40 +104,30 @@ namespace Managers {
 
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + _skipDaysAmount;
-                if (x % 7 == 0 && x > 0 && GameModeManager.Instance.GameMode != GameMode.Training && SaveLoadManager.CurrentSave.CurrentMonth > 0) {
+                if (x % 7 == 0 && x > 0  && SaveLoadManager.CurrentSave.CurrentMonth > 0 &&  UnlockableUtils.HasUnlockable(HappeningType.FoodMarket)) {
                     Days[i] = HappeningType.FoodMarket;
                 } else if ((i + 1) % 5 == 0) {
                     if (SaveLoadManager.CurrentSave.CurrentMonth == 0 && !skippedFirstRain) {
-                        //TODO skipping happenings before calendar is unlocked
                         skippedFirstRain = true;
                         continue;
                     }
-
-                  //TODO fix generation of days too early
-                    List<HappeningType> possibleHappenings = new List<HappeningType> ();
-                    if (UnlockableUtils.HasUnlockable(HappeningType.Rain)) {
-                        possibleHappenings.Add(HappeningType.Rain);
-                    }
-                    if (UnlockableUtils.HasUnlockable(HappeningType.Erosion)) {
-                        possibleHappenings.Add(HappeningType.Erosion);
-                    }
-                    if (UnlockableUtils.HasUnlockable(HappeningType.Wind)) {
-                        possibleHappenings.Add(HappeningType.Wind);
-                    }
-                    if (UnlockableUtils.HasUnlockable(HappeningType.Insects)) {
-                        possibleHappenings.Add(HappeningType.Insects);
-                    }
-                    int rnd = Random.Range(0, possibleHappenings.Count);
-                    Days[i] = possibleHappenings[rnd];
+                    Days[i] = HappeningType.Unknown;
                 } else if (i == love &&  UnlockableUtils.HasUnlockable(HappeningType.Love)) {
                     Days[i] = HappeningType.Love;
                 }
             }
         }
+        
 
         public void AddDay() {
-            SaveLoadManager.CurrentSave.CurrentDay++;
-            TryChangeMonth();
+            SaveLoadManager.CurrentSave.CurrentDayInMonth++;
+            int daysInMonth = DateTime.DaysInMonth(SaveLoadManager.CurrentSave.ParsedDate.Year, SaveLoadManager.CurrentSave.ParsedDate.Month);
+            SaveLoadManager.CurrentSave.Date = SaveLoadManager.CurrentSave.ParsedDate.AddDays(1).ToString(CultureInfo.InvariantCulture);
+
+            if (SaveLoadManager.CurrentSave.CurrentDayInMonth > daysInMonth - 1) {
+                ChangeMonth();
+            }
+           
             StartCoroutine(DayPointCoroutine());
             Energy.Instance.RestoreEnergy();
             if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather)) {
@@ -154,37 +144,35 @@ namespace Managers {
         }
 
         private void TryShowCalendarHint() {
-            int nextDay = SaveLoadManager.CurrentSave.CurrentDay + 1;
+            int nextDay = SaveLoadManager.CurrentSave.CurrentDayInMonth + 1;
             if (Days.Count > nextDay && Days[nextDay] != HappeningType.NormalSunnyDay) {
-                UIHud.TimePanelView.gameObject.SetActive(true);
-                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelView.CalendarButton, _calendarHint, ShowWeatherHint);
+                UIHud.TimePanelDialog.gameObject.SetActive(true);
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelDialog.CalendarButton, _calendarHint, ShowWeatherHint);
             }
         }
 
         private void TryShowHappeningHint() {
-            if (Days[SaveLoadManager.CurrentSave.CurrentDay] != HappeningType.NormalSunnyDay) {
-                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelView.HappeningButton, _happeningHint,
+            if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] != HappeningType.NormalSunnyDay) {
+                UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanelDialog.HappeningButton, _happeningHint,
                     delegate { KnowledgeUtils.AddKnowledge(Knowledge.LilCalendar); }, true);
             }
         }
 
         private void ShowWeatherHint() {
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.TimePanelView.CalendarPanel.transform, _weatherHint,
+            BigCalendarDialog bigCalendarDialog = FindAnyObjectByType<BigCalendarDialog>();
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(bigCalendarDialog.transform, _weatherHint,
                 delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); });
         }
 
         private void TryShowFoodMarketHint() {
-            if (Days[SaveLoadManager.CurrentSave.CurrentDay] == HappeningType.FoodMarket) {
+            if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket) {
                UnlockableUtils.Unlock(HappeningType.FoodMarket);
             }
         }
 
-        private void TryChangeMonth() {
-            if (SaveLoadManager.CurrentSave.CurrentDay >= SaveLoadManager.CurrentSave.Days.Count) {
-                SaveLoadManager.CurrentSave.CurrentMonth++;
-                InventoryManager.ToolsActivated[ToolBuff.Weatherometr] = 0;
-                GenerateDays(SaveLoadManager.CurrentSave.CurrentMonth);
-            }
+        private void ChangeMonth() {
+            SaveLoadManager.CurrentSave.CurrentMonth++;
+            GenerateDays(SaveLoadManager.CurrentSave.ParsedDate);
         }
 
         public IEnumerator DayPointCoroutine() {
@@ -194,15 +182,14 @@ namespace Managers {
                 EndMonth();*/
 
             SeedShopView.ChangeSeedsNewDay();
-
-            TimePanelView.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDay);
+          
 
             InventoryManager.Instance.BrokeTools();
             UIHud.Instance.FastPanelScript.UpdateToolsImages();
             ToolShop.ChangeToolsNewDay();
 
-            HappeningType nextDay = Days[SaveLoadManager.CurrentSave.CurrentDay];
-
+            HappeningType nextDay = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth);
+            TimePanelDialog.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
             StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
             yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
@@ -218,12 +205,31 @@ namespace Managers {
             PlayerController.CanInteract = true;
         }
 
-        public void SkipToEndMonth() {
-            SaveLoadManager.CurrentSave.DayOfWeek = NextDay(LastDayInMonth(SaveLoadManager.CurrentSave.CurrentDay,
-                MaxDays, SaveLoadManager.CurrentSave.DayOfWeek));
-            //EndMonth();
+        public static HappeningType UnveilUnknownHappening(int day) {
+            HappeningType happening = Days[day];
+            if(happening == HappeningType.Unknown) {
+                List<HappeningType> possibleHappenings = new List<HappeningType> ();
+                if (UnlockableUtils.HasUnlockable(HappeningType.Rain)) {
+                    possibleHappenings.Add(HappeningType.Rain);
+                }
+                if (UnlockableUtils.HasUnlockable(HappeningType.Erosion)) {
+                    possibleHappenings.Add(HappeningType.Erosion);
+                }
+                if (UnlockableUtils.HasUnlockable(HappeningType.Wind)) {
+                    possibleHappenings.Add(HappeningType.Wind);
+                }
+                if (UnlockableUtils.HasUnlockable(HappeningType.Insects)) {
+                    possibleHappenings.Add(HappeningType.Insects);
+                }
+                int rnd = Random.Range(0, possibleHappenings.Count);
+                Days[day] = possibleHappenings[rnd];
+                happening= possibleHappenings[rnd];
+            }
+
+            return happening;
         }
-/*
+
+        /*
         private void EndMonth() {
             InventoryManager.Instance.ToolsInventory[ToolBuff.Weatherometr] = 0;
             GenerateDays(false, false);
@@ -245,7 +251,7 @@ namespace Managers {
             return next;
         }
 
-        private static int FirstDayInMonth(int year, int month) {
+        public static int FirstDayInMonth(int year, int month) {
             DateTime date = new(year, month, 1);
             return (int)date.DayOfWeek;
         }

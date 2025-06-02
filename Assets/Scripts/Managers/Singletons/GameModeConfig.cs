@@ -11,8 +11,10 @@ public class GameModeConfig : ScriptableObject {
     public bool DisableStrongWind;
     public bool IsBuildingsShopAlwaysOpen;
     public bool IsSkipTraining;
+    public bool Is10xXp = true;
     public int RandomCropsCollectedQueueAmount = 55;
+  
 
-    [Range(1f, 5)]
+    [Range(1f, 10)]
     public float GameSpeed = 1;
 }
