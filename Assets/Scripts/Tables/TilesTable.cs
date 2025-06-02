@@ -385,7 +385,7 @@ namespace Tables {
                 switch (type) {
                     case TileType.SeedDoublerEmpty:
                     case TileType.SeedDoublerFull:
-                        _tilemap.seedShop.SetAmbarCrop(seedtype);
+                        SaveLoadManager.CurrentSave.SeedShopData.AmbarCrop = seedtype;
                         SwitchType(TileType.SeedDoublerFull);
                         break;
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Abstract;
 using ScriptableObjects;
 using UI;
@@ -26,6 +28,7 @@ namespace Tables {
                     return true;
             return false;
         }
+        public static List<Crop> CropsTypes=> Instance.Crops.Select(t => t.type).ToList();
     }
 
     [Serializable]

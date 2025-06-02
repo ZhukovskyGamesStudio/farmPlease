@@ -11,10 +11,12 @@ namespace UI
         public Button SeedShopButton, ToolShopButton;
       
         public GameObject BuildingButton;
-        public SeedShopView seedShopView;
         public BuildingShopView BuildingShopView;
         public Button BuildingShopButton;
-
+        
+        public void OpenSeedshop() {
+            DialogsManager.Instance.ShowDialogWithData(typeof(SeedShopDialog), SaveLoadManager.CurrentSave.SeedShopData);
+        }
         public void OpenToolShop() {
             DialogsManager.Instance.ShowDialogWithData(typeof(ToolShopDialog), SaveLoadManager.CurrentSave.ToolShopData);
         }

@@ -16,14 +16,6 @@ public class BigCalendarDialog : DialogWithData<BigCalendarData> {
         UpdateBigCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
     }
 
-    public override void Show(Action onClose) {
-        var date = SaveLoadManager.CurrentSave.ParsedDate;
-        var skipDaysAmount = TimeManager.FirstDayInMonth(date.Year, date.Month);
-        CreateDaysViews(SaveLoadManager.CurrentSave.Days, skipDaysAmount);
-        UpdateBigCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
-        base.Show(onClose);
-    }
-
     private void CreateDaysViews(List<HappeningType> daysHappenings, int skipAmount) {
         int skipDaysAmount = skipAmount - 1;
         if (skipDaysAmount > 0) {

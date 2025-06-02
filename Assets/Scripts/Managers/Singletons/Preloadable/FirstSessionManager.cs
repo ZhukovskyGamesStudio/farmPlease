@@ -130,10 +130,6 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(false);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton.gameObject.SetActive(false);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.CloseButton.gameObject.SetActive(false);
-            UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.gameObject.SetActive(false);
-            UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.blocksRaycasts = false;
-            UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = false;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = true;
             UIHud.Instance.ProfileView.IsLockedByFtue = true;
@@ -151,10 +147,6 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.interactable = true;
-            UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.interactable = true;
-            UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.blocksRaycasts = true;
-            UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = true;
 
             UIHud.Instance.ClockView.GetComponent<Button>().interactable = true;
             UIHud.Instance.Backpack.IsLockOpenCloseByFtue = false;
@@ -169,8 +161,6 @@ namespace Managers {
 
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.CloseButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = true;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = false;
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
@@ -370,50 +360,34 @@ namespace Managers {
         private async UniTask ShowSeedShopSpotlight() {
             _isWaitingForStepEnd = true;
             UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.seedShopView.SetSeedsShop(Crop.Tomato, Crop.Tomato);
-            UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.gameObject.SetActive(false);
+            
+            SaveLoadManager.CurrentSave.SeedShopData.FirstOffer = Crop.Tomato;
+            SaveLoadManager.CurrentSave.SeedShopData.SecondOffer = Crop.Tomato;
+            SaveLoadManager.CurrentSave.SeedShopData.ChangeButtonActive = false;
+            
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.SeedShopButton, FtueConfig.SeedShopHint, StepEnded,
                 true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
+            var seedShopDialog = Object.FindAnyObjectByType<SeedShopDialog>();
+            seedShopDialog.CloseButton.gameObject.SetActive(false);
         }
 
         private async UniTask ShowBuyTomatoSpotlight() {
             _isWaitingForStepEnd = true;
             await UniTask.Delay(2500);
-            UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.blocksRaycasts = true;
-            UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.transform,
-                FtueConfig.BuyTomatoHint, delegate {
-                    UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.interactable = false;
-                    UIHud.Instance.ShopsPanel.seedShopView.FirstBagCanvas.blocksRaycasts = false;
-                    UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
-                    UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
-                    StepEnded();
-                }, false);
+            var seedShopDialog = Object.FindAnyObjectByType<SeedShopDialog>();
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(seedShopDialog.FirstBagCanvas.transform,
+                FtueConfig.BuyTomatoHint, StepEnded, false);
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Seeds[Crop.Tomato] < 12);
-            UIHud.Instance.SpotlightWithText.Hide();
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-        }
-
-        private async UniTask ShowBuyEggplantSpotlight() {
-            _isWaitingForStepEnd = true;
-            UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = true;
-            UIHud.Instance.SpotlightWithText.MoveHead(UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.transform,
-                FtueConfig.BuyEggplantHint, delegate {
-                    UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.interactable = false;
-                    UIHud.Instance.ShopsPanel.seedShopView.SecondBagCanvas.blocksRaycasts = false;
-                    StepEnded();
-                }, false);
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Seeds[Crop.Eggplant] < 3);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
         private async UniTask ShowCloseSeedShopSpotlight() {
             _isWaitingForStepEnd = true;
-
-            UIHud.Instance.ShopsPanel.seedShopView.CloseButton.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.JumpSpotlightFromVeryBigOnButton(UIHud.Instance.ShopsPanel.seedShopView.CloseButton,
+            var seedShopDialog = Object.FindAnyObjectByType<SeedShopDialog>();
+            seedShopDialog.CloseButton.gameObject.SetActive(true);
+            UIHud.Instance.SpotlightWithText.JumpSpotlightFromVeryBigOnButton(seedShopDialog.CloseButton,
                 FtueConfig.CloseSeedsShopHint, StepEnded, true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }

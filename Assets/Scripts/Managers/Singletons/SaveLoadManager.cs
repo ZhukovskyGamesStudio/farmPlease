@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Tables;
 using UI;
@@ -18,7 +17,7 @@ namespace Managers {
 
         private InventoryManager _inventoryManager;
         private PlayerController _playerController;
-        private SeedShopView _seedShop;
+        private SeedShopDialog _seedShop;
         private SmartTilemap _smartTilemap;
 
         private ToolShopDialog _toolShop;
@@ -38,14 +37,8 @@ namespace Managers {
 
         public static string GenerateJsonString() {
             CurrentSave.SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
-
             CurrentSave.TilesData = SmartTilemap.Instance.GetTilesData();
-
-            UIHud.Instance.ShopsPanel.seedShopView.GetButtonsData(out Crop first, out Crop second);
-            CurrentSave.ShopFirstOffer = first;
-            CurrentSave.ShopSecondOffer = second;
-            CurrentSave.SeedShopChangeButton = UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsButton.activeSelf;
-
+            
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 CurrentSave.BuildingPrice = UIHud.Instance.ShopsPanel.BuildingShopView.GetBuildingPrice();
             }
@@ -75,7 +68,6 @@ namespace Managers {
         }
 
         private static void TryUpdateSave() {
-            UpdateKnowledge();
             UpdateTools();
             if (!KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 GenerateGame();
@@ -95,16 +87,7 @@ namespace Managers {
             }
             //TODO update everything else and move to another manager
         }
-        private static void UpdateKnowledge() {
-            bool isPlayedEnough = CurrentSave.CropPoints > 3 || CurrentSave.Coins > 5 || CurrentSave.CurrentDayInMonth > 2;
-            if (!KnowledgeUtils.HasKnowledge(Knowledge.Training) && isPlayedEnough) {
-                KnowledgeUtils.AddKnowledge(Knowledge.Training);
-            }
-
-            if (!KnowledgeUtils.HasKnowledge(Knowledge.Weather) && CurrentSave.CurrentDayInMonth > 3) {
-                KnowledgeUtils.AddKnowledge(Knowledge.Weather);
-            }
-        }
+      
 
         private static void UpdateTools() {
             if (CurrentSave.ToolBuffs.Count < ToolsTable.Tools.Count) {
@@ -149,7 +132,6 @@ namespace Managers {
 
             Energy.GenerateEnergy();
             Clock.GenerateEnergy();
-            UIHud.Instance.ShopsPanel.seedShopView.ChangeSeedsNewDay();
             TimeManager.GenerateDays(CurrentSave.ParsedDate);
         }
 

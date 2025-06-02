@@ -33,8 +33,6 @@ namespace UI {
         public void ClosePanel() {
             if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
                 Settings.Instance.SettingsPanel.gameObject.SetActive(false);
-            else if (ShopsPanel.seedShopView.gameObject.activeSelf)
-                ShopsPanel.seedShopView.gameObject.SetActive(false);
             else if (Backpack.isOpen)
                 Backpack.OpenClose();
         }

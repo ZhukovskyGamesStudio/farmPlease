@@ -4301,19 +4301,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6626de82682a02e4bbbb3edb7a1e1449, type: 3}
---- !u!1 &3609461385550641146 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 458101414923902165, guid: 6626de82682a02e4bbbb3edb7a1e1449,
-    type: 3}
-  m_PrefabInstance: {fileID: 3768636366613162799}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3609461385550641147 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 458101414923902164, guid: 6626de82682a02e4bbbb3edb7a1e1449,
     type: 3}
   m_PrefabInstance: {fileID: 3768636366613162799}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3609461385550641146}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9b392054d51c5e4da3c154fea9bed8c, type: 3}
@@ -5493,21 +5487,6 @@ PrefabInstance:
       propertyPath: BuildingPanelButton
       value: 
       objectReference: {fileID: 7702417919375004130}
-    - target: {fileID: 2309073869514526903, guid: 8bd92d3bb0daa9d478a6cd8e89b520a5,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 3609461385550641146}
-    - target: {fileID: 2309073869514526903, guid: 8bd92d3bb0daa9d478a6cd8e89b520a5,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 2309073869514526903, guid: 8bd92d3bb0daa9d478a6cd8e89b520a5,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 2309073869517300496, guid: 8bd92d3bb0daa9d478a6cd8e89b520a5,
         type: 3}
       propertyPath: m_Name

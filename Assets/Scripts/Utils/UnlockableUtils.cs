@@ -41,15 +41,14 @@ public static class UnlockableUtils {
     }
 
     public static List<string> GetInitialUnlockables() {
-        var initialUnlockables = new List<string>();
-
-        // Add initial unlockables here
-        initialUnlockables.Add(Crop.Tomato.ToString());
-        initialUnlockables.Add(ToolBuff.WeekBattery.ToString());
-        initialUnlockables.Add(ToolBuff.Unlimitedwatercan.ToString());
-        initialUnlockables.Add(HappeningType.Rain.ToString());
-        initialUnlockables.Add(HappeningType.Unknown.ToString());
-        initialUnlockables.Add(HappeningType.NormalSunnyDay.ToString());
+        var initialUnlockables = new List<string> {
+            // Add initial unlockables here
+            ToolBuff.Unlimitedwatercan.ToString(),
+            Crop.Tomato.ToString(),
+            HappeningType.Rain.ToString(),
+            HappeningType.Unknown.ToString(),
+            HappeningType.NormalSunnyDay.ToString()
+        };
 
         return initialUnlockables;
     }

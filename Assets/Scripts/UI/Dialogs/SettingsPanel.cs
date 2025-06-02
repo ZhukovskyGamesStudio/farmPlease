@@ -111,5 +111,10 @@ namespace UI {
             Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
             SaveLoadManager.SaveGame();
         }
+
+        public void ClearSave() {
+            PlayerPrefs.DeleteAll();
+            Application.Quit();
+        }
     }
 }

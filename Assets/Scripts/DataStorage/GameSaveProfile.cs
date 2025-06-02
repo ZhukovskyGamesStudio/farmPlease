@@ -45,7 +45,9 @@ public class GameSaveProfile {
     public List<string> Unlocked = new List<string>();
     public SettingsData SettingsData = new SettingsData();
     
+    public SeedShopData SeedShopData = new SeedShopData();
     public ToolShopData ToolShopData = new ToolShopData();
+ 
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
     
@@ -58,5 +60,14 @@ public class ToolShopData {
     public ToolBuff SecondOffer= ToolBuff.Unlimitedwatercan;
     public bool FirstOfferActive = true;
     public bool SecondOfferActive = true;
+    public bool ChangeButtonActive = true;
+}
+
+[Serializable]
+public class SeedShopData {
+    public bool NeedShowChange = true;
+    public Crop FirstOffer = Crop.Tomato;
+    public Crop SecondOffer = Crop.Tomato;
+    public Crop AmbarCrop = Crop.None;
     public bool ChangeButtonActive = true;
 }

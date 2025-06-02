@@ -26,7 +26,6 @@ namespace Managers {
         public float SessionTime;
 
         private PlayerController PlayerController => global::PlayerController.Instance;
-        private SeedShopView SeedShopView => UIHud.ShopsPanel.seedShopView;
         private SmartTilemap SmartTilemap => SmartTilemap.Instance;
         private TimePanel TimePanel => UIHud.TimePanel;
 
@@ -178,10 +177,9 @@ namespace Managers {
             /*if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
                 EndMonth();*/
 
-            SeedShopView.ChangeSeedsNewDay();
-
             InventoryManager.Instance.BrokeTools();
             UIHud.Instance.FastPanelScript.UpdateToolsImages();
+            ChangeSeedsNewDay();
             ChangeToolsNewDay();
 
             HappeningType nextDay = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth);
@@ -201,6 +199,12 @@ namespace Managers {
             PlayerController.CanInteract = true;
         }
 
+        private void ChangeSeedsNewDay() {
+            SaveLoadManager.CurrentSave.SeedShopData.ChangeButtonActive = true;
+            SaveLoadManager.CurrentSave.SeedShopData.NeedShowChange = true;
+            SeedsUtils.ChangeSeeds();
+        }
+        
         private void ChangeToolsNewDay() {
             SaveLoadManager.CurrentSave.ToolShopData.ChangeButtonActive = true;
             ToolsUtils.ChangeTools();

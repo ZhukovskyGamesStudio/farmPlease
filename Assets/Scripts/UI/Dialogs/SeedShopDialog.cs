@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
@@ -8,13 +9,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class SeedShopView : MonoBehaviour {
+public class SeedShopDialog : DialogWithData<SeedShopData> {
     [SerializeField]
     private Button _closeButton;
 
     public Button CloseButton => _closeButton;
 
-    public GameObject ChangeSeedsButton;
+    public GameObject ChangeSeedsButtonActive;
 
     public CanvasGroup FirstBagCanvas => _firstOffer.CanvasGroup;
     public CanvasGroup SecondBagCanvas => _secondOffer.CanvasGroup;
@@ -31,32 +32,32 @@ public class SeedShopView : MonoBehaviour {
     [SerializeField]
     private Animation _buyingBagAnimation;
 
-    private bool _isShowChangeNeeded;
+    private SeedShopData _data;
 
-    private void OnEnable() {
-        if (_isShowChangeNeeded) {
+    public override void SetData(SeedShopData data) {
+        _data = data;
+        SetSeedShopWithData(_data);
+    }
+
+    public override void Show(Action onClose) {
+        base.Show(onClose);
+        if (_data.NeedShowChange) {
             _mainAnimation.Play("HideUIInstant");
             StartCoroutine(ShowChangeEndAnimation());
-            _isShowChangeNeeded = false;
+            SaveLoadManager.CurrentSave.SeedShopData.NeedShowChange = false;
         }
     }
 
-    public void GetButtonsData(out Crop first, out Crop second) {
-        first = _firstOffer.CurrentCrop;
-        second = _secondOffer.CurrentCrop;
-    }
+    public void SetSeedShopWithData(SeedShopData save) {
+        SetSeedsShop(save.FirstOffer, save.SecondOffer);
 
-    public void SetSeedShopWithData(GameSaveProfile save) {
-        bool isChangeButtonActive = save.SeedShopChangeButton;
-
-        SetSeedsShop(save.ShopFirstOffer, save.ShopSecondOffer);
-
-        if (save.AmbarCrop == Crop.None)
+        if (save.AmbarCrop == Crop.None) {
             _ambarOffer.gameObject.SetActive(false);
-        else
+        } else {
             SetAmbarCrop(save.AmbarCrop);
+        }
 
-        ChangeSeedsButton.SetActive(isChangeButtonActive);
+        ChangeSeedsButtonActive.SetActive(save.ChangeButtonActive);
     }
 
     public void SetSeedsShop(Crop first, Crop second) {
@@ -89,6 +90,7 @@ public class SeedShopView : MonoBehaviour {
             if (!UnlockableUtils.HasUnlockable(key.type)) {
                 continue;
             }
+
             if (key.CanBeBought) {
                 possibleCrops.Add(key.type);
             } else if (InventoryManager.IsCropsBoughtD.ContainsKey(key.type) && InventoryManager.IsCropsBoughtD[key.type]) {
@@ -140,14 +142,8 @@ public class SeedShopView : MonoBehaviour {
         if (InventoryManager.Instance.EnoughMoney(ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost)) {
             InventoryManager.Instance.AddCoins(-1 * ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost);
             StartCoroutine(ShowChangeAnimation());
-            ChangeSeedsButton.SetActive(false);
+            ChangeSeedsButtonActive.SetActive(false);
         }
-    }
-
-    public void ChangeSeedsNewDay() {
-        _isShowChangeNeeded = true;
-        ChangeSeeds();
-        ChangeSeedsButton.SetActive(true);
     }
 
     public void SetBuyingBag(bool isActive) {
@@ -175,7 +171,8 @@ public class SeedShopView : MonoBehaviour {
         _ambarOffer.CloseHint();
     }
 
-    private void OnDisable() {
+    public override void Close() {
         CloseHints();
+        base.Close();
     }
 }

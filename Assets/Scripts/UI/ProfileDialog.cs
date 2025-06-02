@@ -69,8 +69,8 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
     }
 
     public override void Close() {
-        base.Close();
         _data.ReshowProfileView?.Invoke();
+        base.Close();
     }
 }
 

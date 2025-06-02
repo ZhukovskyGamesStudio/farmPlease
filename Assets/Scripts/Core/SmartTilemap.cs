@@ -14,9 +14,6 @@ public class SmartTilemap : MonoBehaviour {
     public Tilemap BuildingTilemap;
     public ToolsAnimTilemap toolsAnimTilemap;
 
-    [HideInInspector]
-    public SeedShopView seedShop;
-
     public TilesTable tilesTablePrefab;
     public Transform TilesHolder;
     public Vector2Int Playercoord;
@@ -35,10 +32,6 @@ public class SmartTilemap : MonoBehaviour {
             _mainCamera = Camera.main;
         } else if (Instance != this)
             Destroy(gameObject);
-    }
-
-    private void Start() {
-        seedShop = UIHud.Instance.ShopsPanel.seedShopView;
     }
 
     public void Update() {
@@ -214,7 +207,7 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[5].SwitchType(TileType.SeedDoublerT1);
                 neighbors[0].SwitchType(TileType.SeedDoublerT2);
                 neighbors[1].SwitchType(TileType.SeedDoublerT3);
-                seedShop.SetAmbarCrop(Crop.Weed);
+                SaveLoadManager.CurrentSave.SeedShopData.AmbarCrop = Crop.None;
                 break;
 
             case BuildingType.Tractor:

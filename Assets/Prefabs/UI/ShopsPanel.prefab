@@ -410,29 +410,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 6495727107319909411}
+        m_TargetAssemblyTypeName: UI.ShopsPanel, Assembly-CSharp
+        m_MethodName: OpenSeedshop
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: PlaySound
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2309073869517300496
 GameObject:
@@ -500,8 +488,6 @@ MonoBehaviour:
   SeedShopButton: {fileID: 2309073869514526903}
   ToolShopButton: {fileID: 2309073869889557306}
   BuildingButton: {fileID: 0}
-  seedShopView: {fileID: 0}
-  ToolShopDialog: {fileID: 0}
   BuildingShopView: {fileID: 0}
   BuildingShopButton: {fileID: 2309073868379162877}
 --- !u!1 &2309073869889557304

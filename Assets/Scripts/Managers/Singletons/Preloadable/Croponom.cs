@@ -79,6 +79,9 @@ namespace UI {
                 button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
             }
 
+            ToolsOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.ToolShop));
+
+            WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
             foreach (CroponomGridButtonView button in _weatherButtons) {
                 button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
             }

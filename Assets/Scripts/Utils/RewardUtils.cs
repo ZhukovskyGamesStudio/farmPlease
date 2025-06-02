@@ -61,6 +61,9 @@ public static class RewardUtils {
 
             if (Enum.TryParse(key, out ToolBuff tool)) {
                 InventoryManager.Instance.AddTool(tool, item.Amount);
+                if (tool == ToolBuff.WeekBattery) {
+                    UnlockableUtils.Unlock(tool);
+                }
             }
         }
     }
