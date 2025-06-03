@@ -47,6 +47,7 @@ public class GameSaveProfile {
     
     public SeedShopData SeedShopData = new SeedShopData();
     public ToolShopData ToolShopData = new ToolShopData();
+    public List<string> UnseenCroponomPages = new List<string>();
  
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);

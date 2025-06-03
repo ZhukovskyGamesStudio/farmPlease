@@ -162,13 +162,16 @@ namespace Managers {
             }
         }
 
-        public void BuySeed(Crop crop, int cost, int amount) {
+        public bool TryBuySeed(Crop crop, int cost, int amount) {
             if (SaveLoadManager.CurrentSave.Coins >= cost) {
                 Instance.AddXp(1);
                 AddCoins(-1 * cost);
                 AddSeed(crop, amount);
                 StartCoroutine(SmartTilemap.Instance.HappeningSequence());
+                return true;
             }
+
+            return false;
         }
 
         public void AddSeed(Crop crop, int amount) {
@@ -293,7 +296,7 @@ namespace Managers {
 
         public void BuyFoodMarket(Crop type, int cost) {
             IsCropsBoughtD[type] = true;
-            BuySeed(type, 0, CropsTable.CropByType(type).buyAmount);
+            TryBuySeed(type, 0, CropsTable.CropByType(type).buyAmount);
             UnlockableUtils.Unlock(type);
             RemoveRandomCollectedCrops(cost);
         }

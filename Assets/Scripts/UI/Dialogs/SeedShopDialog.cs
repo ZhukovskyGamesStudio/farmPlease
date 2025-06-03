@@ -68,9 +68,9 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
     private void SetOffer(SeedOffer offer, Crop crop) {
         CropConfig cropConfig = CropsTable.CropByType(crop);
         offer.SetData(cropConfig, delegate {
-            InventoryManager.Instance.BuySeed(cropConfig.type, cropConfig.cost, cropConfig.buyAmount);
             Audio.Instance.PlaySound(Sounds.Button);
-        }, CloseHints);
+            return InventoryManager.Instance.TryBuySeed(cropConfig.type, cropConfig.cost, cropConfig.buyAmount);
+        }, CloseHints, _buyingBagAnimation.transform);
     }
 
     public void SetAmbarCrop(Crop type) {

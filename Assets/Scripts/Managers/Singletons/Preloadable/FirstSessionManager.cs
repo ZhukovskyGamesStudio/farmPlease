@@ -191,7 +191,7 @@ namespace Managers {
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             PlayerController.Instance.ChangeTool(Tool.SeedBag);
             PlayerController.Instance.seedBagCrop = Crop.Weed;
-            InventoryManager.Instance.BuySeed(Crop.Tomato, 0, 7);
+            InventoryManager.Instance.TryBuySeed(Crop.Tomato, 0, 7);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.Backpack.OpenButton, FtueConfig.BackpackHint, delegate {
                 UIHud.Instance.Backpack.IsLockOpenCloseByFtue = true;
                 StepEnded();

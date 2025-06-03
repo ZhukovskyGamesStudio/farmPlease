@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
+using Cysharp.Threading.Tasks;
 using ScriptableObjects;
 using Tables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI{
-    public class SeedOffer : MonoBehaviour{
+namespace UI {
+    public class SeedOffer : MonoBehaviour {
         [SerializeField]
         private TextMeshProUGUI _costText;
 
@@ -17,7 +19,7 @@ namespace UI{
         public GameObject LegendaryEdge;
         public CanvasGroup CanvasGroup;
         public Image OfferImage;
-        private Action _buyCallback;
+        private Func<bool> _buyCallback;
         private Action _startDragCallback;
 
         [SerializeField]
@@ -26,9 +28,19 @@ namespace UI{
         [SerializeField]
         private GameObject _infoHint;
 
-        public Crop CurrentCrop{ get; private set; }
+        [SerializeField]
+        private Animation _offerAnimation;
 
-        public void SetData(CropConfig cropConfig, Action buyCallback, Action startDragCallback){
+        [SerializeField]
+        private AnimationClip _boughtByClickAnimationClip;
+
+        public Crop CurrentCrop { get; private set; }
+        private Transform _bag;
+        
+        private bool _isDragging;
+
+        public void SetData(CropConfig cropConfig, Func<bool> buyCallback, Action startDragCallback, Transform bag) {
+            _bag = bag;
             CurrentCrop = cropConfig.type;
             _costText.text = cropConfig.cost.ToString();
             _explainText.text = cropConfig.explainText;
@@ -38,31 +50,49 @@ namespace UI{
             SetRarity(cropConfig.Rarity);
         }
 
-        public void StartDrag(){
+        public void StartDrag() {
+            _isDragging = true;
             _startDragCallback?.Invoke();
             _infoButton.gameObject.SetActive(false);
         }
 
-        public void EndDrag(){
+        public void EndDrag() {
+            DelayedStopDragging();
             _infoButton.gameObject.SetActive(true);
         }
 
-        public void TryBuy(){
+        private async UniTask DelayedStopDragging() {
+            await UniTask.WaitForEndOfFrame();
+            _isDragging = false;
+        }
+
+        public void TryBuy() {
             _buyCallback?.Invoke();
         }
 
-        public void ShowHint(){
+        public void TryBuyByClick() {
+            if (_buyCallback == null || _isDragging) {
+                return;
+            }
+
+            if (_buyCallback.Invoke()) {
+                _offerAnimation.Stop();
+                _offerAnimation.Play(_boughtByClickAnimationClip.name);
+            }
+        }
+
+        public void ShowHint() {
             _infoButton.gameObject.SetActive(false);
             _infoHint.gameObject.SetActive(true);
         }
 
-        public void CloseHint(){
+        public void CloseHint() {
             _infoButton.gameObject.SetActive(true);
             _infoHint.gameObject.SetActive(false);
         }
 
-        private void SetRarity(int rarity){
-            switch (rarity){
+        private void SetRarity(int rarity) {
+            switch (rarity) {
                 case 1:
                     RareEdge.SetActive(true);
                     break;

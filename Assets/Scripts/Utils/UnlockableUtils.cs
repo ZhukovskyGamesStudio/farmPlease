@@ -39,7 +39,7 @@ public static class UnlockableUtils {
         if (Unlocked.Contains(unlockable)) {
             return;
         }
-
+        SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
         UIHud.Instance.CroponomAttention.ShowAttention();
         Unlocked?.Add(unlockable);
         if (SaveLoadManager.Instance != null) {
