@@ -32,6 +32,17 @@ namespace Tables
         Wetscythe,
         WeekBattery
     }
+    [Serializable]
+    public enum ToolBuffRussion {
+        Ничто = -1,
+        Двойная_тяпка,
+        Бездонная_лейка,
+        Погодомер,
+        Подшитый_рюкзак,
+        Greenscythe,
+        Wetscythe,
+        WeekBattery
+    }
 
     [Serializable]
     public enum ToolUIType {

@@ -8,6 +8,33 @@ public static class RewardUtils {
     
     public static string COINS_KEY = CommonReward.Coins.ToString();
     
+    public static string GetRewardName(string reward) {
+        if (Enum.TryParse(reward, out Crop crop)) {
+            return CropsTable.CropByType(crop).header;
+        }
+
+        if (Enum.TryParse(reward, out ToolBuff tool)) {
+            return ToolsTable.ToolByType(tool).header;
+        }
+
+        if (Enum.TryParse(reward, out HappeningType weather)) {
+            return WeatherTable.WeatherByType(weather).header;
+        }
+
+        if (Enum.TryParse(reward, out Unlockable type)) {
+            switch (type) {
+                case Unlockable.None:
+                    return "Ничего";
+                case Unlockable.FoodMarket:
+                    return WeatherTable.WeatherByType(HappeningType.FoodMarket).header;
+                case Unlockable.ToolShop:
+                    return "Магазин инструментов";
+            }
+        }
+
+        throw new KeyNotFoundException();
+    }
+    
     public static Sprite GetRewardIcon(string reward) {
         if (Enum.TryParse(reward, out Crop crop)) {
             return CropsTable.CropByType(crop).gridIcon;
@@ -79,7 +106,7 @@ public static class RewardUtils {
             if (i == 0 && reward is RewardWithUnlockable rewardWithUnlockable) {
                 ItemColorType colorType = GetRewardColorType(rewardWithUnlockable.Unlockable);
                 
-                views[i].SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), rewardWithUnlockable.Unlockable,colorType);
+                views[i].SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), GetRewardName(rewardWithUnlockable.Unlockable),colorType);
                 continue;
             }
         
