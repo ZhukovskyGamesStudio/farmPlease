@@ -164,7 +164,7 @@ namespace Managers {
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
             SmartTilemap.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
             SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
-            
+            UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.SeedBag);
             UIHud.Instance.DisableLockedUI();
         }
 
@@ -301,7 +301,7 @@ namespace Managers {
             UIHud.Instance.ClockView.IsLockedByFtue = true;
             await UniTask.Delay(100);
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy >0);
-            UIHud.Instance.SpotlightWithText.Hide();
+            StepEnded();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.Delay(300);
         }
@@ -334,7 +334,7 @@ namespace Managers {
             UIHud.Instance.ClockView.GetComponent<Button>().interactable = false;
             await UniTask.Delay(100);
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy >0);
-            UIHud.Instance.SpotlightWithText.Hide();
+            StepEnded();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
@@ -393,7 +393,7 @@ namespace Managers {
 
         private async UniTask ShowBuyTomatoSpotlight() {
             _isWaitingForStepEnd = true;
-            await UniTask.Delay(2500);
+            await UniTask.Delay(1500);
             var seedShopDialog = Object.FindAnyObjectByType<SeedShopDialog>();
             UIHud.Instance.SpotlightWithText.ShowSpotlight(seedShopDialog.FirstBagCanvas.transform,
                 FtueConfig.BuyTomatoHint, StepEnded, false);
