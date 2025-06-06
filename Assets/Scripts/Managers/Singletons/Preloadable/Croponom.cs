@@ -47,8 +47,12 @@ namespace UI {
 
         protected override void OnFirstInit() {
             GenerateAllButtons();
+            
+            if (SaveLoadManager.CurrentSave.UnseenCroponomPages.Count > 0) {
+                UIHud.Instance.CroponomAttention.ShowAttention();
+            }
         }
-        
+
         private void GenerateAllButtons() {
             _cropsButtons = GenerateButtons(CropsTablePrefab.Crops, CropsGrid.transform);
             _weatherButtons = GenerateButtons(WeatherTablePrefab.WeathersSO, WeatherGrid.transform);
@@ -71,22 +75,18 @@ namespace UI {
         public void Open() {
             Panel.SetActive(true);
             UIHud.Instance.ProfileView.Hide();
-            UIHud.Instance.CroponomAttention.Hide();
-            
-            foreach (CroponomGridButtonView button in _cropsButtons) {
+
+            List<CroponomGridButtonView> buttons = new();
+            buttons.AddRange(_cropsButtons);
+            buttons.AddRange(_toolButtons);
+            buttons.AddRange(_weatherButtons);
+
+            foreach (CroponomGridButtonView button in buttons) {
                 button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
+                button.SetAttentionState(SaveLoadManager.CurrentSave.UnseenCroponomPages.Contains(button.GetUnlockable()));
             }
-
-            foreach (CroponomGridButtonView button in _toolButtons) {
-                button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
-            }
-
-            ToolsOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.ToolShop));
-
+            ToolsOpenButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(ToolBuff.WeekBattery));
             WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
-            foreach (CroponomGridButtonView button in _weatherButtons) {
-                button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
-            }
         }
 
         public void OpenCropsPage(bool isOpen) {
@@ -134,13 +134,15 @@ namespace UI {
             OnClose?.Invoke();
             Panel.SetActive(false);
             UIHud.Instance.ProfileView.Show();
+
+            if (SaveLoadManager.CurrentSave.UnseenCroponomPages.Count == 0) {
+                UIHud.Instance.CroponomAttention.Hide();
+            }
         }
 
         private void OpenPage(ConfigWithCroponomPage pageData) {
             FactsPage.UpdatePage(pageData);
         }
-
-       
 
         public void PlaySound(int soundIndex) {
             Audio.Instance.PlaySound((Sounds)soundIndex);

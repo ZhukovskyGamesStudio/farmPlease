@@ -18,6 +18,8 @@ namespace UI {
 
         public GameObject CroponomButton;
         public AttentionView CroponomAttention;
+        public OpenCroponomButtonView OpenCroponomButton;
+        
         public GameObject BuildingPanel;
         public GraphicRaycaster GraphicRaycaster;
 

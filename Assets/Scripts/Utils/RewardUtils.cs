@@ -74,6 +74,9 @@ public static class RewardUtils {
         if (reward is RewardWithUnlockable rewardWithUnlockable) {
             UnlockableUtils.Unlock(rewardWithUnlockable.Unlockable);
             KnowledgeHintsFactory.Instance.TryShowHintByUnlockable(rewardWithUnlockable.Unlockable);
+            if (rewardWithUnlockable.Unlockable == Unlockable.ToolShop.ToString()) {
+                SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(ToolBuff.Unlimitedwatercan.ToString());
+            } 
         }
 
         foreach (var item in reward.Items) {

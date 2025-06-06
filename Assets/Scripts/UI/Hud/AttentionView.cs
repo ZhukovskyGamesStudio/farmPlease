@@ -14,11 +14,16 @@ public class AttentionView : MonoBehaviour {
             return;
         }
 
+        _isShown = true;
         _animation.Play(_showClip.name);
         _animation.PlayQueued(_idleClip.name);
     }
 
     public void Hide() {
+        if (!_isShown) {
+            return;
+        }
+        _isShown = false;
         _animation.Play(_hideClip.name);
     }
 }

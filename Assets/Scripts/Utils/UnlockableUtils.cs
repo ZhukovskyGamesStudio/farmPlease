@@ -45,6 +45,8 @@ public static class UnlockableUtils {
         if (SaveLoadManager.Instance != null) {
             SaveLoadManager.SaveGame();
         }
+        
+        UIHud.Instance.OpenCroponomButton.UpdateTags();
     }
 
     public static List<string> GetInitialUnlockables() {
@@ -58,6 +60,13 @@ public static class UnlockableUtils {
         };
 
         return initialUnlockables;
+    }
+
+    public static void TryRemoveSeenPage(string page) {
+        if( !SaveLoadManager.CurrentSave.UnseenCroponomPages.Contains(page)) {
+            return;
+        }
+        SaveLoadManager.CurrentSave.UnseenCroponomPages.Remove(page);
     }
 
     
