@@ -22,6 +22,7 @@ namespace Managers {
 
         private ToolShopDialog _toolShop;
         public static GameSaveProfile CurrentSave;
+        private static bool _needToSave;
         
 
         // Пока в игре происходят какие-то действия, игрок не может ничего сделать
@@ -47,10 +48,21 @@ namespace Managers {
         }
 
         public static void SaveGame() {
+            _needToSave = true;
+        }
+
+        private static void RewriteGameSavedData() {
             string jsonData = GenerateJsonString();
             PlayerPrefs.SetString("saveProfile", jsonData);
         }
-        
+
+        private void LateUpdate() {
+            if (_needToSave) {
+                _needToSave = false;
+                RewriteGameSavedData();
+            }
+        }
+
         public static void LoadGame(string jsonString = null) {
             if (PlayerPrefs.HasKey("saveProfile")) {
                 string jsonData = PlayerPrefs.GetString("saveProfile");
@@ -60,7 +72,7 @@ namespace Managers {
             } else {
                 GenerateGame();
                 Debug.Instance.Log("Generating finished. Saving started");
-                SaveGame();
+                RewriteGameSavedData();
                 Debug.Instance.Log("New profile is saved");
             }
 
@@ -72,7 +84,7 @@ namespace Managers {
             if (!KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 GenerateGame();
                 Debug.Instance.Log("Generating finished. Saving started");
-                SaveGame();
+                RewriteGameSavedData();
                 Debug.Instance.Log("New profile is saved");
             }
 

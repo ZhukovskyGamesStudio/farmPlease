@@ -115,16 +115,7 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public TilesData GetTilesData() {
-        if (_tiles == null) {
-            return SaveLoadManager.CurrentSave.TilesData;
-        }
-        Dictionary<Vector2Int, SmartTile> tiles2 = new();
-        TilesData data = new TilesData();
-        foreach (KeyValuePair<Vector2Int, SmartTile> item in _tiles) {
-            data.Tiles.Add(new Vector2Int(item.Key.x, item.Key.y), item.Value.type);
-        }
-
-        return data;
+        return SaveLoadManager.CurrentSave.TilesData;
     }
 
     public void GenerateTilesWithData(TilesData data) {
@@ -194,6 +185,7 @@ public class SmartTilemap : MonoBehaviour {
 
     public void PlaceTile(Vector2Int coord, TileType type) {
         MainTilemap.SetTile((Vector3Int)coord, TilesTable.TileByType(type).TileBase);
+        SaveLoadManager.CurrentSave.TilesData.Tiles[coord] = type;
     }
 
     public bool BuildingCanBePlaced(BuildingType type, Vector2Int coord) {
