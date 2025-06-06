@@ -40,7 +40,6 @@ namespace Managers {
         }
 
         public void DayMomentChanged() {
-            throw new NotImplementedException();
         }
 
          

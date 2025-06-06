@@ -22,6 +22,11 @@ namespace Managers {
                 return;
             }
 
+            if (SaveLoadManager.CurrentSave.Energy > 0) {
+                UIHud.Instance.BatteryView.ShowHasEnergyAnimation();
+                return;
+            }
+
             LoseOneEnergy();
             TimeManager.Instance.AddDay();
         }

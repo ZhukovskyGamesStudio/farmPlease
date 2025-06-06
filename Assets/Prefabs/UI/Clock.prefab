@@ -931,6 +931,7 @@ Animation:
   - {fileID: 7400000, guid: 90816abf59cd21b49a64693ff6bba4c7, type: 2}
   - {fileID: 7400000, guid: a0b0f0f7173770e4084812b6dbb6edc1, type: 2}
   - {fileID: 7400000, guid: 55d0a7141f9cc294e9487e2854e4657d, type: 2}
+  - {fileID: 7400000, guid: 77f640f9211d4ac4396d027fabbf7e6b, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -960,6 +961,7 @@ MonoBehaviour:
   _button: {fileID: 2874760718259341168}
   _helloPanel: {fileID: 0}
   _refillClock: {fileID: 7400000, guid: 55d0a7141f9cc294e9487e2854e4657d, type: 2}
+  _timeStillLeftClip: {fileID: 0}
 --- !u!114 &2874760718259341168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,6 +1102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 698224993562997510}
+  - component: {fileID: 1471625400200888661}
   m_Layer: 5
   m_Name: Green
   m_TagString: Untagged
@@ -1133,6 +1136,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1471625400200888661
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7206603752764628789}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7413697965718520091
 GameObject:
   m_ObjectHideFlags: 0

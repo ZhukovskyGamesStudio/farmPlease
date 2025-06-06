@@ -79,9 +79,7 @@ namespace Managers {
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await (ShowDoWaterSpotlight());
 
-            ShowClockLostEnergySpotlight();
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-
+            //await ShowClockLostEnergySpotlight();
             await (ShowDoWaterAgainSpotlight());
 
             ShowScytheSpotlight();
@@ -319,9 +317,10 @@ namespace Managers {
                 });
         }
 
-        private void ShowClockLostEnergySpotlight() {
+        private async UniTask ShowClockLostEnergySpotlight() {
             _isWaitingForStepEnd = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform, FtueConfig.ClockLostEnergyHint, StepEnded);
+            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
         private async UniTask ShowDoWaterAgainSpotlight() {

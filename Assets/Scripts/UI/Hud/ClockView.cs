@@ -18,6 +18,9 @@ namespace UI {
         [SerializeField]
         private AnimationClip _refillClock;
 
+        [SerializeField]
+        private AnimationClip _timeStillLeftClip;
+
         public bool IsLockedByFtue { get; set; }
 
         public void ClockPressedButton() {
@@ -53,6 +56,10 @@ namespace UI {
             _animation.Play(ZERO_TIME_ANIMATION);
         }
 
+        public void TimeStillLeftAnimation() {
+            _animation.Play(_timeStillLeftClip.name);
+        }
+        
         private void ShowInitialAnimation() {
             _animation.Play(INITIAL);
         }

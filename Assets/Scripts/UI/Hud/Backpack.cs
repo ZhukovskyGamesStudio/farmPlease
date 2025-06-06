@@ -40,6 +40,7 @@ namespace UI
             if (IsLockOpenCloseByFtue) {
                 return;
             }
+            UIHud.Instance.BackpackAttention.Hide();
             isOpen = !isOpen;
             UpdateSprite();
             SeedsPanel.SetActive(isOpen);

@@ -17,7 +17,7 @@ namespace UI {
         public HelloPanelView HelloPanel;
 
         public GameObject CroponomButton;
-        public AttentionView CroponomAttention;
+        public AttentionView CroponomAttention, BackpackAttention;
         public OpenCroponomButtonView OpenCroponomButton;
         
         public GameObject BuildingPanel;

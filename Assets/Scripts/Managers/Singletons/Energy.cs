@@ -13,13 +13,19 @@ public class Energy : Singleton<Energy> {
 
     public void LoseOneEnergy() {
         SaveLoadManager.CurrentSave.Energy--;
-        if (CurEnergy < 0)
+        if (CurEnergy < 0) {
             SaveLoadManager.CurrentSave.Energy = 0;
+        }
 
-        if (GameModeManager.Instance.InfiniteEnergy)
+        if (GameModeManager.Instance.InfiniteEnergy) {
             SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+        }
 
         UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
+
+        if (CurEnergy == 0 && SaveLoadManager.CurrentSave.ClockEnergy == 0) {
+            KnowledgeHintsFactory.Instance.TryShowNoEnergyHint();
+        }
         SaveLoadManager.SaveGame();
     }
 

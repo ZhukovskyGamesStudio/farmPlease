@@ -249,6 +249,12 @@ namespace Managers {
         }
 
         public void ActivateTool(ToolBuff buff) {
+            ToolConfig config = ToolsTable.ToolByType(buff);
+            if (buff == ToolBuff.WeekBattery && SaveLoadManager.CurrentSave.ClockEnergy > 0) {
+                _uiHud.ClockView.TimeStillLeftAnimation();
+                return;
+            }
+
             if (!ToolsStored.ContainsKey(buff)) {
                 ToolsStored.Add(buff, 0);
             }
@@ -258,8 +264,6 @@ namespace Managers {
             if (!ToolsActivated.ContainsKey(buff)) {
                 ToolsActivated.Add(buff, 0);
             }
-
-            ToolConfig config = ToolsTable.ToolByType(buff);
 
             if (config.IsInstant) {
                 if (buff == ToolBuff.WeekBattery) {

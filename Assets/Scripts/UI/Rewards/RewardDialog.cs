@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 public class RewardDialog : DialogWithData<RewardDialogData> {
@@ -26,6 +27,9 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
 
     private int _clicksNeeded, _clicksMade;
 
+    [SerializeField]
+    private TextMeshProUGUI _headerText;
+
     public override void SetData(RewardDialogData data) {
         _data = data;
         List<RewardItemView> combinedRewardViews = new List<RewardItemView>();
@@ -45,7 +49,10 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
 
         if (data.Reward is RewardWithUnlockable) {
             _clicksNeeded++;
-        }
+            _headerText.text = "Вы разблокировали";
+        } else {
+            _headerText.text = "Вы получили";
+        } 
 
         _clicksNeeded++;
         _clicksMade = 0;
@@ -63,10 +70,12 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
         }
 
         _clicksMade++;
-        _chestAnimation.Play(_chestClick.name);
-        _chestAnimation.PlayQueued(_chestIdle.name);
+
         if (_clicksMade >= _clicksNeeded) {
             OpenChest();
+        } else {
+            _chestAnimation.Play(_chestClick.name);
+            _chestAnimation.PlayQueued(_chestIdle.name);
         }
     }
 
@@ -89,6 +98,7 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
         Close();
     }
 }
+
 [Serializable]
 public class RewardDialogData {
     public Reward Reward;

@@ -9,6 +9,12 @@ namespace UI
         public Sprite green, red;
         private Coroutine _coroutine;
 
+        [SerializeField]
+        private Animation _animation;
+
+        [SerializeField]
+        private AnimationClip _zeroCharge, _wasteOne, _hasEnergy;
+
         public void NoEnergy() {
             EndCoroutine();
             if (_coroutine != null)
@@ -27,7 +33,8 @@ namespace UI
                 chargeImages[i].enabled = true;
                 chargeImages[i].sprite = red;
             }
-
+            _animation.Stop();
+            _animation.Play(_zeroCharge.name);
             yield return new WaitForSeconds(0.30f);
 
             for (int i = 0; i < chargeImages.Length; i++)
@@ -47,6 +54,8 @@ namespace UI
         }
 
         public void UpdateCharge(int amount) {
+            _animation.Stop();
+            _animation.Play(_zeroCharge.name);
             EndCoroutine();
             if (amount < 0) {
                 UnityEngine.Debug.Log("энергии меньше нуля?!");
@@ -58,6 +67,11 @@ namespace UI
                     chargeImages[i].enabled = true;
                 else
                     chargeImages[i].enabled = false;
+        }
+
+        public void ShowHasEnergyAnimation() {
+            _animation.Stop();
+            _animation.Play(_hasEnergy.name);
         }
     }
 }
