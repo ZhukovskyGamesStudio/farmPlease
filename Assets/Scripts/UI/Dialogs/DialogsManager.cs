@@ -42,6 +42,7 @@ public class DialogsManager : MonoBehaviour {
 
         DialogBase prefab = _dialogs.First(d => d.GetComponent(dialogType) != null);
         DialogBase dialogInstance = Instantiate(prefab, transform);
+        //TODO remake via async
         DialogBase dialogBase = dialogInstance.GetComponent(dialogType) as DialogBase;
         if (dialogBase is DialogWithData<T> dialogWithData) {
             dialogWithData.SetData(data);

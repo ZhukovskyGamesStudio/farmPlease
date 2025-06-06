@@ -17,9 +17,15 @@ namespace UI
         public void OpenSeedshop() {
             DialogsManager.Instance.ShowDialogWithData(typeof(SeedShopDialog), SaveLoadManager.CurrentSave.SeedShopData);
         }
+        
+        public void OpenScales() {
+            ScalesView.gameObject.SetActive(true);
+        }
         public void OpenToolShop() {
             DialogsManager.Instance.ShowDialogWithData(typeof(ToolShopDialog), SaveLoadManager.CurrentSave.ToolShopData);
         }
-        
+        public void OpenBuildingsShop() {
+            BuildingShopView.gameObject.SetActive(true);
+        }
     }
 }
