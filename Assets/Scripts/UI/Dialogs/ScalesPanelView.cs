@@ -20,17 +20,22 @@ namespace UI {
         private SellTabletView _sellTablet;
 
         public SellTabletView SellTabletView => _sellTablet;
-        
+
         public bool IsSellingAnimation { get; private set; }
         public bool IsRainingCropsAnimation { get; private set; }
         public Button CloseButton => _closeButton;
 
         private void OnEnable() {
             IsSellingAnimation = false;
-            IsRainingCropsAnimation = true;
-            scalesView.StartRainingCrops(SaveLoadManager.CurrentSave.CropsCollectedQueue, delegate { IsRainingCropsAnimation = false; });
-            _sellTablet.SetData(SaveLoadManager.CurrentSave.CropsCollectedQueue);
+            //ShowRainingCrops();
+            _sellTablet.SetData(SaveLoadManager.CurrentSave.CropsCollectedQueue, scalesView.OnSelectedAmountChange);
             _sellTablet.Open();
+        }
+
+        private async void ShowRainingCrops() {
+            IsRainingCropsAnimation = true;
+            await scalesView.StartRainingCrops(SaveLoadManager.CurrentSave.CropsCollectedQueue);
+            IsRainingCropsAnimation = false;
         }
 
         public void Close() {
@@ -60,11 +65,11 @@ namespace UI {
             int coinsGain = cropsAmount * (TimeManager.Instance.IsTodayLoveDay ? 2 : 1);
             InventoryManager.Instance.AddCoins(coinsGain);
             InventoryManager.Instance.AddCropPoint(-cropsAmount);
-            
+
             RemoveCropsFromCollected(crops);
             SaveLoadManager.SaveGame();
             IsSellingAnimation = false;
-            _sellTablet.SetData(SaveLoadManager.CurrentSave.CropsCollectedQueue);
+            _sellTablet.SetData(SaveLoadManager.CurrentSave.CropsCollectedQueue, scalesView.OnSelectedAmountChange);
             yield return new WaitWhile(() => _animation.isPlaying);
             _animation.Play("ContinueSelling");
             yield return new WaitWhile(() => _animation.isPlaying);
@@ -72,7 +77,6 @@ namespace UI {
 
             //_animation.Play("MarkMission");
             // yield return new WaitWhile(() => _animation.isPlaying);
-            
 
             _animation.Play("EndSelling");
             //yield return new WaitWhile(() => _animation.isPlaying);

@@ -5,8 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+namespace UI {
     public class FastPanelScript : MonoBehaviour {
         public Button[] toolButtons;
         public Sprite HoeNormalSprite, WatercanNormalSprite, SeedNormalSprite, ScytheNormalSprite, CalendarNormalSprite;
@@ -81,8 +80,13 @@ namespace UI
             if (_curCropSeed == crop)
                 SeedText.text = amount.ToString();
         }
-        
+
         public void ChangeTool(int index) {
+            if ((Tool)index == Tool.SeedBag && PlayerController.Instance.CurTool == Tool.SeedBag) {
+                UIHud.Instance.Backpack.OpenFromSeedClick();
+                return;
+            }
+
             PlayerController.Instance.ChangeTool(index);
         }
     }

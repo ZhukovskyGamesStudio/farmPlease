@@ -350,7 +350,7 @@ namespace Managers {
 
         private async UniTask ShowSelectAllSpotlight() {
             _isWaitingForStepEnd = true;
-            await UniTask.Delay(1500);
+            await UniTask.Delay(300);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton,
                 FtueConfig.SelectAllHint, StepEnded);
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(true);

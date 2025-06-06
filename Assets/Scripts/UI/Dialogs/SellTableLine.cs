@@ -4,8 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI{
-    public class SellTableLine : MonoBehaviour{
+namespace UI {
+    public class SellTableLine : MonoBehaviour {
         [SerializeField]
         private Image _cropImage;
 
@@ -15,15 +15,17 @@ namespace UI{
         [SerializeField]
         private Button _minusButton, _plusButton;
 
-        public Action<int> OnSelectedAmountChange;
+        public Action<Crop, int> OnSelectedAmountChange;
 
-        public int SelectedAmount{ get; private set; }
+        public int SelectedAmount { get; private set; }
+        private Crop _crop;
         private int _haveAmount;
 
-        public void SetData(Crop type, int amount, Action<int> onSelectedAmountChange){
-            if (amount == 0){
+        public void SetData(Crop type, int amount, Action<Crop, int> onSelectedAmountChange) {
+            if (amount == 0) {
                 throw new ArgumentException();
             }
+
             OnSelectedAmountChange += onSelectedAmountChange;
             _haveAmount = amount;
             SelectedAmount = 0;
@@ -33,26 +35,29 @@ namespace UI{
             UpdateButtonsAndTextsState();
         }
 
-        private void UpdateButtonsAndTextsState(){
+        private void UpdateButtonsAndTextsState() {
             _selectedText.text = $"{SelectedAmount}/{_haveAmount}";
             _minusButton.interactable = SelectedAmount > 0;
             _plusButton.interactable = SelectedAmount < _haveAmount;
-            OnSelectedAmountChange?.Invoke(SelectedAmount);
         }
 
-        public void Plus(){
+        public void Plus() {
             SelectedAmount++;
             UpdateButtonsAndTextsState();
+            OnSelectedAmountChange?.Invoke(_crop, 1);
         }
 
-        public void Minus(){
+        public void Minus() {
             SelectedAmount--;
             UpdateButtonsAndTextsState();
+            OnSelectedAmountChange?.Invoke(_crop, -1);
         }
 
-        public void SelectAll(){
+        public void SelectAll() {
+            int diff = _haveAmount - SelectedAmount;
             SelectedAmount = _haveAmount;
             UpdateButtonsAndTextsState();
+            OnSelectedAmountChange?.Invoke(_crop, diff);
         }
 
         private void OnDestroy() {

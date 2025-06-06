@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using Tables;
@@ -49,18 +50,20 @@ namespace UI{
         public Button SellButton => _sellAllButton;
 
         public bool IsFixedByTraining = false;
+        private Action<Crop, int> _onSelectedAmountChange;
 
         private void Awake(){
             _draggable.SetIsActiveFunc(IsDraggableActive);
             _draggable.SetClampValues(true, new Vector2(_closedPos.y, _openedPos.y));
-            OnSelectedAmountChange();
+            RecalculateSellButton();
             Open();
         }
 
         private bool IsDraggableActive() => 
             false && !_scalesPanel.IsSellingAnimation && !IsFixedByTraining;
 
-        public void SetData(Queue<Crop> cropsCollected){
+        public void SetData(Queue<Crop> cropsCollected, Action<Crop, int> onSelectedAmountChange) {
+            _onSelectedAmountChange = onSelectedAmountChange;
             Dictionary<Crop, int> crops = new Dictionary<Crop, int>();
             foreach (var crop in cropsCollected){
                 if (crops.ContainsKey(crop)){
@@ -72,7 +75,7 @@ namespace UI{
 
             SetData(crops);
             Close();
-            OnSelectedAmountChange();
+            RecalculateSellButton();
         }
 
         public void SetData(Dictionary<Crop, int> crops){
@@ -97,7 +100,12 @@ namespace UI{
             }
         }
 
-        private void OnSelectedAmountChange(int _ = 0) {
+        private void OnSelectedAmountChange(Crop crop, int diff) {
+            _onSelectedAmountChange?.Invoke(crop, diff);
+            RecalculateSellButton();
+        }
+
+        private void RecalculateSellButton() {
             int selectedAmount = CountSelectedCrops();
             int reward = selectedAmount * (TimeManager.Instance.IsTodayLoveDay ? 2 : 1);
             _sellAmountText.text = selectedAmount.ToString();

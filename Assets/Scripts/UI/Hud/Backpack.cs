@@ -44,6 +44,12 @@ namespace UI
             UpdateSprite();
             SeedsPanel.SetActive(isOpen);
         }
+
+        public void OpenFromSeedClick() {
+            isOpen = true;
+            UpdateSprite();
+            SeedsPanel.SetActive(isOpen);
+        }
         
         private void CloseBySelectedItem() {
             isOpen = false;
