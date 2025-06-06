@@ -36,6 +36,7 @@ public class PlayerController : Singleton<PlayerController> {
     private Vector2Int _newBuildingcoord, _oldBuilddingscoord, _helpBuildingsCoord;
 
     private SmartTilemap _smartTilemap;
+    
     private UIHud _uiHud;
     protected override bool IsDontDestroyOnLoad => false;
 

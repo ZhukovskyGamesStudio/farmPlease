@@ -20,7 +20,7 @@ public class SmartTilemap : MonoBehaviour {
 
     public float animtime = 0.5f;
     private const int TILES_RADIUS = 11;
-    private const int STARTING_CIRCLE_RADIUS = 6;
+    private const int STARTING_CIRCLE_RADIUS = 5;
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
     private Dictionary<Vector2Int, SmartTile> _tiles;
@@ -42,9 +42,50 @@ public class SmartTilemap : MonoBehaviour {
         }
 
         Playercoord = (Vector2Int)MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
+       // UnityEngine.Debug.Log("Playercoord: " + Playercoord);
     }
 
-    public static TilesData GenerateTiles() {
+    public static void UnlockTiles(TilesData tilesData) {
+        foreach (var coord in tilesData.Tiles.Keys) {
+            if(!SaveLoadManager.CurrentSave.TilesData.Tiles.ContainsKey(coord)) {
+                SaveLoadManager.CurrentSave.TilesData.Tiles.Add(coord, TileType.Sand);
+            } else if(SaveLoadManager.CurrentSave.TilesData.Tiles[coord] == TileType.Rocks) {
+                SaveLoadManager.CurrentSave.TilesData.Tiles[coord] = TileType.Sand;
+            }
+        }
+    }
+
+    public static TilesData GenerateFtueTiles() {
+        var tilesData = GenerateCircleTiles(TILES_RADIUS, TileType.Rocks);
+        List<Vector2Int> ftueTiles = new() {
+            new Vector2Int(-2, 0),
+            new Vector2Int(-1, 0),
+            new Vector2Int(0, 0),
+            new Vector2Int(1, 0),
+            new Vector2Int(2, 0),
+            new Vector2Int(-2, -1),
+            new Vector2Int(-1, -1),
+            new Vector2Int(0, -1),
+            new Vector2Int(1, -1),
+            new Vector2Int(-2, 1),
+            new Vector2Int(-1, 1),
+            new Vector2Int(0, 1),
+            new Vector2Int(1, 1)
+        };
+        foreach (var VARIABLE in ftueTiles) {
+            tilesData.Tiles[VARIABLE] = TileType.Sand;
+           // tilesData.Tiles.Add(VARIABLE, TileType.Sand);
+        }
+
+        return tilesData;
+    }
+    
+    public static TilesData GenerateInitialCircleTiles() {
+        var tilesData = GenerateCircleTiles(STARTING_CIRCLE_RADIUS, TileType.Sand);
+        return tilesData;
+    }
+
+    public static TilesData GenerateCircleTiles(int radius, TileType type) {
         var tilesData = new TilesData();
 
         int circle = 0;
@@ -52,9 +93,8 @@ public class SmartTilemap : MonoBehaviour {
         int i = 0;
         Vector2Int curCoord = new(0, 0);
 
-        while (circle < TILES_RADIUS) {
-            TileType type = circle < STARTING_CIRCLE_RADIUS ? TileType.Sand : TileType.Rocks;
-
+        while (circle < radius) {
+           // TileType type = circle < STARTING_CIRCLE_RADIUS ? TileType.Sand : TileType.Rocks;
             tilesData.Tiles.Add(curCoord, type);
 
             curCoord = TilemapTools.Next(curCoord, circle, step);
@@ -89,6 +129,11 @@ public class SmartTilemap : MonoBehaviour {
 
     public void GenerateTilesWithData(TilesData data) {
         MainTilemap.ClearAllTiles();
+        if(_tiles != null) {
+            foreach (var VARIABLE in _tiles) {
+                Destroy(VARIABLE.Value.gameObject);
+            }
+        }
         _tiles = new Dictionary<Vector2Int, SmartTile>();
         foreach (var pos in data.Tiles.Keys) {
             TileType tile = data.Tiles[pos];

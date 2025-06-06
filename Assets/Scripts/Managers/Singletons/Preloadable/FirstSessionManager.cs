@@ -164,6 +164,8 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = true;
             UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = false;
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
+            SmartTilemap.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
+            SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
             
             UIHud.Instance.DisableLockedUI();
         }

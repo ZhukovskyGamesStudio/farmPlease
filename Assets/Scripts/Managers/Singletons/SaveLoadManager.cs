@@ -124,7 +124,7 @@ namespace Managers {
                 Date = TimeManager.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
                 AmbarCrop = Crop.None,
                 Unlocked = UnlockableUtils.GetInitialUnlockables(),
-                TilesData =  SmartTilemap.GenerateTiles(),
+                TilesData =  SmartTilemap.GenerateFtueTiles(),
                 Nickname = "Farmer #" + Random.Range(999, 10000), 
             };
             
