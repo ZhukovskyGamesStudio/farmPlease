@@ -38,7 +38,6 @@ namespace Managers {
 
         public static string GenerateJsonString() {
             CurrentSave.SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
-            CurrentSave.TilesData = SmartTilemap.Instance.GetTilesData();
             
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 CurrentSave.BuildingPrice = UIHud.Instance.ShopsPanel.BuildingShopView.GetBuildingPrice();

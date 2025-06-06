@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
-    public class ScalesPanelView : MonoBehaviour {
+    public class ScalesDialog : MonoBehaviour {
         [SerializeField]
         private ScalesView scalesView;
 

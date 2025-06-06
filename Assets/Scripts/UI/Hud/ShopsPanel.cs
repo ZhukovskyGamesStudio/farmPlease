@@ -6,7 +6,7 @@ namespace UI
 {
     public class ShopsPanel : MonoBehaviour {
         public Button ScalesButton;
-        public ScalesPanelView ScalesView;
+        public ScalesDialog ScalesView;
         
         public Button SeedShopButton, ToolShopButton;
       

@@ -28,7 +28,7 @@ namespace UI{
         public CanvasGroup ScrollCanvasGroup => _scrollCanvasGroup;
 
         [SerializeField]
-        private ScalesPanelView _scalesPanel;
+        private ScalesDialog _scalesPanel;
 
         private Dictionary<Crop, int> _cropsAmount;
         private Dictionary<Crop, SellTableLine> _cropLineMap = new Dictionary<Crop, SellTableLine>();
