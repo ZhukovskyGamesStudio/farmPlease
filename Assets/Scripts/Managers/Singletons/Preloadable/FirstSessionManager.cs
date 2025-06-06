@@ -219,7 +219,7 @@ namespace Managers {
         private void ShowSeedsSelectSpotlight() {
             _isWaitingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[0].interactable = false;
-
+            UIHud.Instance.BackpackAttention.ShowAttention();
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.Backpack.TomatoButton, FtueConfig.SeedSelectHint, StepEnded);
         }

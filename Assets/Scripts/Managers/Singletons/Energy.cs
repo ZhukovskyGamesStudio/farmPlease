@@ -50,8 +50,8 @@ public class Energy : Singleton<Energy> {
         UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
     }
         
-    public bool HasEnergy() {
-        if (CurEnergy == 0) {
+    public bool HasEnergy(bool isShowNoEnergyAnimation = true) {
+        if (CurEnergy == 0 && isShowNoEnergyAnimation) {
             UIHud.Instance.NoEnergy();
             Audio.Instance.PlaySound(Sounds.ZeroEnergy);
         }

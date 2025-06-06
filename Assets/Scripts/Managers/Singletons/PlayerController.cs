@@ -249,7 +249,8 @@ public class PlayerController : Singleton<PlayerController> {
                     break;
 
                 case Tool.Watercan:
-                    if (Energy.Instance.HasEnergy() || InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan))
+                    bool hasUnlimitedWatercan = InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan);
+                    if (Energy.Instance.HasEnergy(!hasUnlimitedWatercan) || hasUnlimitedWatercan)
                         if (_smartTilemap.AvailabilityCheck("water")) {
                             if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan)) {
                                 Energy.Instance.LoseOneEnergy();

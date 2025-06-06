@@ -80,13 +80,26 @@ namespace UI {
             buttons.AddRange(_cropsButtons);
             buttons.AddRange(_toolButtons);
             buttons.AddRange(_weatherButtons);
-
+            
             foreach (CroponomGridButtonView button in buttons) {
                 button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
                 button.SetAttentionState(SaveLoadManager.CurrentSave.UnseenCroponomPages.Contains(button.GetUnlockable()));
             }
             ToolsOpenButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(ToolBuff.WeekBattery));
             WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.LilCalendar));
+            
+            if( SaveLoadManager.CurrentSave.UnseenCroponomPages.Count > 0) {
+                var nextPage = SaveLoadManager.CurrentSave.UnseenCroponomPages.FirstOrDefault();
+                if (_cropsButtons.Any(b => b.GetUnlockable() == nextPage)) {
+                    OpenCropsPage(true);
+                } else if (_toolButtons.Any(b => b.GetUnlockable() == SaveLoadManager.CurrentSave.UnseenCroponomPages.FirstOrDefault())) {
+                    OpenToolsPage(true);
+                } else if (_weatherButtons.Any(b => b.GetUnlockable() == SaveLoadManager.CurrentSave.UnseenCroponomPages.FirstOrDefault())) {
+                    OpenWeathersPage(true);
+                }
+            } else {
+                UIHud.Instance.CroponomAttention.Hide();
+            }
         }
 
         public void OpenCropsPage(bool isOpen) {
