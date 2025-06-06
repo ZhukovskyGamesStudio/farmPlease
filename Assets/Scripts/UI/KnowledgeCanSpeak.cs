@@ -44,5 +44,10 @@ namespace UI {
                 OnAnimationEnded?.Invoke();
             }
         }
+        
+        public void HideSpeakWithoutCallback() {
+            OnAnimationEnded = null;
+            _animation.Play(HIDE);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using ScriptableObjects;
 using Tables;
@@ -6,6 +7,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Managers {
     public class FirstSessionManager {
@@ -13,6 +15,7 @@ namespace Managers {
 
         private int _curFtueStep;
         private bool _isWaitingForStepEnd;
+        private float _autoSkipAfterSeconds = 5f;
         private CancellationTokenSource _endFtueCts = new CancellationTokenSource();
 
         private void Update() {
@@ -54,10 +57,7 @@ namespace Managers {
 
             PlayerController.Instance.ChangeTool(Tool.Collect);
             await ShowSpeakingBot(FtueConfig.StartHint);
-            _isWaitingForStepEnd = true;
-            UIHud.Instance.KnowledgeCanSpeak.ChangeSpeak(FtueConfig.StartHint2, StepEnded, true);
-            //ShowSpeakingBot(_ftueConfig.StartHint2);
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
+            await ChangeSpeakingBot(FtueConfig.StartHint2, true);
 
             await (ShowHoeSpotlight());
             await (ShowDoHoeSpotlight());
@@ -177,6 +177,24 @@ namespace Managers {
         private async UniTask ShowSpeakingBot(string hintText, bool isHidingAfter = false) {
             _isWaitingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ShowSpeak(hintText, StepEnded, isHidingAfter);
+            var delay = UniTask.Delay(TimeSpan.FromSeconds(_autoSkipAfterSeconds));
+            var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
+            await UniTask.WhenAny(delay, waitForTap);
+            if (_isWaitingForStepEnd) {
+                UIHud.Instance.KnowledgeCanSpeak.HideSpeak();
+            }
+            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
+        }
+        
+        private async UniTask ChangeSpeakingBot(string hintText, bool isHidingAfter = false) {
+            _isWaitingForStepEnd = true;
+            UIHud.Instance.KnowledgeCanSpeak.ChangeSpeak(hintText, StepEnded, isHidingAfter);
+            var delay = UniTask.Delay(TimeSpan.FromSeconds(_autoSkipAfterSeconds));
+            var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
+            await UniTask.WhenAny(delay, waitForTap);
+            if (_isWaitingForStepEnd) {
+                UIHud.Instance.KnowledgeCanSpeak.HideSpeak();
+            }
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
