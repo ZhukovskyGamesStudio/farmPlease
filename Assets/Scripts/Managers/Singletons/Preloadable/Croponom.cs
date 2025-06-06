@@ -86,7 +86,7 @@ namespace UI {
                 button.SetAttentionState(SaveLoadManager.CurrentSave.UnseenCroponomPages.Contains(button.GetUnlockable()));
             }
             ToolsOpenButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(ToolBuff.WeekBattery));
-            WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
+            WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.LilCalendar));
         }
 
         public void OpenCropsPage(bool isOpen) {
