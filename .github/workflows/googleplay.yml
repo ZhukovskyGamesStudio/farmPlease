@@ -66,7 +66,7 @@ jobs:
               serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
               packageName: ${{ vars.GP_PACKAGE_NAME }}
               releaseFiles: build/Android/Android.aab
-              track: internal
-              status: draft
+              track: beta
+              status: completed
               inAppUpdatePriority: 0
               changesNotSentForReview: false
