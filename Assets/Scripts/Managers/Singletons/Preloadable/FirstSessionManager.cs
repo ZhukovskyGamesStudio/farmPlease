@@ -231,7 +231,7 @@ namespace Managers {
 
             UIHud.Instance.Backpack.gameObject.SetActive(true);
             UIHud.Instance.FastPanelScript.toolButtons[2].gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoSeedHint,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(), FtueConfig.DoSeedHint,
                 StepEnded, false);
 
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 0);
@@ -253,12 +253,17 @@ namespace Managers {
             _isWaitingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(true);
 
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoScytheHint,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(), FtueConfig.DoScytheHint,
                 StepEnded, false);
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.CropPoints < 7+7);
             UIHud.Instance.SpotlightWithText.Hide();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.Delay(300);
+        }
+
+        private static Transform GetFarmCenterSpotlight() {
+            return UIHud.Instance.CenterFarmTransform;
+            //return SmartTilemap.Instance.GetTile(Vector2Int.zero).transform;
         }
 
         private async UniTask ShowHoeSpotlight() {
@@ -275,7 +280,7 @@ namespace Managers {
             _isWaitingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[3].interactable = false;
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoHoeHint,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(), FtueConfig.DoHoeHint,
                 StepEnded, false);
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 0);
             UIHud.Instance.SpotlightWithText.Hide();
@@ -294,7 +299,7 @@ namespace Managers {
 
         private async UniTask ShowDoWaterSpotlight() {
             _isWaitingForStepEnd = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform, FtueConfig.DoWaterHint,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(), FtueConfig.DoWaterHint,
                 StepEnded, false);
             UIHud.Instance.ClockView.IsLockedByFtue = false;
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 0);
@@ -326,7 +331,7 @@ namespace Managers {
         private async UniTask ShowDoWaterAgainSpotlight() {
             _isWaitingForStepEnd = true;
             
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(SmartTilemap.Instance.GetTile(Vector2Int.zero).transform,
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(),
                 FtueConfig.DoWaterAgainHint, StepEnded, false);
             UIHud.Instance.ClockView.IsLockedByFtue = false;
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 0);
