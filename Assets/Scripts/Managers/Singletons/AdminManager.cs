@@ -32,6 +32,10 @@ public class AdminManager : MonoBehaviour {
     public void AddCollectedCrops(int amount) {
         InventoryManager.Instance.AddCollectedCrop(Crop.Tomato, amount);
     }
+    
+    public void AddBattery(int amount) {
+        InventoryManager.Instance.AddTool(ToolBuff.WeekBattery, amount);
+    }
 
     public void SetGameSpeed(Single value) {
         GameModeManager.Instance.Config.GameSpeed = value;

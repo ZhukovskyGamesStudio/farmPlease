@@ -95,7 +95,7 @@ namespace Managers {
 
             int love = -1;
             while ((love + _skipDaysAmount) % 7 == 0 || (love + 1) % 5 == 0) love = Random.Range(7 + _skipDaysAmount, 20);
-            bool skippedFirstRain = false;
+            int skippedRainsNeeded = 2;
 
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + _skipDaysAmount;
@@ -103,8 +103,8 @@ namespace Managers {
                     UnlockableUtils.HasUnlockable(HappeningType.FoodMarket)) {
                     Days[i] = HappeningType.FoodMarket;
                 } else if ((i + 1) % 5 == 0) {
-                    if (SaveLoadManager.CurrentSave.CurrentMonth == 0 && !skippedFirstRain) {
-                        skippedFirstRain = true;
+                    if (SaveLoadManager.CurrentSave.CurrentMonth == 0 && skippedRainsNeeded > 0) {
+                        skippedRainsNeeded--;
                         continue;
                     }
 

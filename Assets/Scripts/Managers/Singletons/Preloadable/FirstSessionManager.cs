@@ -72,7 +72,7 @@ namespace Managers {
             ShowSeedsSelectSpotlight();
 
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-
+            UIHud.Instance.BackpackAttention.Hide();
             await (ShowDoSeedSpotlight());
 
             ShowWaterSpotlight();
