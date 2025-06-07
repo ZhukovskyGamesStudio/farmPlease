@@ -80,7 +80,8 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
     }
 
     private async void OpenChest() {
-        _chestAnimation.Play(_chestOpen.name);
+        _chestAnimation.Play(_chestClick.name);
+        _chestAnimation.PlayQueued(_chestOpen.name);
         await UniTask.WaitWhile(() => _chestAnimation.isPlaying);
 
         int rewardsAmount = _data.Reward.Items.Count;

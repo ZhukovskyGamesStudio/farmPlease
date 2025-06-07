@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,12 +20,17 @@ public class NewLevelDialog : DialogWithData<int> {
 
     public override void SetData(int newLevel) {
         _previousLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel - 1];
-        _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel - 1];
+        _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel ];
 
         _previousLevelName.text = ConfigsManager.Instance.LevelConfigs[newLevel - 1].LevelName;
-        _nextLevelName.text = ConfigsManager.Instance.LevelConfigs[newLevel - 1].LevelName;
+        _nextLevelName.text = ConfigsManager.Instance.LevelConfigs[newLevel].LevelName;
 
         _clicksNeeded = 3 + newLevel;
+    }
+
+    public override void Show(Action onClose) {
+        base.Show(onClose);
+        _levelAnimation.Play(_previousIdleClip.name);
     }
 
     public void Click() {
@@ -43,7 +49,8 @@ public class NewLevelDialog : DialogWithData<int> {
     }
 
     private void ChangeLevel() {
-        _levelAnimation.Play(_levelChangeClip.name);
+        _levelAnimation.Play(_clickOnLevelClip.name);
+        _levelAnimation.PlayQueued(_levelChangeClip.name);
         _levelAnimation.PlayQueued(_nextIdleClip.name);
     }
 }
