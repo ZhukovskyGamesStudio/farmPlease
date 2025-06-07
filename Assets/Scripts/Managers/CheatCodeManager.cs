@@ -37,6 +37,7 @@ namespace Managers {
         public void ExecuteCheatCode(string code) {
          
                 CheatCodeConfig cheatCodeConfig = CheatCodes.First(c => c.Code == code);
+                TryChangeAdmin(cheatCodeConfig);
                 TryAddEnergy(cheatCodeConfig);
                 TryAddCoins(cheatCodeConfig);
                 TryAddCrops(cheatCodeConfig);
@@ -45,6 +46,14 @@ namespace Managers {
                 SaveCodeUsed(code);
                 SaveLoadManager.SaveGame();
                 
+        }
+
+        private void TryChangeAdmin(CheatCodeConfig cheatCode) {
+            if (cheatCode.Code.Contains("ADMIN")) {
+                SaveLoadManager.CurrentSave.IsAdmin = cheatCode.Code.Contains("+");
+                SaveLoadManager.SaveGame();
+                AdminManager.Instance.Init(SaveLoadManager.CurrentSave.IsAdmin);
+            }
         }
 
         private void TryAddEnergy(CheatCodeConfig cheatCode) {

@@ -17,6 +17,7 @@ namespace Managers {
         protected override void Start() {
             Init();
             LoadGame();
+            AdminManager.Instance.Init(SaveLoadManager.CurrentSave.IsAdmin);
             Settings.Instance.InitSettingsView();
             Clock.Instance.TryRefillForRealtimePassed();
             InventoryManager.CheckNewLevelDialog();
