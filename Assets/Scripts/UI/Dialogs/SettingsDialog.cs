@@ -2,16 +2,14 @@
 using Managers;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI {
-    public class SettingsPanel : MonoBehaviour, ISoundStarter {
+    public class SettingsDialog : DialogWithData<CheatCodeConfigList>, ISoundStarter {
         public Slider masterSoundSlider, musicSoundSlider, effectsSoundSlider;
         public Button GPGSButton;
         public Text GPGSText;
         public Toggle NotificationsToggle;
-        public Dropdown DaypointDropDown;
         public GameObject ResetButton;
         public DevlogManager Devlog;
 
@@ -21,6 +19,11 @@ namespace UI {
         private SettingsData SettingsData => SaveLoadManager.CurrentSave.SettingsData;
         private SettingsData _unchangedData;
 
+        public override void SetData(CheatCodeConfigList data) {
+            Initialize(data);
+            UpdateSettingsPanel(SettingsData);
+        }
+
         public void Initialize(CheatCodeConfigList cheatCodeConfigList) {
             _settingsCheatCodeView.Init(cheatCodeConfigList);
             Devlog.Init();
@@ -28,18 +31,12 @@ namespace UI {
 
         public void UpdateSettingsPanel(SettingsData data) {
             _unchangedData = data;
-            DaypointDropDown.SetValueWithoutNotify(data.NewDayPoint);
             masterSoundSlider.SetValueWithoutNotify(data.MasterVolume);
             musicSoundSlider.SetValueWithoutNotify(data.MusicVolume);
             effectsSoundSlider.SetValueWithoutNotify(data.EffectsVolume);
             NotificationsToggle.SetIsOnWithoutNotify(data.SendNotifications);
             GpgsUpdated(GpsManager.IsAuthenticated);
 
-            ResetButton.SetActive(false);
-        }
-
-        public void ClosePanel() {
-            gameObject.SetActive(false);
             ResetButton.SetActive(false);
         }
 
@@ -60,19 +57,10 @@ namespace UI {
             Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
         }
 
-        public void OnDayMomentChanged() {
-            ResetButton.SetActive(true);
-
-            SettingsData.NewDayPoint = DaypointDropDown.value;
-            Settings.Instance.ChangeSettings(SettingsData);
-            Settings.Instance.DayMomentChanged();
-        }
-
         public void ResetChanges() {
             SaveLoadManager.CurrentSave.SettingsData = _unchangedData;
             UpdateSettingsPanel(SettingsData);
             Settings.Instance.ChangeSettings(SettingsData);
-            Settings.Instance.DayMomentChanged();
             Settings.Instance.NotificationChanged();
             Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
         }
@@ -88,16 +76,6 @@ namespace UI {
             }
         }
 
-        public void StartTutorial() {
-            SceneManager.LoadScene("Training");
-            SceneManager.sceneLoaded += ClosePanel;
-        }
-
-        private void ClosePanel(Scene arg0, LoadSceneMode arg1) {
-            SceneManager.sceneLoaded -= ClosePanel;
-            ClosePanel();
-        }
-
         public void ShowDevlog() {
             Devlog.gameObject.SetActive(true);
         }
@@ -106,7 +84,6 @@ namespace UI {
             SaveLoadManager.CurrentSave.SettingsData = new SettingsData();
             UpdateSettingsPanel(SettingsData);
             Settings.Instance.ChangeSettings(SettingsData);
-            Settings.Instance.DayMomentChanged();
             Settings.Instance.NotificationChanged();
             Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
             SaveLoadManager.SaveGame();

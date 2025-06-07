@@ -8,7 +8,7 @@ using ZhukovskyGamesPlugin;
 
 namespace UI {
     public class UIHud : Singleton<UIHud>, ISoundStarter {
-        public Transform CenterFarmTransform; 
+        public Transform CenterFarmTransform;
         public BatteryView BatteryView;
         public ScreenEffect screenEffect;
         public FastPanelScript FastPanelScript;
@@ -20,7 +20,7 @@ namespace UI {
         public GameObject CroponomButton;
         public AttentionView CroponomAttention, BackpackAttention;
         public OpenCroponomButtonView OpenCroponomButton;
-        
+
         public GameObject BuildingPanel;
         public GraphicRaycaster GraphicRaycaster;
 
@@ -35,9 +35,7 @@ namespace UI {
         protected override bool IsDontDestroyOnLoad => false;
 
         public void ClosePanel() {
-            if (Settings.Instance.SettingsPanel.gameObject.activeSelf)
-                Settings.Instance.SettingsPanel.gameObject.SetActive(false);
-            else if (Backpack.isOpen)
+            if (Backpack.isOpen)
                 Backpack.OpenClose();
         }
 
@@ -86,7 +84,7 @@ namespace UI {
         }
 
         public void OpenSettings() {
-            Settings.Instance.SettingsPanel.gameObject.SetActive(true);
+            Settings.Instance.OpenSettings();
         }
 
         public void LoadLevel(string sceneName) {

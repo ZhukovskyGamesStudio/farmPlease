@@ -6,7 +6,6 @@ namespace UI
 {
     public class ShopsPanel : MonoBehaviour {
         public Button ScalesButton;
-        public ScalesDialog ScalesView;
         
         public Button SeedShopButton, ToolShopButton;
       
@@ -19,7 +18,7 @@ namespace UI
         }
         
         public void OpenScales() {
-            ScalesView.gameObject.SetActive(true);
+            DialogsManager.Instance.ShowDialogWithData(typeof(ScalesDialog), 0);
         }
         public void OpenToolShop() {
             DialogsManager.Instance.ShowDialogWithData(typeof(ToolShopDialog), SaveLoadManager.CurrentSave.ToolShopData);

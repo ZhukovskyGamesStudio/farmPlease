@@ -13,15 +13,19 @@ public class PlayerController : Singleton<PlayerController> {
 
     public KeyCode useToolKey;
 
-    [HideInInspector] public Crop seedBagCrop;
+    [HideInInspector]
+    public Crop seedBagCrop;
 
-    [HideInInspector] public SpriteRenderer currentBuildingSprite;
+    [HideInInspector]
+    public SpriteRenderer currentBuildingSprite;
 
-    [HideInInspector] public bool isBuilding;
+    [HideInInspector]
+    public bool isBuilding;
 
     public Tile[] BuildingTiles;
 
-    [Header("Building")] private GameObject _buildingPanel;
+    [Header("Building")]
+    private GameObject _buildingPanel;
 
     private BuildingShopView _buildingShopView;
 
@@ -36,31 +40,21 @@ public class PlayerController : Singleton<PlayerController> {
     private Vector2Int _newBuildingcoord, _oldBuilddingscoord, _helpBuildingsCoord;
 
     private SmartTilemap _smartTilemap;
-    
+
     private UIHud _uiHud;
+
+    [SerializeField]
+    private bool _isMouseWheelWorks = false;
+
     protected override bool IsDontDestroyOnLoad => false;
 
     private void Update() {
         if (CanInteract) {
             _graphicRaycaster.enabled = true;
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-                int curIndex = (int) _curTool;
-                curIndex++;
-                curIndex %= 4;
-                ChangeTool(curIndex);
-            }
+            TryChangeToolByMouseWheel();
 
-            if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-                int curIndex = (int) _curTool;
-                curIndex--;
-                if (curIndex < 0)
-                    curIndex = 3;
-                ChangeTool(curIndex);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space) && GameModeManager.Instance.GameMode != GameMode.RealTime &&
-                CanInteract) {
+            if (Input.GetKeyDown(KeyCode.Space) && GameModeManager.Instance.GameMode != GameMode.RealTime && CanInteract) {
                 Clock.Instance.TryAddDay();
             }
 
@@ -93,6 +87,27 @@ public class PlayerController : Singleton<PlayerController> {
         }
     }
 
+    private void TryChangeToolByMouseWheel() {
+        if (_isMouseWheelWorks) {
+            return;
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0) {
+            int curIndex = (int)_curTool;
+            curIndex++;
+            curIndex %= 4;
+            ChangeTool(curIndex);
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+            int curIndex = (int)_curTool;
+            curIndex--;
+            if (curIndex < 0)
+                curIndex = 3;
+            ChangeTool(curIndex);
+        }
+    }
+
     public void Init() {
         _uiHud = UIHud.Instance;
         _graphicRaycaster = _uiHud.GraphicRaycaster;
@@ -105,8 +120,6 @@ public class PlayerController : Singleton<PlayerController> {
         isBuilding = false;
         _oldBuilddingscoord = new Vector2Int(1000, 1000);
     }
-
-     
 
     public void Click() {
         if (isBuilding) {
@@ -236,7 +249,6 @@ public class PlayerController : Singleton<PlayerController> {
                 case Tool.Hoe:
                     if (Energy.Instance.HasEnergy())
                         if (_smartTilemap.AvailabilityCheck("hoe")) {
-                         
                             Energy.Instance.LoseOneEnergy();
                             Vector2Int coord = _smartTilemap.Playercoord;
                             InventoryManager.Instance.AddXp(1);
@@ -255,6 +267,7 @@ public class PlayerController : Singleton<PlayerController> {
                             if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan)) {
                                 Energy.Instance.LoseOneEnergy();
                             }
+
                             InventoryManager.Instance.AddXp(1);
                             yield return StartCoroutine(_smartTilemap.WaterTile());
                         }
@@ -269,6 +282,7 @@ public class PlayerController : Singleton<PlayerController> {
                                 if (!InventoryManager.Instance.IsToolWorking(ToolBuff.Carpetseeder)) {
                                     Energy.Instance.LoseOneEnergy();
                                 }
+
                                 InventoryManager.Instance.AddXp(1);
                                 yield return StartCoroutine(_smartTilemap.SeedTile(seedBagCrop));
                             }
@@ -276,8 +290,7 @@ public class PlayerController : Singleton<PlayerController> {
                     break;
 
                 case Tool.Collect:
-                    if (InventoryManager.Instance.IsToolWorking(ToolBuff.Wetscythe) &&
-                        _smartTilemap.AvailabilityCheck("water")) {
+                    if (InventoryManager.Instance.IsToolWorking(ToolBuff.Wetscythe) && _smartTilemap.AvailabilityCheck("water")) {
                         InventoryManager.Instance.AddXp(1);
                         yield return StartCoroutine(_smartTilemap.WaterTile());
                     }
@@ -287,8 +300,7 @@ public class PlayerController : Singleton<PlayerController> {
                         if (Energy.Instance.HasEnergy()) {
                             Vector2Int coord = _smartTilemap.Playercoord;
                             while (_smartTilemap.GetTile(coord).type == TileType.WateredSoil)
-                                yield return StartCoroutine(_smartTilemap.GetTile(coord)
-                                    .OnNeyDayed(_smartTilemap.animtime));
+                                yield return StartCoroutine(_smartTilemap.GetTile(coord).OnNeyDayed(_smartTilemap.animtime));
                         }
                     } else if (_smartTilemap.AvailabilityCheck("collect")) {
                         InventoryManager.Instance.AddXp(1);
@@ -333,13 +345,14 @@ public class PlayerController : Singleton<PlayerController> {
     }
 
     public Tool CurTool => _curTool;
+
     public void ChangeTool(int index) {
-        _curTool = (Tool) index;
+        _curTool = (Tool)index;
         _uiHud.ChangeInventoryHover(index);
     }
 
     public void ChangeTool(Tool tool) {
-        ChangeTool((int) tool);
+        ChangeTool((int)tool);
     }
 
     public void StartStopBuilding() {
@@ -359,8 +372,6 @@ public class PlayerController : Singleton<PlayerController> {
 
         _currentTile = BuildingsTable.BuildingByType(type).BuildingPanelTile;
     }
-
-   
 }
 
 [Serializable]

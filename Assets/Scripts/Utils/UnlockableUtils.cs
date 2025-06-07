@@ -39,7 +39,10 @@ public static class UnlockableUtils {
         if (Unlocked.Contains(unlockable)) {
             return;
         }
-        SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
+        if (unlockable != Unlockable.ToolShop.ToString()) {
+            SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
+        }
+    
         UIHud.Instance.CroponomAttention.ShowAttention();
         Unlocked?.Add(unlockable);
         if (SaveLoadManager.Instance != null) {
@@ -67,6 +70,7 @@ public static class UnlockableUtils {
             return;
         }
         SaveLoadManager.CurrentSave.UnseenCroponomPages.Remove(page);
+        SaveLoadManager.SaveGame();
     }
 
     

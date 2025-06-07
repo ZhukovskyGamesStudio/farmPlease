@@ -96,6 +96,8 @@ namespace Managers {
             if(string.IsNullOrEmpty(CurrentSave.Nickname)) {
                 CurrentSave.Nickname = "Farmer #" + Random.Range(999, 10000);
             }
+            
+            UnlockableUtils.TryRemoveSeenPage(Unlockable.ToolShop.ToString());
             //TODO update everything else and move to another manager
         }
       

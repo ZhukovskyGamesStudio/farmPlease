@@ -118,18 +118,12 @@ namespace Managers {
             UIHud.Instance.ClockView.gameObject.SetActive(false);
             UIHud.Instance.BatteryView.gameObject.SetActive(false);
             UIHud.Instance.ShopsPanel.gameObject.SetActive(false);
-            UIHud.Instance.ShopsPanel.ScalesView.CloseButton.gameObject.SetActive(false);
+        
             UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(false);
             UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(false);
             UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(false);
             UIHud.Instance.CroponomButton.gameObject.SetActive(false);
             UIHud.Instance.SettingsButton.gameObject.SetActive(false);
-
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(false);
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton.gameObject.SetActive(false);
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = false;
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = true;
             UIHud.Instance.ProfileView.IsLockedByFtue = true;
         }
 
@@ -141,7 +135,6 @@ namespace Managers {
             UIHud.Instance.FastPanelScript.toolButtons[1].gameObject.SetActive(true);
             UIHud.Instance.BatteryView.gameObject.SetActive(true);
             UIHud.Instance.ClockView.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.ScalesView.CloseButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.SeedShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
             UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
@@ -157,10 +150,6 @@ namespace Managers {
             UIHud.Instance.CroponomButton.gameObject.SetActive(true);
             UIHud.Instance.SettingsButton.gameObject.SetActive(true);
 
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.ScrollCanvasGroup.blocksRaycasts = true;
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.IsFixedByTraining = false;
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
             SmartTilemap.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
             SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
@@ -355,26 +344,36 @@ namespace Managers {
         private async UniTask ShowSelectAllSpotlight() {
             _isWaitingForStepEnd = true;
             await UniTask.Delay(300);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton,
+            var scaledDialog = Object.FindAnyObjectByType<ScalesDialog>();
+            scaledDialog.CloseButton.gameObject.SetActive(false);
+            scaledDialog.SellTabletView.SelectAllButton.gameObject.SetActive(false);
+            scaledDialog.SellTabletView.SellButton.gameObject.SetActive(false);
+            scaledDialog.SellTabletView.SelectAllButton.gameObject.SetActive(true);
+            scaledDialog.SellTabletView.ScrollCanvasGroup.blocksRaycasts = false;
+            scaledDialog.SellTabletView.IsFixedByTraining = true;
+            
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(scaledDialog.SellTabletView.SelectAllButton,
                 FtueConfig.SelectAllHint, StepEnded);
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SelectAllButton.gameObject.SetActive(true);
+            scaledDialog.SellTabletView.SelectAllButton.gameObject.SetActive(true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
         private async UniTask ShowSellSpotlight() {
             _isWaitingForStepEnd = true;
-            UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.SellTabletView.SellButton,
+            var scaledDialog = Object.FindAnyObjectByType<ScalesDialog>();
+            scaledDialog.SellTabletView.SellButton.gameObject.SetActive(true);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(scaledDialog.SellTabletView.SellButton,
                 FtueConfig.SellHint, StepEnded, true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-            await UniTask.WaitWhile(() => UIHud.Instance.ShopsPanel.ScalesView.IsSellingAnimation);
+            await UniTask.WaitWhile(() => scaledDialog.IsSellingAnimation);
         }
 
         private async UniTask ShowCloseScalesSpotlight() {
             await UniTask.Delay(2000);
             _isWaitingForStepEnd = true;
-            UIHud.Instance.ShopsPanel.ScalesView.CloseButton.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesView.CloseButton, FtueConfig.CloseScalesHint,
+            var scaledDialog = Object.FindAnyObjectByType<ScalesDialog>();
+            scaledDialog.CloseButton.gameObject.SetActive(true);
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(scaledDialog.CloseButton, FtueConfig.CloseScalesHint,
                 StepEnded);
 
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
