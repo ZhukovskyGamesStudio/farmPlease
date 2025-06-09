@@ -117,6 +117,14 @@ namespace Managers {
             }
 
             UnlockableUtils.TryRemoveSeenPage(Unlockable.ToolShop.ToString());
+            for (int i = 0; i < CurrentSave.CurrentLevel; i++) {
+                var unlockable = ConfigsManager.Instance.LevelConfigs[i].Reward.Unlockable;
+                if (!CurrentSave.Unlocked.Contains(unlockable)) {
+                    UnlockableUtils.Unlock(unlockable);
+                }
+            }
+            
+            
             if (string.IsNullOrEmpty(CurrentSave.UserId)) {
                 CreatePlayerOnServer().Forget();
             } else {
