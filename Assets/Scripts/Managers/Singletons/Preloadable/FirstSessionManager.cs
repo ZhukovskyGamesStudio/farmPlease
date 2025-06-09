@@ -105,6 +105,7 @@ namespace Managers {
             
             EnableUiParts();
             KnowledgeUtils.AddKnowledge(Knowledge.Training);
+            SaveLoadManager.TryCreateFirstSave();
             _endFtueCts.Cancel();
             _endFtueCts.Dispose();
         }

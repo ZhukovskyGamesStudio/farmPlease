@@ -130,7 +130,7 @@ public class SmartTilemap : MonoBehaviour {
             SmartTile smarttile = tileObject.AddComponent<SmartTile>();
 
             smarttile.Init(this, tile, position);
-            PlaceTile(position, tile);
+            MainTilemap.SetTile((Vector3Int)position, TilesTable.TileByType(tile).TileBase);
 
             _tiles.Add(position, smarttile);
         }

@@ -133,6 +133,12 @@ namespace Managers {
             //TODO update everything else and move to another manager
         }
 
+        public static void TryCreateFirstSave() {
+            if (string.IsNullOrEmpty(CurrentSave.UserId)) {
+                CreatePlayerOnServer().Forget();
+            }  
+        }
+
         private static async UniTask CreatePlayerOnServer() {
             string createdId = await PlayerAPI.CreatePlayerAsync(CurrentSave);
             if (createdId != null) {
