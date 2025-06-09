@@ -1339,6 +1339,8 @@ MonoBehaviour:
   _noEnergyHint: {fileID: 11400000, guid: 0506181319c34564a8ef446997935f57, type: 2}
   _toolShopHint: {fileID: 11400000, guid: 2c8e38e150d321747af86e1621ebee3d, type: 2}
   _foodMarketHint: {fileID: 11400000, guid: 7c046373b6efc954e8e2aea0f32017d9, type: 2}
+  _farmerCommunityHint: {fileID: 11400000, guid: db1fe01a416007b4b976c80e59e9ee12,
+    type: 2}
 --- !u!1001 &684970733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1670,6 +1672,50 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &777128038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 777128039}
+  - component: {fileID: 777128040}
+  m_Layer: 0
+  m_Name: FarmerCommunityManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &777128039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777128038}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 943775798}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &777128040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777128038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9ae1a484048451995f81da6af5858b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &786504122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,7 +1778,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &786504126
 RectTransform:
@@ -2054,6 +2100,7 @@ Transform:
   - {fileID: 663689680}
   - {fileID: 1388346012}
   - {fileID: 111457050}
+  - {fileID: 777128039}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946168248 stripped
@@ -5619,6 +5666,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -6.052
       objectReference: {fileID: 0}
+    - target: {fileID: 2761580029305045143, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -11.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3345261965856709162, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -5984,6 +6036,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ProfileView
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511739046050460215, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511739046050460215, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9165227287053630443, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}

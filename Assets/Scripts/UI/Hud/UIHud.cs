@@ -27,12 +27,17 @@ namespace UI {
         public GameObject SettingsButton;
 
         public ClockView ClockView;
-        public CountersView CountersView;
+       
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
         public Croponom Croponom;
         public ProfileView ProfileView;
+        public CountersView CountersView;
         protected override bool IsDontDestroyOnLoad => false;
+
+        public FarmerCommunityBadgeView FarmerCommunityBadgeView;
+        public GameObject HomeFarmUi;
+        public OtherFarmUI OtherFarmUI;
 
         public void ClosePanel() {
             if (Backpack.isOpen)
@@ -48,8 +53,8 @@ namespace UI {
         }
 
         public void SetCounters() {
-            CountersView.SetCounters();
-            ProfileView.SetCounters();
+            CountersView.SetData(SaveLoadManager.CurrentSave);
+            ProfileView.SetData(SaveLoadManager.CurrentSave);
         }
 
         public void ChangeInventoryHover(int index) {
@@ -61,12 +66,13 @@ namespace UI {
         }
 
         public void OpenBuildingsShop() {
-            ShopsPanel.BuildingShopButton.interactable = true;
+            ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
         }
 
         public void CloseBuildingsShop() {
-            if (!GameModeManager.Instance.IsBuildingsShopAlwaysOpen)
-                ShopsPanel.BuildingShopButton.interactable = false;
+            if (!GameModeManager.Instance.IsBuildingsShopAlwaysOpen) {
+                ShopsPanel.BuildingShopButton.gameObject.SetActive(false);
+            }
         }
 
         public void OpenMarketPlace() {
@@ -111,6 +117,7 @@ namespace UI {
         public void DisableLockedUI() {
             ShopsPanel.ToolShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.ToolShop.ToString()));
             ShopsPanel.BuildingShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString()));
+            FarmerCommunityBadgeView.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FarmerCommunity.ToString()));
         }
     }
 }

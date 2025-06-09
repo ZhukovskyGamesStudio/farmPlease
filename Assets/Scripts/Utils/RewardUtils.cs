@@ -29,6 +29,8 @@ public static class RewardUtils {
                     return WeatherTable.WeatherByType(HappeningType.FoodMarket).header;
                 case Unlockable.ToolShop:
                     return "Магазин инструментов";
+                case Unlockable.FarmerCommunity:
+                    return "Клуб фермеров";
             }
         }
 

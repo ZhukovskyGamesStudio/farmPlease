@@ -23,4 +23,5 @@ public enum Knowledge {
     ToolShop = 3,
     FoodMarket = 4,
     NoEnergy = 5,
+    FarmerCommunity = 6,
 }

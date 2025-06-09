@@ -81,4 +81,5 @@ public enum Unlockable {
     None = -1,
     ToolShop = 0,
     FoodMarket = 1,
+    FarmerCommunity = 2,
 }

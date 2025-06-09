@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Tables;
 using UI;
 using UnityEngine;
@@ -11,7 +12,6 @@ using Random = UnityEngine.Random;
 
 namespace Managers {
     public class SaveLoadManager : Singleton<SaveLoadManager> {
-
         private BuildingShopView _buildingShopView;
         private FastPanelScript _fastPanelScript;
 
@@ -23,22 +23,33 @@ namespace Managers {
         private ToolShopDialog _toolShop;
         public static GameSaveProfile CurrentSave;
         private static bool _needToSave;
-        
+        private static bool _isWaitingSequence;
 
         // Пока в игре происходят какие-то действия, игрок не может ничего сделать
         // По окончанию этих действий игрок снова может что-то делать, а игра сохраняется. Если последовательность не была завершена - то игра не сохранится и откатится назад при след. загрузке
-        public void Sequence(bool isStart) {
-            if (isStart) {
-                PlayerController.CanInteract = false;
-            } else {
+
+        private List<string> _activeSequences = new List<string>();
+        
+        public string StartSequence() {
+            _isWaitingSequence = true;
+            PlayerController.CanInteract = false;
+            string sequenceId = DateTime.Now.ToString(CultureInfo.InvariantCulture) + Random.Range(0, 1f);
+            _activeSequences.Add(sequenceId);
+            return sequenceId;
+        }
+        
+        public void EndSequence(string sequenceId) {
+            _activeSequences.Remove(sequenceId);
+            if (_activeSequences.Count == 0) {
+                _isWaitingSequence = false;
                 PlayerController.CanInteract = true;
-                SaveGame();
+                SaveGame(); 
             }
         }
 
         public static string GenerateJsonString() {
             CurrentSave.SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
-            
+
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
                 CurrentSave.BuildingPrice = UIHud.Instance.ShopsPanel.BuildingShopView.GetBuildingPrice();
             }
@@ -56,9 +67,16 @@ namespace Managers {
         }
 
         private void LateUpdate() {
+            if (_isWaitingSequence) {
+                return;
+            }
+
             if (_needToSave) {
                 _needToSave = false;
                 RewriteGameSavedData();
+                if (!string.IsNullOrEmpty(CurrentSave.UserId)) {
+                    PlayerAPI.UpdatePlayerAsync(CurrentSave.UserId, CurrentSave).Forget();
+                }
             }
         }
 
@@ -93,14 +111,34 @@ namespace Managers {
                 CurrentSave.Unlocked.AddRange(UnlockableUtils.GetInitialUnlockables());
                 CurrentSave.Unlocked = CurrentSave.Unlocked.Distinct().ToList();
             }
-            if(string.IsNullOrEmpty(CurrentSave.Nickname)) {
+
+            if (string.IsNullOrEmpty(CurrentSave.Nickname)) {
                 CurrentSave.Nickname = "Farmer #" + Random.Range(999, 10000);
             }
-            
+
             UnlockableUtils.TryRemoveSeenPage(Unlockable.ToolShop.ToString());
+            if (string.IsNullOrEmpty(CurrentSave.UserId)) {
+                CreatePlayerOnServer().Forget();
+            } else {
+                FindPlayerOnServer().Forget();
+            }
             //TODO update everything else and move to another manager
         }
-      
+
+        private static async UniTask CreatePlayerOnServer() {
+            string createdId = await PlayerAPI.CreatePlayerAsync(CurrentSave);
+            if (createdId != null) {
+                CurrentSave.UserId = createdId;
+                SaveGame();
+            }
+        }
+
+        private static async UniTaskVoid FindPlayerOnServer() {
+            var res = await PlayerAPI.GetPlayerAsync(CurrentSave.UserId);
+            if (res == null) {
+                await CreatePlayerOnServer();
+            }
+        }
 
         private static void UpdateTools() {
             if (CurrentSave.ToolBuffs.Count < ToolsTable.Tools.Count) {
@@ -137,10 +175,10 @@ namespace Managers {
                 Date = TimeManager.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
                 AmbarCrop = Crop.None,
                 Unlocked = UnlockableUtils.GetInitialUnlockables(),
-                TilesData =  SmartTilemap.GenerateFtueTiles(),
-                Nickname = "Farmer #" + Random.Range(999, 10000), 
+                TilesData = SmartTilemap.GenerateFtueTiles(),
+                Nickname = "Farmer #" + Random.Range(999, 10000),
             };
-            
+
             InventoryManager.GenerateInventory();
 
             Energy.GenerateEnergy();

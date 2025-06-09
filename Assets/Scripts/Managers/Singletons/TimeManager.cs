@@ -172,7 +172,7 @@ namespace Managers {
         }
 
         public IEnumerator DayPointCoroutine() {
-            PlayerController.CanInteract = false;
+            string sequenceId = SaveLoadManager.Instance.StartSequence();
             SaveLoadManager.CurrentSave.DayOfWeek = NextDay(SaveLoadManager.CurrentSave.DayOfWeek);
             /*if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
                 EndMonth();*/
@@ -196,7 +196,7 @@ namespace Managers {
 
             yield return StartCoroutine(SmartTilemap.NewDay(nextDay));
             UIHud.Instance.ClockView.SetInteractable(true);
-            PlayerController.CanInteract = true;
+            SaveLoadManager.Instance.EndSequence(sequenceId);
         }
 
         private void ChangeSeedsNewDay() {

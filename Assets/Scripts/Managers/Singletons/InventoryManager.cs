@@ -140,7 +140,7 @@ namespace Managers {
                 Reward = reward,
                 OnClaim = () => {
                     SaveLoadManager.CurrentSave.CurrentLevel++;
-                    UIHud.Instance.ProfileView.SetCounters();
+                    UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
                     SaveLoadManager.SaveGame();
                 }
             });

@@ -8,7 +8,7 @@ using ZhukovskyGamesPlugin;
 [Serializable]
 public class GameSaveProfile {
     public bool IsAdmin;
-    
+    public string UserId;
     public string Nickname = "Player";
     public int Coins;
     public int Xp;

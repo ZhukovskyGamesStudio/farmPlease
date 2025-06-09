@@ -9,9 +9,9 @@ namespace UI {
         public AnimatableCounter CropsCounter => _cropsCounter;
         public AnimatableCounter CoinsCounter => _coinsCounter;
 
-        public void SetCounters() {
-            _coinsCounter.SetAmount(SaveLoadManager.CurrentSave.Coins);
-            _cropsCounter.SetAmount(SaveLoadManager.CurrentSave.CropPoints);
+        public void SetData(GameSaveProfile saveProfile) {
+            _coinsCounter.SetAmount(saveProfile.Coins);
+            _cropsCounter.SetAmount(saveProfile.CropPoints);
         }
     }
 }

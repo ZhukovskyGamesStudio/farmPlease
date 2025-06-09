@@ -11,10 +11,10 @@ public class ProfileView : MonoBehaviour {
 
     public bool IsLockedByFtue;
 
-    public void SetCounters() {
-        int curLevelMin = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel);
-        int nextLevel = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel + 1);
-        XpProgressBar.SetAmount(SaveLoadManager.CurrentSave.Xp - curLevelMin, nextLevel - curLevelMin);
+    public void SetData(GameSaveProfile profile) {
+        int curLevelMin = XpUtils.XpByLevel(profile.CurrentLevel);
+        int nextLevel = XpUtils.XpByLevel(profile.CurrentLevel + 1);
+        XpProgressBar.SetAmount(profile.Xp - curLevelMin, nextLevel - curLevelMin);
     }
 
     public void OnClick() {

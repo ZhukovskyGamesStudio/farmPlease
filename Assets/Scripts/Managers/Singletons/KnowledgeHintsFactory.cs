@@ -9,7 +9,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
     public static KnowledgeHintsFactory Instance { get; private set; }
 
     [SerializeField]
-    private SpotlightAnimConfig _noEnergyHint, _toolShopHint, _foodMarketHint;
+    private SpotlightAnimConfig _noEnergyHint, _toolShopHint, _foodMarketHint, _farmerCommunityHint;
 
     private void Awake() {
         Instance = this;
@@ -35,6 +35,12 @@ public class KnowledgeHintsFactory : MonoBehaviour {
                 }
 
                 break;
+            case nameof(Unlockable.FarmerCommunity):
+                if (!KnowledgeUtils.HasKnowledge(Knowledge.FarmerCommunity)) {
+                    ShowFarmerCommunityHint();
+                }
+
+                break;
         }
     }
 
@@ -55,6 +61,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         if (KnowledgeUtils.HasKnowledge(Knowledge.NoEnergy)) {
             return;
         }
+
         UnlockableUtils.Unlock(ToolBuff.WeekBattery);
         UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform, _noEnergyHint, GiveBatteryReward, true);
     }
@@ -70,9 +77,18 @@ public class KnowledgeHintsFactory : MonoBehaviour {
                 }
             },
             OnClaim = delegate {
-                KnowledgeUtils.AddKnowledge(Knowledge.NoEnergy); 
+                KnowledgeUtils.AddKnowledge(Knowledge.NoEnergy);
                 UIHud.Instance.BackpackAttention.ShowAttention();
             }
         });
+    }
+
+    public void ShowFarmerCommunityHint() {
+        if (KnowledgeUtils.HasKnowledge(Knowledge.FarmerCommunity)) {
+            return;
+        }
+        UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(true);
+        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.FarmerCommunityBadgeView.transform, _farmerCommunityHint,
+            delegate { KnowledgeUtils.AddKnowledge(Knowledge.FarmerCommunity); }, true);
     }
 }

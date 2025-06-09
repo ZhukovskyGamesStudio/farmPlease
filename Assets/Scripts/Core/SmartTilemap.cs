@@ -114,10 +114,6 @@ public class SmartTilemap : MonoBehaviour {
         return tilesData;
     }
 
-    public TilesData GetTilesData() {
-        return SaveLoadManager.CurrentSave.TilesData;
-    }
-
     public void GenerateTilesWithData(TilesData data) {
         MainTilemap.ClearAllTiles();
         if(_tiles != null) {
@@ -142,7 +138,7 @@ public class SmartTilemap : MonoBehaviour {
 
     public IEnumerator NewDay(HappeningType type) {
         SetHappeningType(type);
-        SaveLoadManager.Instance.Sequence(true);
+        string sequenceId = SaveLoadManager.Instance.StartSequence();
         Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
         List<SmartTile> toNewDay = new();
 
@@ -151,7 +147,7 @@ public class SmartTilemap : MonoBehaviour {
                 toNewDay.Add(smartTile.Value);
         for (int i = 0; i < toNewDay.Count; i++) yield return StartCoroutine(toNewDay[i].OnNeyDayed(animtime / 5));
         yield return StartCoroutine(HappeningSequence());
-        SaveLoadManager.Instance.Sequence(false);
+        SaveLoadManager.Instance.EndSequence(sequenceId);
     }
 
     private HappeningType _happeningType;
@@ -161,7 +157,7 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public IEnumerator HappeningSequence() {
-        SaveLoadManager.Instance.Sequence(true);
+        string sequenceId = SaveLoadManager.Instance.StartSequence();
         switch (_happeningType) {
             case HappeningType.Erosion:
                 yield return StartCoroutine(Erosion());
@@ -180,7 +176,7 @@ public class SmartTilemap : MonoBehaviour {
                 break;
         }
 
-        SaveLoadManager.Instance.Sequence(false);
+        SaveLoadManager.Instance.EndSequence(sequenceId);
     }
 
     public void PlaceTile(Vector2Int coord, TileType type) {
