@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,15 +20,15 @@ public class CounterChangeFx : MonoBehaviour {
         _image.sprite = icon;
         _amountText.text = (amount > 0 ? "+" : "") + amount;
         if (gameObject.activeInHierarchy) {
-            StartCoroutine(PlayAnimAndDestroy());
+            PlayAnimAndDestroy().Forget();
         } else {
             Destroy(gameObject);
         }
     }
 
-    private IEnumerator PlayAnimAndDestroy() {
+    private async UniTaskVoid PlayAnimAndDestroy() {
         _fxAnimation.Play(_animationName);
-        yield return new WaitWhile(() => _fxAnimation.isPlaying);
+        await UniTask.WaitWhile(() => _fxAnimation.isPlaying);
         Destroy(gameObject);
     }
 }

@@ -30,6 +30,14 @@ public class AdminManager : MonoBehaviour {
     public void AddXp(int amount) {
         InventoryManager.Instance.AddXp(amount);
     }
+    public void AddXpToNextLevel() {
+        int amount =    SaveLoadManager.CurrentSave.Xp;
+        int amountToNextLevel = XpUtils.GetNextLevelByXp(SaveLoadManager.CurrentSave.Xp) - amount;
+        if(amountToNextLevel > 10000) {
+            amountToNextLevel = 10000; // Limit to prevent excessive XP addition
+        }
+        InventoryManager.Instance.AddXp(amountToNextLevel);
+    }
 
     public void AddCollectedCrops(int amount) {
         InventoryManager.Instance.AddCollectedCrop(Crop.Tomato, amount);

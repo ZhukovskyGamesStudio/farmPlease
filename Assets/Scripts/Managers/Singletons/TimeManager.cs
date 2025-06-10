@@ -158,7 +158,7 @@ namespace Managers {
         private void ShowWeatherHint() {
             BigCalendarDialog bigCalendarDialog = FindAnyObjectByType<BigCalendarDialog>();
             UIHud.Instance.SpotlightWithText.ShowSpotlight(bigCalendarDialog.transform, _weatherHint,
-                delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); });
+                delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); }, true, true);
         }
         
         private void TryShowHappeningHint() {
