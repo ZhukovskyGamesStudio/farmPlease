@@ -117,7 +117,11 @@ namespace UI {
         public void UpdateLockedUI() {
             TimePanel.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
             ShopsPanel.ToolShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.ToolShop.ToString()));
-            ShopsPanel.BuildingShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString()));
+            
+            var buildindsUnlocked = UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString());
+            var isTodayFoodmarket = TimeManager.Instance.IsTodayFoodMarket();
+            ShopsPanel.BuildingShopButton.gameObject.SetActive(buildindsUnlocked && isTodayFoodmarket);
+            
             FarmerCommunityBadgeView.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FarmerCommunity.ToString()));
         }
     }

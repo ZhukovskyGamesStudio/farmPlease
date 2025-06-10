@@ -270,7 +270,7 @@ namespace Managers {
                     Clock.Instance.RefillToMaxEnergy();
                 }
             } else {
-                ToolsActivated[buff] += config.buyAmount;
+                ToolsActivated[buff] += config.workDaysAmount;
                 _fastPanelScript.UpdateToolsImages();
             }
 

@@ -32,6 +32,9 @@ public static class UnlockableUtils {
     }
     
     public static void Unlock(string unlockable) {
+        if(unlockable == Unlockable.FoodMarket.ToString()) {
+            TimeManager.Instance.AddMissingFoodMarkets();
+        }
         AddAndSave(unlockable);
     }
 

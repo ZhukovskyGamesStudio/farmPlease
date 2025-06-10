@@ -53,7 +53,7 @@ namespace Managers {
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
             SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth]);
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket) {
+                if (IsTodayFoodMarket()) {
                     UIHud.OpenBuildingsShop();
                 } else {
                     UIHud.CloseBuildingsShop();
@@ -62,6 +62,8 @@ namespace Managers {
 
             StartCoroutine(UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth], false));
         }
+        
+        public bool IsTodayFoodMarket() => Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket;
 
         public static void GenerateDays(DateTime date) {
             MaxDays = DateTime.DaysInMonth(date.Year, date.Month);
@@ -97,8 +99,7 @@ namespace Managers {
 
             for (int i = 0; i < MaxDays; i++) {
                 int x = i + _skipDaysAmount;
-                if (x % 7 == 0 && x > 0 && SaveLoadManager.CurrentSave.CurrentMonth > 0 &&
-                    UnlockableUtils.HasUnlockable(HappeningType.FoodMarket)) {
+                if (x % 7 == 0 && x > 0 && UnlockableUtils.HasUnlockable(HappeningType.FoodMarket)) {
                     Days[i] = HappeningType.FoodMarket;
                 } else if ((i + 1) % 5 == 0) {
                     if (SaveLoadManager.CurrentSave.CurrentMonth == 0 && skippedRainsNeeded > 0) {
@@ -109,6 +110,15 @@ namespace Managers {
                     Days[i] = HappeningType.Unknown;
                 } else if (i == love && UnlockableUtils.HasUnlockable(HappeningType.Love)) {
                     Days[i] = HappeningType.Love;
+                }
+            }
+        }
+
+        public void AddMissingFoodMarkets() {
+            for (int i = 0; i < MaxDays; i++) {
+                int x = i + _skipDaysAmount;
+                if (x % 7 == 0 && x > 0) {
+                    SaveLoadManager.CurrentSave.Days[i] = HappeningType.FoodMarket;
                 }
             }
         }

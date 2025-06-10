@@ -16,7 +16,10 @@ namespace ScriptableObjects
         public int cost;
 
         public string explainText;
+        [Min(1)]
         public int buyAmount;
+        [Min(1)]
+        public int workDaysAmount = 1;
         public bool IsInstant;
 
         [Header("HUDElements")]
