@@ -481,7 +481,7 @@ Animation:
   - {fileID: 7400000, guid: 0fa187487807524478297858ec76add4, type: 2}
   - {fileID: 7400000, guid: d810fbf5e875ba34384fc8696909aef2, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
@@ -499,6 +499,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animation: {fileID: 1664950728908019416}
   _speakText: {fileID: 3460130643404781059}
+  _showAnimationClip: {fileID: 7400000, guid: 0335afd9454343e4eb4ca6e8a538b122, type: 2}
+  _hideAnimationClip: {fileID: 7400000, guid: 0fa187487807524478297858ec76add4, type: 2}
+  _changeAnimationClip: {fileID: 7400000, guid: d810fbf5e875ba34384fc8696909aef2,
+    type: 2}
 --- !u!1 &476039864136421246
 GameObject:
   m_ObjectHideFlags: 0

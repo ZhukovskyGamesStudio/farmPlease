@@ -8,9 +8,8 @@ namespace UI {
         [SerializeField]
         protected TextMeshProUGUI _speakText;
 
-        private const string SHOW = "KnowledgeSpeakShow";
-        private const string HIDE = "KnowledgeSpeakHide";
-        private const string CHANGE = "KnowledgeSpeakChange";
+        [SerializeField]
+        private AnimationClip _showAnimationClip, _hideAnimationClip, _changeAnimationClip;
 
         private bool _isHidingAfter;
         private string _hintTextToUpdate;
@@ -19,7 +18,7 @@ namespace UI {
             gameObject.SetActive(true);
             _speakText.text = text;
             OnAnimationEnded = onHideEnded;
-            _animation.Play(SHOW);
+            _animation.Play(_showAnimationClip.name);
             _isHidingAfter = isHidingAfter;
         }
 
@@ -28,7 +27,7 @@ namespace UI {
             _hintTextToUpdate = text;
 
             OnAnimationEnded = onHideEnded;
-            _animation.Play(CHANGE);
+            _animation.Play(_changeAnimationClip.name);
             _isHidingAfter = isHidingAfter;
         }
 
@@ -38,16 +37,16 @@ namespace UI {
 
         public void HideSpeak() {
             if (_isHidingAfter) {
-                _animation.Play(HIDE);
+                _animation.Play(_hideAnimationClip.name);
                 StartCoroutine(WaitForAnimationEnded());
             } else {
                 OnAnimationEnded?.Invoke();
             }
         }
-        
+
         public void HideSpeakWithoutCallback() {
             OnAnimationEnded = null;
-            _animation.Play(HIDE);
+            _animation.Play(_hideAnimationClip.name);
         }
     }
 }
