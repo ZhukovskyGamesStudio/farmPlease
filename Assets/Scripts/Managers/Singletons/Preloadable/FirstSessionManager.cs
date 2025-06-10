@@ -49,7 +49,7 @@ namespace Managers {
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
 
             if (GameModeManager.Instance.IsSkipTraining) {
-                KnowledgeUtils.AddKnowledge(Knowledge.Training);
+                EndFtue();
                 return;
             }
 
@@ -102,12 +102,16 @@ namespace Managers {
            
             await ShowSpeakingBot(FtueConfig.EndHint, true);
             await ShowGetNextLevelSpotlight();
-            
+
+            EndFtue();
+            _endFtueCts.Cancel();
+            _endFtueCts.Dispose();
+        }
+        
+        private void EndFtue() {
             EnableUiParts();
             KnowledgeUtils.AddKnowledge(Knowledge.Training);
             SaveLoadManager.TryCreateFirstSave();
-            _endFtueCts.Cancel();
-            _endFtueCts.Dispose();
         }
 
         private void DisableUiParts() {
@@ -155,7 +159,7 @@ namespace Managers {
             SmartTilemap.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
             SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
             UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.SeedBag);
-            UIHud.Instance.DisableLockedUI();
+            UIHud.Instance.UpdateLockedUI();
         }
 
         private void StepEnded() {

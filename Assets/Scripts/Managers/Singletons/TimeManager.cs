@@ -49,9 +49,7 @@ namespace Managers {
 
             MaxDays = daysData.Count;
             _skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
-
-            TimePanel.gameObject.SetActive(SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather));
-
+            
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
             SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth]);
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
@@ -147,17 +145,17 @@ namespace Managers {
             }
         }
 
+        private void ShowWeatherHint() {
+            BigCalendarDialog bigCalendarDialog = FindAnyObjectByType<BigCalendarDialog>();
+            UIHud.Instance.SpotlightWithText.ShowSpotlight(bigCalendarDialog.transform, _weatherHint,
+                delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); });
+        }
+        
         private void TryShowHappeningHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] != HappeningType.NormalSunnyDay) {
                 UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.HappeningButton, _happeningHint,
                     delegate { KnowledgeUtils.AddKnowledge(Knowledge.LilCalendar); }, true);
             }
-        }
-
-        private void ShowWeatherHint() {
-            BigCalendarDialog bigCalendarDialog = FindAnyObjectByType<BigCalendarDialog>();
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(bigCalendarDialog.transform, _weatherHint,
-                delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); });
         }
 
         private void TryShowFoodMarketHint() {

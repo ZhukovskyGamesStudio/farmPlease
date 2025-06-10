@@ -141,7 +141,7 @@ namespace Managers {
 
         private static async UniTask CreatePlayerOnServer() {
             string createdId = await PlayerAPI.CreatePlayerAsync(CurrentSave);
-            if (createdId != null) {
+            if (!string.IsNullOrEmpty(createdId)) {
                 CurrentSave.UserId = createdId;
                 SaveGame();
             }
@@ -150,6 +150,7 @@ namespace Managers {
         private static async UniTaskVoid FindPlayerOnServer() {
             var res = await PlayerAPI.GetPlayerAsync(CurrentSave.UserId);
             if (res == null) {
+                UnityEngine.Debug.Log("❌ Player not found on server, creating new player");
                 await CreatePlayerOnServer();
             }
         }

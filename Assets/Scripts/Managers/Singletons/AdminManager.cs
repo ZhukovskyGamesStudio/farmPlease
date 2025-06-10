@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Managers;
 using Tables;
+using UI;
 using UnityEngine;
 
 public class AdminManager : MonoBehaviour {
@@ -39,5 +41,20 @@ public class AdminManager : MonoBehaviour {
 
     public void SetGameSpeed(Single value) {
         GameModeManager.Instance.Config.GameSpeed = value;
+    }
+
+    public void UnlockEverything() {
+        var knowledges = Enum.GetValues(typeof(Knowledge));
+        foreach (Knowledge knowledge in knowledges) {
+            KnowledgeUtils.AddKnowledge(knowledge);
+        }
+        List<string>  unlockables = new List<string>(Enum.GetNames(typeof(Unlockable)));
+        unlockables.AddRange(Enum.GetNames(typeof(Crop)));
+        unlockables.AddRange(Enum.GetNames(typeof(ToolBuff)));
+        unlockables.AddRange(Enum.GetNames(typeof(HappeningType)));
+        foreach (string unlockable in unlockables) {
+            UnlockableUtils.Unlock(unlockable);
+        }
+        UIHud.Instance.UpdateLockedUI();
     }
 }

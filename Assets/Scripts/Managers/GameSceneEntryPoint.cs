@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using Tables;
 using UI;
 using UnityEngine.SceneManagement;
@@ -22,7 +23,11 @@ namespace Managers {
             Clock.Instance.TryRefillForRealtimePassed();
             InventoryManager.CheckNewLevelDialog();
             KnowledgeHintsFactory.Instance.CheckAllUnshownHints();
-            UIHud.Instance.DisableLockedUI();
+            UIHud.Instance.UpdateLockedUI();
+            UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(false);
+            if (!string.IsNullOrEmpty(SaveLoadManager.CurrentSave.UserId)) {
+                FarmerCommunityManager.Instance.PreloadNextFarm().Forget();
+            }
         }
 
         private static void Init() {

@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class PlayerAPI : BaseApi {
     public static async UniTask<string> CreatePlayerAsync(GameSaveProfile data) {
-        CreatePlayerRequest request = new CreatePlayerRequest {
-            name = "PlayerUnity",
-            farmData = data
-        };
-        string json = JsonUtility.ToJson(request);
+        string json = JsonUtility.ToJson(data);
         using var req = new UnityWebRequest($"{BaseUrl}/player", "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
         req.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -20,7 +16,7 @@ public class PlayerAPI : BaseApi {
 
         if (req.result == UnityWebRequest.Result.Success) {
             AbstractMongoEntity res = JsonUtility.FromJson<AbstractMongoEntity>(req.downloadHandler.text);
-            Debug.Log("Created player: " + JsonUtility.ToJson(res));
+            Debug.Log("Created player: " + JsonUtility.ToJson(res) +  "ID is: " + res._id);
             return res._id;
         } else {
             Debug.LogError("Error creating player: " + req.error);
@@ -38,9 +34,9 @@ public class PlayerAPI : BaseApi {
             var json = req.downloadHandler.text;
 
             if (code == 200) {
-                FarmData res = JsonUtility.FromJson<FarmData>(req.downloadHandler.text);
-                Debug.Log("Fetched player: " + JsonUtility.ToJson(res));
-                return res.farmData;
+                GameSaveProfile res = JsonUtility.FromJson<GameSaveProfile>(req.downloadHandler.text);
+                Debug.Log("Fetched player: " + req.downloadHandler.text);
+                return res;
             } else {
                 Debug.LogWarning($"Player not found or error ({code}): {json}");
                 return null;
@@ -61,7 +57,7 @@ public class PlayerAPI : BaseApi {
         req.uploadHandler = new UploadHandlerRaw(bodyRaw);
         req.downloadHandler = new DownloadHandlerBuffer();
         req.SetRequestHeader("Content-Type", "application/json");
-
+        Debug.Log($"Updating player id:{playerId} data:{JsonUtility.ToJson(data)}");
         await req.SendWebRequest().ToUniTask();
 
         if (req.result == UnityWebRequest.Result.Success) {
@@ -69,16 +65,5 @@ public class PlayerAPI : BaseApi {
         } else {
             Debug.LogError("Error updating player: " + req.error);
         }
-    }
-
-    [System.Serializable]
-    public class CreatePlayerRequest {
-        public string name;
-        public GameSaveProfile farmData;
-    }
-
-    [System.Serializable]
-    public class FarmData : AbstractMongoEntity {
-        public GameSaveProfile farmData;
     }
 }

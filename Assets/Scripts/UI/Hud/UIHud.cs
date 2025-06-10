@@ -114,7 +114,8 @@ namespace UI {
             BatteryView.gameObject.SetActive(!isActive);
         }
 
-        public void DisableLockedUI() {
+        public void UpdateLockedUI() {
+            TimePanel.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
             ShopsPanel.ToolShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.ToolShop.ToString()));
             ShopsPanel.BuildingShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString()));
             FarmerCommunityBadgeView.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FarmerCommunity.ToString()));

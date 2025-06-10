@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Managers {
-    public class DontDestroyOnLoad {
+    public static class DontDestroyOnLoad {
         private static Transform _container;
 
         public static Transform Container {
