@@ -38,12 +38,6 @@ public class ScalesDialog : DialogWithData<int> {
         _sellTablet.Open();
     }
 
-    private async void ShowRainingCrops() {
-        IsRainingCropsAnimation = true;
-        await scalesView.StartRainingCrops(SaveLoadManager.CurrentSave.CropsCollectedQueue);
-        IsRainingCropsAnimation = false;
-    }
-
     public override void Close() {
         if (IsSellingAnimation || IsRainingCropsAnimation) {
             return;

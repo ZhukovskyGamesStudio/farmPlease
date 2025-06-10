@@ -141,15 +141,14 @@ public class ScalesView : MonoBehaviour {
     }
 
     private IEnumerator SellCoroutine(List<Crop> crops) {
-        List<DroppingVegView> vegs = VegsHolder.GetComponentsInChildren<DroppingVegView>().ToList();
         float deltaTime = 0.3f;
         for (int index = 0; index < crops.Count; index++) {
             Crop crop = crops[index];
-            DroppingVegView veg = vegs.FirstOrDefault(v => v.CropType == crop);
+            DroppingVegView veg = _vegViews.FirstOrDefault(v => v.CropType == crop);
             if (veg != null) {
                 StartCoroutine(SellVeg(veg, deltaTime));
-                vegs.Remove(veg);
-                OnVegTouchScale(vegs.Count);
+                _vegViews.Remove(veg);
+                OnVegTouchScale(_vegViews.Count);
             }
 
             yield return new WaitForSeconds(deltaTime);

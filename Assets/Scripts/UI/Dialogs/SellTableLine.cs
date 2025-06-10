@@ -21,7 +21,8 @@ namespace UI {
         private Crop _crop;
         private int _haveAmount;
 
-        public void SetData(Crop type, int amount, Action<Crop, int> onSelectedAmountChange) {
+        public void SetData(Crop crop, int amount, Action<Crop, int> onSelectedAmountChange) {
+            _crop = crop;
             if (amount == 0) {
                 throw new ArgumentException();
             }
@@ -30,8 +31,8 @@ namespace UI {
             _haveAmount = amount;
             SelectedAmount = 0;
 
-            _cropImage.sprite = CropsTable.CropByType(type).VegSprite;
-            _cropText.text = CropsTable.CropByType(type).header.ToLower();
+            _cropImage.sprite = CropsTable.CropByType(crop).VegSprite;
+            _cropText.text = CropsTable.CropByType(crop).header.ToLower();
             UpdateButtonsAndTextsState();
         }
 
