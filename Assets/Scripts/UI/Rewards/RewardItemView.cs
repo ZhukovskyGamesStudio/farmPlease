@@ -20,9 +20,10 @@ public class RewardItemView : MonoBehaviour {
         gameObject.SetActive(true);
     }
 
-    public void SetData(Sprite sprite, int amount, ItemColorType colorType) {
+    public void SetData(Sprite sprite,string rewardName, int amount, ItemColorType colorType) {
         _icon.sprite = sprite;
-        _nameText.gameObject.SetActive(false);
+        _nameText.text = rewardName;
+        //_nameText.gameObject.SetActive(false);
         _amountText.text = amount.ToString();
         _backView.InitColor(colorType);
         gameObject.SetActive(true);

@@ -14,6 +14,9 @@ public static class RewardUtils {
         }
 
         if (Enum.TryParse(reward, out ToolBuff tool)) {
+            if (tool == ToolBuff.WeekBattery) {
+                return "Батарейка";
+            }
             return ToolsTable.ToolByType(tool).header;
         }
 
@@ -34,7 +37,7 @@ public static class RewardUtils {
             }
         }
 
-        throw new KeyNotFoundException();
+        return "";
     }
     
     public static Sprite GetRewardIcon(string reward) {
@@ -118,7 +121,7 @@ public static class RewardUtils {
             RewardItem item = reward.Items[i + (reward is RewardWithUnlockable ? -1 : 0)];
             Sprite icon = item.Type == COINS_KEY ? coinRewardIcon : GetRewardIcon(item.Type);
             ItemColorType colorType2 = GetRewardColorType(item.Type);
-            views[i].SetData(icon, item.Amount,colorType2);
+            views[i].SetData(icon, GetRewardName(item.Type), item.Amount,colorType2);
         }
     }
 }

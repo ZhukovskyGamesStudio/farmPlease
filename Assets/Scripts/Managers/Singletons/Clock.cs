@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tables;
 using UI;
 using UnityEngine;
@@ -39,6 +40,20 @@ namespace Managers {
         private static void ShowNoEnergyAnimation() {
             UIHud.Instance.ClockView.ShowZeroTimeAnimation();
             Audio.Instance.PlaySound(Sounds.ZeroEnergy);
+
+            
+            if (SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(ToolBuff.WeekBattery,0) > 0) {
+                UIHud.Instance.BackpackAttention.ShowAttention();
+            } else {
+                DialogsManager.Instance.ShowDialogWithData(typeof(WatchAdDialog), new Reward() {
+                    Items = new List<RewardItem>() {
+                        new RewardItem() {
+                            Type = ToolBuff.WeekBattery.ToString(),
+                            Amount = 1
+                        }
+                    }
+                });
+            }
         }
 
         private void LoseOneEnergy() {
