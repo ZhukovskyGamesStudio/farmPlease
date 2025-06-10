@@ -42,7 +42,7 @@ public static class UnlockableUtils {
         if (Unlocked.Contains(unlockable)) {
             return;
         }
-        if (unlockable != Unlockable.ToolShop.ToString()) {
+        if (unlockable != Unlockable.ToolShop.ToString() && unlockable != Unlockable.FarmerCommunity.ToString()) {
             SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
         }
     
