@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
 using Tables;
+using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,9 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
     public Button CloseButton => _closeButton;
 
     public GameObject ChangeSeedsButtonActive;
+
+    [SerializeField]
+    private TextMeshProUGUI _changeSeedsCost;
 
     public CanvasGroup FirstBagCanvas => _firstOffer.CanvasGroup;
     public CanvasGroup SecondBagCanvas => _secondOffer.CanvasGroup;
@@ -58,6 +62,7 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
         }
 
         ChangeSeedsButtonActive.SetActive(save.ChangeButtonActive);
+        _changeSeedsCost.text = ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost.ToString();
     }
 
     public void SetSeedsShop(Crop first, Crop second) {
@@ -143,6 +148,7 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
             InventoryManager.Instance.AddCoins(-1 * ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost);
             StartCoroutine(ShowChangeAnimation());
             ChangeSeedsButtonActive.SetActive(false);
+            SaveLoadManager.CurrentSave.SeedShopData.ChangeButtonActive = false;
         }
     }
 

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using Managers;
 using Tables;
+using TMPro;
 using UI;
 using UnityEngine;
 
 public class ToolShopDialog : DialogWithData<ToolShopData> {
     [SerializeField]
     private GameObject ChangeButton;
-
+    [SerializeField]
+    private TextMeshProUGUI _changeToolsCost;
     [SerializeField]
     private ToolOffer _toolOffer1, _toolOffer2;
 
@@ -49,6 +51,7 @@ public class ToolShopDialog : DialogWithData<ToolShopData> {
         _secondActive = data.SecondOfferActive;
 
         ChangeButton.SetActive(data.ChangeButtonActive);
+        _changeToolsCost.text = $"Обновить за {ConfigsManager.Instance.CostsConfig.ToolsShopChangeCost}";
         UpdateNoToolsMessage();
     }
 
