@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ScriptableObjects;
@@ -288,6 +289,25 @@ namespace Managers {
                 _fastPanelScript.UpdateToolsImages();
             }
 
+            switch (buff) {
+                case ToolBuff.Unlimitedwatercan:
+                    UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Watercan);
+                    break;
+                case ToolBuff.Doublehoe:
+                    UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Hoe);
+                    break;
+                case ToolBuff.Carpetseeder:
+                    UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.SeedBag);
+                    break;
+                case ToolBuff.Greenscythe:
+                    UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Collect);
+                    break;
+                case ToolBuff.Wetscythe:
+                    UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Collect);
+                    break;
+            }
+            
+            
             SaveLoadManager.SaveGame();
             UpdateInventoryUI();
         }
