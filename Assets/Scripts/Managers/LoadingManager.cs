@@ -7,6 +7,7 @@ using ZhukovskyGamesPlugin;
 namespace Managers {
     public class LoadingManager : MonoBehaviour {
         private string _sceneName;
+        [field:Resettable]
         public static bool IsGameLoaded { get; private set; }
 
         [SerializeField]

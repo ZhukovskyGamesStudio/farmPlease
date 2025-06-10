@@ -19,7 +19,7 @@ namespace Managers {
         private static int _skipDaysAmount;
 
         [SerializeField]
-        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint, _toolMarketHint, _foodMarketHint;
+        private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint;
 
         public static List<HappeningType> Days => SaveLoadManager.CurrentSave.Days;
 
@@ -49,7 +49,7 @@ namespace Managers {
 
             MaxDays = daysData.Count;
             _skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
-            
+
             TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
             SmartTilemap.SetHappeningType(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth]);
             if (GameModeManager.Instance.GameMode != GameMode.Training) {
@@ -62,7 +62,7 @@ namespace Managers {
 
             StartCoroutine(UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth], false));
         }
-        
+
         public bool IsTodayFoodMarket() => Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket;
 
         public static void GenerateDays(DateTime date) {
@@ -160,7 +160,7 @@ namespace Managers {
             UIHud.Instance.SpotlightWithText.ShowSpotlight(bigCalendarDialog.transform, _weatherHint,
                 delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); }, true, true);
         }
-        
+
         private void TryShowHappeningHint() {
             if (Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] != HappeningType.NormalSunnyDay) {
                 UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.TimePanel.HappeningButton, _happeningHint,
@@ -212,7 +212,7 @@ namespace Managers {
             SaveLoadManager.CurrentSave.SeedShopData.NeedShowChange = true;
             SeedsUtils.ChangeSeeds();
         }
-        
+
         private void ChangeToolsNewDay() {
             SaveLoadManager.CurrentSave.ToolShopData.ChangeButtonActive = true;
             ToolsUtils.ChangeTools();

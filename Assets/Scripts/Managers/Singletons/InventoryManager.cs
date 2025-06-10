@@ -17,6 +17,7 @@ namespace Managers {
         public static SerializableDictionary<Crop, int> SeedsInventory => SaveLoadManager.CurrentSave.Seeds;
         public static SerializableDictionary<ToolBuff, int> ToolsActivated => SaveLoadManager.CurrentSave.ToolBuffs;
         public static SerializableDictionary<ToolBuff, int> ToolsStored => SaveLoadManager.CurrentSave.ToolBuffsStored;
+        public static List<BuildingType> BuildingsStored => SaveLoadManager.CurrentSave.BuildingsStored;
 
         private bool _isUnlimitedFlag;
 
@@ -247,6 +248,19 @@ namespace Managers {
             ToolsStored[buff] += amount;
             UpdateInventoryUI();
         }
+        
+        public void AddBuilding(BuildingType type) {
+            if (!BuildingsStored.Contains(type)) {
+                BuildingsStored.Add(type);
+            }
+            UpdateInventoryUI();
+        }
+        public void RemoveBuilding(BuildingType type) {
+            if (BuildingsStored.Contains(type)) {
+                BuildingsStored.Remove(type);
+            }
+            UpdateInventoryUI();
+        }
 
         public void ActivateTool(ToolBuff buff) {
             ToolConfig config = ToolsTable.ToolByType(buff);
@@ -314,6 +328,7 @@ namespace Managers {
 
         public void BuyFoodMarket(BuildingType type, int cost) {
             IsBuildingsBoughtD[type] = true;
+            AddBuilding(type);
             UnlockableUtils.Unlock(type);
             RemoveRandomCollectedCrops(cost);
         }
@@ -327,7 +342,7 @@ namespace Managers {
         }
 
         public void UpdateInventoryUI() {
-            _backpack.UpdateGrid(SeedsInventory);
+            _backpack.UpdateGrid();
         }
     }
 }

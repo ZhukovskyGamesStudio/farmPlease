@@ -43,5 +43,6 @@ public enum ItemColorType {
     Seed = 0,
     Tool,
     Energy,
-    None = -1
+    None = -1,
+    Building
 }

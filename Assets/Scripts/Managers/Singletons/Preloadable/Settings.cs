@@ -22,7 +22,7 @@ public class Settings : Singleton<Settings> {
         RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, false);
         RealTImeManager.SkipOne = SettingsData.SkipOne;
         //DebugManager.instance.Log("New day notify is " + settingsProfile.sendNotifications);
-        GpsManager.Instance.NewDayNotification(SettingsData.SendNotifications);
+//        GpsManager.Instance.NewDayNotification(SettingsData.SendNotifications);
 
         Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
     }

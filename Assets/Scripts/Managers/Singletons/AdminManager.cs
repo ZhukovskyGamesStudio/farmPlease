@@ -51,6 +51,13 @@ public class AdminManager : MonoBehaviour {
         GameModeManager.Instance.Config.GameSpeed = value;
     }
 
+    public void NextDay() {
+        if (!PlayerController.CanInteract) {
+            return;
+        }
+        TimeManager.Instance.AddDay();
+    }
+
     public void UnlockEverything() {
         var knowledges = Enum.GetValues(typeof(Knowledge));
         foreach (Knowledge knowledge in knowledges) {

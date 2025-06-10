@@ -160,21 +160,24 @@ namespace UI {
         }
 
         public void StartBuyingBuilding(BuildingType type) {
+            BuyBuildingButton(type);
+            /*
             PlayerController.Instance.StartStopBuilding();
             PlayerController.Instance.InitializeBuilding(type, buildingPriceProgression[_currentBuildingPrice]);
             SetConfirmPageActive(false);
-            gameObject.SetActive(false);
+            gameObject.SetActive(false);*/
         }
 
         public void BuyCropButton(Crop type) {
             InventoryManager.Instance.BuyFoodMarket(type, cropPrice);
             UpdateButtonsInteractable();
+            UIHud.Instance.BackpackAttention.ShowAttention();
             SetConfirmPageActive(false);
         }
 
         public void BuyToolButton(ToolBuff buff) {
             InventoryManager.Instance.BuyFoodMarket(buff, toolPrice);
-
+            UIHud.Instance.BackpackAttention.ShowAttention();
             UpdateButtonsInteractable();
             SetConfirmPageActive(false);
         }
@@ -182,7 +185,7 @@ namespace UI {
         public void BuyBuildingButton(BuildingType type) {
             InventoryManager.Instance.BuyFoodMarket(type, buildingPriceProgression[_currentBuildingPrice]);
             _currentBuildingPrice++;
-
+            UIHud.Instance.BackpackAttention.ShowAttention();
             UpdateButtonsInteractable();
             SetConfirmPageActive(false);
             BuildingPanelButton.SetActive(true);

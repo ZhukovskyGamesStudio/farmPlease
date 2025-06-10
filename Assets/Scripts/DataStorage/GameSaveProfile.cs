@@ -36,6 +36,8 @@ public class GameSaveProfile {
     public SerializableDictionary<ToolBuff, bool> IsToolsBoughtD = new SerializableDictionary<ToolBuff, bool>();
     public SerializableDictionary<BuildingType, bool> IsBuildingsBoughtD = new SerializableDictionary<BuildingType, bool>();
     
+    public  List<BuildingType> BuildingsStored = new  List<BuildingType>();
+    
     public Crop ShopFirstOffer, ShopSecondOffer;
     public bool SeedShopChangeButton;
     public Crop AmbarCrop;

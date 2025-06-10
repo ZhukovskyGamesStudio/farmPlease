@@ -9,6 +9,7 @@ using Debug = Managers.Debug;
 using TileData = Tables.TileData;
 
 public class SmartTilemap : MonoBehaviour {
+    [Resettable]
     public static SmartTilemap Instance;
     public Tilemap MainTilemap;
     public Tilemap BuildingTilemap;
@@ -215,6 +216,7 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[5].SwitchType(TileType.BiogenT1);
                 neighbors[0].SwitchType(TileType.BiogenT2);
                 neighbors[1].SwitchType(TileType.BiogenT3);
+                InventoryManager.Instance.RemoveBuilding(BuildingType.Biogen);
                 break;
 
             case BuildingType.Freshener:
@@ -222,6 +224,7 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[5].SwitchType(TileType.FreshenerT1);
                 neighbors[0].SwitchType(TileType.FreshenerT2);
                 neighbors[1].SwitchType(TileType.FreshenerT3);
+                InventoryManager.Instance.RemoveBuilding(BuildingType.Freshener);
                 break;
 
             case BuildingType.Sprinkler:
@@ -229,6 +232,7 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[5].SwitchType(TileType.SprinklerT1);
                 neighbors[0].SwitchType(TileType.SprinklerT2);
                 neighbors[1].SwitchType(TileType.SprinklerT3);
+                InventoryManager.Instance.RemoveBuilding(BuildingType.Sprinkler);
                 break;
 
             case BuildingType.SprinklerTarget:
@@ -241,6 +245,7 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[0].SwitchType(TileType.SeedDoublerT2);
                 neighbors[1].SwitchType(TileType.SeedDoublerT3);
                 SaveLoadManager.CurrentSave.SeedShopData.AmbarCrop = Crop.None;
+                InventoryManager.Instance.RemoveBuilding(BuildingType.SeedDoubler);
                 break;
 
             case BuildingType.Tractor:
@@ -248,6 +253,7 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[5].SwitchType(TileType.TractorT1);
                 neighbors[0].SwitchType(TileType.TractorT2);
                 neighbors[1].SwitchType(TileType.TractorT3);
+                InventoryManager.Instance.RemoveBuilding(BuildingType.Tractor);
                 break;
         }
     }

@@ -5,7 +5,6 @@ using ScriptableObjects;
 using Tables;
 using UnityEngine;
 using UnityEngine.UI;
-using ZhukovskyGamesPlugin;
 
 namespace UI
 {
@@ -110,13 +109,34 @@ namespace UI
                 _backpackItemsViews.Add(tool.buff.ToString(), backpackItem);
             }
         }
+        
+        private void GenerateBuildingsButtons() {
+            var cnfg = BuildingsTable.Instance.Buildings;
+            for (int i = 0; i < cnfg.Length; i++) {
+                BuildingConfig building = cnfg[i];
 
-        public void UpdateGrid(SerializableDictionary<Crop, int> seedsInventory) {
+                BackpackItem backpackItem = Instantiate(_backpackItemPrefab, SeedsGrid.transform);
+
+                void StartBuilding() {
+                    PlayerController.Instance.StartStopBuilding();
+                    PlayerController.Instance.InitializeBuilding(building.type, true);
+                    CloseBySelectedItem();
+                }
+
+                backpackItem.InitButton(0, building.gridIcon, () => {
+                    ShowConfirmDialog(StartBuilding);
+                }, () => SaveLoadManager.CurrentSave.BuildingsStored.Contains(building.type) ? 1 : 0, ItemColorType.Building);
+                backpackItem.gameObject.SetActive(false);
+                _backpackItemsViews.Add(building.type.ToString(), backpackItem);
+            }
+        }
+
+        public void UpdateGrid() {
             if (_backpackItemsViews == null) {
                 GenerateSeedButtons();
                 GenerateToolsButtons();
+                GenerateBuildingsButtons();
             }
-              
 
             int itemsToShow = 0;
 

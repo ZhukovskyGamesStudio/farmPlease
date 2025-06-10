@@ -43,6 +43,7 @@ namespace Managers
         }
 
         public void InitializeNotifications() {
+            return;
 #if UNITY_ANDROID
             GameNotificationChannel channel = new("someId", "New day notifications",
                 "Notify you about starting new ingame day");
