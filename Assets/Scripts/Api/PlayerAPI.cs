@@ -57,7 +57,6 @@ public class PlayerAPI : BaseApi {
         req.uploadHandler = new UploadHandlerRaw(bodyRaw);
         req.downloadHandler = new DownloadHandlerBuffer();
         req.SetRequestHeader("Content-Type", "application/json");
-        Debug.Log($"Updating player id:{playerId} data:{JsonUtility.ToJson(data)}");
         await req.SendWebRequest().ToUniTask();
 
         if (req.result == UnityWebRequest.Result.Success) {

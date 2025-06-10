@@ -54,7 +54,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
         UIHud.Instance.ShopsPanel.BuildingShopButton.interactable = true;
         UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ShopsPanel.BuildingShopButton.transform, _foodMarketHint,
-            delegate { KnowledgeUtils.AddKnowledge(Knowledge.FoodMarket); }, true);
+            delegate { KnowledgeUtils.AddKnowledge(Knowledge.FoodMarket); }, true, true);
     }
 
     public void TryShowNoEnergyHint() {
@@ -63,7 +63,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         }
 
         UnlockableUtils.Unlock(ToolBuff.WeekBattery);
-        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform, _noEnergyHint, GiveBatteryReward, true);
+        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform, _noEnergyHint, GiveBatteryReward, true, true);
     }
 
     private static void GiveBatteryReward() {
@@ -89,6 +89,6 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         }
         UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(true);
         UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.FarmerCommunityBadgeView.transform, _farmerCommunityHint,
-            delegate { KnowledgeUtils.AddKnowledge(Knowledge.FarmerCommunity); }, true);
+            delegate { KnowledgeUtils.AddKnowledge(Knowledge.FarmerCommunity); }, true, true);
     }
 }

@@ -140,7 +140,12 @@ namespace UI {
             }
 
             if (_isHidingByAnyTap) {
-                HideSpotlight();
+                if (_isHidingAfter) {
+                    HideSpotlight();    
+                } else {
+                    OnAnimationEnded?.Invoke();
+                }
+                
             }
         }
 
