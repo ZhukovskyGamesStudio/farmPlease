@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
     public class FoodMarketOffer : MonoBehaviour {
         [SerializeField]
         private Image _image;
@@ -30,4 +29,3 @@ namespace UI {
             _button.interactable = isInteractable;
         }
     }
-}

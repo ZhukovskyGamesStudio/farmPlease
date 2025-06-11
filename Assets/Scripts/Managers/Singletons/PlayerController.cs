@@ -26,11 +26,8 @@ public class PlayerController : Singleton<PlayerController> {
     public Tile[] BuildingTiles;
 
     [Header("Building")]
-    private GameObject _buildingPanel;
-
-    private BuildingShopView _buildingShopView;
-
     private Tilemap _buildingTilemap;
+
     private BuildingType _currentBuilding;
     private Tile _currentTile;
 
@@ -125,8 +122,6 @@ public class PlayerController : Singleton<PlayerController> {
         _uiHud = UIHud.Instance;
         _graphicRaycaster = _uiHud.GraphicRaycaster;
         _smartTilemap = SmartTilemap.Instance;
-        _buildingShopView = _uiHud.ShopsPanel.BuildingShopView;
-        _buildingPanel = _uiHud.BuildingPanel;
         _buildingTilemap = _smartTilemap.BuildingTilemap;
 
         ChangeTool(0);
@@ -220,18 +215,16 @@ public class PlayerController : Singleton<PlayerController> {
                     case TileType.TractorT2:
                     case TileType.TractorT3:
                         _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
-                       
+
                         //_smartTilemap.DeactiveBuilding(BuildingType.Tractor, _oldBuilddingscoord);
                         //InitializeBuilding(BuildingType.Tractor);
-                        
+
                         _smartTilemap.RemoveBuilding(BuildingType.Tractor, _oldBuilddingscoord);
                         InventoryManager.Instance.AddBuilding(BuildingType.Tractor);
                         break;
                 }
             }
         }
-
-
 
         if (isBuilding) {
             if (_currentTile) {
@@ -245,7 +238,7 @@ public class PlayerController : Singleton<PlayerController> {
                     } else if (_currentBuilding == BuildingType.SprinklerTarget) {
                         //_buildingShopView.BuyBuildingButton(BuildingType.Sprinkler);
                     } else if (_currentBuilding != BuildingType.Sprinkler) {
-                       // _buildingShopView.BuyBuildingButton(_currentBuilding);
+                        // _buildingShopView.BuyBuildingButton(_currentBuilding);
                     }
 
                     _smartTilemap.PlaceBuilding(_currentBuilding, _smartTilemap.Playercoord);
@@ -348,118 +341,136 @@ public class PlayerController : Singleton<PlayerController> {
     }
 
     public IEnumerator ClickCoroutine() {
-    bool didSomething = false;
-    string sequenceId = null;
-    if (GameModeManager.Instance.ShowTileType) {
-        var tile = _smartTilemap.GetTile(_smartTilemap.Playercoord);
-        UnityEngine.Debug.Log(_smartTilemap.Playercoord + "   " + tile.type);
-    }
-
-    if (_smartTilemap.AvailabilityCheck("click")) {
-         sequenceId = SaveLoadManager.Instance.StartSequence();
-        yield return StartCoroutine(_smartTilemap.ClickTile());
-        SaveLoadManager.Instance.EndSequence(sequenceId);
-        yield break;
-    }
-
-    switch (_curTool) {
-        case Tool.Hoe: {
-            if (!Energy.Instance.HasEnergy()) { break; }
-            if (!_smartTilemap.AvailabilityCheck("hoe")) { break; }
-
-             sequenceId = SaveLoadManager.Instance.StartSequence();
-            didSomething = true;
-
-            Energy.Instance.LoseOneEnergy();
-            Vector2Int coord = _smartTilemap.Playercoord;
-            InventoryManager.Instance.AddXp(1);
-            yield return StartCoroutine(_smartTilemap.HoeTile());
-
-            if (InventoryManager.Instance.IsToolWorking(ToolBuff.Doublehoe)) {
-                yield return StartCoroutine(_smartTilemap.HoeRandomNeighbor(coord));
-            }
-
-            break;
+        bool didSomething = false;
+        string sequenceId = null;
+        if (GameModeManager.Instance.ShowTileType) {
+            var tile = _smartTilemap.GetTile(_smartTilemap.Playercoord);
+            UnityEngine.Debug.Log(_smartTilemap.Playercoord + "   " + tile.type);
         }
 
-        case Tool.Watercan: {
-            bool hasUnlimited = InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan);
-            if (!hasUnlimited && !Energy.Instance.HasEnergy()) { break; }
-            if (!_smartTilemap.AvailabilityCheck("water")) { break; }
-
-             sequenceId = SaveLoadManager.Instance.StartSequence();
-            didSomething = true;
-
-            if (!hasUnlimited) {
-                Energy.Instance.LoseOneEnergy();
-            }
-
-            InventoryManager.Instance.AddXp(1);
-            yield return StartCoroutine(_smartTilemap.WaterTile());
-            break;
+        if (_smartTilemap.AvailabilityCheck("click")) {
+            sequenceId = SaveLoadManager.Instance.StartSequence();
+            yield return StartCoroutine(_smartTilemap.ClickTile());
+            SaveLoadManager.Instance.EndSequence(sequenceId);
+            yield break;
         }
 
-        case Tool.SeedBag: {
-            bool hasCarpetSeeder = InventoryManager.Instance.IsToolWorking(ToolBuff.Carpetseeder);
-            if (!hasCarpetSeeder && !Energy.Instance.HasEnergy()) { break; }
-            if (InventoryManager.SeedsInventory[seedBagCrop] <= 0) { break; }
-            if (!_smartTilemap.AvailabilityCheck("seed")) { break; }
+        switch (_curTool) {
+            case Tool.Hoe: {
+                if (!Energy.Instance.HasEnergy()) {
+                    break;
+                }
 
-             sequenceId = SaveLoadManager.Instance.StartSequence();
-            didSomething = true;
+                if (!_smartTilemap.AvailabilityCheck("hoe")) {
+                    break;
+                }
 
-            InventoryManager.Instance.LoseSeed(seedBagCrop);
-            if (!hasCarpetSeeder) {
-                Energy.Instance.LoseOneEnergy();
-            }
-
-            InventoryManager.Instance.AddXp(1);
-            yield return StartCoroutine(_smartTilemap.SeedTile(seedBagCrop));
-            break;
-        }
-
-        case Tool.Collect: {
-            bool hasWetScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Wetscythe);
-            bool hasGreenScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe);
-            var playerTile = _smartTilemap.GetPlayerTile();
-
-            if (hasWetScythe && _smartTilemap.AvailabilityCheck("water")) {
-                 sequenceId = SaveLoadManager.Instance.StartSequence();
+                sequenceId = SaveLoadManager.Instance.StartSequence();
                 didSomething = true;
+
+                Energy.Instance.LoseOneEnergy();
+                Vector2Int coord = _smartTilemap.Playercoord;
+                InventoryManager.Instance.AddXp(1);
+                yield return StartCoroutine(_smartTilemap.HoeTile());
+
+                if (InventoryManager.Instance.IsToolWorking(ToolBuff.Doublehoe)) {
+                    yield return StartCoroutine(_smartTilemap.HoeRandomNeighbor(coord));
+                }
+
+                break;
+            }
+
+            case Tool.Watercan: {
+                bool hasUnlimited = InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan);
+                if (!hasUnlimited && !Energy.Instance.HasEnergy()) {
+                    break;
+                }
+
+                if (!_smartTilemap.AvailabilityCheck("water")) {
+                    break;
+                }
+
+                sequenceId = SaveLoadManager.Instance.StartSequence();
+                didSomething = true;
+
+                if (!hasUnlimited) {
+                    Energy.Instance.LoseOneEnergy();
+                }
 
                 InventoryManager.Instance.AddXp(1);
                 yield return StartCoroutine(_smartTilemap.WaterTile());
                 break;
             }
 
-            if (hasGreenScythe && playerTile.type == TileType.WateredSoil && Energy.Instance.HasEnergy()) {
-                 sequenceId = SaveLoadManager.Instance.StartSequence();
+            case Tool.SeedBag: {
+                bool hasCarpetSeeder = InventoryManager.Instance.IsToolWorking(ToolBuff.Carpetseeder);
+                if (!hasCarpetSeeder && !Energy.Instance.HasEnergy()) {
+                    break;
+                }
+
+                if (InventoryManager.SeedsInventory[seedBagCrop] <= 0) {
+                    break;
+                }
+
+                if (!_smartTilemap.AvailabilityCheck("seed")) {
+                    break;
+                }
+
+                sequenceId = SaveLoadManager.Instance.StartSequence();
                 didSomething = true;
 
-                Vector2Int coord = _smartTilemap.Playercoord;
-                while (_smartTilemap.GetTile(coord).type == TileType.WateredSoil) {
-                    yield return StartCoroutine(_smartTilemap.GetTile(coord).OnNeyDayed(_smartTilemap.animtime));
+                InventoryManager.Instance.LoseSeed(seedBagCrop);
+                if (!hasCarpetSeeder) {
+                    Energy.Instance.LoseOneEnergy();
                 }
+
+                InventoryManager.Instance.AddXp(1);
+                yield return StartCoroutine(_smartTilemap.SeedTile(seedBagCrop));
                 break;
             }
 
-            if (_smartTilemap.AvailabilityCheck("collect")) {
-                 sequenceId = SaveLoadManager.Instance.StartSequence();
-                didSomething = true;
+            case Tool.Collect: {
+                bool hasWetScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Wetscythe);
+                bool hasGreenScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe);
+                var playerTile = _smartTilemap.GetPlayerTile();
 
-                InventoryManager.Instance.AddXp(1);
-                yield return StartCoroutine(_smartTilemap.CollectTile());
+                if (hasWetScythe && _smartTilemap.AvailabilityCheck("water")) {
+                    sequenceId = SaveLoadManager.Instance.StartSequence();
+                    didSomething = true;
+
+                    InventoryManager.Instance.AddXp(1);
+                    yield return StartCoroutine(_smartTilemap.WaterTile());
+                    break;
+                }
+
+                if (hasGreenScythe && playerTile.type == TileType.WateredSoil && Energy.Instance.HasEnergy()) {
+                    sequenceId = SaveLoadManager.Instance.StartSequence();
+                    didSomething = true;
+
+                    Vector2Int coord = _smartTilemap.Playercoord;
+                    while (_smartTilemap.GetTile(coord).type == TileType.WateredSoil) {
+                        yield return StartCoroutine(_smartTilemap.GetTile(coord).OnNeyDayed(_smartTilemap.animtime));
+                    }
+
+                    break;
+                }
+
+                if (_smartTilemap.AvailabilityCheck("collect")) {
+                    sequenceId = SaveLoadManager.Instance.StartSequence();
+                    didSomething = true;
+
+                    InventoryManager.Instance.AddXp(1);
+                    yield return StartCoroutine(_smartTilemap.CollectTile());
+                }
+
+                break;
             }
+        }
 
-            break;
+        if (didSomething) {
+            SaveLoadManager.Instance.EndSequence(sequenceId);
         }
     }
-
-    if (didSomething) {
-        SaveLoadManager.Instance.EndSequence(sequenceId);
-    }
-}
-
 
     public void RightClick() {
         if (isBuilding) {

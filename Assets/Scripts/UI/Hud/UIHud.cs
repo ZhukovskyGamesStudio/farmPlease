@@ -1,4 +1,5 @@
-﻿using Abstract;
+﻿using System.Linq;
+using Abstract;
 using Managers;
 using Tables;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace UI {
         public AttentionView CroponomAttention, BackpackAttention;
         public OpenCroponomButtonView OpenCroponomButton;
 
+        public GameObject HammerToolButton;
         public GameObject BuildingPanel;
         public GraphicRaycaster GraphicRaycaster;
 
@@ -123,6 +125,8 @@ namespace UI {
             ShopsPanel.BuildingShopButton.gameObject.SetActive(buildindsUnlocked && isTodayFoodmarket);
             
             FarmerCommunityBadgeView.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FarmerCommunity.ToString()));
+            
+            HammerToolButton.SetActive(InventoryManager.IsBuildingsBoughtD.Values.Any());
         }
     }
 }

@@ -38,10 +38,6 @@ public class GameSaveProfile {
     
     public  List<BuildingType> BuildingsStored = new  List<BuildingType>();
     
-    public Crop ShopFirstOffer, ShopSecondOffer;
-    public bool SeedShopChangeButton;
-    public Crop AmbarCrop;
-    
     public int BuildingPrice;
 
     public List<Knowledge> KnowledgeList = new List<Knowledge>();
@@ -54,7 +50,7 @@ public class GameSaveProfile {
  
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
-    
+    public BuildingShopData BuildingShopData = new BuildingShopData();
 }
 
 

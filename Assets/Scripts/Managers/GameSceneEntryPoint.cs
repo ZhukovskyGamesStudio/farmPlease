@@ -57,8 +57,6 @@ namespace Managers {
             InventoryManager.Instance.SetInventoryWithData();
             UIHud.Instance.FastPanelScript.UpdateToolsImages();
 
-            UIHud.Instance.ShopsPanel.BuildingShopView.InitializeWithData(save.BuildingPrice);
-
             // В этом методе запускается ежесекудный корутин, который подсчитывает кол-во прошедших дней.
 
             DateTime dateTime = DateTime.Parse(save.Date, CultureInfo.InvariantCulture);

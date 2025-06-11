@@ -5,7 +5,6 @@ using UnityEngine.UI;
 namespace UI {
     public class ShopsPanel : MonoBehaviour {
         public Button ScalesButton, SeedShopButton, ToolShopButton, BuildingShopButton;
-        public BuildingShopView BuildingShopView;
 
         public void OpenSeedshop() {
             DialogsManager.Instance.ShowDialogWithData(typeof(SeedShopDialog), SaveLoadManager.CurrentSave.SeedShopData);
@@ -20,7 +19,7 @@ namespace UI {
         }
 
         public void OpenBuildingsShop() {
-            BuildingShopView.gameObject.SetActive(true);
+            DialogsManager.Instance.ShowDialogWithData(typeof(BuildingShopDialog), SaveLoadManager.CurrentSave.BuildingShopData);
         }
     }
 }

@@ -78,8 +78,7 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
         }, CloseHints, _buyingBagAnimation.transform);
     }
 
-    public void SetAmbarCrop(Crop type) {
-        SaveLoadManager.CurrentSave.AmbarCrop = type;
+    private void SetAmbarCrop(Crop type) {
         if (type == Crop.Weed) {
             _ambarOffer.gameObject.SetActive(false);
             return;

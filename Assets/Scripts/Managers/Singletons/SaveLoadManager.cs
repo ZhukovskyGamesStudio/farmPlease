@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 
 namespace Managers {
     public class SaveLoadManager : Singleton<SaveLoadManager> {
-        private BuildingShopView _buildingShopView;
+        private BuildingShopDialog _buildingShopDialog;
         private FastPanelScript _fastPanelScript;
 
         private InventoryManager _inventoryManager;
@@ -29,7 +29,7 @@ namespace Managers {
         // По окончанию этих действий игрок снова может что-то делать, а игра сохраняется. Если последовательность не была завершена - то игра не сохранится и откатится назад при след. загрузке
 
         private List<string> _activeSequences = new List<string>();
-        
+
         public string StartSequence() {
             _isWaitingSequence = true;
             PlayerController.CanInteract = false;
@@ -37,22 +37,18 @@ namespace Managers {
             _activeSequences.Add(sequenceId);
             return sequenceId;
         }
-        
+
         public void EndSequence(string sequenceId) {
             _activeSequences.Remove(sequenceId);
             if (_activeSequences.Count == 0) {
                 _isWaitingSequence = false;
                 PlayerController.CanInteract = true;
-                SaveGame(); 
+                SaveGame();
             }
         }
 
         public static string GenerateJsonString() {
             CurrentSave.SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
-
-            if (GameModeManager.Instance.GameMode != GameMode.Training) {
-                CurrentSave.BuildingPrice = UIHud.Instance.ShopsPanel.BuildingShopView.GetBuildingPrice();
-            }
 
             return JsonUtility.ToJson(CurrentSave, false);
         }
@@ -123,8 +119,9 @@ namespace Managers {
                     UnlockableUtils.Unlock(unlockable);
                 }
             }
-            
-            
+
+            MigrationUtils.TryMigrateToBuildingShopData(CurrentSave);
+
             if (string.IsNullOrEmpty(CurrentSave.UserId)) {
                 CreatePlayerOnServer().Forget();
             } else {
@@ -136,7 +133,7 @@ namespace Managers {
         public static void TryCreateFirstSave() {
             if (string.IsNullOrEmpty(CurrentSave.UserId)) {
                 CreatePlayerOnServer().Forget();
-            }  
+            }
         }
 
         private static async UniTask CreatePlayerOnServer() {
@@ -188,7 +185,6 @@ namespace Managers {
                 Coins = 0,
                 SavedDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
                 Date = TimeManager.FirstDayOfGame.ToString(CultureInfo.InvariantCulture),
-                AmbarCrop = Crop.None,
                 Unlocked = UnlockableUtils.GetInitialUnlockables(),
                 TilesData = SmartTilemap.GenerateFtueTiles(),
                 Nickname = "Farmer #" + Random.Range(999, 10000),
