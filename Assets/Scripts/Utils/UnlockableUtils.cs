@@ -42,7 +42,8 @@ public static class UnlockableUtils {
         if (Unlocked.Contains(unlockable)) {
             return;
         }
-        if (unlockable != Unlockable.ToolShop.ToString() && unlockable != Unlockable.FarmerCommunity.ToString()) {
+
+        if (!NotInCroponom.Contains(unlockable)) {
             SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
         }
     
@@ -75,7 +76,13 @@ public static class UnlockableUtils {
         SaveLoadManager.CurrentSave.UnseenCroponomPages.Remove(page);
         SaveLoadManager.SaveGame();
     }
-
+    
+    
+    public static List<string> NotInCroponom = new List<string> {
+        Unlockable.ToolShop.ToString(),
+        Unlockable.FarmerCommunity.ToString(),
+        Unlockable.None.ToString()
+    };
     
 }
 

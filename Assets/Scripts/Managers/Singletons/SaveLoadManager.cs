@@ -112,7 +112,10 @@ namespace Managers {
                 CurrentSave.Nickname = "Farmer #" + Random.Range(999, 10000);
             }
 
-            UnlockableUtils.TryRemoveSeenPage(Unlockable.ToolShop.ToString());
+            foreach (var toSkip in UnlockableUtils.NotInCroponom) {
+                UnlockableUtils.TryRemoveSeenPage(toSkip);
+            }
+           
             for (int i = 0; i < CurrentSave.CurrentLevel; i++) {
                 var unlockable = ConfigsManager.Instance.LevelConfigs[i].Reward.Unlockable;
                 if (!CurrentSave.Unlocked.Contains(unlockable)) {
