@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UI;
 using UnityEngine;
 
 public class RewardDialog : DialogWithData<RewardDialogData> {
@@ -60,6 +61,7 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
 
     public override void Show(Action onClose) {
         base.Show(onClose);
+        UIHud.Instance.ProfileView.Hide();
         _chestAnimation.Play(_chestAppear.name);
         _chestAnimation.PlayQueued(_chestIdle.name);
     }
@@ -93,6 +95,7 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
     }
 
     public void Claim() {
+        UIHud.Instance.ProfileView.Show();
         //TODO show items flying animation
         RewardUtils.ClaimReward(_data.Reward);
         _data.OnClaim?.Invoke();

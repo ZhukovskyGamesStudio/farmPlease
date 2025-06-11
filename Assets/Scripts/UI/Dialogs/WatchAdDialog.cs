@@ -10,10 +10,10 @@ public class WatchAdDialog : DialogWithData<Reward> {
     private RewardItemView _rewardItemView;
 
     [SerializeField]
-    private Animation _animation, _tvAnimation;
+    private Animation _animation;
 
     [SerializeField]
-    private AnimationClip _dialogShow, _watchAd, _tvIdle;
+    private AnimationClip _dialogShow,_dialogIdle, _watchAd;
 
     private bool _isWatchingAd;
 
@@ -25,8 +25,8 @@ public class WatchAdDialog : DialogWithData<Reward> {
 
     public override void Show(Action onClose) {
         base.Show(onClose);
-        _tvAnimation.Play(_tvIdle.name);
         _animation.Play(_dialogShow.name);
+        _animation.PlayQueued(_dialogIdle.name);
         UIHud.Instance.ProfileView.Hide();
     }
 
