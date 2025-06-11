@@ -1,22 +1,20 @@
-﻿using Managers;
-
-public static class XpUtils {
+﻿public static class XpUtils {
     public static int GetNextLevelByXp(int xp) {
-        return XpByLevel(LevelByXp(xp)+1);
+        return XpByLevel(LevelByXp(xp) + 1);
     }
 
     public static bool IsNextLevel(int currentLevel, int currentXp) {
-        var levels = ConfigsManager.Instance.LevelConfigs;
         int levelByXp = LevelByXp(currentXp);
         return levelByXp > currentLevel;
     }
 
     public static int LevelByXp(int xp) {
         var levels = ConfigsManager.Instance.LevelConfigs;
+        var costs = ConfigsManager.Instance.CostsConfig.LevelXpProgression;
         int levelByXp = 0;
         int accubulatedXp = 0;
-        foreach (LevelConfig t in levels) {
-            accubulatedXp += t.XpNeeded;
+        for (int index = 0; index < levels.Count; index++) {
+            accubulatedXp += costs[index];
             if (accubulatedXp > xp) {
                 return levelByXp;
             }
@@ -26,15 +24,17 @@ public static class XpUtils {
 
         return levelByXp;
     }
-    
+
     public static int XpByLevel(int level) {
         var levels = ConfigsManager.Instance.LevelConfigs;
+        var costs = ConfigsManager.Instance.CostsConfig.LevelXpProgression;
         int accubulatedXp = 0;
         for (int i = 0; i < level; i++) {
             if (i >= levels.Count) {
                 return accubulatedXp;
             }
-            accubulatedXp += levels[i].XpNeeded;
+
+            accubulatedXp += costs[i];
         }
 
         return accubulatedXp;
