@@ -12,6 +12,9 @@ namespace UI {
         private Animation _animation;
 
         [SerializeField]
+        private Transform _clockArrow;
+
+        [SerializeField]
         private Button _button;
 
         private const string ZERO_TIME_ANIMATION = "ZeroTime";
@@ -32,6 +35,10 @@ namespace UI {
             }
 
             Clock.Instance.TryAddDay();
+        }
+        
+        public void SetClockArrowRotation(float rotation) {
+            _clockArrow.localRotation = Quaternion.Euler(0, 0, rotation);
         }
 
         public void SetAmount(int amount) {

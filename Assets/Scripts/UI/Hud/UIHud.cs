@@ -16,7 +16,6 @@ namespace UI {
         public TimePanel TimePanel;
         public Backpack Backpack;
         public ShopsPanel ShopsPanel;
-        public HelloPanelView HelloPanel;
 
         public GameObject CroponomButton;
         public AttentionView CroponomAttention, BackpackAttention;
@@ -126,7 +125,7 @@ namespace UI {
             
             FarmerCommunityBadgeView.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FarmerCommunity.ToString()));
             
-            HammerToolButton.SetActive(InventoryManager.IsBuildingsBoughtD.Values.Any());
+            HammerToolButton.SetActive(InventoryManager.IsBuildingsBoughtD.Values.Any(v=>v));
         }
     }
 }

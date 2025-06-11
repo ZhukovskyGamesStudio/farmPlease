@@ -10,4 +10,5 @@ public class CostsConfig : ScriptableObject {
     public int[] BuildingPriceProgression;
     public int CropPrice;
     public int ToolPrice;
+    public float MunitesForOneChargeRefill;
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tables;
 using UI;
@@ -8,13 +9,15 @@ using ZhukovskyGamesPlugin;
 namespace Managers {
     public class Clock : Singleton<Clock> {
         public const int MAX_ENERGY = 7;
-        private const string REFILLED_ENERGY_TEXT = "Здравствуй фермер, заряд часов восстановлен."; //TODO придумать сюда текст получше
+        private const string REFILLED_ENERGIES_TEXT = "здравствуй фермер,\n заряды часов восстановлены.";
+        private const string REFILLED_ENERGY_TEXT = "заряд\nчасов\nвосстановлен.";
 
-        private readonly TimeSpan _timespanForRefillOneEnergy = new TimeSpan(3, 0, 0);
+        private TimeSpan TimespanForRefillOneEnergy => TimeSpan.FromMinutes(ConfigsManager.Instance.CostsConfig.MunitesForOneChargeRefill);
 
         private GameSaveProfile Save => SaveLoadManager.CurrentSave;
 
         private bool _isAlreadyClicked;
+        private Coroutine _realtimeClockCoroutine;
 
         public void TryAddDay() {
             if (!PlayerController.CanInteract) {
@@ -41,8 +44,7 @@ namespace Managers {
             UIHud.Instance.ClockView.ShowZeroTimeAnimation();
             Audio.Instance.PlaySound(Sounds.ZeroEnergy);
 
-            
-            if (SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(ToolBuff.WeekBattery,0) > 0) {
+            if (SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(ToolBuff.WeekBattery, 0) > 0) {
                 UIHud.Instance.BackpackAttention.ShowAttention();
             } else {
                 DialogsManager.Instance.ShowDialogWithData(typeof(WatchAdDialog), new Reward() {
@@ -56,9 +58,28 @@ namespace Managers {
             }
         }
 
+        private IEnumerator ClockRealtimeCoroutine(float timeLeft) {
+            float cur = 0;
+            while (cur < timeLeft) {
+                cur += Time.deltaTime;
+
+                UIHud.Instance.ClockView.SetClockArrowRotation(-360 * (cur / timeLeft));
+                yield return new WaitForEndOfFrame();
+            }
+            _realtimeClockCoroutine = null;
+            
+            if (Save.ClockEnergy < MAX_ENERGY && !GameModeManager.Instance.InfiniteClockEnergy) {
+                TryRefillForRealtimePassed();
+            }
+        }
+
         private void LoseOneEnergy() {
             if (Save.ClockEnergy == MAX_ENERGY) {
                 Save.LastClockRefilledTimestamp = NowTotalMilliseconds;
+            }
+
+            if (_realtimeClockCoroutine == null) {
+                _realtimeClockCoroutine = StartCoroutine(ClockRealtimeCoroutine((float)TimespanForRefillOneEnergy.TotalSeconds));
             }
 
             Save.ClockEnergy--;
@@ -77,6 +98,11 @@ namespace Managers {
         }
 
         public void RefillToMaxEnergy() {
+            if (_realtimeClockCoroutine != null) {
+                StopCoroutine(_realtimeClockCoroutine);
+                _realtimeClockCoroutine = null;
+            }
+
             SetEnergy(MAX_ENERGY);
             UIHud.Instance.ClockView.SetFullAmount(Save.ClockEnergy);
         }
@@ -85,22 +111,29 @@ namespace Managers {
             if (Save.ClockEnergy == MAX_ENERGY) {
                 return;
             }
-
+            if( _realtimeClockCoroutine!= null) {
+                StopCoroutine(_realtimeClockCoroutine);
+            }
             long now = NowTotalMilliseconds;
             long last = Save.LastClockRefilledTimestamp;
             TimeSpan timeSpan = TimeSpan.FromMilliseconds(now - last);
 
-            int refillAmount = Mathf.FloorToInt((float)(timeSpan / _timespanForRefillOneEnergy));
+            int refillAmount = Mathf.FloorToInt((float)(timeSpan / TimespanForRefillOneEnergy));
             if (refillAmount <= 0) {
+                _realtimeClockCoroutine = StartCoroutine(ClockRealtimeCoroutine((float)(TimespanForRefillOneEnergy.TotalSeconds - timeSpan.TotalSeconds)));
                 return;
             }
 
             Save.ClockEnergy += refillAmount;
             int newEnergy = Mathf.Min(Save.ClockEnergy, MAX_ENERGY);
             SetEnergy(newEnergy);
-            Save.LastClockRefilledTimestamp += (long)_timespanForRefillOneEnergy.TotalMilliseconds * refillAmount;
+            Save.LastClockRefilledTimestamp += (long)TimespanForRefillOneEnergy.TotalMilliseconds * refillAmount;
             SaveLoadManager.SaveGame();
-            UIHud.Instance.HelloPanel.Show(REFILLED_ENERGY_TEXT);
+            DialogsManager.Instance.ShowDialogWithData(typeof(EnergyRefillDialog),
+                refillAmount > 1 ? REFILLED_ENERGIES_TEXT : REFILLED_ENERGY_TEXT);
+            if (Save.ClockEnergy != MAX_ENERGY) {
+                _realtimeClockCoroutine = StartCoroutine(ClockRealtimeCoroutine((float)TimespanForRefillOneEnergy.TotalSeconds));
+            }
         }
 
         public static long NowTotalMilliseconds => (long)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds;
