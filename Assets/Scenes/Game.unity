@@ -359,8 +359,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 492401856}
+  m_Children: []
   m_Father: {fileID: 943775798}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &111457051
@@ -1200,7 +1199,7 @@ RectTransform:
   m_Children:
   - {fileID: 1768808279}
   - {fileID: 2131882886}
-  m_Father: {fileID: 111457050}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1265,7 +1264,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 100
@@ -7043,4 +7042,5 @@ SceneRoots:
   - {fileID: 1924265564}
   - {fileID: 1860929762}
   - {fileID: 2005702311059570233}
+  - {fileID: 492401856}
   - {fileID: 943775798}
