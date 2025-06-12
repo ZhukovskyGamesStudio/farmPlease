@@ -122,10 +122,11 @@ namespace UI {
             var buildindsUnlocked = UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString());
             var isTodayFoodmarket = TimeManager.Instance.IsTodayFoodMarket();
             ShopsPanel.BuildingShopButton.gameObject.SetActive(buildindsUnlocked && isTodayFoodmarket);
-            
-            FarmerCommunityBadgeView.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.FarmerCommunity.ToString()));
-            
-            HammerToolButton.SetActive(InventoryManager.IsBuildingsBoughtD.Values.Any(v=>v));
+
+            FarmerCommunityBadgeView.gameObject.SetActive(FarmerCommunityManager.Instance.IsUnlocked &&
+                                                          FarmerCommunityManager.Instance.IsNextFarmLoaded);
+
+            HammerToolButton.SetActive(InventoryManager.IsBuildingsBoughtD.Values.Any(v => v));
         }
     }
 }
