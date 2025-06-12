@@ -53,17 +53,17 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
             _headerText.text = "Вы разблокировали";
         } else {
             _headerText.text = "Вы получили";
-        } 
+        }
 
         _clicksNeeded++;
         _clicksMade = 0;
     }
 
-    public override void Show(Action onClose) {
-        base.Show(onClose);
+    public override async UniTask Show(Action onClose) {
         UIHud.Instance.ProfileView.Hide();
         _chestAnimation.Play(_chestAppear.name);
         _chestAnimation.PlayQueued(_chestIdle.name);
+        await base.Show(onClose);
     }
 
     public void ClickChest() {

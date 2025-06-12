@@ -1888,7 +1888,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3261193404835654018}
         m_TargetAssemblyTypeName: DialogBase, Assembly-CSharp
-        m_MethodName: Close
+        m_MethodName: CloseByButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1996,6 +1996,8 @@ GameObject:
   - component: {fileID: 3261193404835654023}
   - component: {fileID: 3261193404835654020}
   - component: {fileID: 3261193404835654018}
+  - component: {fileID: -2163150896715882237}
+  - component: {fileID: 4881232536370074960}
   m_Layer: 5
   m_Name: BuildingsShopDialog
   m_TagString: Untagged
@@ -2054,6 +2056,36 @@ MonoBehaviour:
   _confirmPage: {fileID: 6747292562757959692}
   _notChoosedPage: {fileID: 6331342108767779023}
   _confirmDialog: {fileID: 3156038067627353333}
+--- !u!111 &-2163150896715882237
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3261193404835654019}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!114 &4881232536370074960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3261193404835654019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8409082542674206a3b7ca97f2dacb6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showClip: {fileID: 7400000, guid: b35aeb04ee4d94e4daecef3b4019cfa7, type: 2}
+  _hideClip: {fileID: 7400000, guid: c1003f9a47101a2409867cf5eeb299d0, type: 2}
 --- !u!1 &3261193404845000635
 GameObject:
   m_ObjectHideFlags: 0

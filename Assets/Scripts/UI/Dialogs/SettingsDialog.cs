@@ -1,4 +1,6 @@
-﻿using Abstract;
+﻿using System;
+using Abstract;
+using Cysharp.Threading.Tasks;
 using Managers;
 using ScriptableObjects;
 using UnityEngine;
@@ -18,6 +20,11 @@ namespace UI {
 
         private SettingsData SettingsData => SaveLoadManager.CurrentSave.SettingsData;
         private SettingsData _unchangedData;
+
+        public override UniTask Show(Action onClose) {
+            UIHud.Instance.ProfileView.Hide();
+            return base.Show(onClose);
+        }
 
         public override void SetData(CheatCodeConfigList data) {
             Initialize(data);
@@ -92,6 +99,11 @@ namespace UI {
         public void ClearSave() {
             PlayerPrefs.DeleteAll();
             Application.Quit();
+        }
+
+        protected override async UniTask Close() {
+            await base.Close();
+            UIHud.Instance.ProfileView.Show();
         }
     }
 }

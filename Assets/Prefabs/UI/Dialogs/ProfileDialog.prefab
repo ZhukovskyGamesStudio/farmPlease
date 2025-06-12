@@ -2860,6 +2860,8 @@ GameObject:
   - component: {fileID: 3264581591784983423}
   - component: {fileID: 5999797288324086461}
   - component: {fileID: 8929954527904516390}
+  - component: {fileID: -2172892793257326613}
+  - component: {fileID: 7738851094517053464}
   m_Layer: 5
   m_Name: ProfileDialog
   m_TagString: Untagged
@@ -2929,6 +2931,36 @@ MonoBehaviour:
   - {fileID: 7971973934929970297}
   - {fileID: 1442279290251639820}
   _coinRewardIcon: {fileID: 21300000, guid: 59945184816c3e3448f690a60cff7d2b, type: 3}
+--- !u!111 &-2172892793257326613
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140646648907342180}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!114 &7738851094517053464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140646648907342180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8409082542674206a3b7ca97f2dacb6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showClip: {fileID: 7400000, guid: b35aeb04ee4d94e4daecef3b4019cfa7, type: 2}
+  _hideClip: {fileID: 7400000, guid: c1003f9a47101a2409867cf5eeb299d0, type: 2}
 --- !u!1 &5250657863028003008
 GameObject:
   m_ObjectHideFlags: 0
@@ -4558,8 +4590,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8929954527904516390}
-        m_TargetAssemblyTypeName: ProfileDialog, Assembly-CSharp
-        m_MethodName: Close
+        m_TargetAssemblyTypeName: DialogBase, Assembly-CSharp
+        m_MethodName: CloseByButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

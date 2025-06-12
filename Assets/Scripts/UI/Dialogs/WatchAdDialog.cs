@@ -23,16 +23,15 @@ public class WatchAdDialog : DialogWithData<Reward> {
         }, null);
     }
 
-    public override void Show(Action onClose) {
-        base.Show(onClose);
-        _animation.Play(_dialogShow.name);
-        _animation.PlayQueued(_dialogIdle.name);
+    public override async UniTask Show(Action onClose) {
         UIHud.Instance.ProfileView.Hide();
+        await base.Show(onClose);
+        _animation.PlayQueued(_dialogIdle.name);
     }
 
-    public override void Close() {
+    protected override async UniTask Close() {
         UIHud.Instance.ProfileView.Show();
-        base.Close();
+        await base.Close();
     }
 
     public void WatchRewardedAdButton() {

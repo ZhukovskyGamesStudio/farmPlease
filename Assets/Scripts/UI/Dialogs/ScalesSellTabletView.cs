@@ -8,8 +8,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using ZhukovskyGamesPlugin;
 
-namespace UI{
-    public class SellTabletView : CustomMonoBehaviour{
+namespace UI {
+    public class ScalesSellTabletView : CustomMonoBehaviour {
         [SerializeField]
         private SellTableLine _linePrefab, _emptyLinePrefab;
 
@@ -20,8 +20,8 @@ namespace UI{
         private Animation _openCloseAnimation;
 
         [SerializeField]
-        private DraggableSellTablet _draggable;
-        
+        private AnimationClip _openAnimationClip, _closeAnimationClip;
+
         [SerializeField]
         private CanvasGroup _scrollCanvasGroup;
 
@@ -46,29 +46,27 @@ namespace UI{
         private bool _isOpened = true;
 
         public Button SelectAllButton => _selectAllButton;
-        
+
         public Button SellButton => _sellAllButton;
 
         public bool IsFixedByTraining = false;
         private Action<Crop, int> _onSelectedAmountChange;
 
-        private void Awake(){
-            _draggable.SetIsActiveFunc(IsDraggableActive);
-            _draggable.SetClampValues(true, new Vector2(_closedPos.y, _openedPos.y));
+        private void Awake() {
             RecalculateSellButton();
             Open();
         }
 
-        private bool IsDraggableActive() => 
+        private bool IsDraggableActive() =>
             false && !_scalesPanel.IsSellingAnimation && !IsFixedByTraining;
 
         public void SetData(Queue<Crop> cropsCollected, Action<Crop, int> onSelectedAmountChange) {
             _onSelectedAmountChange = onSelectedAmountChange;
             Dictionary<Crop, int> crops = new Dictionary<Crop, int>();
-            foreach (var crop in cropsCollected){
-                if (crops.ContainsKey(crop)){
+            foreach (var crop in cropsCollected) {
+                if (crops.ContainsKey(crop)) {
                     crops[crop]++;
-                } else{
+                } else {
                     crops.Add(crop, 1);
                 }
             }
@@ -78,23 +76,23 @@ namespace UI{
             RecalculateSellButton();
         }
 
-        public void SetData(Dictionary<Crop, int> crops){
+        public void SetData(Dictionary<Crop, int> crops) {
             _cropsAmount = crops;
             InitLines(_cropsAmount);
             InitButtons(_cropsAmount);
         }
 
-        private void InitLines(Dictionary<Crop, int> crops){
+        private void InitLines(Dictionary<Crop, int> crops) {
             DestroyChildren(_linesHolder);
-            
+
             _cropLineMap = new Dictionary<Crop, SellTableLine>();
-            if (crops.Count == 0){
+            if (crops.Count == 0) {
                 SellTableLine line = Instantiate(_emptyLinePrefab, _linesHolder);
                 _cropLineMap.Add(Crop.None, line);
-            } else{
-                foreach (var cropIntPair in crops){
+            } else {
+                foreach (var cropIntPair in crops) {
                     SellTableLine line = Instantiate(_linePrefab, _linesHolder);
-                    line.SetData(cropIntPair.Key, cropIntPair.Value,OnSelectedAmountChange);
+                    line.SetData(cropIntPair.Key, cropIntPair.Value, OnSelectedAmountChange);
                     _cropLineMap.Add(cropIntPair.Key, line);
                 }
             }
@@ -113,37 +111,33 @@ namespace UI{
             _sellAllButton.interactable = selectedAmount > 0;
         }
 
-        private void InitButtons(Dictionary<Crop, int> crops){
+        private void InitButtons(Dictionary<Crop, int> crops) {
             _sellAllButton.interactable = crops.Count > 0;
             _selectAllButton.interactable = crops.Count > 0;
         }
 
-        public void Open(){
-            if (_isOpened){
+        public void Open() {
+            if (_isOpened) {
                 return;
             }
 
             _isOpened = true;
-            _draggable.ChangeStartingPlace(_openedPos);
-            _draggable.ChangeRects(true);
-            _draggable.GoBackToPlaceSmooth();
+            _openCloseAnimation.Play(_openAnimationClip.name);
         }
 
-        public void Close(){
-            if (!_isOpened){
+        public void Close() {
+            if (!_isOpened) {
                 return;
             }
 
             _isOpened = false;
-            _draggable.ChangeStartingPlace(_closedPos);
-            _draggable.ChangeRects(false);
-            _draggable.GoBackToPlaceSmooth();
+            _openCloseAnimation.Play(_closeAnimationClip.name);
         }
 
-        public void SellSelectedCrops(){
+        public void SellSelectedCrops() {
             List<Crop> cropsToSell = new List<Crop>();
-            foreach (var cropLine in _cropLineMap){
-                for (int i = 0; i < cropLine.Value.SelectedAmount; i++){
+            foreach (var cropLine in _cropLineMap) {
+                for (int i = 0; i < cropLine.Value.SelectedAmount; i++) {
                     cropsToSell.Add(cropLine.Key);
                 }
             }
@@ -152,11 +146,11 @@ namespace UI{
         }
 
         private int CountSelectedCrops() {
-            return _cropLineMap.Values.Sum(s =>s.SelectedAmount);
+            return _cropLineMap.Values.Sum(s => s.SelectedAmount);
         }
 
-        public void SelectAll(){
-            foreach (SellTableLine line in _cropLineMap.Values){
+        public void SelectAll() {
+            foreach (SellTableLine line in _cropLineMap.Values) {
                 line.SelectAll();
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Managers;
 using Tables;
 using UI;
@@ -18,9 +19,9 @@ public class ScalesDialog : DialogWithData<int> {
     private Button _closeButton;
 
     [SerializeField]
-    private SellTabletView _sellTablet;
+    private ScalesSellTabletView _sellTablet;
 
-    public SellTabletView SellTabletView => _sellTablet;
+    public ScalesSellTabletView SellTabletView => _sellTablet;
 
     public bool IsSellingAnimation { get; private set; }
     public bool IsRainingCropsAnimation { get; private set; }
@@ -30,20 +31,21 @@ public class ScalesDialog : DialogWithData<int> {
         //TODO add proper data handling if needed
     }
 
-    public override void Show(Action onClose) {
-        base.Show(onClose);
+    public override async UniTask Show(Action onClose) {
         IsSellingAnimation = false;
         //ShowRainingCrops();
         _sellTablet.SetData(SaveLoadManager.CurrentSave.CropsCollectedQueue, scalesView.OnSelectedAmountChange);
+        scalesView.Init();
         _sellTablet.Open();
+        await base.Show(onClose);
     }
 
-    public override void Close() {
+    protected override async UniTask Close() {
         if (IsSellingAnimation || IsRainingCropsAnimation) {
             return;
         }
 
-        base.Close();
+        await base.Close();
     }
 
     public void SellSelected(List<Crop> crops) {

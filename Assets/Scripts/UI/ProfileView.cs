@@ -8,6 +8,7 @@ public class ProfileView : MonoBehaviour {
 
     [field: SerializeField]
     public AnimatableProgressbar XpProgressBar { get; private set; }
+    
 
     public bool IsLockedByFtue;
 

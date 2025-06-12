@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
         _data = data;
     }
 
-    public override void Show(Action onClose) {
+    public override async UniTask Show(Action onClose) {
         _nicknameInput.SetTextWithoutNotify(SaveLoadManager.CurrentSave.Nickname);
         _cropsCollectedText.text = SaveLoadManager.CurrentSave.CropPoints.ToString();
         _coinsText.text = SaveLoadManager.CurrentSave.Coins.ToString();
@@ -42,7 +43,7 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
         SetLevelProgress();
 
         SetRewards();
-        base.Show(onClose);
+        await base.Show(onClose);
     }
 
     private void SetLevelProgress() {
@@ -68,9 +69,9 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
         SaveLoadManager.SaveGame();
     }
 
-    public override void Close() {
+    protected override async UniTask Close() {
+        await base.Close();
         _data.ReshowProfileView?.Invoke();
-        base.Close();
     }
 }
 

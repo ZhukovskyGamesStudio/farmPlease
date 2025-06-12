@@ -70,8 +70,11 @@ namespace Managers {
             if (_needToSave) {
                 _needToSave = false;
                 RewriteGameSavedData();
-                if (!string.IsNullOrEmpty(CurrentSave.UserId)) {
-                    PlayerAPI.UpdatePlayerAsync(CurrentSave.UserId, CurrentSave).Forget();
+
+                if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+                    if (!string.IsNullOrEmpty(CurrentSave.UserId)) {
+                        PlayerAPI.UpdatePlayerAsync(CurrentSave.UserId, CurrentSave).Forget();
+                    }
                 }
             }
         }
@@ -125,16 +128,19 @@ namespace Managers {
 
             MigrationUtils.TryMigrateToBuildingShopData(CurrentSave);
 
-            if (string.IsNullOrEmpty(CurrentSave.UserId)) {
-                CreatePlayerOnServer().Forget();
-            } else {
-                FindPlayerOnServer().Forget();
+            if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+                if (string.IsNullOrEmpty(CurrentSave.UserId)) {
+                    CreatePlayerOnServer().Forget();
+                } else {
+                    FindPlayerOnServer().Forget();
+                }
             }
+           
             //TODO update everything else and move to another manager
         }
 
         public static void TryCreateFirstSave() {
-            if (string.IsNullOrEmpty(CurrentSave.UserId)) {
+            if (string.IsNullOrEmpty(CurrentSave.UserId)&& KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 CreatePlayerOnServer().Forget();
             }
         }

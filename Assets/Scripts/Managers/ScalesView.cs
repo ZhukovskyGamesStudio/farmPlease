@@ -29,7 +29,7 @@ public class ScalesView : MonoBehaviour {
     private Transform _movingPlatform, _pipe;
 
     [SerializeField]
-    private float movingPlatformVerticalLimit = 10;
+    private float  _movingPlatformMin = -3.5f, _movingPlatformMax = -13.5f;
 
     [SerializeField]
     private Transform _scaleArrow;
@@ -40,10 +40,8 @@ public class ScalesView : MonoBehaviour {
     private List<DroppingVegView> _vegViews = new List<DroppingVegView>();
     private Vector3 _pipeDeltaFromPlatform;
 
-    private void Awake() {
-        if (_pipe != null) {
-            _pipeDeltaFromPlatform = _pipe.transform.position - _movingPlatform.transform.position;
-        }
+    public void Init() {
+        _pipeDeltaFromPlatform = _pipe.transform.position - _movingPlatform.transform.position;
     }
 
     public void OnSelectedAmountChange(Crop crop, int diff) {
@@ -52,20 +50,13 @@ public class ScalesView : MonoBehaviour {
                 var obj = _vegViews.First(v => v.CropType == crop);
                 Destroy(obj.gameObject);
                 _vegViews.Remove(obj);
+                OnVegTouchScale(_vegViews.Count);
             }
         } else {
             for (int i = 0; i < diff; i++) {
-                InstantiateFallingVeg(crop, delegate { OnVegTouchScale(_shownCropsQueue.Count); });
+                InstantiateFallingVeg(crop, delegate { OnVegTouchScale(_vegViews.Count); });
             }
         }
-    }
-
-    public async UniTask StartRainingCrops(Queue<Crop> cropsQueue) {
-        if (cropsQueue == null) {
-            cropsQueue = new Queue<Crop>();
-        }
-
-        await CropRain(cropsQueue);
     }
 
     private async UniTask CropRain(Queue<Crop> cropsQueue) {
@@ -101,6 +92,7 @@ public class ScalesView : MonoBehaviour {
     private void InstantiateFallingVeg(Crop crop, Action onTouch = null) {
         Vector3 pose = Lcorner.position + (Rcorner.position - Lcorner.position) * Random.Range(0.05f, 0.95f);
         pose += Vector3.up * (VerticalShift + VerticalShiftPerCrop * _vegViews.Count);
+        pose.z = 0; // Ensure the z position is zero for 2D
         Quaternion quat = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward);
 
         DroppingVegView fallingVeg = Instantiate(VegPrefab, pose, quat, VegsHolder);
@@ -111,14 +103,17 @@ public class ScalesView : MonoBehaviour {
 
     private void OnVegTouchScale(int vegsAmount) {
         float percent = Mathf.Clamp((vegsAmount * 1f) / maxCropsAmountForScaleLimit, 0, 1);
-        float degree = Mathf.Lerp(scalesArrowRotationLimit, -scalesArrowRotationLimit, percent);
-        _scaleArrow.rotation = Quaternion.Euler(0, 0, degree);
-
-        float verticalMove = Mathf.Lerp(0, -movingPlatformVerticalLimit, percent);
-        ChangePlatformPos(verticalMove);
+        ChangeArrowPos(percent);
+        ChangePlatformPos(percent);
     }
 
-    private void ChangePlatformPos(float verticalMove) {
+    private void ChangeArrowPos(float percent) {
+        float degree = Mathf.Lerp(scalesArrowRotationLimit, -scalesArrowRotationLimit, percent);
+        _scaleArrow.rotation = Quaternion.Euler(0, 0, degree);
+    }
+
+    private void ChangePlatformPos(float percent) {
+        float verticalMove = Mathf.Lerp(_movingPlatformMin, _movingPlatformMax, percent);
         Vector3 tmp = _movingPlatform.transform.localPosition;
         tmp.y = verticalMove;
         _movingPlatform.transform.localPosition = tmp;
@@ -144,7 +139,8 @@ public class ScalesView : MonoBehaviour {
         float deltaTime = 0.3f;
         for (int index = 0; index < crops.Count; index++) {
             Crop crop = crops[index];
-            DroppingVegView veg = _vegViews.FirstOrDefault(v => v.CropType == crop);
+            DroppingVegView veg = _vegViews.Where(c => c.CropType == crop)
+                .OrderBy(v => Vector3.SqrMagnitude(_cropPipeTarget.position - v.transform.position)).FirstOrDefault();
             if (veg != null) {
                 StartCoroutine(SellVeg(veg, deltaTime));
                 _vegViews.Remove(veg);

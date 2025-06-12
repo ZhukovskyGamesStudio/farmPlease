@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +29,8 @@ public class NewLevelDialog : DialogWithData<int> {
         _clicksNeeded = 3 + newLevel;
     }
 
-    public override void Show(Action onClose) {
-        base.Show(onClose);
+    public override async UniTask Show(Action onClose) {
+        await base.Show(onClose);
         _levelAnimation.Play(_previousIdleClip.name);
     }
 

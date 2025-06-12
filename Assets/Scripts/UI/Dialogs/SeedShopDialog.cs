@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Managers;
 using ScriptableObjects;
 using Tables;
@@ -43,13 +43,13 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
         SetSeedShopWithData(_data);
     }
 
-    public override void Show(Action onClose) {
-        base.Show(onClose);
+    public override async UniTask Show(Action onClose) {
         if (_data.NeedShowChange) {
             _mainAnimation.Play("HideUIInstant");
-            StartCoroutine(ShowChangeEndAnimation());
+            ShowChangeEndAnimation().Forget();
             SaveLoadManager.CurrentSave.SeedShopData.NeedShowChange = false;
         }
+        await base.Show(onClose);
     }
 
     public void SetSeedShopWithData(SeedShopData save) {
@@ -113,39 +113,39 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
         SetSeedsShop(firstCrop, secondCrop);
     }
 
-    private IEnumerator ShowUI() {
+    private async UniTask ShowUI() {
         _mainAnimation.Play("ShowUI");
-        yield return new WaitWhile(() => _mainAnimation.isPlaying);
+        await UniTask.WaitWhile(() => _mainAnimation.isPlaying);
     }
 
-    private IEnumerator HideUI() {
+    private async UniTask HideUI() {
         _mainAnimation.Play("HideUI");
-        yield return new WaitWhile(() => _mainAnimation.isPlaying);
+        await UniTask.WaitWhile(() => _mainAnimation.isPlaying);
     }
 
-    private IEnumerator ShowChangeAnimation() {
+    private async UniTask ShowChangeAnimation() {
         CloseHints();
         PlayerController.CanInteract = false;
-        StartCoroutine(HideUI());
+        HideUI().Forget();
         _cartAnimation.Play("CartChangeStart");
-        yield return new WaitWhile(() => _cartAnimation.isPlaying);
+        await UniTask.WaitWhile(() => _cartAnimation.isPlaying);
         ChangeSeeds();
-        yield return ShowChangeEndAnimation();
+        await ShowChangeEndAnimation();
     }
 
-    private IEnumerator ShowChangeEndAnimation() {
+    private async UniTask ShowChangeEndAnimation() {
         PlayerController.CanInteract = false;
         _cartAnimation.Play("CartChangeEnd");
-        yield return new WaitWhile(() => _cartAnimation.isPlaying);
+        await UniTask.WaitWhile(() => _cartAnimation.isPlaying);
         _cartAnimation.Play("CartShowUI");
-        StartCoroutine(ShowUI());
+        ShowUI().Forget();
         PlayerController.CanInteract = true;
     }
 
     public void ChangeSeedsByButton() {
         if (InventoryManager.Instance.EnoughMoney(ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost)) {
             InventoryManager.Instance.AddCoins(-1 * ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost);
-            StartCoroutine(ShowChangeAnimation());
+            ShowChangeAnimation().Forget();
             ChangeSeedsButtonActive.SetActive(false);
             SaveLoadManager.CurrentSave.SeedShopData.ChangeButtonActive = false;
         }
@@ -176,8 +176,8 @@ public class SeedShopDialog : DialogWithData<SeedShopData> {
         _ambarOffer.CloseHint();
     }
 
-    public override void Close() {
+    protected override async UniTask Close() {
         CloseHints();
-        base.Close();
+        await base.Close();
     }
 }

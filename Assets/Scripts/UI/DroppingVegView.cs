@@ -21,6 +21,7 @@ namespace UI
             gameObject.SetActive(true);
             CropType = crop;
             _image.sprite = CropsTable.CropByType(crop).VegSprite;
+            gameObject.name = "FallingCrop_" + crop;
         }
         
         public void OnTapped() {
@@ -30,8 +31,12 @@ namespace UI
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
-            _onTouch?.Invoke();
-            _onTouch = null;
+            if (!other.transform.CompareTag("Veg")) {
+                _onTouch?.Invoke();
+                _onTouch = null;
+                transform.tag = "Untagged";
+                _colliders.tag = "Untagged";
+            }
         }
 
         public void ExplodeInRndTime() {

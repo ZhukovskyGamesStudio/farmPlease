@@ -1099,8 +1099,8 @@ GameObject:
   - component: {fileID: 1309786578294474559}
   - component: {fileID: 9092138754612931100}
   - component: {fileID: 1535374167031720898}
-  - component: {fileID: 2243148683652206309}
   - component: {fileID: 3720758102348924618}
+  - component: {fileID: 2243148683652206309}
   m_Layer: 5
   m_Name: Exit Button
   m_TagString: Untagged
@@ -1165,6 +1165,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3720758102348924618
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2493236289598438212}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &2243148683652206309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,7 +1223,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6337549249744704064}
         m_TargetAssemblyTypeName: DialogBase, Assembly-CSharp
-        m_MethodName: Close
+        m_MethodName: CloseByButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1221,18 +1233,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!225 &3720758102348924618
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493236289598438212}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &2649921184509279262
 GameObject:
   m_ObjectHideFlags: 0
@@ -3832,6 +3832,8 @@ GameObject:
   - component: {fileID: 6337549249744704079}
   - component: {fileID: 6337549249744704078}
   - component: {fileID: 6337549249744704064}
+  - component: {fileID: 7445049835184504136}
+  - component: {fileID: -6373443058562216520}
   m_Layer: 5
   m_Name: ToolShopDialog
   m_TagString: Untagged
@@ -3857,8 +3859,8 @@ RectTransform:
   - {fileID: 9221950100810676267}
   - {fileID: 5754191791360565830}
   - {fileID: 2449542685755336475}
-  - {fileID: 1309786578294474559}
   - {fileID: 8766037217918733850}
+  - {fileID: 1309786578294474559}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3896,6 +3898,36 @@ MonoBehaviour:
   _tabletAnimation: {fileID: 8319508831246993312}
   _bagAnimation: {fileID: 9027750653873543312}
   _noToolsText: {fileID: 2720912519858953278}
+--- !u!111 &7445049835184504136
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6337549249744704076}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!114 &-6373443058562216520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6337549249744704076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8409082542674206a3b7ca97f2dacb6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showClip: {fileID: 7400000, guid: b35aeb04ee4d94e4daecef3b4019cfa7, type: 2}
+  _hideClip: {fileID: 7400000, guid: c1003f9a47101a2409867cf5eeb299d0, type: 2}
 --- !u!1 &6337549250643241120
 GameObject:
   m_ObjectHideFlags: 0

@@ -2680,6 +2680,8 @@ GameObject:
   - component: {fileID: 942312361467330985}
   - component: {fileID: 6541105539746387745}
   - component: {fileID: 6690565520696487650}
+  - component: {fileID: -2250988041712490051}
+  - component: {fileID: 3491029802137958933}
   m_Layer: 5
   m_Name: SettingsDialog
   m_TagString: Untagged
@@ -2739,6 +2741,36 @@ MonoBehaviour:
   ResetButton: {fileID: 1310720089777084703}
   Devlog: {fileID: 6293846944512059153}
   _settingsCheatCodeView: {fileID: 8815163787169822231}
+--- !u!111 &-2250988041712490051
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5594179797068049635}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!114 &3491029802137958933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5594179797068049635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8409082542674206a3b7ca97f2dacb6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showClip: {fileID: 7400000, guid: b35aeb04ee4d94e4daecef3b4019cfa7, type: 2}
+  _hideClip: {fileID: 7400000, guid: c1003f9a47101a2409867cf5eeb299d0, type: 2}
 --- !u!1 &6168544429135266011
 GameObject:
   m_ObjectHideFlags: 0
@@ -3626,7 +3658,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6690565520696487650}
         m_TargetAssemblyTypeName: DialogBase, Assembly-CSharp
-        m_MethodName: Close
+        m_MethodName: CloseByButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
