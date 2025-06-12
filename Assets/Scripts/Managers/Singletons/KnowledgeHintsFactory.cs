@@ -11,6 +11,9 @@ public class KnowledgeHintsFactory : MonoBehaviour {
     [SerializeField]
     private SpotlightAnimConfig _noEnergyHint, _toolShopHint, _foodMarketHint, _farmerCommunityHint;
 
+    [SerializeField]
+    private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint;
+
     private void Awake() {
         Instance = this;
     }
@@ -44,13 +47,13 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         }
     }
 
-    public void ShowToolShopHint() {
+    private void ShowToolShopHint() {
         UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
         UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ToolShopButton, _toolShopHint,
             delegate { KnowledgeUtils.AddKnowledge(Knowledge.ToolShop); }, true);
     }
 
-    public void ShowFoodMarketHint() {
+    private void ShowFoodMarketHint() {
         UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
         UIHud.Instance.ShopsPanel.BuildingShopButton.interactable = true;
         UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ShopsPanel.BuildingShopButton.transform, _foodMarketHint,
@@ -83,12 +86,29 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         });
     }
 
-    public void ShowFarmerCommunityHint() {
+    private void ShowFarmerCommunityHint() {
         if (KnowledgeUtils.HasKnowledge(Knowledge.FarmerCommunity)) {
             return;
         }
+
         UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(true);
         UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.FarmerCommunityBadgeView.transform, _farmerCommunityHint,
             delegate { KnowledgeUtils.AddKnowledge(Knowledge.FarmerCommunity); }, true, true);
+    }
+
+    public void TryShowCalendarHint() {
+        UIHud.Instance.TimePanel.gameObject.SetActive(true);
+        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.TimePanel.CalendarButton, _calendarHint, ShowWeatherHint);
+    }
+
+    private void ShowWeatherHint() {
+        BigCalendarDialog bigCalendarDialog = FindAnyObjectByType<BigCalendarDialog>();
+        UIHud.Instance.SpotlightWithText.ShowSpotlight(bigCalendarDialog.transform, _weatherHint,
+            delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); }, true, true);
+    }
+
+    public void TryShowHappeningHint() {
+        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.TimePanel.HappeningButton, _happeningHint,
+            delegate { KnowledgeUtils.AddKnowledge(Knowledge.LilCalendar); }, true);
     }
 }

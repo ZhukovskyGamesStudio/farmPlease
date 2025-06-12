@@ -38,19 +38,29 @@ public class GameSaveProfile {
     
     public  List<BuildingType> BuildingsStored = new  List<BuildingType>();
     
-    public int BuildingPrice;
-
-    public List<Knowledge> KnowledgeList = new List<Knowledge>();
-    public List<string> Unlocked = new List<string>();
+   
     public SettingsData SettingsData = new SettingsData();
     
     public SeedShopData SeedShopData = new SeedShopData();
     public ToolShopData ToolShopData = new ToolShopData();
+    public BuildingShopData BuildingShopData = new BuildingShopData();
+    
+    
+    public List<Knowledge> KnowledgeList = new List<Knowledge>();
+    public List<string> Unlocked = new List<string>();
     public List<string> UnseenCroponomPages = new List<string>();
  
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
-    public BuildingShopData BuildingShopData = new BuildingShopData();
+
+    
+    
+    #region Obsolete
+
+    [Obsolete]
+    public int BuildingPrice;
+
+    #endregion
 }
 
 
