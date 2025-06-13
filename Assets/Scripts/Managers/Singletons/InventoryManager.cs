@@ -98,7 +98,9 @@ namespace Managers {
         }
 
         public void AddCollectedCrop(Crop crop, int amount) {
-            for (int i = 0; i < amount; i++) SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
+            for (int i = 0; i < amount; i++) {
+                SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
+            }
             AddCropPoint(amount);
             UpdateInventoryUI();
         }
@@ -111,7 +113,12 @@ namespace Managers {
             var list = SaveLoadManager.CurrentSave.CropsCollected;
             list = list.OrderBy((_) => Random.Range(0, 1f)).ToList();
             list.RemoveRange(0, amount);
+            SaveLoadManager.CurrentSave.CropsCollected = list;
             AddCropPoint(-amount);
+        }
+        
+        public bool HasEnoughCrops(int amount) {
+            return SaveLoadManager.CurrentSave.CropsCollected.Count >= amount;
         }
 
         public void AddCoins(int amount) {

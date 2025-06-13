@@ -150,6 +150,9 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
     }
 
     public void BuyCropButton(Crop type) {
+        if(!InventoryManager.Instance.HasEnoughCrops(CropPrice)) {
+            return;
+        }
         InventoryManager.Instance.BuyFoodMarket(type, CropPrice);
         UpdateButtonsInteractable();
         UIHud.Instance.BackpackAttention.ShowAttention();
@@ -158,6 +161,9 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
     }
 
     public void BuyToolButton(ToolBuff buff) {
+        if(!InventoryManager.Instance.HasEnoughCrops(ToolPrice)) {
+            return;
+        }
         InventoryManager.Instance.BuyFoodMarket(buff, ToolPrice);
         UIHud.Instance.BackpackAttention.ShowAttention();
         UpdateButtonsInteractable();
@@ -166,6 +172,9 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
     }
 
     public void BuyBuildingButton(BuildingType type) {
+        if(!InventoryManager.Instance.HasEnoughCrops(BuildingPrice)) {
+            return;
+        }
         InventoryManager.Instance.BuyFoodMarket(type, BuildingPrice);
         _data.BuildingPriceIndex++;
         UIHud.Instance.BackpackAttention.ShowAttention();
