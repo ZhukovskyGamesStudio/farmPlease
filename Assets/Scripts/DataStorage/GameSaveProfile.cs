@@ -49,7 +49,9 @@ public class GameSaveProfile {
     public List<Knowledge> KnowledgeList = new List<Knowledge>();
     public List<string> Unlocked = new List<string>();
     public List<string> UnseenCroponomPages = new List<string>();
- 
+
+
+    public QuestsData QuestsData = new QuestsData();
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
 
@@ -80,4 +82,10 @@ public class SeedShopData {
     public Crop SecondOffer = Crop.Tomato;
     public Crop AmbarCrop = Crop.None;
     public bool ChangeButtonActive = true;
+}
+
+[Serializable]
+public class QuestsData {
+    public int MainQuestProgressIndex;
+    public QuestData FirstQuest, SecondQuest;
 }

@@ -114,7 +114,7 @@ TextureImporter:
       213: -4967419045219107978
     second: BuildingTiles_20
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -131,11 +131,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -174,8 +175,10 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -185,9 +188,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -197,10 +201,11 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: iPhone
+  - serializedVersion: 4
+    buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -209,9 +214,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -221,6 +227,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -237,6 +257,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -258,6 +279,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.399131}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -279,6 +301,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.399131}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -300,6 +323,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.399131}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -321,6 +345,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -342,6 +367,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -363,6 +389,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.399131}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -384,6 +411,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.399131}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -405,6 +433,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -426,6 +455,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.27653083}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -447,6 +477,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.27585995}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -468,6 +499,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.399084, y: 0.27692834}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -489,6 +521,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.3954855, y: 0.27692834}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -510,6 +543,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -531,6 +565,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.3994056, y: 0.38086408}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -552,6 +587,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -573,6 +609,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -594,6 +631,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -615,6 +653,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -636,6 +675,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -657,6 +697,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.39907926, y: 0.4212229}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -678,6 +719,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.40021336, y: 0.2664083}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -699,6 +741,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.40021336, y: 0.2664083}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -720,6 +763,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.3990804, y: 0.26641032}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -741,6 +785,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.39907938, y: 0.2664083}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -762,6 +807,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -783,6 +829,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -804,6 +851,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -825,6 +873,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.3989733, y: 0.3481744}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -846,6 +895,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.4000716, y: 0.3481744}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -867,6 +917,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.39897358, y: 0.3481744}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -888,6 +939,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -909,6 +961,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -930,6 +983,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.8}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -951,6 +1005,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.4001833, y: 0.44530487}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -972,6 +1027,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.40018323, y: 0.378891}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -993,6 +1049,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.39881566, y: 0.38084412}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -1003,7 +1060,118 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: QuestBoard1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 115
+        width: 48
+        height: 22
+      alignment: 9
+      pivot: {x: 0.125, y: 0.36395714}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 524cbc8f27d865e42a23746739d44e26
+      internalID: -1841381182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QuestBoard2
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 127
+        width: 12
+        height: 10
+      alignment: 9
+      pivot: {x: 0.5, y: 0.8}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4aaa1735d75e824097df4f625c0eb01
+      internalID: 271510052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QuestBoard3
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 115
+        width: 12
+        height: 10
+      alignment: 9
+      pivot: {x: 0.5, y: 0.8}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5fcde6be78f8b74b80ae5da28b11602
+      internalID: -1526293495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QuestBoard4
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 103
+        width: 12
+        height: 10
+      alignment: 9
+      pivot: {x: 0.5, y: 0.8}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8abef90a5c2e7e74ba4b3452fbc6b184
+      internalID: 1874124901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QuestBoard5
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 103
+        width: 12
+        height: 10
+      alignment: 9
+      pivot: {x: 0.5, y: 0.8}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62dd46cf79c6c2c498c1805c5bb892e6
+      internalID: -519969399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -1013,47 +1181,53 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      BuildingTiles_3: 5143322180464893802
-      BuildingTiles_8: 5713712627778180738
-      BuildingTiles_6: 7137012105514435482
-      BuildingTiles 1_14: -9128938703640199872
-      BuildingTiles_16: -6246765640503690244
-      BuildingTiles 1_1: -1509637003003740927
-      BuildingTiles 1_3: -1034681083614247531
-      BuildingTiles_7: 4335571655517119993
-      BuildingTiles_13: -7859047608028917976
-      BuildingTiles_15: 3377532937985234628
-      BuildingTiles_11: -978509854611203789
-      BuildingTiles 1_12: 8059956379485479490
-      BuildingTiles_17: 5767350284994774245
       BuildingTiles 1_0: -1263910234874013345
-      BuildingTiles 1_4: -2045188453604874248
-      BuildingTiles_9: -3445291366580934290
-      BuildingTiles 1_6: -2054381794302039703
-      BuildingTiles 1_13: 7528697892276817410
+      BuildingTiles 1_1: -1509637003003740927
       BuildingTiles 1_10: 109427901894356786
-      BuildingTiles 1_5: -9179728846183744066
-      BuildingTiles_19: -7030076155710783235
-      BuildingTiles_1: 666783251557971320
-      BuildingTiles_20: -4967419045219107978
-      BuildingTiles 1_9: 2179618117696504969
-      BuildingTiles_10: -7424751472599704963
-      BuildingTiles_2: 4101377872165705397
-      BuildingTiles_12: 1698137113750544083
-      BuildingTiles_0: 6660204393028262063
-      BuildingTiles_4: -6879019366789656116
-      BuildingTiles_5: 724351973930536319
       BuildingTiles 1_11: 8345760750155180418
-      BuildingTiles_14: -1297842433246518986
-      BuildingTiles_18: 1453499750968355403
+      BuildingTiles 1_12: 8059956379485479490
+      BuildingTiles 1_13: 7528697892276817410
+      BuildingTiles 1_14: -9128938703640199872
+      BuildingTiles 1_15: 974354389108208266
       BuildingTiles 1_2: 5314009889849170462
+      BuildingTiles 1_3: -1034681083614247531
+      BuildingTiles 1_4: -2045188453604874248
+      BuildingTiles 1_5: -9179728846183744066
+      BuildingTiles 1_6: -2054381794302039703
       BuildingTiles 1_7: -2997516524651375177
       BuildingTiles 1_8: -5392936906513513694
-      BuildingTiles 1_15: 974354389108208266
-  spritePackingTag: 
+      BuildingTiles 1_9: 2179618117696504969
+      BuildingTiles_0: 6660204393028262063
+      BuildingTiles_1: 666783251557971320
+      BuildingTiles_10: -7424751472599704963
+      BuildingTiles_11: -978509854611203789
+      BuildingTiles_12: 1698137113750544083
+      BuildingTiles_13: -7859047608028917976
+      BuildingTiles_14: -1297842433246518986
+      BuildingTiles_15: 3377532937985234628
+      BuildingTiles_16: -6246765640503690244
+      BuildingTiles_17: 5767350284994774245
+      BuildingTiles_18: 1453499750968355403
+      BuildingTiles_19: -7030076155710783235
+      BuildingTiles_2: 4101377872165705397
+      BuildingTiles_20: -4967419045219107978
+      BuildingTiles_3: 5143322180464893802
+      BuildingTiles_4: -6879019366789656116
+      BuildingTiles_5: 724351973930536319
+      BuildingTiles_6: 7137012105514435482
+      BuildingTiles_7: 4335571655517119993
+      BuildingTiles_8: 5713712627778180738
+      BuildingTiles_9: -3445291366580934290
+      QuestBoard1: -1841381182
+      QuestBoard2: 271510052
+      QuestBoard3: -1526293495
+      QuestBoard4: 1874124901
+      QuestBoard5: -519969399
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

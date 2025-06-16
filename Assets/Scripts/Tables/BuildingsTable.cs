@@ -26,7 +26,8 @@ namespace Tables
         Sprinkler,
         SprinklerTarget,
         SeedDoubler,
-        Tractor
+        Tractor,
+        QuestBoard
     }
 
     [Serializable]

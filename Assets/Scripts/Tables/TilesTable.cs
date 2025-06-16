@@ -186,7 +186,8 @@ namespace Tables {
         PeanutSeed,
         WateredPeanutSeed,
         Peanut1,
-        PeanutDead
+        PeanutDead,
+        QuestBoard1
     }
 
     [Serializable]
@@ -875,6 +876,9 @@ namespace Tables {
                             weedArea.Remove(tile);
                         }
 
+                        break;
+                    case TileType.QuestBoard1:
+                        QuestsManager.Instance.OpenQuestsDialog();
                         break;
                 }
 

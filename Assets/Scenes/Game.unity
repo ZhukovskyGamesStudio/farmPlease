@@ -675,6 +675,7 @@ MonoBehaviour:
   - {fileID: 1898537855551336910, guid: 6cf17835c268c8c45a884dbe473e8d76, type: 3}
   - {fileID: 3261193404835654018, guid: 7f622081cb160ea4b9499d10cac59f17, type: 3}
   - {fileID: 6244783630980428701, guid: 252f6bea5152a4040a831c5ff0c0e33d, type: 3}
+  - {fileID: 2127436884013350514, guid: a3ca4b8e42837d6448d47077a19f6f94, type: 3}
 --- !u!1 &318909049
 GameObject:
   m_ObjectHideFlags: 0
@@ -2753,6 +2754,7 @@ Transform:
   - {fileID: 1388346012}
   - {fileID: 111457050}
   - {fileID: 777128039}
+  - {fileID: 1606096523}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &946168249 stripped
@@ -4340,6 +4342,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591939547}
   m_CullTransparentMesh: 1
+--- !u!1 &1606096522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1606096523}
+  - component: {fileID: 1606096524}
+  m_Layer: 0
+  m_Name: QuestsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1606096523
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606096522}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 943775798}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1606096524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606096522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de28ea0b9ab94e45ab05641629af5fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainQuests:
+  - {fileID: 11400000, guid: 69e07b8ca31299743abb7a636d227ce2, type: 2}
+  _generatableQuests:
+  - {fileID: 11400000, guid: 27f1e1c561dcf824d81488057a910d50, type: 2}
 --- !u!1 &1615083938
 GameObject:
   m_ObjectHideFlags: 0

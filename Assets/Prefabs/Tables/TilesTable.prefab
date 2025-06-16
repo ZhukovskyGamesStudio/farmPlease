@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6464801070664477607}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 304.51477, y: 165.04814, z: -64.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5479262302028550781
 MonoBehaviour:
@@ -2116,6 +2116,28 @@ MonoBehaviour:
       CanBeErosioned: 0
       CanBeClicked: 0
       TIndex: 3
+      IsBuilding: 1
+      BuildingType: -1
+  - name: QuestBoard
+    isBuilding: 0
+    crop: 0
+    BuildingType: 6
+    tiledatas:
+    - type: 117
+      TileBase: {fileID: 11400000, guid: 7ef305b1a034c4646897caf7e99755df, type: 2}
+      CanBeHoed: 0
+      CanBeSeeded: 0
+      CanBeWatered: 0
+      WaterSwitch: 0
+      CanBeCollected: 0
+      cropCollected: 0
+      collectAmount: 0
+      crop: 0
+      CanBeNewDayed: 0
+      NewDaySwitch: 0
+      CanBeErosioned: 0
+      CanBeClicked: 1
+      TIndex: 0
       IsBuilding: 1
       BuildingType: -1
   DictionaryEntrancies: 116

@@ -127,6 +127,7 @@ namespace Managers {
             }
 
             MigrationUtils.TryMigrateToBuildingShopData(CurrentSave);
+            MigrationUtils.TryMigrateToQuestsData(CurrentSave);
 
             if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 if (string.IsNullOrEmpty(CurrentSave.UserId)) {
