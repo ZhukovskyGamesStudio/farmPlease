@@ -8,7 +8,10 @@ public class ProfileView : MonoBehaviour {
 
     [field: SerializeField]
     public AnimatableProgressbar XpProgressBar { get; private set; }
-    
+
+
+    [SerializeField]
+    private Image _levelIcon;
 
     public bool IsLockedByFtue;
 
@@ -16,6 +19,7 @@ public class ProfileView : MonoBehaviour {
         int curLevelMin = XpUtils.XpByLevel(profile.CurrentLevel);
         int nextLevel = XpUtils.XpByLevel(profile.CurrentLevel + 1);
         XpProgressBar.SetAmount(profile.Xp - curLevelMin, nextLevel - curLevelMin);
+        _levelIcon.sprite = ConfigsManager.Instance.LevelConfigs[profile.CurrentLevel].LevelMiniIcon;
     }
 
     public void OnClick() {

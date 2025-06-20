@@ -16,13 +16,13 @@ public static class MigrationUtils {
     }
 
     public static void TryMigrateToQuestsData(GameSaveProfile save) {
-        var pos = new Vector2Int(-2, 3);
+       /* var pos = new Vector2Int(-2, 3);
 
         if (save.TilesData.Tiles.ContainsKey(pos)) {
             save.TilesData.Tiles[pos] = TileType.QuestBoard1;
         } else {
             save.TilesData.Tiles.Add(pos, TileType.QuestBoard1);
-        }
+        }*/
        
         /*
         if (save.TilesData.Tiles.Values.All(v => v != TileType.QuestBoard1)) {
