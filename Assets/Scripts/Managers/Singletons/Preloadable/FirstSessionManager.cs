@@ -115,6 +115,7 @@ namespace Managers {
             EnableUiParts();
             KnowledgeUtils.AddKnowledge(Knowledge.Training);
             SaveLoadManager.TryCreateFirstSave();
+            QuestsUtils.PlaceQuestBoard();
         }
 
         private void DisableUiParts() {
