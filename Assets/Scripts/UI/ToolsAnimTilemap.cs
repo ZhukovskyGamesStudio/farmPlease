@@ -9,6 +9,8 @@ namespace UI
 
         public TileBase hoeAnimation;
         public TileBase watercanAnimation;
+        [SerializeField]
+        public TileBase _scytheAnimation,_rainAnimation;
 
         public float animationTime;
 
@@ -25,6 +27,12 @@ namespace UI
                 case AnimationType.Watercan:
                     AnimationsTilemap.SetTile(vec3, watercanAnimation);
                     break;
+                case AnimationType.Scythe:
+                    AnimationsTilemap.SetTile(vec3, _scytheAnimation);
+                    break;
+                case AnimationType.Rain:
+                    AnimationsTilemap.SetTile(vec3, _rainAnimation);
+                    break;
             }
 
             yield return new WaitForSeconds(animationTime);
@@ -37,6 +45,8 @@ namespace UI
     public enum AnimationType {
         None,
         Hoe,
-        Watercan
+        Watercan,
+        Scythe,
+        Rain
     }
 }

@@ -349,7 +349,7 @@ namespace Tables {
                         if (neighborsL.Count > 0) {
                             SmartTile tile = neighborsL[Random.Range(0, neighborsL.Count)];
                             neighborsL.Remove(tile);
-                            yield return StartCoroutine(tile.OnWatered(animtime));
+                            yield return StartCoroutine(tile.OnWatered(animtime,true));
                         }
 
                     break;
@@ -525,20 +525,20 @@ namespace Tables {
             BecomeActive();
         }
 
-        public IEnumerator OnWatered(float animtime) {
+        public IEnumerator OnWatered(float animtime, bool isRain = false) {
             BecomeInactive();
 
             SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
             if (TilesTable.TileByType(type).CanBeWatered) {
-                SwitchType(TilesTable.TileByType(type).WaterSwitch, AnimationType.Watercan);
+                SwitchType(TilesTable.TileByType(type).WaterSwitch, isRain ?AnimationType.Rain : AnimationType.Watercan);
             } else {
                 TileData data = TilesTable.TileByType(type);
                 if (data.TIndex == 1)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnWatered(animtime));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnWatered(animtime,isRain));
                 else if (data.TIndex == 2)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnWatered(animtime));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnWatered(animtime,isRain));
                 else if (data.TIndex == 3)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime,isRain));
                 else
                     switch (type) {
                         case TileType.Dandellion1:
@@ -564,13 +564,13 @@ namespace Tables {
             yield return new WaitForSeconds(animtime);
 
             if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeWatered())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnWatered(animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnWatered(animtime,isRain);
 
             if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeWatered())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnWatered(animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnWatered(animtime,isRain);
 
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeWatered())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime,isRain);
 
             Audio.Instance.PlaySound(Sounds.Watered);
             BecomeActive();
@@ -595,7 +595,7 @@ namespace Tables {
                 var amount = TilesTable.TileByType(type).collectAmount * multiplier;
                 HarvestCrop(crop, amount);
 
-                SwitchType(TileType.Soil, AnimationType.Hoe);
+                SwitchType(TileType.Soil, AnimationType.Scythe);
             } else {
                 switch (type) {
                     case TileType.Weed:
@@ -605,7 +605,7 @@ namespace Tables {
                             HarvestCrop(Crop.Weed, 1 * multiplier);
                         }
 
-                        SwitchType(TileType.Soil, AnimationType.Hoe);
+                        SwitchType(TileType.Soil, AnimationType.Scythe);
                         break;
 
                     case TileType.Onion1:
@@ -621,7 +621,7 @@ namespace Tables {
                         multiplier *= counter;
 
                         HarvestCrop(Crop.Onion, 1 * multiplier);
-                        SwitchType(TileType.Soil, AnimationType.Hoe);
+                        SwitchType(TileType.Soil, AnimationType.Scythe);
                         break;
 
                     case TileType.Peanut1:
@@ -632,7 +632,7 @@ namespace Tables {
                             if (soilTiles[0].CanBeCollected())
                                 yield return soilTiles[0].OnCollected(false, false, animtime);
 
-                        SwitchType(TileType.Soil, AnimationType.Hoe);
+                        SwitchType(TileType.Soil, AnimationType.Scythe);
                         break;
                 }
             }
@@ -739,7 +739,7 @@ namespace Tables {
 
                     case TileType.SprinklerTarget:
                         if (_tilemap.GetHexNeighbors(_position)[4].CanBeWatered())
-                            yield return StartCoroutine(_tilemap.GetHexNeighbors(_position)[4].OnWatered(animtime));
+                            yield return StartCoroutine(_tilemap.GetHexNeighbors(_position)[4].OnWatered(animtime,true));
 
                         break;
 
@@ -889,11 +889,15 @@ namespace Tables {
             BecomeActive();
         }
 
-        public void SwitchType(TileType newType, AnimationType animationType = AnimationType.None) {
-            type = newType;
-            _tilemap.PlaceTile(_position, type);
+        public void SwitchType(TileType newType, AnimationType animationType) {
+            SwitchType(newType);
 
             _tilemap.toolsAnimTilemap.StartAnimationInCoord(_position, animationType);
+        }
+        
+        public void SwitchType(TileType newType) {
+            type = newType;
+            _tilemap.PlaceTile(_position, type);
         }
 
         public void HarvestCrop(Crop croptype, int amount) {

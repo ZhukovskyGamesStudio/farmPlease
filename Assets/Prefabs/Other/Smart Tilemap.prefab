@@ -280,7 +280,6 @@ MonoBehaviour:
   MainTilemap: {fileID: 2300245704709350795}
   BuildingTilemap: {fileID: 2300245702825391320}
   toolsAnimTilemap: {fileID: 2300245704503275591}
-  seedShop: {fileID: 0}
   tilesTablePrefab: {fileID: 5479262302028550781, guid: 70d5d208271772b45b66067c401c14d7,
     type: 3}
   TilesHolder: {fileID: 2300245704113863782}
@@ -454,7 +453,7 @@ Tilemap:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -24, y: -29, z: 0}
   m_Size: {x: 44, y: 61, z: 1}
-  m_TileAnchor: {x: 0.17, y: 0.27, z: 0}
+  m_TileAnchor: {x: 0, y: 0.27, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
     e00: 1
@@ -538,8 +537,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimationsTilemap: {fileID: 2300245704503275590}
-  hoeAnimation: {fileID: 11400000, guid: de2cdef080c6f5f4ea7492c6ef84fc11, type: 2}
+  hoeAnimation: {fileID: 11400000, guid: 1e631da2fa62add418fa13b6e032cc2a, type: 2}
   watercanAnimation: {fileID: 11400000, guid: 2cbf117db277c894f8a056bf1676d31a, type: 2}
+  _scytheAnimation: {fileID: 11400000, guid: 33e3ab145dd88684e830c713821169f5, type: 2}
+  _rainAnimation: {fileID: 11400000, guid: d55725a95dcfaa4489ff5c0aa6ca07a7, type: 2}
   animationTime: 0.5
 --- !u!1 &2300245704709350798
 GameObject:

@@ -413,7 +413,7 @@ public class SmartTilemap : MonoBehaviour {
         Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
         foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanBeWatered())
-                yield return StartCoroutine(smartTile.Value.OnWatered(animtime / 5));
+                yield return StartCoroutine(smartTile.Value.OnWatered(animtime / 5f, true));
     }
 
     public IEnumerator Insects() {
