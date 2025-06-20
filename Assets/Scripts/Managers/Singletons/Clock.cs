@@ -66,8 +66,9 @@ namespace Managers {
                 UIHud.Instance.ClockView.SetClockArrowRotation(-360 * (cur / timeLeft));
                 yield return new WaitForEndOfFrame();
             }
+
             _realtimeClockCoroutine = null;
-            
+
             if (Save.ClockEnergy < MAX_ENERGY && !GameModeManager.Instance.InfiniteClockEnergy) {
                 TryRefillForRealtimePassed();
             }
@@ -111,16 +112,19 @@ namespace Managers {
             if (Save.ClockEnergy == MAX_ENERGY) {
                 return;
             }
-            if( _realtimeClockCoroutine!= null) {
+
+            if (_realtimeClockCoroutine != null) {
                 StopCoroutine(_realtimeClockCoroutine);
             }
+
             long now = NowTotalMilliseconds;
             long last = Save.LastClockRefilledTimestamp;
             TimeSpan timeSpan = TimeSpan.FromMilliseconds(now - last);
 
             int refillAmount = Mathf.FloorToInt((float)(timeSpan / TimespanForRefillOneEnergy));
             if (refillAmount <= 0) {
-                _realtimeClockCoroutine = StartCoroutine(ClockRealtimeCoroutine((float)(TimespanForRefillOneEnergy.TotalSeconds - timeSpan.TotalSeconds)));
+                _realtimeClockCoroutine =
+                    StartCoroutine(ClockRealtimeCoroutine((float)(TimespanForRefillOneEnergy.TotalSeconds - timeSpan.TotalSeconds)));
                 return;
             }
 

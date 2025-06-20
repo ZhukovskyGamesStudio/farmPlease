@@ -25,6 +25,11 @@ namespace Managers {
             KnowledgeHintsFactory.Instance.CheckAllUnshownHints();
             UIHud.Instance.UpdateLockedUI();
             UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(false);
+            UIHud.Instance.OpenCroponomButton.UpdateGoldenState();
+            UIHud.Instance.BatteryView.UpdateGoldenState();
+            UIHud.Instance.FastPanelScript.UpdateGoldenScytheState();
+            UIHud.Instance.ClockView.UpdateGoldenState();
+            
             if (!string.IsNullOrEmpty(SaveLoadManager.CurrentSave.UserId)) {
                 FarmerCommunityManager.Instance.PreloadNextFarm().Forget();
             }

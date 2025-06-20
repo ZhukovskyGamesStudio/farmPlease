@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System.Collections.Generic;
+using Managers;
 using ScriptableObjects;
 using Tables;
 using TMPro;
@@ -13,14 +14,28 @@ namespace UI {
         public TextMeshProUGUI SeedText;
         public Image[] SlotsImages;
         public Sprite[] SlotsNormal, SlotsPressed;
+
+        [SerializeField]
+        private List<FastPanelSlotView> _fastPanelSlots;
+
+        [SerializeField]
+        private FastPanelSlotView _normalScythe, _goldenScythe;
+
         private Backpack _backpack;
         private Image _calendarImage;
-
         private Crop _curCropSeed;
 
         public void Init() {
             _calendarImage = UIHud.Instance.TimePanel.CalendarImage;
             _backpack = UIHud.Instance.Backpack;
+        }
+
+        public void UpdateGoldenScytheState() {
+            bool isGolden = RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData);
+            _goldenScythe.gameObject.SetActive(isGolden);
+            _normalScythe.gameObject.SetActive(!isGolden);
+
+            _fastPanelSlots[3] = isGolden ? _goldenScythe : _normalScythe;
         }
 
         //Переделать в единый метод для всех инструментов
@@ -64,10 +79,11 @@ namespace UI {
         }
 
         public void UpdateHover(int index) {
-            for (int i = 0; i < toolButtons.Length; i++)
-                SlotsImages[i].sprite = SlotsNormal[i];
+            foreach (var VARIABLE in _fastPanelSlots) {
+                VARIABLE.SetIsPressed(false);
+            }
 
-            SlotsImages[index].sprite = SlotsPressed[index];
+            _fastPanelSlots[index].SetIsPressed(true);
         }
 
         public void ChangeSeedFastPanel(Crop crop, int amount) {

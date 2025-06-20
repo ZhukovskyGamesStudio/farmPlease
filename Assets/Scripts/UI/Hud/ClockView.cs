@@ -27,8 +27,17 @@ namespace UI {
         [SerializeField]
         private AnimationClip _timeStillLeftClip;
 
+        [SerializeField]
+        private GameObject _goldenClock;
+        
+
         public bool IsLockedByFtue { get; set; }
 
+        public void UpdateGoldenState() {
+            _goldenClock.SetActive(RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData));
+        }
+        
+        
         public void ClockPressedButton() {
             if (IsLockedByFtue) {
                 return;

@@ -44,7 +44,7 @@ public class GameSaveProfile {
     public SeedShopData SeedShopData = new SeedShopData();
     public ToolShopData ToolShopData = new ToolShopData();
     public BuildingShopData BuildingShopData = new BuildingShopData();
-    
+    public RealShopData RealShopData = new RealShopData(); 
     
     public List<Knowledge> KnowledgeList = new List<Knowledge>();
     public List<string> Unlocked = new List<string>();

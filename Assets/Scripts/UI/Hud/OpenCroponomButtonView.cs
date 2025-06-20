@@ -1,13 +1,27 @@
 using System;
+using Managers;
 using Tables;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OpenCroponomButtonView : MonoBehaviour {
     [SerializeField]
     private GameObject _cropsTag, _toolsTag, _weatherTag, _buildingsTag;
 
+    [SerializeField]
+    private Image _buttonImage;
+
+    [SerializeField]
+    private Sprite _normalSprite, _goldenSprite;
+
     private void Start() {
         UpdateTags();
+    }
+
+    public void UpdateGoldenState() {
+        _buttonImage.sprite = SaveLoadManager.CurrentSave.RealShopData.HasGoldenCroponom
+            ? _goldenSprite
+            : _normalSprite;
     }
 
     public void OnClick() { }

@@ -1,20 +1,39 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class BatteryView : MonoBehaviour {
-        public Image[] chargeImages;
-        public Sprite green, red;
-        private Coroutine _coroutine;
+        [SerializeField]
+        private List<Image> _chargeImages, _goldenChargeImages;
+      
+        [SerializeField]
+        private Sprite _green, _red;
+        
+        [SerializeField]
+        private GameObject _normalBattery, _goldenBattery;
+   
 
         [SerializeField]
         private Animation _animation;
 
         [SerializeField]
         private AnimationClip _zeroCharge, _wasteOne, _hasEnergy;
+        private Coroutine _coroutine;
 
+        private List<Image> CurrentChargeImages => _isGolden ? _goldenChargeImages : _chargeImages;
+        private bool _isGolden;
+
+        public void UpdateGoldenState() {
+            _isGolden = SaveLoadManager.CurrentSave.RealShopData.HasGoldenBattery;
+            _normalBattery.SetActive(!_isGolden);
+            _goldenBattery.SetActive(_isGolden);
+            UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
+        }
+        
         public void NoEnergy() {
             EndCoroutine();
             if (_coroutine != null)
@@ -25,31 +44,31 @@ namespace UI
         private void EndCoroutine() {
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
-            for (int i = 0; i < chargeImages.Length; i++) chargeImages[i].sprite = green;
+            for (int i = 0; i < CurrentChargeImages.Count; i++) CurrentChargeImages[i].sprite = _green;
         }
 
         private IEnumerator NoEnergyCoroutine() {
-            for (int i = 0; i < chargeImages.Length; i++) {
-                chargeImages[i].enabled = true;
-                chargeImages[i].sprite = red;
+            for (int i = 0; i < CurrentChargeImages.Count; i++) {
+                CurrentChargeImages[i].enabled = true;
+                CurrentChargeImages[i].sprite = _red;
             }
             _animation.Stop();
             _animation.Play(_zeroCharge.name);
             yield return new WaitForSeconds(0.30f);
 
-            for (int i = 0; i < chargeImages.Length; i++)
-                chargeImages[i].enabled = false;
+            for (int i = 0; i < CurrentChargeImages.Count; i++)
+                CurrentChargeImages[i].enabled = false;
 
             yield return new WaitForSeconds(0.30f);
 
-            for (int i = 0; i < chargeImages.Length; i++)
-                chargeImages[i].enabled = true;
+            for (int i = 0; i < CurrentChargeImages.Count; i++)
+                CurrentChargeImages[i].enabled = true;
 
             yield return new WaitForSeconds(0.30f);
 
-            for (int i = 0; i < chargeImages.Length; i++) {
-                chargeImages[i].enabled = false;
-                chargeImages[i].sprite = green;
+            for (int i = 0; i < CurrentChargeImages.Count; i++) {
+                CurrentChargeImages[i].enabled = false;
+                CurrentChargeImages[i].sprite = _green;
             }
         }
 
@@ -62,11 +81,11 @@ namespace UI
                 amount = 0;
             }
 
-            for (int i = 0; i < chargeImages.Length; i++)
+            for (int i = 0; i < CurrentChargeImages.Count; i++)
                 if (i < amount)
-                    chargeImages[i].enabled = true;
+                    CurrentChargeImages[i].enabled = true;
                 else
-                    chargeImages[i].enabled = false;
+                    CurrentChargeImages[i].enabled = false;
         }
 
         public void ShowHasEnergyAnimation() {
