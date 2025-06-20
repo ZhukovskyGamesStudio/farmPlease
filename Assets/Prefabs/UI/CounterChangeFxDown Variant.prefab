@@ -5,8 +5,19 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 679118312577467819, guid: f9788f6e6fc0e274da4018ea950ce783,
+        type: 3}
+      propertyPath: _clip
+      value: 
+      objectReference: {fileID: 7400000, guid: 67187ebf50157b04598c869a4a06d594, type: 2}
+    - target: {fileID: 1939208360249968832, guid: f9788f6e6fc0e274da4018ea950ce783,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2743232244359033003, guid: f9788f6e6fc0e274da4018ea950ce783,
         type: 3}
       propertyPath: m_Pivot.x
@@ -132,6 +143,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: CounterChangeFxDown Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6075139315128116609, guid: f9788f6e6fc0e274da4018ea950ce783,
+        type: 3}
+      propertyPath: m_Animations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075139315128116609, guid: f9788f6e6fc0e274da4018ea950ce783,
+        type: 3}
+      propertyPath: 'm_Animations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7400000, guid: 67187ebf50157b04598c869a4a06d594, type: 2}
+    - target: {fileID: 6075139315128116609, guid: f9788f6e6fc0e274da4018ea950ce783,
+        type: 3}
+      propertyPath: 'm_Animations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7400000, guid: 67187ebf50157b04598c869a4a06d594, type: 2}
     - target: {fileID: 7360693469295600178, guid: f9788f6e6fc0e274da4018ea950ce783,
         type: 3}
       propertyPath: m_text
@@ -183,4 +209,7 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9788f6e6fc0e274da4018ea950ce783, type: 3}

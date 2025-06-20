@@ -133,6 +133,11 @@ namespace Managers {
                 amount *= 10;
             }
 
+            if (SaveLoadManager.CurrentSave.RealShopData.HasGoldenCroponom) {
+                _uiHud.OpenCroponomButton.SpawnAdditionalXp(amount);
+                amount *= 2;
+            }
+          
             SaveLoadManager.CurrentSave.Xp += amount;
             UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
             CheckNewLevelDialog();

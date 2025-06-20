@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class NewLevelDialog : DialogWithData<int> {
 
     public override void SetData(int newLevel) {
         _previousLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel - 1];
-        _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel ];
+        _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel];
 
         _previousLevelName.text = ConfigsManager.Instance.LevelConfigs[newLevel - 1].LevelName;
         _nextLevelName.text = ConfigsManager.Instance.LevelConfigs[newLevel].LevelName;
@@ -30,8 +31,14 @@ public class NewLevelDialog : DialogWithData<int> {
     }
 
     public override async UniTask Show(Action onClose) {
+        UIHud.Instance.ProfileView.Hide();
         await base.Show(onClose);
         _levelAnimation.Play(_previousIdleClip.name);
+    }
+
+    protected override UniTask Close() {
+        UIHud.Instance.ProfileView.Show();
+        return base.Close();
     }
 
     public void Click() {

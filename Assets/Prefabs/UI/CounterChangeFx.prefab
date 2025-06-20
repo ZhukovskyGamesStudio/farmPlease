@@ -151,8 +151,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278229744
-  m_fontColor: {r: 0.93962264, g: 0.60219955, b: 0, a: 1}
+    rgba: 4278227696
+  m_fontColor: {r: 0.9411765, g: 0.5709948, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fxAnimation: {fileID: 6075139315128116609}
-  _animationName: CounterChangeUp
+  _clip: {fileID: 7400000, guid: 67187ebf50157b04598c869a4a06d594, type: 2}
   _image: {fileID: 3094871337579771818}
   _amountText: {fileID: 7360693469295600178}
 --- !u!111 &6075139315128116609
@@ -353,7 +353,7 @@ Animation:
   serializedVersion: 4
   m_Animation: {fileID: 0}
   m_Animations:
-  - {fileID: 7400000, guid: 79b4ac66b09c75a49ac3ed324ac3b6e9, type: 2}
+  - {fileID: 7400000, guid: 67187ebf50157b04598c869a4a06d594, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -380,5 +380,5 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -1608340277
-  m_SortingOrder: 1
+  m_SortingOrder: 100
   m_TargetDisplay: 0

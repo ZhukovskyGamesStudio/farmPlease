@@ -365,8 +365,9 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public IEnumerator CollectTile() {
+        bool hasGoldenScythe = RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData);
         yield return StartCoroutine(
-            _tiles[Playercoord].OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), animtime / 3));
+            _tiles[Playercoord].OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe),hasGoldenScythe, animtime / 3));
         yield return StartCoroutine(HappeningSequence());
     }
 

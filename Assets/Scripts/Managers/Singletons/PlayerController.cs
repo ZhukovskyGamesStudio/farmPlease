@@ -430,8 +430,9 @@ public class PlayerController : Singleton<PlayerController> {
             }
 
             case Tool.Collect: {
-                bool hasWetScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Wetscythe);
-                bool hasGreenScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe);
+                bool hasGoldenScythe = RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData);
+                bool hasWetScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Wetscythe) &&!hasGoldenScythe;
+                bool hasGreenScythe = InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe)&&!hasGoldenScythe;
                 var playerTile = _smartTilemap.GetPlayerTile();
 
                 if (hasWetScythe && _smartTilemap.AvailabilityCheck("water")) {
@@ -459,7 +460,7 @@ public class PlayerController : Singleton<PlayerController> {
                     sequenceId = SaveLoadManager.Instance.StartSequence();
                     didSomething = true;
 
-                    InventoryManager.Instance.AddXp(1);
+                    InventoryManager.Instance.AddXp(hasGoldenScythe ? 3 :1  );
                     yield return StartCoroutine(_smartTilemap.CollectTile());
                 }
 

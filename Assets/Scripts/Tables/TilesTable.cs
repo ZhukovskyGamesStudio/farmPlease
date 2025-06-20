@@ -576,7 +576,8 @@ namespace Tables {
             BecomeActive();
         }
 
-        public IEnumerator OnCollected(bool isPlayerHaveGreenScythe, float animtime) {
+        public IEnumerator OnCollected(bool hasGreenScythe,bool hasGoldenScythe, float animtime) {
+            hasGreenScythe = hasGreenScythe && !hasGoldenScythe;
             BecomeInactive();
             int multiplier = 1;
             SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
@@ -586,6 +587,8 @@ namespace Tables {
                     multiplier = 2;
             if (TimeManager.Instance.IsTodayLoveDay)
                 multiplier *= 2;
+            if (hasGoldenScythe)
+                multiplier *= 3;
 
             if (TilesTable.TileByType(type).collectAmount > 0) {
                 var crop = TilesTable.TileByType(type).cropCollected;
@@ -598,7 +601,7 @@ namespace Tables {
                     case TileType.Weed:
                         UnlockableUtils.Unlock(Crop.Weed);
                         InventoryManager.Instance.AddCoins(1 * multiplier);
-                        if (isPlayerHaveGreenScythe) {
+                        if (hasGreenScythe) {
                             HarvestCrop(Crop.Weed, 1 * multiplier);
                         }
 
@@ -611,7 +614,7 @@ namespace Tables {
                         int counter = 1;
                         for (int i = 0; i < neighborTiles.Length; i++)
                             if (neighborTiles[i].CanBeCollected()) {
-                                yield return neighborTiles[i].OnCollected(false, animtime);
+                                yield return neighborTiles[i].OnCollected(false,false, animtime);
                                 counter++;
                             }
 
@@ -627,7 +630,7 @@ namespace Tables {
 
                         if (soilTiles.Count > 0)
                             if (soilTiles[0].CanBeCollected())
-                                yield return soilTiles[0].OnCollected(false, animtime);
+                                yield return soilTiles[0].OnCollected(false, false, animtime);
 
                         SwitchType(TileType.Soil, AnimationType.Hoe);
                         break;
@@ -637,13 +640,13 @@ namespace Tables {
             yield return new WaitForSeconds(animtime);
 
             if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeCollected())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnCollected(isPlayerHaveGreenScythe, animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
 
             if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeCollected())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnCollected(isPlayerHaveGreenScythe, animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnCollected(hasGreenScythe,hasGoldenScythe, animtime);
 
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeCollected())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnCollected(isPlayerHaveGreenScythe, animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
 
             Audio.Instance.PlaySound(Sounds.Collect);
             BecomeActive();

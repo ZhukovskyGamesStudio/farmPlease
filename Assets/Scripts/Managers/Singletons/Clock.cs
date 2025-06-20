@@ -79,14 +79,15 @@ namespace Managers {
                 Save.LastClockRefilledTimestamp = NowTotalMilliseconds;
             }
 
-            if (_realtimeClockCoroutine == null) {
-                _realtimeClockCoroutine = StartCoroutine(ClockRealtimeCoroutine((float)TimespanForRefillOneEnergy.TotalSeconds));
-            }
-
-            Save.ClockEnergy--;
-
-            if (GameModeManager.Instance.InfiniteClockEnergy)
+            if (GameModeManager.Instance.InfiniteClockEnergy || RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
                 Save.ClockEnergy = MAX_ENERGY;
+            } else {
+                if (_realtimeClockCoroutine == null) {
+                    _realtimeClockCoroutine = StartCoroutine(ClockRealtimeCoroutine((float)TimespanForRefillOneEnergy.TotalSeconds));
+                }
+
+                Save.ClockEnergy--;
+            }
 
             UIHud.Instance.ClockView.SetAmountWithWasteAnimation(Save.ClockEnergy);
             UIHud.Instance.ClockView.SetInteractable(false);

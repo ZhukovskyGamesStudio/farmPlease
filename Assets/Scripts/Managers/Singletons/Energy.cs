@@ -2,13 +2,15 @@
 using UI;
 using ZhukovskyGamesPlugin;
 
-public class Energy : Singleton<Energy> { 
-        
+public class Energy : Singleton<Energy> {
     public const int MAX_ENERGY = 7;
+    public const int MAX_GOLDEN_ENERGY = 14;
     public int CurEnergy => SaveLoadManager.CurrentSave.Energy;
 
+    private static int MaxEnergy => SaveLoadManager.CurrentSave.RealShopData.HasGoldenBattery ? MAX_GOLDEN_ENERGY : MAX_ENERGY;
+
     public static void GenerateEnergy() {
-        SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+        SaveLoadManager.CurrentSave.Energy = MaxEnergy;
     }
 
     public void LoseOneEnergy() {
@@ -18,7 +20,7 @@ public class Energy : Singleton<Energy> {
         }
 
         if (GameModeManager.Instance.InfiniteEnergy) {
-            SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+            SaveLoadManager.CurrentSave.Energy = MaxEnergy;
         }
 
         UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
@@ -26,11 +28,12 @@ public class Energy : Singleton<Energy> {
         if (CurEnergy == 0 && SaveLoadManager.CurrentSave.ClockEnergy == 0) {
             KnowledgeHintsFactory.Instance.TryShowNoEnergyHint();
         }
+
         SaveLoadManager.SaveGame();
     }
 
     public void RefillEnergy() {
-        SetEnergy(MAX_ENERGY);
+        SetEnergy(MaxEnergy);
     }
 
     public void SetEnergy(int newEnergy) {
@@ -39,17 +42,17 @@ public class Energy : Singleton<Energy> {
     }
 
     public void RestoreEnergy() {
-        SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+        SaveLoadManager.CurrentSave.Energy = MaxEnergy;
         UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
     }
 
     public void RestoreEnergy(int amount) {
         SaveLoadManager.CurrentSave.Energy += amount;
-        if (CurEnergy > MAX_ENERGY)
-            SaveLoadManager.CurrentSave.Energy = MAX_ENERGY;
+        if (CurEnergy > MaxEnergy)
+            SaveLoadManager.CurrentSave.Energy = MaxEnergy;
         UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
     }
-        
+
     public bool HasEnergy(bool isShowNoEnergyAnimation = true) {
         if (CurEnergy == 0 && isShowNoEnergyAnimation) {
             UIHud.Instance.NoEnergy();
@@ -58,6 +61,4 @@ public class Energy : Singleton<Energy> {
 
         return CurEnergy > 0;
     }
-
-      
 }

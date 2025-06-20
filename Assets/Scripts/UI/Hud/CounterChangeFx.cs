@@ -8,7 +8,7 @@ public class CounterChangeFx : MonoBehaviour {
     private Animation _fxAnimation;
 
     [SerializeField]
-    private string _animationName;
+    private AnimationClip _clip;
 
     [SerializeField]
     private Image _image;
@@ -27,7 +27,7 @@ public class CounterChangeFx : MonoBehaviour {
     }
 
     private async UniTaskVoid PlayAnimAndDestroy() {
-        _fxAnimation.Play(_animationName);
+        _fxAnimation.Play(_clip.name);
         await UniTask.WaitWhile(() => _fxAnimation.isPlaying);
         Destroy(gameObject);
     }
