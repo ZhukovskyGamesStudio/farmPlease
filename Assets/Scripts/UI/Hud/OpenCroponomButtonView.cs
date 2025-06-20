@@ -44,6 +44,9 @@ public class OpenCroponomButtonView : MonoBehaviour {
     }
 
     public void SpawnAdditionalXp(int amount) {
+        if (DialogsManager.Instance.IsDialogShown) {
+            return;
+        }
         CounterChangeFx fx = Instantiate(_changeUpFx, _fxContainer.position, Quaternion.identity,_fxContainer);
         fx.Init(_xpIcon, amount);
     }

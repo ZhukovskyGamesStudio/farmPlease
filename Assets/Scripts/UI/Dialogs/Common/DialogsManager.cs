@@ -10,6 +10,7 @@ public class DialogsManager : MonoBehaviour {
     private Queue<DialogBase> _dialogQueue = new Queue<DialogBase>();
     public static DialogsManager Instance { get; private set; }
     private DialogBase _shownDialog;
+    public bool IsDialogShown => _shownDialog != null;
 
     private void Awake() {
         Instance = this;

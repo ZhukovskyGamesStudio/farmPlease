@@ -6,6 +6,8 @@ namespace UI {
     public class ShopsPanel : MonoBehaviour {
         public Button ScalesButton, SeedShopButton, ToolShopButton, BuildingShopButton;
 
+        public ScalesOpenButton ScalesOpenButton;
+        
         public void OpenSeedshop() {
             DialogsManager.Instance.ShowDialogWithData(typeof(SeedShopDialog), SaveLoadManager.CurrentSave.SeedShopData);
         }

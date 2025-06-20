@@ -44,19 +44,35 @@ namespace UI {
             //transform.position = endPos;
 
             yield return new WaitForSeconds(0.5f);
-            time = 0;
             startPos = transform.position;
-            endPos = UIHud.Instance.Backpack.transform.position;
-            float flyTime = 1;
+            endPos = Camera.main.ScreenToWorldPoint(UIHud.Instance.ShopsPanel.ScalesButton.GetComponent<RectTransform>().position);
+            yield return StartCoroutine(FlyParabola(startPos, endPos, 1f, 0.5f));
+            UIHud.Instance.ShopsPanel.ScalesOpenButton.PlayAddedAnimation();
+            Destroy(gameObject);
+        }
+        
+        IEnumerator FlyParabola(Vector3 startPos, Vector3 endPos, float height, float flyTime) {
+            float time = 0f;
+
             while (time < flyTime) {
-                transform.position = Vector3.Lerp(startPos, endPos, time / flyTime);
-                time += Time.deltaTime * 3;
-                yield return new WaitForEndOfFrame();
+                float t = time / flyTime;
+
+                // Горизонтальная интерполяция
+                Vector3 linearPos = Vector3.Lerp(startPos, endPos, t);
+
+                // Добавка "навеса" по оси Y
+                float arc = 4 * height * t * (1 - t); // Парабола: 4h * t * (1 - t)
+
+                // Вносим "навес" только в высоту
+                linearPos.y += arc;
+
+                transform.position = linearPos;
+
+                time += Time.deltaTime;
+                yield return null;
             }
 
             transform.position = endPos;
-            UIHud.Instance.Backpack.ShowAddedAnimation();
-            Destroy(gameObject);
         }
     }
 }

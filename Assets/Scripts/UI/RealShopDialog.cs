@@ -31,6 +31,7 @@ public class RealShopDialog : DialogWithData<RealShopData> {
     public void BuyGoldenClock() {
         SaveLoadManager.CurrentSave.RealShopData.GoldenClockLastBoughtTime = DateTime.Now.ToString(DateTimeFormatInfo.InvariantInfo);
         SaveLoadManager.SaveGame();
+        Clock.Instance.RefillToMaxEnergy();
         UIHud.Instance.ClockView.UpdateGoldenState();
     }
 
