@@ -33,24 +33,28 @@ public class RealShopDialog : DialogWithData<RealShopData> {
         SaveLoadManager.SaveGame();
         Clock.Instance.RefillToMaxEnergy();
         UIHud.Instance.ClockView.UpdateGoldenState();
+        CloseByButton();
     }
 
     public void BuyGoldenScythe() {
         SaveLoadManager.CurrentSave.RealShopData.GoldenScytheLastBoughtTime = DateTime.Now.ToString(DateTimeFormatInfo.InvariantInfo);
         SaveLoadManager.SaveGame();
         UIHud.Instance.FastPanelScript.UpdateGoldenScytheState();
+        CloseByButton();
     }
 
     public void BuyGoldenBattery() {
         SaveLoadManager.CurrentSave.RealShopData.HasGoldenBattery = true;
         SaveLoadManager.SaveGame();
         UIHud.Instance.BatteryView.UpdateGoldenState();
+        CloseByButton();
     }
 
     public void BuyGoldenCroponom() {
         SaveLoadManager.CurrentSave.RealShopData.HasGoldenCroponom = true;
         SaveLoadManager.SaveGame();
         UIHud.Instance.OpenCroponomButton.UpdateGoldenState();
+        CloseByButton();
     }
 }
 
