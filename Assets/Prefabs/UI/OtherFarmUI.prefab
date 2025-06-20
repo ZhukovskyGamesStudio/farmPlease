@@ -461,7 +461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8459861303776041534
 RectTransform:
   m_ObjectHideFlags: 0
@@ -471,15 +471,15 @@ RectTransform:
   m_GameObject: {fileID: 2580780604202301955}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.999982, y: 0.999982, z: 0.999982}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5978531637177000229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -14.5, y: 47.00116}
-  m_SizeDelta: {x: 16, y: 16}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -11.5, y: -28.5}
+  m_SizeDelta: {x: 17, y: 17}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3558868918957568608
 CanvasRenderer:
@@ -800,6 +800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slider: {fileID: 3283883397832362722}
   <XpProgressBar>k__BackingField: {fileID: 6067232801389676321}
+  _levelIcon: {fileID: 4351856201898220134}
   IsLockedByFtue: 0
 --- !u!114 &1679074888082322910
 MonoBehaviour:
@@ -1968,7 +1969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 164.9, y: -13.999989}
+  m_AnchoredPosition: {x: 164.8999, y: -14}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5272245300091374838

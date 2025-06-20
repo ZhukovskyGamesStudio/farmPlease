@@ -102,7 +102,10 @@ namespace Managers {
            
             await ShowSpeakingBot(FtueConfig.EndHint, true);
             await ShowGetNextLevelSpotlight();
-
+            
+#if UNITY_EDITOR
+            SaveLoadManager.CurrentSave.IsEditor = true;
+#endif
             EndFtue();
             _endFtueCts.Cancel();
             _endFtueCts.Dispose();

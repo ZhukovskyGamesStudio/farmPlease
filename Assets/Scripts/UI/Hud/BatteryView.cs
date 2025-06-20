@@ -14,8 +14,8 @@ namespace UI
         private Sprite _green, _red;
         
         [SerializeField]
-        private GameObject _normalBattery, _goldenBattery;
-   
+        private GameObject _normalBattery, _goldenBattery, _normalChargesContainer, _goldenChargesContainer;
+    
 
         [SerializeField]
         private Animation _animation;
@@ -48,6 +48,8 @@ namespace UI
         }
 
         private IEnumerator NoEnergyCoroutine() {
+            _normalChargesContainer.gameObject.SetActive(true);
+            _goldenChargesContainer.gameObject.SetActive(true);
             for (int i = 0; i < CurrentChargeImages.Count; i++) {
                 CurrentChargeImages[i].enabled = true;
                 CurrentChargeImages[i].sprite = _red;
@@ -73,6 +75,8 @@ namespace UI
         }
 
         public void UpdateCharge(int amount) {
+            _normalChargesContainer.gameObject.SetActive(true);
+            _goldenChargesContainer.gameObject.SetActive(true);
             _animation.Stop();
             _animation.Play(_zeroCharge.name);
             EndCoroutine();
