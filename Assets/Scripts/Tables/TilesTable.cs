@@ -187,7 +187,14 @@ namespace Tables {
         WateredPeanutSeed,
         Peanut1,
         PeanutDead,
-        QuestBoard1
+        QuestBoard1_new,
+        QuestBoard1_11,
+        QuestBoard1_10,
+        QuestBoard1_01,
+        QuestBoard1_00,
+        QuestBoard2,
+        QuestBoard3,
+        QuestBoard4
     }
 
     [Serializable]
@@ -880,7 +887,14 @@ namespace Tables {
                         }
 
                         break;
-                    case TileType.QuestBoard1:
+                    case TileType.QuestBoard1_new:
+                    case TileType.QuestBoard1_11:
+                    case TileType.QuestBoard1_10:
+                    case TileType.QuestBoard1_01:
+                    case TileType.QuestBoard1_00:
+                    case TileType.QuestBoard2:
+                    case TileType.QuestBoard3:
+                    case TileType.QuestBoard4:
                         QuestsManager.Instance.OpenQuestsDialog();
                         break;
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 
 public class QuestsDialog : DialogWithData<QuestsDialogData> {
@@ -16,6 +17,9 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
 public class QuestsDialogData {
     public QuestData MainQuest;
     public QuestData FirstQuest, SecondQuest;
+    public string LastTimeQuestsUpdated = DateTime.MinValue.ToString(CultureInfo.InvariantCulture);
+    public DateTime LastTimeQuestsUpdatedDateTime => DateTime.Parse(LastTimeQuestsUpdated, CultureInfo.InvariantCulture);
+    public bool IsUnseenUpdate;
 }
 
 [Serializable]

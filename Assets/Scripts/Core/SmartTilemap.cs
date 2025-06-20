@@ -255,6 +255,10 @@ public class SmartTilemap : MonoBehaviour {
                 neighbors[1].SwitchType(TileType.TractorT3);
                 InventoryManager.Instance.RemoveBuilding(BuildingType.Tractor);
                 break;
+            case BuildingType.QuestBoard:
+                _tiles[coord].SwitchType(TileType.QuestBoard1_new);
+                //TODO add other tiles
+                break;
         }
     }
 
@@ -495,19 +499,19 @@ public class SmartTilemap : MonoBehaviour {
         SmartTile[] neighbors = new SmartTile[6];
 
         if (center.y % 2 == 0) {
-            neighbors[0] = _tiles[center + new Vector2Int(0, 1)];
-            neighbors[1] = _tiles[center + new Vector2Int(1, 0)];
-            neighbors[2] = _tiles[center + new Vector2Int(0, -1)];
-            neighbors[3] = _tiles[center + new Vector2Int(-1, -1)];
-            neighbors[4] = _tiles[center + new Vector2Int(-1, 0)];
-            neighbors[5] = _tiles[center + new Vector2Int(-1, 1)];
+            _tiles.TryGetValue(center + new Vector2Int(0, 1),out neighbors[0]);
+            _tiles.TryGetValue(center + new Vector2Int(1, 0),out neighbors[1]);
+            _tiles.TryGetValue(center + new Vector2Int(0, -1),out neighbors[2]);
+            _tiles.TryGetValue(center + new Vector2Int(-1, -1),out neighbors[3]);
+            _tiles.TryGetValue(center + new Vector2Int(-1, 0),out neighbors[4]);
+            _tiles.TryGetValue(center + new Vector2Int(-1, 1),out neighbors[5]);
         } else {
-            neighbors[0] = _tiles[center + new Vector2Int(1, 1)];
-            neighbors[1] = _tiles[center + new Vector2Int(1, 0)];
-            neighbors[2] = _tiles[center + new Vector2Int(1, -1)];
-            neighbors[3] = _tiles[center + new Vector2Int(0, -1)];
-            neighbors[4] = _tiles[center + new Vector2Int(-1, 0)];
-            neighbors[5] = _tiles[center + new Vector2Int(0, 1)];
+             _tiles.TryGetValue(center + new Vector2Int(1, 1),out neighbors[0]);
+             _tiles.TryGetValue(center + new Vector2Int(1, 0),out neighbors[1]);
+             _tiles.TryGetValue(center + new Vector2Int(1, -1),out neighbors[2]);
+             _tiles.TryGetValue(center + new Vector2Int(0, -1),out neighbors[3]);
+             _tiles.TryGetValue(center + new Vector2Int(-1, 0),out neighbors[4]);
+             _tiles.TryGetValue(center + new Vector2Int(0, 1),out neighbors[5]);
         }
 
         return neighbors;

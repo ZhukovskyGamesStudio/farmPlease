@@ -16,18 +16,17 @@ public static class MigrationUtils {
     }
 
     public static void TryMigrateToQuestsData(GameSaveProfile save) {
-       /* var pos = new Vector2Int(-2, 3);
+        var pos = QuestsUtils.QuestBoardPosition;
 
         if (save.TilesData.Tiles.ContainsKey(pos)) {
-            save.TilesData.Tiles[pos] = TileType.QuestBoard1;
+            QuestsUtils.PlaceQuestBoard();
         } else {
-            save.TilesData.Tiles.Add(pos, TileType.QuestBoard1);
-        }*/
-       
+            save.TilesData.Tiles.Add(pos, TileType.QuestBoard1_new);
+        }
+
         /*
         if (save.TilesData.Tiles.Values.All(v => v != TileType.QuestBoard1)) {
             save.TilesData.Tiles.Add(new Vector2Int(4,2), TileType.QuestBoard1);
         }*/
-       
     }
 }
