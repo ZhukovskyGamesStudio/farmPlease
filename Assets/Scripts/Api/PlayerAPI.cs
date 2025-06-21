@@ -60,7 +60,7 @@ public class PlayerAPI : BaseApi {
         await req.SendWebRequest().ToUniTask();
 
         if (req.result == UnityWebRequest.Result.Success) {
-            Debug.Log("Updated player: " + req.downloadHandler.text);
+           // Debug.Log("Updated player: " + req.downloadHandler.text);
         } else {
             Debug.LogError("Error updating player: " + req.error);
         }
