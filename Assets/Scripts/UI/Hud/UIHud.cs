@@ -39,6 +39,7 @@ namespace UI {
         public FarmerCommunityBadgeView FarmerCommunityBadgeView;
         public GameObject HomeFarmUi;
         public OtherFarmUI OtherFarmUI;
+        public OpenRealShopButtonView OpenRealShopButton;
 
         public void ClosePanel() {
             if (Backpack.isOpen)

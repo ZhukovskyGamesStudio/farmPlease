@@ -61,7 +61,9 @@ namespace Managers {
         private IEnumerator ClockRealtimeCoroutine(float timeLeft) {
             float cur = 0;
             while (cur < timeLeft) {
-                cur += Time.deltaTime;
+                if(KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+                    cur += Time.deltaTime;
+                }
 
                 UIHud.Instance.ClockView.SetClockArrowRotation(-360 * (cur / timeLeft));
                 yield return new WaitForEndOfFrame();

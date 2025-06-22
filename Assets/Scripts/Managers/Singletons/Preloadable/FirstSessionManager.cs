@@ -115,7 +115,6 @@ namespace Managers {
             EnableUiParts();
             KnowledgeUtils.AddKnowledge(Knowledge.Training);
             SaveLoadManager.TryCreateFirstSave();
-            QuestsUtils.PlaceQuestBoard();
         }
 
         private void DisableUiParts() {
@@ -133,6 +132,7 @@ namespace Managers {
             UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(false);
             UIHud.Instance.CroponomButton.gameObject.SetActive(false);
             UIHud.Instance.SettingsButton.gameObject.SetActive(false);
+            UIHud.Instance.OpenRealShopButton.gameObject.SetActive(false);
             UIHud.Instance.ProfileView.IsLockedByFtue = true;
         }
 
@@ -158,12 +158,15 @@ namespace Managers {
             UIHud.Instance.ClockView.IsLockedByFtue = false;
             UIHud.Instance.CroponomButton.gameObject.SetActive(true);
             UIHud.Instance.SettingsButton.gameObject.SetActive(true);
+            UIHud.Instance.OpenRealShopButton.gameObject.SetActive(true);
 
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
             SmartTilemap.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
             SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
             UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.SeedBag);
             UIHud.Instance.UpdateLockedUI();
+            
+            QuestsUtils.PlaceQuestBoard();
         }
 
         private void StepEnded() {
@@ -250,7 +253,8 @@ namespace Managers {
         private async UniTask ShowDoScytheSpotlight() {
             _isWaitingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[3].gameObject.SetActive(true);
-
+            UIHud.Instance.ShopsPanel.gameObject.SetActive(true);
+            UIHud.Instance.ShopsPanel.ScalesButton.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(), FtueConfig.DoScytheHint,
                 StepEnded, false);
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.CropPoints < 7+7);
@@ -343,8 +347,6 @@ namespace Managers {
 
         private async UniTask ShowScalesSpotlight() {
             _isWaitingForStepEnd = true;
-            UIHud.Instance.ShopsPanel.gameObject.SetActive(true);
-            UIHud.Instance.ShopsPanel.ScalesButton.gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ScalesButton, FtueConfig.ScalesHint, StepEnded,
                 true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);

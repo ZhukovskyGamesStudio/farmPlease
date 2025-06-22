@@ -25,6 +25,7 @@ public class SmartTilemap : MonoBehaviour {
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
     private Dictionary<Vector2Int, SmartTile> _tiles;
+    public bool IsTilesInited => _tiles != null;
     private Camera _mainCamera;
 
     public void Awake() {

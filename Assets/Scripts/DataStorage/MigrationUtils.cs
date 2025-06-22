@@ -18,11 +18,14 @@ public static class MigrationUtils {
     public static void TryMigrateToQuestsData(GameSaveProfile save) {
         var pos = QuestsUtils.QuestBoardPosition;
 
-        if (save.TilesData.Tiles.ContainsKey(pos)) {
-            QuestsUtils.PlaceQuestBoard();
-        } else {
-            save.TilesData.Tiles.Add(pos, TileType.QuestBoard1_new);
+        if (save.KnowledgeList.Contains(Knowledge.Training)) {
+            if (save.TilesData.Tiles.ContainsKey(pos)) {
+                QuestsUtils.PlaceQuestBoard();
+            } else {
+                save.TilesData.Tiles.Add(pos, TileType.QuestBoard1_new);
+            }
         }
+      
 
         /*
         if (save.TilesData.Tiles.Values.All(v => v != TileType.QuestBoard1)) {
