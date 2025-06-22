@@ -29,6 +29,9 @@ namespace UI {
 
         [SerializeField]
         private GameObject _goldenClock;
+
+        [SerializeField]
+        private GameObject _adIcon;
         
 
         public bool IsLockedByFtue { get; set; }
@@ -37,6 +40,11 @@ namespace UI {
             _goldenClock.SetActive(RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData));
         }
         
+        public void UpdateAdIcon() {
+            _adIcon.SetActive(Clock.Instance.IsAdIconActive());
+        }
+
+        
         
         public void ClockPressedButton() {
             if (IsLockedByFtue) {
@@ -44,6 +52,7 @@ namespace UI {
             }
 
             Clock.Instance.TryAddDay();
+            UpdateAdIcon();
         }
         
         public void SetClockArrowRotation(float rotation) {
@@ -53,6 +62,7 @@ namespace UI {
         public void SetAmount(int amount) {
             ShowInitialAnimation();
             SetPiecesAmount(amount);
+            UpdateAdIcon();
         }
 
         public void SetAmountWithWasteAnimation(int amount) {

@@ -8,7 +8,7 @@ namespace UI {
     public class ScreenEffect : MonoBehaviour {
         [SerializeField] private SerializableDictionary<HappeningType, Animation> _happeningAnimations;
 
-        [SerializeField] private Animation _nightAnimation;
+        [SerializeField] private Animation _nightAnimation, _nightStarsAnimation;
 
         private const string BEFORE_DAY_APPEAR = "BeforeDayAppear";
         private const string BEFORE_DAY_IDLE = "BeforeDayIdle";
@@ -20,6 +20,9 @@ namespace UI {
         private const string NIGHT_DISAPPEAR = "NightDisappear";
 
         private HappeningType _curHappeningType;
+
+        [SerializeField]
+        private AnimationClip _starsStart, _starsEnd;
 
         public IEnumerator SetEffectCoroutine(HappeningType type, bool isTomorrow) {
             if (NoneHappenings.Contains(type)) {
@@ -34,6 +37,8 @@ namespace UI {
         public IEnumerator PlayOverNightAnimation() {
             _nightAnimation.Play(NIGHT_APPEAR);
             _nightAnimation.PlayQueued(NIGHT_DISAPPEAR);
+            _nightStarsAnimation.Play(_starsStart.name);
+            _nightStarsAnimation.PlayQueued(_starsEnd.name);
             yield return new WaitWhile(() => _nightAnimation.isPlaying);
         }
 

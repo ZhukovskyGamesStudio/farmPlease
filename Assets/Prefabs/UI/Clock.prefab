@@ -33,6 +33,7 @@ RectTransform:
   - {fileID: 1025390704588984823}
   - {fileID: 7664953476896236748}
   - {fileID: 2921165713028019845}
+  - {fileID: 6172934780359801838}
   - {fileID: 7702540229849223690}
   m_Father: {fileID: 8742714470393792879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -190,6 +191,81 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: -943119753, guid: f3fed87309179b24688b1cecffa39682, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1316484649309651761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6172934780359801838}
+  - component: {fileID: 2215369926957599003}
+  - component: {fileID: 474430294618679393}
+  m_Layer: 5
+  m_Name: AdIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6172934780359801838
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316484649309651761}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 8724144746805203600}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 6.5, y: -7}
+  m_SizeDelta: {x: 16, y: 16}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2215369926957599003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316484649309651761}
+  m_CullTransparentMesh: 1
+--- !u!114 &474430294618679393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316484649309651761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9f00f1cd00a72334cab28d29b63ea0ec, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -852,8 +928,8 @@ GameObject:
   - component: {fileID: 8742714470393792879}
   - component: {fileID: 2034637330904718619}
   - component: {fileID: 4615187728801210207}
-  - component: {fileID: 2194507536124105693}
   - component: {fileID: 2874760718259341168}
+  - component: {fileID: 2194507536124105693}
   m_Layer: 5
   m_Name: Clock
   m_TagString: Untagged
@@ -910,32 +986,6 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
---- !u!114 &2194507536124105693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5801769581110635934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91bd3a413b5044f5b19181a0161b7f7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _greenPieces:
-  - {fileID: 6454032324587870660}
-  - {fileID: 1245678000884327853}
-  - {fileID: 111684945421192479}
-  - {fileID: 2724441790364473082}
-  - {fileID: 3672681219052776362}
-  - {fileID: 2768349888810168111}
-  - {fileID: 5732396615031578602}
-  _animation: {fileID: 4615187728801210207}
-  _clockArrow: {fileID: 7664953476896236748}
-  _button: {fileID: 2874760718259341168}
-  _refillClock: {fileID: 7400000, guid: 55d0a7141f9cc294e9487e2854e4657d, type: 2}
-  _timeStillLeftClip: {fileID: 7400000, guid: 77f640f9211d4ac4396d027fabbf7e6b, type: 2}
-  _goldenClock: {fileID: 6500309416797383262}
 --- !u!114 &2874760718259341168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,6 +1042,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2194507536124105693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5801769581110635934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91bd3a413b5044f5b19181a0161b7f7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _greenPieces:
+  - {fileID: 6454032324587870660}
+  - {fileID: 1245678000884327853}
+  - {fileID: 111684945421192479}
+  - {fileID: 2724441790364473082}
+  - {fileID: 3672681219052776362}
+  - {fileID: 2768349888810168111}
+  - {fileID: 5732396615031578602}
+  _animation: {fileID: 4615187728801210207}
+  _clockArrow: {fileID: 7664953476896236748}
+  _button: {fileID: 2874760718259341168}
+  _refillClock: {fileID: 7400000, guid: 55d0a7141f9cc294e9487e2854e4657d, type: 2}
+  _timeStillLeftClip: {fileID: 7400000, guid: 77f640f9211d4ac4396d027fabbf7e6b, type: 2}
+  _goldenClock: {fileID: 6500309416797383262}
+  _adIcon: {fileID: 1316484649309651761}
 --- !u!1 &6454032324587870660
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,6 +29,7 @@ namespace Managers {
             UIHud.Instance.BatteryView.UpdateGoldenState();
             UIHud.Instance.FastPanelScript.UpdateGoldenScytheState();
             UIHud.Instance.ClockView.UpdateGoldenState();
+            UIHud.Instance.ClockView.UpdateAdIcon();
             
             if (!string.IsNullOrEmpty(SaveLoadManager.CurrentSave.UserId)) {
                 FarmerCommunityManager.Instance.PreloadNextFarm().Forget();

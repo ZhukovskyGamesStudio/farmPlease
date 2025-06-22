@@ -313,15 +313,19 @@ namespace Managers {
             await UniTask.Delay(300);
         }
 
-        private void ShowClockSpotlight() {
+        private async UniTask ShowClockSpotlight() {
             _isWaitingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[1].interactable = false;
             UIHud.Instance.ClockView.gameObject.SetActive(true);
+            bool isWaitingForClock = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ClockView.GetComponent<Button>(), FtueConfig.ClockHint,
                 delegate {
-                    UIHud.Instance.ClockView.IsLockedByFtue = true;
-                    StepEnded();
-                });
+                    isWaitingForClock = false;
+                }, true);
+            await UniTask.WaitWhile(() => isWaitingForClock);
+            await UniTask.Delay(2200);
+            UIHud.Instance.ClockView.IsLockedByFtue = true;
+            StepEnded();
         }
 
         private async UniTask ShowClockLostEnergySpotlight() {

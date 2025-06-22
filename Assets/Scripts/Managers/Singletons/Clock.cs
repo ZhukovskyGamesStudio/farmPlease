@@ -40,6 +40,8 @@ namespace Managers {
             TimeManager.Instance.AddDay();
         }
 
+        public bool IsAdIconActive() => SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(ToolBuff.WeekBattery, 0) == 0 && SaveLoadManager.CurrentSave.ClockEnergy == 0;
+
         private static void ShowNoEnergyAnimation() {
             UIHud.Instance.ClockView.ShowZeroTimeAnimation();
             Audio.Instance.PlaySound(Sounds.ZeroEnergy);
