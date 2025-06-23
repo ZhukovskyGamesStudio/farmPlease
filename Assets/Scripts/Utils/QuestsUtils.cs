@@ -1,4 +1,5 @@
-﻿using Tables;
+﻿using Managers;
+using Tables;
 using UnityEngine;
 
 public static class QuestsUtils {
@@ -7,10 +8,17 @@ public static class QuestsUtils {
     public static string GetQuestProgress(QuestData data) {
         return "0/0";
     }
+    public static float GetQuestProgressPercent(QuestData data) {
+        return Random.Range(0,1f);
+    }
 
     public static void ClaimQuest(QuestData data) {
         if (data.Reward != null) {
             RewardUtils.ClaimReward(data.Reward);
+        }
+
+        if (data.XpReward > 0) {
+            InventoryManager.Instance.AddXp(data.XpReward);
         }
     }
 
@@ -18,6 +26,7 @@ public static class QuestsUtils {
         SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_11);
         SmartTilemap.Instance.PlaceTile(QuestBoardPosition + Vector2Int.right, TileType.QuestBoard2);
         SmartTilemap.Instance.PlaceTile(QuestBoardPosition + Vector2Int.right * 2, TileType.QuestBoard3);
+        SmartTilemap.Instance.PlaceTile(QuestBoardPosition + Vector2Int.right * 3, TileType.QuestBoard4);
         //SmartTilemap.Instance.PlaceBuilding(BuildingType.QuestBoard, QuestBoardPosition);
     }
 

@@ -27,4 +27,5 @@ public class QuestData {
     public bool IsMain;
     public string QuestText;
     public Reward Reward;
+    public int XpReward;
 }

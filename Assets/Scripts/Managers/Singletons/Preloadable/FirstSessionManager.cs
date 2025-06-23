@@ -162,11 +162,11 @@ namespace Managers {
 
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
             SmartTilemap.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
+            QuestsUtils.PlaceQuestBoard();
+            
             SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
             UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.SeedBag);
             UIHud.Instance.UpdateLockedUI();
-            
-            QuestsUtils.PlaceQuestBoard();
         }
 
         private void StepEnded() {
