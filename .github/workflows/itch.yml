@@ -110,19 +110,12 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-      
-      - name: Prepare ZIP for itch.io
-        run: |
-          mkdir -p webgl-build
-          cp -r build/WebGL/* webgl-build/
-          cd webgl-build
-          zip -r ../webgl.zip .
 
       - name: Upload WebGL Build
         uses: actions/upload-artifact@v4
         with:
           name: WebGL-Build
-          path: webgl.zip
+          path: build/WebGL/*
 
   deploy-itch:
     needs: [build-windows, build-macos, build-webgl]
