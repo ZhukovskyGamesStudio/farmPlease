@@ -3,6 +3,7 @@ using Abstract;
 using Cysharp.Threading.Tasks;
 using Managers;
 using ScriptableObjects;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,9 @@ namespace UI {
         [SerializeField]
         private SettingsCheatCodeView _settingsCheatCodeView;
 
+        [SerializeField]
+        private TextMeshProUGUI _versionText;
+        
         private SettingsData SettingsData => SaveLoadManager.CurrentSave.SettingsData;
         private SettingsData _unchangedData;
 
@@ -43,7 +47,7 @@ namespace UI {
             effectsSoundSlider.SetValueWithoutNotify(data.EffectsVolume);
             NotificationsToggle.SetIsOnWithoutNotify(data.SendNotifications);
             GpgsUpdated(GpsManager.IsAuthenticated);
-
+            _versionText.text = "v"+Application.version;
             ResetButton.SetActive(false);
         }
 
