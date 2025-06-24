@@ -33,10 +33,18 @@ namespace UI {
         public GameObject WeatherPage;
         public GameObject WeatherGrid;
         public WeatherTable WeatherTablePrefab;
+        
+        [Header("Buildings")]
+        public Toggle BuildingsOpenButton;
+
+        public GameObject BuildingsPage;
+        public GameObject BuildingsGrid;
+        public BuildingsTable BuildingsTablePrefab;
 
         private List<CroponomGridButtonView> _cropsButtons;
         private List<CroponomGridButtonView> _toolButtons;
         private List<CroponomGridButtonView> _weatherButtons;
+        private List<CroponomGridButtonView> _buildingsButtons;
 
         [SerializeField]
         private GameObject Panel;
@@ -57,6 +65,7 @@ namespace UI {
             _cropsButtons = GenerateButtons(CropsTablePrefab.Crops, CropsGrid.transform);
             _weatherButtons = GenerateButtons(WeatherTablePrefab.WeathersSO, WeatherGrid.transform);
             _toolButtons = GenerateButtons(ToolsTablePrefab.ToolsSO, ToolsGrid.transform);
+            _buildingsButtons = GenerateButtons(BuildingsTablePrefab.Buildings, BuildingsGrid.transform);
             OpenPage(CropsTablePrefab.Crops.FirstOrDefault(c => c.type == Crop.Tomato));
         }
 
@@ -80,6 +89,7 @@ namespace UI {
             buttons.AddRange(_cropsButtons);
             buttons.AddRange(_toolButtons);
             buttons.AddRange(_weatherButtons);
+            buttons.AddRange(_buildingsButtons);
             
             foreach (CroponomGridButtonView button in buttons) {
                 button.SetLockState(UnlockableUtils.HasUnlockable(button.GetUnlockable()));
@@ -87,6 +97,8 @@ namespace UI {
             }
             ToolsOpenButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(ToolBuff.WeekBattery));
             WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.LilCalendar));
+            BuildingsOpenButton.gameObject.SetActive(SaveLoadManager.CurrentSave.BuildingShopData.BuildingPriceIndex > 0);
+            
             
             if( SaveLoadManager.CurrentSave.UnseenCroponomPages.Count > 0) {
                 var nextPage = SaveLoadManager.CurrentSave.UnseenCroponomPages.FirstOrDefault();
@@ -96,6 +108,8 @@ namespace UI {
                     OpenToolsPage(true);
                 } else if (_weatherButtons.Any(b => b.GetUnlockable() == SaveLoadManager.CurrentSave.UnseenCroponomPages.FirstOrDefault())) {
                     OpenWeathersPage(true);
+                }if (_buildingsButtons.Any(b => b.GetUnlockable() == SaveLoadManager.CurrentSave.UnseenCroponomPages.FirstOrDefault())) {
+                    OpenBuildingsPage(true);
                 }
             } else {
                 UIHud.Instance.CroponomAttention.Hide();
@@ -106,18 +120,27 @@ namespace UI {
             CropsPage.SetActive(isOpen);
             ToolsPage.SetActive(!isOpen);
             WeatherPage.SetActive(!isOpen);
+            BuildingsPage.SetActive(!isOpen);
         }
 
         public void OpenToolsPage(bool isOpen) {
             CropsPage.SetActive(!isOpen);
             ToolsPage.SetActive(isOpen);
             WeatherPage.SetActive(!isOpen);
+            BuildingsPage.SetActive(!isOpen);
         }
 
         public void OpenWeathersPage(bool isOpen) {
             CropsPage.SetActive(!isOpen);
             ToolsPage.SetActive(!isOpen);
             WeatherPage.SetActive(isOpen);
+            BuildingsPage.SetActive(!isOpen);
+        }
+        public void OpenBuildingsPage(bool isOpen) {
+            CropsPage.SetActive(!isOpen);
+            ToolsPage.SetActive(!isOpen);
+            WeatherPage.SetActive(!isOpen);
+            BuildingsPage.SetActive(isOpen);
         }
 
         public void OpenOnPage(string pageName) {
@@ -139,6 +162,12 @@ namespace UI {
             if (pageConfig != null) {
                 Open();
                 OpenWeathersPage(true);
+                OpenPage(pageConfig);
+            }
+            pageConfig = BuildingsTablePrefab.Buildings.FirstOrDefault(c => c.type.ToString() == pageName);
+            if (pageConfig != null) {
+                Open();
+                OpenBuildingsPage(true);
                 OpenPage(pageConfig);
             }
         }

@@ -362,6 +362,9 @@ namespace Managers {
             IsBuildingsBoughtD[type] = true;
             AddBuilding(type);
             UnlockableUtils.Unlock(type);
+            if (type == BuildingType.Sprinkler) {
+                UnlockableUtils.Unlock(BuildingType.SprinklerTarget);
+            }
             RemoveRandomCollectedCrops(cost);
         }
 

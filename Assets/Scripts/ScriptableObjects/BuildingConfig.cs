@@ -16,8 +16,6 @@ namespace ScriptableObjects {
         public string offerHeader;
         public string offerText;
 
-        public override string GetUnlockable() {
-            throw new System.NotImplementedException();
-        }
+        public override string GetUnlockable() => type.ToString();
     }
 }

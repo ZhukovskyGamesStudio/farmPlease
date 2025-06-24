@@ -114,6 +114,9 @@ namespace UI {
             TimePanel.gameObject.SetActive(!isActive);
             FastPanelScript.gameObject.SetActive(!isActive);
             BatteryView.gameObject.SetActive(!isActive);
+            OpenRealShopButton.gameObject.SetActive(!isActive);
+            ProfileView.gameObject.SetActive(!isActive);
+            HammerToolButton.gameObject.SetActive(!isActive);
         }
 
         public void UpdateLockedUI() {

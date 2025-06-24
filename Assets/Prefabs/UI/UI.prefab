@@ -603,9 +603,9 @@ RectTransform:
   - {fileID: 8421879440572361836}
   - {fileID: 30442595712778569}
   - {fileID: 5399541328272817442}
-  - {fileID: 7702417918627306989}
   - {fileID: 7702417919375004134}
   - {fileID: 5723466598257281580}
+  - {fileID: 7702417918627306989}
   m_Father: {fileID: 5413213587276424621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -820,6 +820,7 @@ GameObject:
   - component: {fileID: 7702417919375004135}
   - component: {fileID: 7702417919375004132}
   - component: {fileID: 7702417919375004133}
+  - component: {fileID: 5919431604840063292}
   m_Layer: 5
   m_Name: HammerTool
   m_TagString: Untagged
@@ -952,6 +953,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5919431604840063292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7702417919375004130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357d904d702e9544f933fe3ae2f5f3bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _backImage: {fileID: 7702417919375004132}
+  _toolImage: {fileID: 0}
+  _normalSprite: {fileID: 21300000, guid: e77b7b791bc6a784aa4b6d25529b5452, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 9030c8984ba425e4395e481db1b824d3, type: 3}
 --- !u!1 &7702417919562593315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,10 +1819,59 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8913656926620896329}
     m_Modifications:
+    - target: {fileID: 576124657589485131, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 576124657589485131, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b5f4e137625ffbd45884ad9ec90f130a,
+        type: 2}
+    - target: {fileID: 576124657589485131, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 576124657589485131, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -108514216730971331, guid: b5f4e137625ffbd45884ad9ec90f130a,
+        type: 2}
+    - target: {fileID: 3984874096020510729, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984874096020510729, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b5f4e137625ffbd45884ad9ec90f130a,
+        type: 2}
+    - target: {fileID: 3984874096020510729, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984874096020510729, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -108514216730971331, guid: b5f4e137625ffbd45884ad9ec90f130a,
+        type: 2}
     - target: {fileID: 4984860086826755280, guid: 7d6f3e9b942ca064793077870c367a41,
         type: 3}
       propertyPath: m_Name
       value: ProfileView
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306928399576516714, guid: 7d6f3e9b942ca064793077870c367a41,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5636028271314998280, guid: 7d6f3e9b942ca064793077870c367a41,
         type: 3}
@@ -2114,12 +2180,12 @@ PrefabInstance:
     - target: {fileID: 2817893879598244747, guid: 59753302528bc0c4a9fe3a268827ec18,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2817893879598244747, guid: 59753302528bc0c4a9fe3a268827ec18,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5978531637177000229, guid: 59753302528bc0c4a9fe3a268827ec18,
         type: 3}
@@ -2555,9 +2621,25 @@ PrefabInstance:
       objectReference: {fileID: 7702417919375004132}
     - target: {fileID: 5870748515610571046, guid: 93670dc3d91afd14f955ee813efe1042,
         type: 3}
+      propertyPath: 'SlotsNormal.Array.data[4]'
+      value: 
+      objectReference: {fileID: 21300000, guid: e77b7b791bc6a784aa4b6d25529b5452,
+        type: 3}
+    - target: {fileID: 5870748515610571046, guid: 93670dc3d91afd14f955ee813efe1042,
+        type: 3}
       propertyPath: 'toolButtons.Array.data[4]'
       value: 
       objectReference: {fileID: 7702417919375004133}
+    - target: {fileID: 5870748515610571046, guid: 93670dc3d91afd14f955ee813efe1042,
+        type: 3}
+      propertyPath: _fastPanelSlots.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870748515610571046, guid: 93670dc3d91afd14f955ee813efe1042,
+        type: 3}
+      propertyPath: '_fastPanelSlots.Array.data[4]'
+      value: 
+      objectReference: {fileID: 5919431604840063292}
     - target: {fileID: 5870748515610571048, guid: 93670dc3d91afd14f955ee813efe1042,
         type: 3}
       propertyPath: m_Pivot.x
