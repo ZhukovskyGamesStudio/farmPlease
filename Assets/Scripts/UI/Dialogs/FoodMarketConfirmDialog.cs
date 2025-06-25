@@ -21,11 +21,11 @@ public class FoodMarketConfirmDialog : MonoBehaviour {
 
     private Action _onConfirmed;
 
-    public void SetData(Sprite sprite, string headerText, string explainText, int cropsCost, Action onConfirmed) {
+    public void SetData(Sprite sprite, string headerText, string explainText, int cropsCost, Action onConfirmed, bool isBuilding = false) {
         _confirmImage.sprite = sprite;
         _nameText.text = headerText;
         _explanationText.text = explainText;
-        _costText.text = "Открыть за " + cropsCost;
+        _costText.text = (isBuilding ? "Купить за " : "Открыть за ") + cropsCost;
         _onConfirmed = onConfirmed;
     }
 

@@ -139,20 +139,17 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
     private void OpenConfirmPage(BuildingType type) {
         BuildingConfig building = BuildingsTable.BuildingByType(type);
         _confirmDialog.SetData(building.offerSprite, building.offerHeader, building.offerText, BuildingPrice,
-            delegate { StartBuyingBuilding(type); });
+            delegate { BuyBuildingButton(type); }, true);
         _confirmDialog.UpdateInteractable(InventoryManager.Instance.EnoughCrops(BuildingPrice));
 
         SetConfirmPageActive(true);
     }
 
-    public void StartBuyingBuilding(BuildingType type) {
-        BuyBuildingButton(type);
-    }
-
     public void BuyCropButton(Crop type) {
-        if(!InventoryManager.Instance.HasEnoughCrops(CropPrice)) {
+        if (!InventoryManager.Instance.HasEnoughCrops(CropPrice)) {
             return;
         }
+
         InventoryManager.Instance.BuyFoodMarket(type, CropPrice);
         UpdateButtonsInteractable();
         UIHud.Instance.BackpackAttention.ShowAttention();
@@ -161,9 +158,10 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
     }
 
     public void BuyToolButton(ToolBuff buff) {
-        if(!InventoryManager.Instance.HasEnoughCrops(ToolPrice)) {
+        if (!InventoryManager.Instance.HasEnoughCrops(ToolPrice)) {
             return;
         }
+
         InventoryManager.Instance.BuyFoodMarket(buff, ToolPrice);
         UIHud.Instance.BackpackAttention.ShowAttention();
         UpdateButtonsInteractable();
@@ -172,9 +170,10 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
     }
 
     public void BuyBuildingButton(BuildingType type) {
-        if(!InventoryManager.Instance.HasEnoughCrops(BuildingPrice)) {
+        if (!InventoryManager.Instance.HasEnoughCrops(BuildingPrice)) {
             return;
         }
+
         InventoryManager.Instance.BuyFoodMarket(type, BuildingPrice);
         _data.BuildingPriceIndex++;
         UIHud.Instance.BackpackAttention.ShowAttention();
