@@ -8,8 +8,11 @@ using UnityEngine.UI;
 
 public class RealShopDialog : DialogWithData<RealShopData> {
     [SerializeField]
-    private Button _goldenClockButton, _goldenScytheButton, _goldenBatteryButton, _goldenCroponomButton;
+    private RealShopOfferView _goldenClockButton, _goldenScytheButton, _goldenBatteryButton, _goldenCroponomButton;
 
+    [SerializeField]
+    private RealShopAcceptorView _acceptorView;
+    
     public override UniTask Show(Action onClose) {
         UIHud.Instance.ProfileView.Hide();
         return base.Show(onClose);
@@ -21,11 +24,20 @@ public class RealShopDialog : DialogWithData<RealShopData> {
     }
 
     public override void SetData(RealShopData data) {
-        _goldenBatteryButton.interactable = !data.HasGoldenBattery;
-        _goldenCroponomButton.interactable = !data.HasGoldenCroponom;
+        _goldenBatteryButton.SetData(!data.HasGoldenBattery, BuyGoldenBattery);
+        _goldenCroponomButton.SetData(!data.HasGoldenCroponom, BuyGoldenCroponom);
 
-        _goldenClockButton.interactable = !RealShopUtils.IsGoldenClockActive(data);
-        _goldenScytheButton.interactable = !RealShopUtils.IsGoldenScytheActive(data);
+        bool isClockActive = RealShopUtils.IsGoldenClockActive(data);
+        _goldenClockButton.SetData(!isClockActive, BuyGoldenClock);
+        if (isClockActive) {
+            _goldenClockButton.StartTimer(RealShopUtils.ClockTimeLeft(data));
+        }
+
+        bool isScytheActive = RealShopUtils.IsGoldenScytheActive(data);
+        _goldenScytheButton.SetData(!isScytheActive, BuyGoldenScythe);
+        if (isScytheActive) {
+            _goldenScytheButton.StartTimer(RealShopUtils.ScytheTimeLeft(data));
+        }
     }
 
     public void BuyGoldenClock() {
@@ -33,28 +45,38 @@ public class RealShopDialog : DialogWithData<RealShopData> {
         SaveLoadManager.SaveGame();
         Clock.Instance.RefillToMaxEnergy();
         UIHud.Instance.ClockView.UpdateGoldenState();
-        CloseByButton();
+        _goldenClockButton.ShowOpenAnimation();
+        _acceptorView.ShowBuyAnimation();
+        _goldenClockButton.StartTimer(RealShopUtils.ClockTimeLeft(SaveLoadManager.CurrentSave.RealShopData));
+        //CloseByButton();
     }
 
     public void BuyGoldenScythe() {
         SaveLoadManager.CurrentSave.RealShopData.GoldenScytheLastBoughtTime = DateTime.Now.ToString(DateTimeFormatInfo.InvariantInfo);
         SaveLoadManager.SaveGame();
         UIHud.Instance.FastPanelScript.UpdateGoldenScytheState();
-        CloseByButton();
+        _goldenScytheButton.ShowOpenAnimation();
+        _acceptorView.ShowBuyAnimation();
+        _goldenScytheButton.StartTimer(RealShopUtils.ScytheTimeLeft(SaveLoadManager.CurrentSave.RealShopData));
+        //CloseByButton();
     }
 
     public void BuyGoldenBattery() {
         SaveLoadManager.CurrentSave.RealShopData.HasGoldenBattery = true;
         SaveLoadManager.SaveGame();
         UIHud.Instance.BatteryView.UpdateGoldenState();
-        CloseByButton();
+        _goldenBatteryButton.ShowOpenAnimation();
+        _acceptorView.ShowBuyAnimation();
+        //loseByButton();
     }
 
     public void BuyGoldenCroponom() {
         SaveLoadManager.CurrentSave.RealShopData.HasGoldenCroponom = true;
         SaveLoadManager.SaveGame();
         UIHud.Instance.OpenCroponomButton.UpdateGoldenState();
-        CloseByButton();
+        _goldenCroponomButton.ShowOpenAnimation();
+        _acceptorView.ShowBuyAnimation();
+        //CloseByButton();
     }
 }
 
