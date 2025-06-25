@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class FarmerCommunityManager : MonoBehaviour {
     public static FarmerCommunityManager Instance { get; private set; }
-    private FarmerCommunityApi _api = new FarmerCommunityApi();
+    private readonly FarmerCommunityApi _api = new();
     private GameSaveProfile _nextLoadedFarm;
     private bool _isLoading;
 
@@ -15,6 +15,16 @@ public class FarmerCommunityManager : MonoBehaviour {
 
     private void Awake() {
         Instance = this;
+    }
+
+    public async UniTask GoToNextFarmer() {
+        UIHud.Instance.HomeFarmUi.SetActive(false);
+        UIHud.Instance.OtherFarmUI.SetData(_nextLoadedFarm);
+        SmartTilemap.Instance.GenerateTilesWithData(_nextLoadedFarm.TilesData);
+
+        await PreloadNextFarm();
+
+        UIHud.Instance.OtherFarmUI.SetNextFarmLoaded();
     }
 
     public async UniTask PreloadNextFarm() {
@@ -28,19 +38,9 @@ public class FarmerCommunityManager : MonoBehaviour {
             excludedFarmers.Add(_nextLoadedFarm.UserId);
         }
 
-        _nextLoadedFarm = await _api.GetRandomPlayerAsync(excludedFarmers);
+        _nextLoadedFarm = await _api.GetRandomPlayerAsync(excludedFarmers, this.GetCancellationTokenOnDestroy());
         _isLoading = false;
         UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(IsNextFarmLoaded && IsUnlocked);
-    }
-
-    public async UniTask GoToNextFarmer() {
-        UIHud.Instance.HomeFarmUi.SetActive(false);
-        UIHud.Instance.OtherFarmUI.SetData(_nextLoadedFarm);
-        SmartTilemap.Instance.GenerateTilesWithData(_nextLoadedFarm.TilesData);
-
-        await PreloadNextFarm();
-
-        UIHud.Instance.OtherFarmUI.SetNextFarmLoaded();
     }
 
     public void GoToHomeFarm() {

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class FarmerCommunityApi : BaseApi {
-    public async UniTask<GameSaveProfile> GetRandomPlayerAsync(List<string> excludeIds) {
+    public async UniTask<GameSaveProfile> GetRandomPlayerAsync(List<string> excludeIds, CancellationToken cancellationToken) {
         string json = JsonUtility.ToJson(new ExcludeIdsRequest { excludeIds = excludeIds });
 
         using var req = new UnityWebRequest($"{BaseUrl}/farmercommunity/random", "GET");
@@ -14,7 +15,7 @@ public class FarmerCommunityApi : BaseApi {
         req.downloadHandler = new DownloadHandlerBuffer();
         req.SetRequestHeader("Content-Type", "application/json");
 
-        await req.SendWebRequest().ToUniTask();
+        await req.SendWebRequest().ToUniTask(cancellationToken: cancellationToken);
 
         if (req.result == UnityWebRequest.Result.Success) {
             GameSaveProfile farmData = JsonUtility.FromJson<GameSaveProfile>(req.downloadHandler.text);
