@@ -191,5 +191,22 @@ namespace Localization
             }
             return count;
         }
+        
+        public static string GetDeviceLanguage()
+        {
+            SystemLanguage language = Application.systemLanguage;
+            Debug.Log("Используемый язык: " + language.ToString());
+            return "en";
+            switch (language)
+            {
+                case SystemLanguage.Russian:
+                    return "ru";
+                case SystemLanguage.English:
+                    return "en";
+                // можно добавить другие языки по необходимости
+                default:
+                    return "en";
+            }
+        }
     }
 } 

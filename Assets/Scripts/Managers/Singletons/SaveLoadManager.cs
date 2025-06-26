@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Abstract;
 using Cysharp.Threading.Tasks;
+using Localization;
 using Tables;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
@@ -84,9 +85,9 @@ namespace Managers {
                 TryUpdateSave();
             } else {
                 GenerateGame();
-                Debug.Instance.Log("Generating finished. Saving started");
+                UnityEngine.Debug.Log("Generating finished. Saving started");
                 RewriteGameSavedData();
-                Debug.Instance.Log("New profile is saved");
+                UnityEngine.Debug.Log("New profile is saved");
             }
         }
 
@@ -94,9 +95,9 @@ namespace Managers {
             UpdateTools();
             if (!KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 GenerateGame();
-                Debug.Instance.Log("Generating finished. Saving started");
+                UnityEngine.Debug.Log("Generating finished. Saving started");
                 RewriteGameSavedData();
-                Debug.Instance.Log("New profile is saved");
+                UnityEngine.Debug.Log("New profile is saved");
             }
 
             if (CurrentSave.Unlocked == null) {
@@ -181,6 +182,7 @@ namespace Managers {
                 Unlocked = UnlockableUtils.GetInitialUnlockables(),
                 TilesData = SmartTilemap.GenerateFtueTiles(),
                 Nickname = "Farmer #" + Random.Range(999, 10000),
+                CurrentLanguage = LocalizationUtils.GetDeviceLanguage()
             };
 
             InventoryManager.GenerateInventory();

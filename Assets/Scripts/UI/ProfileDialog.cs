@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Localization;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -50,7 +51,7 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
         int curLevelMin = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel);
         int nextLevel = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel + 1);
         _xpProgressBar.SetAmount(SaveLoadManager.CurrentSave.Xp - curLevelMin, nextLevel - curLevelMin);
-        _nextLevelNameText.text = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel + 1].LevelName;
+        _nextLevelNameText.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel + 1].LevelNameLoc);
     }
 
     private void SetRewards() {

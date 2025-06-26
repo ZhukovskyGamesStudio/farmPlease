@@ -5,6 +5,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelConfig", menuName = "Scriptable Objects/LevelConfig", order = 0)]
 public class LevelConfig : ScriptableObject {
+    [LocalizationKey("Main")]
+    public string LevelNameLoc;
     public string LevelName;
     public Sprite LevelMiniIcon;
 

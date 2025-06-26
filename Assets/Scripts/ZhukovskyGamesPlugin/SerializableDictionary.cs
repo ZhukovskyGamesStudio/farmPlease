@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
-using Debug = Managers.Debug;
 
 namespace ZhukovskyGamesPlugin {
     [Serializable]
@@ -44,7 +44,7 @@ namespace ZhukovskyGamesPlugin {
 
         public void Add(T1 key, T2 value) {
             if (Keys.Contains(key)) {
-                Debug.Instance.Log("Such key already exist!");
+                MobileDebugger.Instance.Log("Such key already exist!");
                 return;
             }
 

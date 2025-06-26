@@ -5,8 +5,10 @@ using UnityEngine;
 namespace Localization
 {
     [CreateAssetMenu(fileName = "LocalizationData", menuName = "Scriptable Objects/Localization/LocalizationData", order = 100)]
-    public class LocalizationData : ScriptableObject
-    {
+    public class LocalizationData : ScriptableObject {
+        [SerializeField]
+        public string url = "";
+        
         [Serializable]
         public class LocalizationEntry
         {

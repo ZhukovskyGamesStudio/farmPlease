@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Localization;
 using ScriptableObjects;
 using Tables;
 using UI;
@@ -56,8 +57,8 @@ namespace Managers {
             DisableUiParts();
 
             PlayerController.Instance.ChangeTool(Tool.Collect);
-            await ShowSpeakingBot(FtueConfig.StartHint);
-            await ChangeSpeakingBot(FtueConfig.StartHint2, true);
+            await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.StartHintLoc));
+            await ChangeSpeakingBot(LocalizationUtils.L(FtueConfig.StartHint2Loc), true);
 
             await (ShowHoeSpotlight());
             await (ShowDoHoeSpotlight());
@@ -100,7 +101,7 @@ namespace Managers {
             //await (ShowCroponomSpotlight());
 
            
-            await ShowSpeakingBot(FtueConfig.EndHint, true);
+            await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.EndHintLoc), true);
             await ShowGetNextLevelSpotlight();
             
 #if UNITY_EDITOR

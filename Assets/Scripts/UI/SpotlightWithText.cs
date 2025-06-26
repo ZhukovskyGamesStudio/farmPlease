@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Abstract;
 using Cysharp.Threading.Tasks;
+using Localization;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
@@ -96,7 +97,7 @@ namespace UI {
         private void JumpSpotlightFromVeryBig(Transform target, SpotlightAnimConfig animDataConfig) {
             _headFinPosAnchor.position = target.transform.position;
             _shadowTransform.position = target.transform.position;
-            _hintText.text = animDataConfig.HintText;
+            _hintText.text = LocalizationUtils.L(animDataConfig.HintTextLoc);
             JumpSpotlightEnd(animDataConfig);
         }
 
@@ -117,7 +118,7 @@ namespace UI {
             _headFinPosAnchor.position = targetPos;
             _headShift.anchoredPosition = _shadowTransform.anchoredPosition + config.HeadShift;
             _shadowCenter.sizeDelta = config.SpotlightSize;
-            _hintText.text = config.HintText;
+            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
             _animation.Play(SHOW);
             _isShown = true;
         }
@@ -156,7 +157,7 @@ namespace UI {
         }
 
         private async UniTask MoveSpotlight(Vector3 targetPos, SpotlightAnimConfig config) {
-            _hintText.text = config.HintText;
+            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
 
             Vector3 startpos = _shadowTransform.position;
             Vector2 headPos = _headShift.anchoredPosition;
@@ -197,7 +198,7 @@ namespace UI {
             await JumpSpotlightStart(config);
 
             _shadowTransform.position = targetPos;
-            _hintText.text = config.HintText;
+            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
 
             await JumpSpotlightEnd(config);
         }
@@ -258,7 +259,7 @@ namespace UI {
                 await UniTask.WaitForEndOfFrame();
             } while (curTime <= maxTime);
 
-            _hintText.text = config.HintText;
+            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
             await MoveHeadEnd(config);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Localization;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -24,8 +25,8 @@ public class NewLevelDialog : DialogWithData<int> {
         _previousLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel - 1];
         _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel];
 
-        _previousLevelName.text = ConfigsManager.Instance.LevelConfigs[newLevel - 1].LevelName;
-        _nextLevelName.text = ConfigsManager.Instance.LevelConfigs[newLevel].LevelName;
+        _previousLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[newLevel - 1].LevelName);
+        _nextLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[newLevel].LevelName);
 
         _clicksNeeded = 3 + newLevel;
     }

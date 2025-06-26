@@ -5,7 +5,6 @@ using Tables;
 using UI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Debug = Managers.Debug;
 using TileData = Tables.TileData;
 
 public class SmartTilemap : MonoBehaviour {
@@ -331,7 +330,7 @@ public class SmartTilemap : MonoBehaviour {
     // 0 - hoe; 1 - seed; 2 - water; 3 - collect
     public bool AvailabilityCheck(string actionName) {
         if (!_tiles.ContainsKey(Playercoord)) {
-            Debug.Instance.Log("No tile with this coordinates " + Playercoord);
+            MobileDebugger.Instance.Log("No tile with this coordinates " + Playercoord);
             return false;
         }
 

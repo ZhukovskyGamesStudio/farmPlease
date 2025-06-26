@@ -3,6 +3,10 @@
 namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "FtueConfig", menuName = "Scriptable Objects/FtueConfig", order = 6)]
     public class FtueConfig : ScriptableObject {
+        [LocalizationKey("Ftue")]
+        public string StartHintLoc;
+        [LocalizationKey("Ftue")]
+        public string StartHint2Loc;
         [Multiline] public string StartHint;
         [Multiline] public string StartHint2;
         public SpotlightAnimConfig HoeHint;
@@ -37,5 +41,7 @@ namespace ScriptableObjects {
         public SpotlightAnimConfig ProfileHint;
 
         [Multiline] public string EndHint;
+        [LocalizationKey("Ftue")]
+        public string EndHintLoc;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Managers
 {
-    public class Debug : PreloadableSingleton<Debug> {
+    public class MobileDebugger : PreloadableSingleton<MobileDebugger> {
         public Text ErrorText;
         public GameObject DebugPanel, LogButton;
 

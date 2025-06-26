@@ -27,7 +27,7 @@ namespace Managers
 #if UNITY_ANDROID
 
             if (IsAuthenticated) {
-                Debug.Instance.Log("Google Play Services УЖЕ подключены");
+                MobileDebugger.Instance.Log("Google Play Services УЖЕ подключены");
             } else {
                 PlayGamesPlatform.DebugLogEnabled = true;
                 PlayGamesPlatform.Activate();
@@ -54,7 +54,7 @@ namespace Managers
 
         public void NewDayNotification(bool isOn = true) {
             if (!NotificationsManager.Initialized) {
-                Debug.Instance.Log("Notification Manager is not initialized");
+                MobileDebugger.Instance.Log("Notification Manager is not initialized");
                 return;
             }
 
@@ -67,7 +67,7 @@ namespace Managers
 
                 CreateNotification(0, "Наступил новый день", "Используйте энергию с умом!", time, true);
             } else {
-                Debug.Instance.Log("Cancelled new day notification ");
+                MobileDebugger.Instance.Log("Cancelled new day notification ");
             }
         }
 

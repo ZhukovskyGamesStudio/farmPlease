@@ -61,7 +61,7 @@ public class LocalizationImporter : EditorWindow
         EditorGUILayout.Space();
 
         // Import Button
-        GUI.enabled = !isImporting && !string.IsNullOrEmpty(googleSheetUrl) && localizationData != null;
+        GUI.enabled = !isImporting && localizationData != null;
         if (GUILayout.Button(isImporting ? "Importing..." : "Import from Google Sheet"))
         {
             ImportLocalization().Forget();
@@ -77,15 +77,19 @@ public class LocalizationImporter : EditorWindow
 
     private async UniTaskVoid ImportLocalization()
     {
-        if (string.IsNullOrEmpty(googleSheetUrl))
-        {
-            ShowStatus("Укажи ссылку на Google таблицу!", MessageType.Error);
-            return;
-        }
-
         if (localizationData == null)
         {
             ShowStatus("Выбери LocalizationData asset!", MessageType.Error);
+            return;
+        }
+        
+        if (string.IsNullOrEmpty(googleSheetUrl)) {
+            googleSheetUrl = localizationData.url;
+        }
+        
+        if (string.IsNullOrEmpty(googleSheetUrl)) {
+            googleSheetUrl = localizationData.url;
+            ShowStatus("Укажи ссылку на Google таблицу!", MessageType.Error);
             return;
         }
 
