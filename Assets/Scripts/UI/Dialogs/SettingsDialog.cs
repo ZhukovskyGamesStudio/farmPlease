@@ -1,11 +1,13 @@
 ﻿using System;
 using Abstract;
 using Cysharp.Threading.Tasks;
+using Localization;
 using Managers;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using ZhukovskyGamesPlugin;
 
 namespace UI {
     public class SettingsDialog : DialogWithData<CheatCodeConfigList>, ISoundStarter {
@@ -21,12 +23,21 @@ namespace UI {
 
         [SerializeField]
         private TextMeshProUGUI _versionText;
+
+        [SerializeField]
+        private Image _countryImage;
+        
+        [SerializeField]
+        
+        private SerializableDictionary<string, Sprite> _languageSprites;
+        
         
         private SettingsData SettingsData => SaveLoadManager.CurrentSave.SettingsData;
         private SettingsData _unchangedData;
 
         public override UniTask Show(Action onClose) {
             UIHud.Instance.ProfileView.Hide();
+            _countryImage.sprite = _languageSprites[LocalizationManager.Instance.CurrentLanguage];
             return base.Show(onClose);
         }
 
@@ -108,6 +119,12 @@ namespace UI {
         protected override async UniTask Close() {
             await base.Close();
             UIHud.Instance.ProfileView.Show();
+        }
+
+        public void ChangeLanguage() {
+            LocalizationManager.Instance.ChangeLanguageToNext();
+            _countryImage.sprite = _languageSprites[LocalizationManager.Instance.CurrentLanguage];
+            SaveLoadManager.SaveGame();
         }
     }
 }

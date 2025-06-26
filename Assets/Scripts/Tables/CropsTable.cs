@@ -12,7 +12,7 @@ namespace Tables {
         public CropConfig[] Crops;
 
         public FlyingCropFx FlyingCropFxPrefab;
-
+        public override int InitPriority => -10000;
         public static CropConfig CropByType(Crop type) {
             foreach (CropConfig t in Instance.Crops)
                 if (t.type == type)

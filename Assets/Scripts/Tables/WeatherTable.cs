@@ -5,7 +5,7 @@ using ScriptableObjects;
 namespace Tables {
     public class WeatherTable : PreloadableSingleton<WeatherTable> {
         public WeatherConfig[] WeathersSO;
-
+        public override int InitPriority => -10000;
         public static WeatherConfig WeatherByType(HappeningType type) {
             for (int i = 0; i < Instance.WeathersSO.Length; i++)
                 if (Instance.WeathersSO[i].type == type)

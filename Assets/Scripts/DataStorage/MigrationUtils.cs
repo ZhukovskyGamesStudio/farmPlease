@@ -20,7 +20,7 @@ public static class MigrationUtils {
 
         if (save.KnowledgeList.Contains(Knowledge.Training)) {
             if (save.TilesData.Tiles.ContainsKey(pos)) {
-                QuestsUtils.PlaceQuestBoard();
+                QuestsUtils.AddQustBoardToSave();
             } else {
                 save.TilesData.Tiles.Add(pos, TileType.QuestBoard1_new);
             }

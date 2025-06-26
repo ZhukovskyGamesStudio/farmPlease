@@ -1,0 +1,9 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+используй unitask вместо coroutines везде, где только можно
+во все unitask добавляй cancellationToken
+исчтоник cancellationToken бери из GetCancellationTokenOnDestroy
+

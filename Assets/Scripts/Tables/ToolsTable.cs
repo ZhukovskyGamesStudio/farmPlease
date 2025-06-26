@@ -10,6 +10,8 @@ namespace Tables
     public class ToolsTable : PreloadableSingleton<ToolsTable> {
         public ToolConfig[] ToolsSO;
 
+        public override int InitPriority => -10000;
+
         public static ToolConfig ToolByType(ToolBuff buff) {
             for (int i = 0; i < Instance.ToolsSO.Length; i++)
                 if (Instance.ToolsSO[i].buff == buff)

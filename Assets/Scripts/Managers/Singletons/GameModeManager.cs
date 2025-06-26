@@ -18,7 +18,6 @@ namespace Managers {
         public bool DisableStrongWind => _gameModeConfig.DisableStrongWind;
         public bool IsBuildingsShopAlwaysOpen => _gameModeConfig.IsBuildingsShopAlwaysOpen;
         public bool IsSkipTraining => _gameModeConfig.IsSkipTraining;
-        public int RandomCropsCollectedQueueAmount => _gameModeConfig.RandomCropsCollectedQueueAmount;
         public float GameSpeed => _gameModeConfig.GameSpeed;
 
         public GameMode GameMode = GameMode.FakeTime;

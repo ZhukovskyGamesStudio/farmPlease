@@ -9,7 +9,8 @@ using ZhukovskyGamesPlugin;
 public class GameSaveProfile {
     public bool IsAdmin;
     public bool IsEditor;
-    
+
+    public string CurrentLanguage = "en";
     public string UserId;
     public string Nickname = "Player";
     public int Coins;

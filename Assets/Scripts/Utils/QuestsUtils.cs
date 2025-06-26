@@ -30,6 +30,13 @@ public static class QuestsUtils {
         //SmartTilemap.Instance.PlaceBuilding(BuildingType.QuestBoard, QuestBoardPosition);
     }
 
+    public static void AddQustBoardToSave() {
+        SmartTilemap.AddTileToSave(QuestBoardPosition, TileType.QuestBoard1_11);
+        SmartTilemap.AddTileToSave(QuestBoardPosition + Vector2Int.right, TileType.QuestBoard2);
+        SmartTilemap.AddTileToSave(QuestBoardPosition + Vector2Int.right * 2, TileType.QuestBoard3);
+        SmartTilemap.AddTileToSave(QuestBoardPosition + Vector2Int.right * 3, TileType.QuestBoard4);
+    }
+
     public static void ChangeTileView(QuestsDialogData data) {
         if (data.IsUnseenUpdate) {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_new);

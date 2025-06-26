@@ -183,6 +183,10 @@ public class SmartTilemap : MonoBehaviour {
 
     public void PlaceTile(Vector2Int coord, TileType type) {
         MainTilemap.SetTile((Vector3Int)coord, TilesTable.TileByType(type).TileBase);
+        AddTileToSave(coord, type);
+    }
+
+    public static void AddTileToSave(Vector2Int coord, TileType type) {
         SaveLoadManager.CurrentSave.TilesData.Tiles[coord] = type;
     }
 

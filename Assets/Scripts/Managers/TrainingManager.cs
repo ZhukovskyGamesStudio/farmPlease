@@ -13,8 +13,6 @@ namespace Managers
         private bool _isBatteriEmpted, _isNextDayBegan, _isSeedBought;
 
         public void Start() {
-            if (SaveLoadManager.CurrentSave.CurrentDayInMonth > 0)
-                SaveLoadManager.Instance.ClearSaveAndReload();
             _curStep = -1;
             _isBatteriEmpted = false;
             for (int i = 0; i < steps.Length; i++) steps[i].Init();

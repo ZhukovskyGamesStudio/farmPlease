@@ -12,7 +12,6 @@ public class GameModeConfig : ScriptableObject {
     public bool IsBuildingsShopAlwaysOpen;
     public bool IsSkipTraining;
     public bool Is10xXp = true;
-    public int RandomCropsCollectedQueueAmount = 55;
   
 
     [Range(1f, 10)]

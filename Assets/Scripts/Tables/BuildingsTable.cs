@@ -8,7 +8,7 @@ namespace Tables
 {
     public class BuildingsTable : PreloadableSingleton<BuildingsTable> {
         public BuildingConfig[] Buildings;
-
+        public override int InitPriority => -10000;
         public static BuildingConfig BuildingByType(BuildingType type) {
             for (int i = 0; i < Instance.Buildings.Length; i++)
                 if (Instance.Buildings[i].type == type)

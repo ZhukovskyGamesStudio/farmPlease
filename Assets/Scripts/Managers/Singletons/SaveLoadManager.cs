@@ -2,25 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Abstract;
 using Cysharp.Threading.Tasks;
 using Tables;
-using UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using ZhukovskyGamesPlugin;
 using Random = UnityEngine.Random;
 
 namespace Managers {
-    public class SaveLoadManager : Singleton<SaveLoadManager> {
-        private BuildingShopDialog _buildingShopDialog;
-        private FastPanelScript _fastPanelScript;
-
-        private InventoryManager _inventoryManager;
-        private PlayerController _playerController;
-        private SeedShopDialog _seedShop;
-        private SmartTilemap _smartTilemap;
-
-        private ToolShopDialog _toolShop;
+    public class SaveLoadManager : PreloadableSingleton<SaveLoadManager> {
         public static GameSaveProfile CurrentSave;
         private static bool _needToSave;
         private static bool _isWaitingSequence;
@@ -29,6 +19,13 @@ namespace Managers {
         // По окончанию этих действий игрок снова может что-то делать, а игра сохраняется. Если последовательность не была завершена - то игра не сохранится и откатится назад при след. загрузке
 
         private List<string> _activeSequences = new List<string>();
+        
+        public override int InitPriority => -1000;
+
+        protected override void OnFirstInit() {
+            base.OnFirstInit();
+            LoadGame();
+        }
 
         public string StartSequence() {
             _isWaitingSequence = true;
@@ -91,8 +88,6 @@ namespace Managers {
                 RewriteGameSavedData();
                 Debug.Instance.Log("New profile is saved");
             }
-
-            TryAddAdminCropsCollectedQueue();
         }
 
         private static void TryUpdateSave() {
@@ -178,18 +173,6 @@ namespace Managers {
             }
         }
 
-        private static void TryAddAdminCropsCollectedQueue() {
-#if UNITY_EDITOR
-            if (GameModeManager.Instance.RandomCropsCollectedQueueAmount > 0) {
-                CurrentSave.CropsCollected = new List<Crop>();
-                int cropTypesAmount = Enum.GetValues(typeof(Crop)).Length - 1;
-                for (int i = 0; i < GameModeManager.Instance.RandomCropsCollectedQueueAmount; i++) {
-                    CurrentSave.CropsCollected.Add((Crop)Random.Range(0, cropTypesAmount));
-                }
-            }
-#endif
-        }
-
         private static void GenerateGame() {
             CurrentSave = new GameSaveProfile() {
                 Coins = 0,
@@ -205,11 +188,6 @@ namespace Managers {
             Energy.GenerateEnergy();
             Clock.GenerateEnergy();
             TimeManager.GenerateDays(CurrentSave.ParsedDate);
-        }
-
-        public void ClearSaveAndReload() {
-            ClearSave();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         public static void ClearSave() {

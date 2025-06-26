@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Abstract;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,7 +22,8 @@ namespace Managers {
 
         private IEnumerator LoadManagers() {
             CustomMonoBehaviour[] preloadedManagers =
-                FindObjectsByType<CustomMonoBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+                FindObjectsByType<CustomMonoBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(m=>m.InitPriority).ToArray();
+            
             foreach (CustomMonoBehaviour manager in preloadedManagers) {
                 if (manager is IPreloadable preloadable) {
                     preloadable.Init();

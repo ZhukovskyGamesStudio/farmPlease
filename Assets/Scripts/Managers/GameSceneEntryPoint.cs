@@ -46,7 +46,7 @@ namespace Managers {
             if (GameModeManager.Instance.DoNotSave)
                 SaveLoadManager.ClearSave();
 
-            SaveLoadManager.LoadGame();
+          
             FirstSessionManager firstSessionManager = new();
             firstSessionManager.TryStartFtue();
 

@@ -8,5 +8,7 @@ namespace ScriptableObjects {
 
         [Multiline]
         public string HintText;
+        [LocalizationKey("Ftue")]
+        public string HintTextLoc;
     }
 }

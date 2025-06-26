@@ -11,11 +11,15 @@ using UnityEngine;
 
         [TextArea]
         public string firstText;
+        [LocalizationKey("Croponom")]
+        public string FirstTextLoc;
 
         public Sprite firstSprite;
 
         [TextArea]
         public string secondText;
+        [LocalizationKey("Croponom")]
+        public string SecondTextLoc;
 
         public Sprite secondSprite;
         

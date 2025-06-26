@@ -1,4 +1,5 @@
-﻿using ScriptableObjects;
+﻿using Localization;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,8 +17,8 @@ namespace UI
 
         public void UpdatePage(ConfigWithCroponomPage pageData) {
             FactsHeader.text = pageData.header;
-            FactsFirstText.text = pageData.firstText;
-            FactsSecondText.text = pageData.secondText;
+            FactsFirstText.text = LocalizationUtils.L(pageData.FirstTextLoc);
+            FactsSecondText.text = LocalizationUtils.L(pageData.SecondTextLoc);
 
             if (pageData.firstSprite != null) {
                 FactsFirstImage.enabled = true;
