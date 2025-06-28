@@ -1,4 +1,6 @@
-﻿public static class XpUtils {
+﻿using Managers;
+
+public static class XpUtils {
     public static int GetNextLevelByXp(int xp) {
         return XpByLevel(LevelByXp(xp) + 1);
     }
@@ -6,6 +8,13 @@
     public static bool IsNextLevel(int currentLevel, int currentXp) {
         int levelByXp = LevelByXp(currentXp);
         return levelByXp > currentLevel;
+    }
+
+    public static float CurrentLevelProgress() {
+        var profile = SaveLoadManager.CurrentSave;
+        int curLevelMin = XpByLevel(profile.CurrentLevel);
+        int nextLevel = XpByLevel(profile.CurrentLevel + 1);
+        return (profile.Xp - curLevelMin + 0f) / (nextLevel - curLevelMin);
     }
 
     public static int LevelByXp(int xp) {

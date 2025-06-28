@@ -27,9 +27,10 @@ public class QuestsManager : Singleton<QuestsManager> {
 
         QuestsData.MainQuest = new QuestData();
         if (QuestsData.MainQuestProgressIndex >= _mainQuests.Count) {
-            QuestsData.MainQuest.Copy(_mainQuests[QuestsData.MainQuestProgressIndex].QuestData);
-        } else {
             QuestsData.MainQuest.Copy(GenerateRandomizedQuest());
+           
+        } else {
+            QuestsData.MainQuest.Copy(_mainQuests[QuestsData.MainQuestProgressIndex].QuestData);
         }
         if (_questsDialog != null) {
             _questsDialog.ShowMainQuestChange(  QuestsData.MainQuest);

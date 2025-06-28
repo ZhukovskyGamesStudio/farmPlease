@@ -25,8 +25,8 @@ public class NewLevelDialog : DialogWithData<int> {
         _previousLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel - 1];
         _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[newLevel];
 
-        _previousLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[newLevel - 1].LevelName);
-        _nextLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[newLevel].LevelName);
+        _previousLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[newLevel - 1].LevelNameLoc);
+        _nextLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[newLevel].LevelNameLoc);
 
         _clicksNeeded = 3 + newLevel;
     }

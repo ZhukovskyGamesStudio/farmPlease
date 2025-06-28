@@ -8,8 +8,9 @@ public static class QuestsUtils {
     public static string GetQuestProgress(QuestData data) {
         return $"{data.Progress}/{data.ProgressNeeded}";
     }
+
     public static float GetQuestProgressPercent(QuestData data) {
-        return Random.Range(0,1f);
+        return Random.Range(0, 1f);
     }
 
     public static void ClaimQuest(QuestData data) {
@@ -22,7 +23,6 @@ public static class QuestsUtils {
         }
 
         if (data.IsMain) {
-           
             QuestsManager.Instance.ProgressMainQuestline();
         }
     }

@@ -1,19 +1,36 @@
 ﻿using System;
 using System.Globalization;
+using Managers;
 using UnityEngine;
 
 public class QuestsDialog : DialogWithData<QuestsDialogData> {
     [SerializeField]
     private QuestView _mainQuestView, _firstQuestView, _secondQuestView;
 
+    [SerializeField]
+    private MainQuestLockedView _mainQuestLockedView;
+
     public override void SetData(QuestsDialogData data) {
-        _mainQuestView.SetData(data.MainQuest);
+        SetMainQuestData(data.MainQuest);
         _firstQuestView.SetData(data.FirstQuest);
         _secondQuestView.SetData(data.SecondQuest);
     }
 
+    private void SetMainQuestData(QuestData data) {
+        if (SaveLoadManager.CurrentSave.CurrentLevel < data.MinLevelToUnlock - 1) {
+            _mainQuestLockedView.gameObject.SetActive(true);
+            _mainQuestView.gameObject.SetActive(false);
+            _mainQuestLockedView.SetData(data.MinLevelToUnlock, XpUtils.CurrentLevelProgress());
+        } else {
+            _mainQuestLockedView.gameObject.SetActive(false);
+            _mainQuestView.gameObject.SetActive(true);
+            _mainQuestView.SetData(data);
+        }
+    }
+
     public void ShowMainQuestChange(QuestData newQuest) {
         _mainQuestView.ShowChangeToNextQuest(newQuest);
+        SetMainQuestData(newQuest);
     }
 }
 
@@ -46,7 +63,7 @@ public class QuestData {
     public Reward Reward;
     public int XpReward;
     public int Progress;
-    
+
     public bool IsCompleted;
 
     public void Copy(QuestData other) {

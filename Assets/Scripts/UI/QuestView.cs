@@ -42,7 +42,6 @@ public class QuestView : MonoBehaviour {
     }
 
     public void ShowChangeToNextQuest(QuestData data) {
-        _questData = data;
-        SetData(data);
+       
     }
 }
