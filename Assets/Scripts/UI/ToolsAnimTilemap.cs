@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -14,39 +16,43 @@ namespace UI
 
         public float animationTime;
 
+        private Dictionary<AnimationType, TileBase> AnimationsMap;
+
+        private void Awake() {
+            CreateAnimationsMap();
+        }
+
+        private void CreateAnimationsMap() {
+            AnimationsMap = new Dictionary<AnimationType, TileBase>() {
+                { AnimationType.Hoe, hoeAnimation},
+                { AnimationType.Watercan, watercanAnimation},
+                { AnimationType.Scythe, _scytheAnimation},
+                { AnimationType.Rain, _rainAnimation},
+                { AnimationType.Strawberry, _rainAnimation},
+            };
+        }
+
         public void StartAnimationInCoord(Vector2Int coord, AnimationType type) {
             StartCoroutine(PlaceAnimation(coord, type));
         }
 
         public IEnumerator PlaceAnimation(Vector2Int coord, AnimationType type) {
             var vec3 = (Vector3Int)coord;
-            switch (type) {
-                case AnimationType.Hoe:
-                    AnimationsTilemap.SetTile(vec3, hoeAnimation);
-                    break;
-                case AnimationType.Watercan:
-                    AnimationsTilemap.SetTile(vec3, watercanAnimation);
-                    break;
-                case AnimationType.Scythe:
-                    AnimationsTilemap.SetTile(vec3, _scytheAnimation);
-                    break;
-                case AnimationType.Rain:
-                    AnimationsTilemap.SetTile(vec3, _rainAnimation);
-                    break;
-            }
-
+            AnimationsTilemap.SetTile(vec3, AnimationsMap[type]);
             yield return new WaitForSeconds(animationTime);
 
             AnimationsTilemap.SetTile(vec3, null);
             yield return false;
         }
     }
+   
 
     public enum AnimationType {
         None,
         Hoe,
         Watercan,
         Scythe,
-        Rain
+        Rain,
+        Strawberry
     }
 }

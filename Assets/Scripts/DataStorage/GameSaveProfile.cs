@@ -90,5 +90,6 @@ public class SeedShopData {
 [Serializable]
 public class QuestsData {
     public int MainQuestProgressIndex;
+    public QuestData MainQuest;
     public QuestData FirstQuest, SecondQuest;
 }

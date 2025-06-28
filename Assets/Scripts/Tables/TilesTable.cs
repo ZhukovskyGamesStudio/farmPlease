@@ -356,7 +356,7 @@ namespace Tables {
                         if (neighborsL.Count > 0) {
                             SmartTile tile = neighborsL[Random.Range(0, neighborsL.Count)];
                             neighborsL.Remove(tile);
-                            yield return StartCoroutine(tile.OnWatered(animtime,true));
+                            yield return StartCoroutine(tile.OnWatered(animtime,isStrawberry:true));
                         }
 
                     break;
@@ -532,20 +532,31 @@ namespace Tables {
             BecomeActive();
         }
 
-        public IEnumerator OnWatered(float animtime, bool isRain = false) {
+        public IEnumerator OnWatered(float animtime, bool isRain = false, bool isStrawberry = false) {
             BecomeInactive();
 
             SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
-            if (TilesTable.TileByType(type).CanBeWatered) {
-                SwitchType(TilesTable.TileByType(type).WaterSwitch, isRain ?AnimationType.Rain : AnimationType.Watercan);
+            TileData data = TilesTable.TileByType(type);
+            if (data.CanBeWatered) {
+                AnimationType animType = AnimationType.Watercan;
+                if (isStrawberry) {
+                    animType = AnimationType.Strawberry;
+                } else if (isRain) {
+                    animType = AnimationType.Rain;
+                }
+
+                if (isStrawberry && (data.type is TileType.TomatoSeed or TileType.Tomato1 or TileType.Tomato2)) {
+                    QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.StrawberryWateredTomato, 1);
+                }
+                
+                SwitchType(TilesTable.TileByType(type).WaterSwitch, animType);
             } else {
-                TileData data = TilesTable.TileByType(type);
                 if (data.TIndex == 1)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnWatered(animtime,isRain));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnWatered(animtime,isRain,isStrawberry));
                 else if (data.TIndex == 2)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnWatered(animtime,isRain));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnWatered(animtime,isRain,isStrawberry));
                 else if (data.TIndex == 3)
-                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime,isRain));
+                    yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime,isRain,isStrawberry));
                 else
                     switch (type) {
                         case TileType.Dandellion1:
@@ -571,13 +582,13 @@ namespace Tables {
             yield return new WaitForSeconds(animtime);
 
             if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeWatered())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnWatered(animtime,isRain);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnWatered(animtime,isRain,isStrawberry);
 
             if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeWatered())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnWatered(animtime,isRain);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnWatered(animtime,isRain,isStrawberry);
 
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeWatered())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime,isRain);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime,isRain,isStrawberry);
 
             Audio.Instance.PlaySound(Sounds.Watered);
             BecomeActive();

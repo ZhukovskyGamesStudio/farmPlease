@@ -102,6 +102,7 @@ namespace Managers {
 
            
             await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.EndHintLoc), true);
+         
             await ShowGetNextLevelSpotlight();
             
 #if UNITY_EDITOR
@@ -113,6 +114,7 @@ namespace Managers {
         }
         
         private void EndFtue() {
+            QuestsManager.Instance.GenerateMainQuest();
             EnableUiParts();
             KnowledgeUtils.AddKnowledge(Knowledge.Training);
             SaveLoadManager.TryCreateFirstSave();

@@ -6,7 +6,7 @@ public static class QuestsUtils {
     public static Vector2Int QuestBoardPosition => new Vector2Int(-1, 4);
 
     public static string GetQuestProgress(QuestData data) {
-        return "0/0";
+        return $"{data.Progress}/{data.ProgressNeeded}";
     }
     public static float GetQuestProgressPercent(QuestData data) {
         return Random.Range(0,1f);

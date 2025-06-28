@@ -101,6 +101,10 @@ namespace Managers {
             for (int i = 0; i < amount; i++) {
                 SaveLoadManager.CurrentSave.CropsCollected.Add(crop);
             }
+
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + TargetTypes.Crop, amount);
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + crop, amount);
+
             AddCropPoint(amount);
             UpdateInventoryUI();
         }

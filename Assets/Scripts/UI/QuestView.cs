@@ -15,10 +15,13 @@ public class QuestView : MonoBehaviour {
     private QuestData _questData;
 
     public void SetData(QuestData data) {
+        if (data == null) {
+            return;
+        }
         _questData = data;
-        _text.text = data.QuestText;
+        _text.text = data.QuestName + " -";
         _xpRewardText.text = data.XpReward.ToString();
-        _progressText.text = QuestsUtils.GetQuestProgress(data);
+        _progressText.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestProgress(data));
         _questProgressSlider.value = QuestsUtils.GetQuestProgressPercent(data);
     }
 
