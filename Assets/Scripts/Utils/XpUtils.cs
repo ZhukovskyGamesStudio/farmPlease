@@ -17,6 +17,13 @@ public static class XpUtils {
         return (profile.Xp - curLevelMin + 0f) / (nextLevel - curLevelMin);
     }
 
+    public static string CurrentProgressAsText() {
+        var profile = SaveLoadManager.CurrentSave;
+        int curLevelMin = XpByLevel(profile.CurrentLevel);
+        int nextLevel = XpByLevel(profile.CurrentLevel + 1);
+        return $"{profile.Xp - curLevelMin + 0f}/{nextLevel - curLevelMin}";
+    }
+
     public static int LevelByXp(int xp) {
         var levels = ConfigsManager.Instance.LevelConfigs;
         var costs = ConfigsManager.Instance.CostsConfig.LevelXpProgression;

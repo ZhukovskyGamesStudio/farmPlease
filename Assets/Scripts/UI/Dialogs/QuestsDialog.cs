@@ -57,10 +57,12 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
 
     public void OpenMain(bool isOn) {
         _mainTab.gameObject.SetActive(isOn);
+        _secondaryTab.gameObject.SetActive(!isOn);
     }
 
     public void OpenOther(bool isOn) {
         _secondaryTab.gameObject.SetActive(isOn);
+        _mainTab.gameObject.SetActive(!isOn);
     }
 }
 
