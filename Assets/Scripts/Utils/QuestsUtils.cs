@@ -20,6 +20,11 @@ public static class QuestsUtils {
         if (data.XpReward > 0) {
             InventoryManager.Instance.AddXp(data.XpReward);
         }
+
+        if (data.IsMain) {
+           
+            QuestsManager.Instance.ProgressMainQuestline();
+        }
     }
 
     public static void PlaceQuestBoard() {

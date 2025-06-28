@@ -13,19 +13,43 @@ public class QuestsManager : Singleton<QuestsManager> {
 
     private QuestsData QuestsData => SaveLoadManager.CurrentSave.QuestsData;
 
-    public void GenerateMainQuest() {
+    private QuestsDialog _questsDialog;
+
+    public void GenerateNextMainQuest() {
         if (QuestsData.MainQuest == null) {
             QuestsData.MainQuest = new QuestData();
             QuestsData.MainQuest.Copy(_mainQuests[QuestsData.MainQuestProgressIndex].QuestData);
         }
     }
-    
+
+    public void ProgressMainQuestline() {
+        QuestsData.MainQuestProgressIndex++;
+
+        QuestsData.MainQuest = new QuestData();
+        if (QuestsData.MainQuestProgressIndex >= _mainQuests.Count) {
+            QuestsData.MainQuest.Copy(_mainQuests[QuestsData.MainQuestProgressIndex].QuestData);
+        } else {
+            QuestsData.MainQuest.Copy(GenerateRandomizedQuest());
+        }
+        if (_questsDialog != null) {
+            _questsDialog.ShowMainQuestChange(  QuestsData.MainQuest);
+        }
+    }
+
+    private QuestData GenerateRandomizedQuest() {
+        var rnd = _generatableQuests[Random.Range(0, _generatableQuests.Count)];
+        return rnd.QuestData;
+    }
+
     public void OpenQuestsDialog() {
-        DialogsManager.Instance.ShowDialogWithData(typeof(QuestsDialog), new QuestsDialogData() {
+        var d = DialogsManager.Instance.ShowDialogWithData(typeof(QuestsDialog), new QuestsDialogData() {
             MainQuest = QuestsData.MainQuest,
             FirstQuest = QuestsData.FirstQuest,
             SecondQuest = QuestsData.SecondQuest
         });
+        if (d != null) {
+            _questsDialog = d as QuestsDialog;
+        }
     }
 
     public static void TriggerQuest(string triggerName, int change, bool isSet = false) {

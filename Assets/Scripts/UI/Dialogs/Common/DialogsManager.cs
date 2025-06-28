@@ -32,13 +32,13 @@ public class DialogsManager : MonoBehaviour {
         AddToQueue(dialogBase);
     }
 
-    public void ShowDialogWithData<T>(Type dialogType, T data) {
+    public DialogBase ShowDialogWithData<T>(Type dialogType, T data) {
         if (_shownDialog != null && _shownDialog.GetComponent(dialogType) != null) {
-            return;
+            return null;
         }
 
         if (_dialogQueue.Any(d => d.GetComponent(dialogType) != null)) {
-            return;
+            return null;
         }
 
         DialogBase prefab = _dialogs.First(d => d.GetComponent(dialogType) != null);
@@ -50,6 +50,7 @@ public class DialogsManager : MonoBehaviour {
         }
         dialogBase.gameObject.SetActive(false);
         AddToQueue(dialogBase);
+        return dialogBase;
     }
 
     private void AddToQueue(DialogBase dialog) {

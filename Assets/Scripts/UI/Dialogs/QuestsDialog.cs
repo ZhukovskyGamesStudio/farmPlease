@@ -11,6 +11,10 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _firstQuestView.SetData(data.FirstQuest);
         _secondQuestView.SetData(data.SecondQuest);
     }
+
+    public void ShowMainQuestChange(QuestData newQuest) {
+        _mainQuestView.ShowChangeToNextQuest(newQuest);
+    }
 }
 
 [Serializable]
@@ -50,6 +54,7 @@ public class QuestData {
         IsMain = other.IsMain;
         MinLevelToUnlock = other.MinLevelToUnlock;
         ProgressNeeded = other.ProgressNeeded;
+        QuestName = other.QuestName;
         QuestText = other.QuestText;
         XpReward = other.XpReward;
         Progress = other.Progress;

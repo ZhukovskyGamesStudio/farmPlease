@@ -114,7 +114,7 @@ namespace Managers {
         }
         
         private void EndFtue() {
-            QuestsManager.Instance.GenerateMainQuest();
+            QuestsManager.Instance.GenerateNextMainQuest();
             EnableUiParts();
             KnowledgeUtils.AddKnowledge(Knowledge.Training);
             SaveLoadManager.TryCreateFirstSave();
