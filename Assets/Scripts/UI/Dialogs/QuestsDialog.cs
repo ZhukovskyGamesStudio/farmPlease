@@ -10,6 +10,9 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     [SerializeField]
     private MainQuestLockedView _mainQuestLockedView;
 
+    [SerializeField]
+    private GameObject _mainTab, _secondaryTab;
+
     public override void SetData(QuestsDialogData data) {
         SetMainQuestData(data.MainQuest);
         _firstQuestView.SetData(data.FirstQuest);
@@ -31,6 +34,14 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     public void ShowMainQuestChange(QuestData newQuest) {
         _mainQuestView.ShowChangeToNextQuest(newQuest);
         SetMainQuestData(newQuest);
+    }
+
+    public void OpenMain(bool isOn) {
+        _mainTab.gameObject.SetActive(isOn);
+    }
+
+    public void OpenOther(bool isOn) {
+        _secondaryTab.gameObject.SetActive(isOn);
     }
 }
 
