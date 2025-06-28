@@ -30,6 +30,7 @@ namespace Managers {
             UIHud.Instance.FastPanelScript.UpdateGoldenScytheState();
             UIHud.Instance.ClockView.UpdateGoldenState();
             UIHud.Instance.ClockView.UpdateAdIcon();
+            QuestsManager.Instance.TryStartQuestsTimer();
             
             if (!string.IsNullOrEmpty(SaveLoadManager.CurrentSave.UserId)) {
                 FarmerCommunityManager.Instance.PreloadNextFarm().Forget();

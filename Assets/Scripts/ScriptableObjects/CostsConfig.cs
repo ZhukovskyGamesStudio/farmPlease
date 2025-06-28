@@ -14,4 +14,6 @@ public class CostsConfig : ScriptableObject {
 
     public float MinutesGoldenClockWorks = 30f;
     public float MinutesGoldenScytheWorks = 60f;
+
+    public float HoursQuestsChange = 24;
 }

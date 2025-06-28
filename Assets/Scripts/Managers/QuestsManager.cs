@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Managers;
 using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
+using Random = UnityEngine.Random;
 
 public class QuestsManager : Singleton<QuestsManager> {
     [SerializeField]
@@ -11,9 +16,27 @@ public class QuestsManager : Singleton<QuestsManager> {
     [SerializeField]
     private List<QuestConfig> _generatableQuests;
 
-    private QuestsData QuestsData => SaveLoadManager.CurrentSave.QuestsData;
+    private QuestsDialogData QuestsData => SaveLoadManager.CurrentSave.QuestsData;
+
+    public TimeSpan TimeToQuestsUpdate => QuestsData.LastTimeQuestsUpdatedDateTime +
+        TimeSpan.FromHours(ConfigsManager.Instance.CostsConfig.HoursQuestsChange) - DateTime.Now;
 
     private QuestsDialog _questsDialog;
+
+    public void TryStartQuestsTimer() {
+        QuestsUpdateTimer(this.GetCancellationTokenOnDestroy()).Forget();
+    }
+
+    private async UniTask QuestsUpdateTimer(CancellationToken cancellationToken) {
+        var delay = TimeToQuestsUpdate;
+        if (delay.TotalSeconds < 0) {
+            GenerateSideQuests();
+        } else {
+            await UniTask.Delay(TimeToQuestsUpdate, cancellationToken: cancellationToken);
+        }
+
+        await QuestsUpdateTimer(cancellationToken);
+    }
 
     public void GenerateNextMainQuest() {
         if (QuestsData.MainQuest == null) {
@@ -28,13 +51,25 @@ public class QuestsManager : Singleton<QuestsManager> {
         QuestsData.MainQuest = new QuestData();
         if (QuestsData.MainQuestProgressIndex >= _mainQuests.Count) {
             QuestsData.MainQuest.Copy(GenerateRandomizedQuest());
-           
         } else {
             QuestsData.MainQuest.Copy(_mainQuests[QuestsData.MainQuestProgressIndex].QuestData);
         }
+
         if (_questsDialog != null) {
-            _questsDialog.ShowMainQuestChange(  QuestsData.MainQuest);
+            _questsDialog.ShowMainQuestChange(QuestsData.MainQuest);
         }
+    }
+
+    private void GenerateSideQuests() {
+        QuestsData.FirstQuest = GenerateRandomizedQuest();
+        QuestsData.SecondQuest = GenerateRandomizedQuest();
+
+        if (_questsDialog != null) {
+            _questsDialog.ShowSideQuestChange(QuestsData.FirstQuest, QuestsData.SecondQuest);
+        }
+
+        QuestsData.LastTimeQuestsUpdated = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
+        SaveLoadManager.SaveGame();
     }
 
     private QuestData GenerateRandomizedQuest() {

@@ -10,7 +10,7 @@ public static class QuestsUtils {
     }
 
     public static float GetQuestProgressPercent(QuestData data) {
-        return Random.Range(0, 1f);
+        return (data.Progress + 0f) / data.ProgressNeeded;
     }
 
     public static void ClaimQuest(QuestData data) {
