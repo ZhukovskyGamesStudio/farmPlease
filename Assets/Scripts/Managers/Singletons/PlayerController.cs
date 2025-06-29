@@ -460,7 +460,7 @@ public class PlayerController : Singleton<PlayerController> {
                     sequenceId = SaveLoadManager.Instance.StartSequence();
                     didSomething = true;
 
-                    InventoryManager.Instance.AddXp(hasGoldenScythe ? 3 :1  );
+                    //InventoryManager.Instance.AddXp(hasGoldenScythe ? 3 :1  );
                     yield return StartCoroutine(_smartTilemap.CollectTile());
                 }
 

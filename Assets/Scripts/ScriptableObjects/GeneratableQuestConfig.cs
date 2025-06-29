@@ -5,5 +5,12 @@ using UnityEngine;
 public class GeneratableQuestConfig : QuestConfig {
     [Header("Generated")]
     public int MinMultiplier;
+
     public int MaxMultiplier;
+
+    [Header("AvailableConditions")]
+    public int MinLevel;
+
+    [UnlockableDropdown]
+    public string Unlockable;
 }
