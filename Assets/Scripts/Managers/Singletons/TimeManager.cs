@@ -167,7 +167,7 @@ public class TimeManager : Singleton<TimeManager> {
         ChangeSeedsNewDay();
         ChangeToolsNewDay();
 
-        HappeningType nextDay = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth);
+        HappeningType nextDay = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth, false);
         TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
         StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
         yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
@@ -195,7 +195,7 @@ public class TimeManager : Singleton<TimeManager> {
         ToolsUtils.ChangeTools();
     }
 
-    public static HappeningType UnveilUnknownHappening(int day) {
+    public static HappeningType UnveilUnknownHappening(int day, bool isPrediction ) {
         HappeningType happening = Days[day];
         if (happening == HappeningType.Unknown) {
             List<HappeningType> possibleHappenings = new List<HappeningType>();
@@ -218,6 +218,10 @@ public class TimeManager : Singleton<TimeManager> {
             int rnd = Random.Range(0, possibleHappenings.Count);
             Days[day] = possibleHappenings[rnd];
             happening = possibleHappenings[rnd];
+        }
+
+        if (isPrediction && happening == HappeningType.Insects) {
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.LocateInsects, 1);
         }
 
         return happening;

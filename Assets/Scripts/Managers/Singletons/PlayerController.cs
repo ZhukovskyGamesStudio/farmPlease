@@ -242,7 +242,7 @@ public class PlayerController : Singleton<PlayerController> {
                     }
 
                     _smartTilemap.PlaceBuilding(_currentBuilding, _smartTilemap.Playercoord);
-
+                    QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.BuildBuilding, 1);
                     SaveLoadManager.Instance.EndSequence(_buildingSequenceId);
 
                     if (_fromBackpack)

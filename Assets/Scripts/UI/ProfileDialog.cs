@@ -66,7 +66,12 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
             return;
         }
 
-        SaveLoadManager.CurrentSave.Nickname = input;
+        if (SaveLoadManager.CurrentSave.Nickname == input) {
+            return;
+        }
+
+        QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.ChangeNickname, 1);
+        SaveLoadManager.CurrentSave.Nickname = input.TrimStart().TrimEnd();
         SaveLoadManager.SaveGame();
     }
 

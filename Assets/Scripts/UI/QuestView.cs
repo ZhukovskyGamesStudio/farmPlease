@@ -56,7 +56,7 @@ public class QuestView : MonoBehaviour {
     }
 
     private void UpdateState(QuestData data) {
-        _collectState.SetActive(!data.IsCompleted && data.QuestType == QuestTypes.Collect);
+        _collectState.SetActive(!data.IsCompleted && (data.QuestType == QuestTypes.Collect || data.QuestType == QuestTypes.Special));
         _sendState.SetActive(!data.IsCompleted && data.QuestType == QuestTypes.Send);
         _completedState.SetActive(data.IsCompleted);
     }

@@ -42,7 +42,7 @@ public class BigCalendarDialog : DialogWithData<BigCalendarData> {
             if (TimeManager.Days[i] == HappeningType.Love && predictedDaysLeft > 0) {
                 view.SetProps(i, HappeningType.NormalSunnyDay);
             } else if (TimeManager.Days[i] == HappeningType.Unknown && predictedDaysLeft > 0 && i > curDay) {
-                TimeManager.UnveilUnknownHappening(i);
+                TimeManager.UnveilUnknownHappening(i, true);
                 view.SetProps(i, TimeManager.Days[i]);
             } else {
                 view.SetProps(i, TimeManager.Days[i]);

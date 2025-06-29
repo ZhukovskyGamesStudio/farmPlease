@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using Tables;
 using UnityEngine;
@@ -49,5 +50,19 @@ public static class TileUtils {
         if (SmartTilemap.Instance) {
             SmartTilemap.Instance.GenerateTilesWithData(tilesData);
         }
+    }
+
+    public static int CountAvailableTiles() {
+        return SaveLoadManager.CurrentSave.TilesData.Tiles.Values.Count(t=> !NotAvailableTiles.Contains(t))-1;
+    }
+
+    private static List<TileType> NotAvailableTiles => new List<TileType>() {
+        TileType.None, TileType.Rocks,
+        TileType.QuestBoard1_new, TileType.QuestBoard1_00, TileType.QuestBoard1_01, TileType.QuestBoard1_10, TileType.QuestBoard1_11,
+        TileType.QuestBoard2, TileType.QuestBoard3, TileType.QuestBoard4
+    };
+
+    public static int CountTilesOfType(TileType type) {
+        return SaveLoadManager.CurrentSave.TilesData.Tiles.Values.Count(t=>t ==type);
     }
 }

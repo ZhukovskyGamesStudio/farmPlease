@@ -200,7 +200,25 @@ namespace Managers {
             SeedsInventory[crop] += amount;
             UpdateInventoryUI();
             _fastPanelScript.UpdateSeedFastPanel(crop, SeedsInventory[crop]);
+
+            TriggerCollectSeedTypes();
             SaveLoadManager.SaveGame();
+        }
+
+        public void RetriggerCollectionQuests() {
+            TriggerCollectSeedTypes();
+            TriggerCollectToolTypes();
+        }
+
+        private static void TriggerCollectToolTypes() {
+            int diffToolTypes = ToolsStored.Values.Count(c => c > 0);
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.CollectNToolTypes, diffToolTypes, true);
+        }
+
+        private static void TriggerCollectSeedTypes() {
+            int diffSeddTypes = SeedsInventory.Values.Count(c => c > 0);
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.CollectNSeedTypes, diffSeddTypes, true);
+            
         }
 
         public void LoseSeed(Crop crop) {
@@ -268,6 +286,7 @@ namespace Managers {
             QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + TargetTypes.Tool, amount);
             QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + buff, amount);
             ToolsStored[buff] += amount;
+            TriggerCollectToolTypes();
             UpdateInventoryUI();
         }
         

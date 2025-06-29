@@ -331,13 +331,15 @@ namespace Tables {
             _tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.grey);
         }
 
-        public IEnumerator OnHoed(float animtime) {
+        public IEnumerator OnHoed(float animtime, bool isDandellion = false, bool isTractor = false) {
             BecomeInactive();
 
             SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
 
             switch (type) {
                 case TileType.Sand:
+                    SwitchType(TileType.Soil, AnimationType.Hoe);
+                    break;
                 case TileType.FernDead:
                 case TileType.BeautyflowerDead:
                 case TileType.PeanutDead:
@@ -358,6 +360,9 @@ namespace Tables {
                             neighborsL.Remove(tile);
                             yield return StartCoroutine(tile.OnWatered(animtime,isStrawberry:true));
                         }
+                    if (isDandellion) {
+                        QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.DandellionHoedStrawberry, 1);
+                    }
 
                     break;
             }
@@ -365,13 +370,13 @@ namespace Tables {
             yield return new WaitForSeconds(animtime);
 
             if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeHoed())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnHoed(animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnHoed(animtime, isDandellion, isTractor);
 
             if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeHoed())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnHoed(animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnHoed(animtime, isDandellion, isTractor);
 
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeHoed())
-                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnHoed(animtime);
+                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnHoed(animtime, isDandellion, isTractor);
 
             Audio.Instance.PlaySound(Sounds.Hoed);
             BecomeActive();
@@ -572,7 +577,7 @@ namespace Tables {
                                 if (neighborsL.Count > 0) {
                                     SmartTile tile = neighborsL[Random.Range(0, neighborsL.Count)];
                                     neighborsL.Remove(tile);
-                                    yield return StartCoroutine(tile.OnHoed(animtime));
+                                    yield return StartCoroutine(tile.OnHoed(animtime, isDandellion: true));
                                 }
 
                             break;
@@ -603,6 +608,8 @@ namespace Tables {
                 if ((neighborTiles[i].type == TileType.Fern1 && type != TileType.Onion1) ||
                     (neighborTiles[i].type == TileType.WateredFern1 && type != TileType.Onion1))
                     multiplier = 2;
+            
+            //TODO должно работать по другому!
             if (TimeManager.Instance.IsTodayLoveDay)
                 multiplier *= 2;
             if (hasGoldenScythe)
@@ -612,6 +619,9 @@ namespace Tables {
                 var crop = TilesTable.TileByType(type).cropCollected;
                 var amount = TilesTable.TileByType(type).collectAmount * multiplier;
                 HarvestCrop(crop, amount);
+                if (type == TileType.Eggplant3) {
+                    QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.GiantEggplant, 1);
+                }
 
                 SwitchType(TileType.Soil, AnimationType.Scythe);
             } else {
@@ -678,7 +688,7 @@ namespace Tables {
             else
                 switch (type) {
                     case TileType.WateredSoil:
-                        if (Random.Range(0, 2) == 1)
+                        if (Random.Range(0, 5) == 1)
                             SwitchType(TileType.Weed);
                         break;
 
@@ -833,6 +843,7 @@ namespace Tables {
 
                 case TileType.WateredSoil:
                     SwitchType(TileType.Weed);
+                    QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.EroseNWeeds, 1);    
                     break;
 
                 case TileType.CactusSeed:
@@ -926,6 +937,9 @@ namespace Tables {
         }
 
         public void HarvestCrop(Crop croptype, int amount) {
+          
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.CollectNFromOneTile, amount, true);    
+            
             InventoryManager.Instance.AddCollectedCrop(croptype, amount);
             DropCrop(croptype, amount);
         }

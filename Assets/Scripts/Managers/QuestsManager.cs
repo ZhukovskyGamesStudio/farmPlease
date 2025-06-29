@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Managers;
+using Tables;
 using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
@@ -55,6 +56,8 @@ public class QuestsManager : Singleton<QuestsManager> {
             QuestsData.MainQuest.Copy(_questsConfig.MainQuestline[QuestsData.MainQuestProgressIndex].QuestData);
         }
 
+        TryChangeSpecial(QuestsData.MainQuest);
+        InventoryManager.Instance.RetriggerCollectionQuests();
         if (_questsDialog != null) {
             _questsDialog.ShowMainQuestChange(QuestsData.MainQuest);
         }
@@ -68,6 +71,9 @@ public class QuestsManager : Singleton<QuestsManager> {
             _questsDialog.ShowSideQuestChange(QuestsData.FirstQuest, QuestsData.SecondQuest);
         }
 
+        TryChangeSpecial(QuestsData.FirstQuest);
+        TryChangeSpecial(QuestsData.SecondQuest);
+        InventoryManager.Instance.RetriggerCollectionQuests();
         QuestsData.LastTimeQuestsUpdated = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
         SaveLoadManager.SaveGame();
     }
@@ -109,11 +115,16 @@ public class QuestsManager : Singleton<QuestsManager> {
             return;
         }
 
-        if (isSet) {
-            quest.Progress = change;
+        if (quest.QuestType == QuestTypes.Special) {
+            TryChangeSpecial(quest);
         } else {
-            quest.Progress += change;
+            if (isSet) {
+                quest.Progress = change;
+            } else {
+                quest.Progress += change;
+            }
         }
+     
 
         if (quest.Progress <= 0) {
             quest.Progress = 0;
@@ -121,6 +132,14 @@ public class QuestsManager : Singleton<QuestsManager> {
 
         if (quest.Progress >= quest.ProgressNeeded) {
             quest.IsCompleted = true;
+        }
+    }
+
+    public static void TryChangeSpecial( QuestData quest) {
+        if (quest.TriggerName.Contains(SpecialTargetTypes.DigAllField.ToString())) {
+            var total = TileUtils.CountAvailableTiles();
+            quest.Progress = total - TileUtils.CountTilesOfType(TileType.Sand);
+            quest.ProgressNeeded = total;
         }
     }
 

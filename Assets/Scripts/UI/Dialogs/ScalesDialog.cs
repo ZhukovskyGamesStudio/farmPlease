@@ -65,6 +65,9 @@ public class ScalesDialog : DialogWithData<int> {
         yield return StartCoroutine(scalesView.SellCrops(crops));
         int cropsAmount = crops.Count;
         int coinsGain = cropsAmount * (TimeManager.Instance.IsTodayLoveDay ? 2 : 1);
+        if (TimeManager.Instance.IsTodayLoveDay) {
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.SellOnDoubleDay, cropsAmount);    
+        }
         InventoryManager.Instance.AddCoins(coinsGain);
         InventoryManager.Instance.AddCropPoint(-cropsAmount);
 

@@ -41,6 +41,7 @@ namespace Managers {
             if (_activeSequences.Count == 0) {
                 _isWaitingSequence = false;
                 PlayerController.CanInteract = true;
+                QuestsManager.TriggerQuest(QuestTypes.Special.ToString() + SpecialTargetTypes.DigAllField, 1, true);
                 SaveGame();
             }
         }
