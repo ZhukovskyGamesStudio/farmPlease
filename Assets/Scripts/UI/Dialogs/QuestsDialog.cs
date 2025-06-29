@@ -17,7 +17,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     private GameObject _mainTab, _secondaryTab;
 
     [SerializeField]
-    private TextMeshProUGUI _timerText;
+    private TextMeshProUGUI _timerText, _adsTimerText;
 
     [SerializeField]
     private TextMeshProUGUI _dailyQuestsText, _dailyQuestsLockedText;
@@ -50,6 +50,9 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     private async UniTaskVoid QuestsUpdateTimer(CancellationToken cancellationToken) {
         while (true) {
             _timerText.text = $"Обновится через {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}";
+            _adsTimerText.text = $"задания обновятся через {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}\n обновить сейчас за рекламу?";
+             
+               
             await UniTask.Delay(1, cancellationToken: cancellationToken);
         }
     }

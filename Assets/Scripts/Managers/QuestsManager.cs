@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Managers;
@@ -25,6 +26,9 @@ public class QuestsManager : Singleton<QuestsManager> {
     
     
     public void TryStartQuestsTimer() {
+        if (!IsDailyUnlocked) {
+            return;
+        }
         QuestsUpdateTimer(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
@@ -63,7 +67,7 @@ public class QuestsManager : Singleton<QuestsManager> {
         }
     }
 
-    private void GenerateSideQuests() {
+    public void GenerateSideQuests() {
         QuestsData.FirstQuest = GenerateRandomizedQuest();
         QuestsData.SecondQuest = GenerateRandomizedQuest();
 
@@ -79,7 +83,9 @@ public class QuestsManager : Singleton<QuestsManager> {
     }
 
     private QuestData GenerateRandomizedQuest() {
-        var rnd = _questsConfig.GeneratableQuestConfigs[Random.Range(0, _questsConfig.GeneratableQuestConfigs.Count)];
+        var possible = _questsConfig.GeneratableQuestConfigs.Where(q =>
+            q.MinLevel <= SaveLoadManager.CurrentSave.CurrentLevel && UnlockableUtils.HasUnlockable(q.Unlockable)).ToList();
+        var rnd = possible[Random.Range(0, possible.Count)];
     
         var data = new QuestData();
         data.Copy(rnd.QuestData);

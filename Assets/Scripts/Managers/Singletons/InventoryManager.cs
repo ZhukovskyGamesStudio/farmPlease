@@ -163,6 +163,11 @@ namespace Managers {
                 OnClaim = () => {
                     SaveLoadManager.CurrentSave.CurrentLevel++;
                     UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
+
+                    if (SaveLoadManager.CurrentSave.CurrentLevel == ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily) {
+                        QuestsManager.Instance.GenerateSideQuests();
+                        QuestsManager.Instance.TryStartQuestsTimer();
+                    }
                     SaveLoadManager.SaveGame();
                 }
             });

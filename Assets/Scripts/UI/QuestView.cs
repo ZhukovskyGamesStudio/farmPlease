@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,10 +20,12 @@ public class QuestView : MonoBehaviour {
     private Button _sendButton;
 
     private QuestData _questData;
+    [SerializeField]
+    private Color _dark, _bright;
 
     [SerializeField]
     private int _questIndex;
-
+    
     public void SetData(QuestData data) {
         if (data == null) {
             gameObject.SetActive(false);
@@ -51,6 +54,9 @@ public class QuestView : MonoBehaviour {
 
         _sendStateProgress.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestSendProgress(data));
         _sendButton.interactable = QuestsUtils.GetQuestReadyForSend(data) >= data.ProgressNeeded;
+        _sendStateProgress.color = _sendButton.interactable ? _bright : _dark;
+        
+       
         _progressText.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestProgress(data));
         _questProgressSlider.value = QuestsUtils.GetQuestProgressPercent(data);
     }
