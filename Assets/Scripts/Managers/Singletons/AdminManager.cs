@@ -72,4 +72,23 @@ public class AdminManager : MonoBehaviour {
         }
         UIHud.Instance.UpdateLockedUI();
     }
+
+    public void AddSeeds(int amount) {
+        var crops = Enum.GetValues(typeof(Crop));
+        foreach (Crop crop in crops) {
+            if (crop is Crop.None or Crop.Weed) {
+                continue;
+            }
+            InventoryManager.Instance.AddSeed(crop, amount);
+        }
+    }
+
+    public void AddMainQuestLine() {
+        QuestsManager.Instance.ProgressMainQuestline();
+    }
+
+    public void ResetMainQuestline() {
+        SaveLoadManager.CurrentSave.QuestsData.MainQuestProgressIndex = -1;
+        QuestsManager.Instance.ProgressMainQuestline();
+    }
 }

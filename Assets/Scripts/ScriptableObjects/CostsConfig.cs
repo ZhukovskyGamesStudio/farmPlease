@@ -16,4 +16,5 @@ public class CostsConfig : ScriptableObject {
     public float MinutesGoldenScytheWorks = 60f;
 
     public float HoursQuestsChange = 24;
+    public int LevelToUnlockDaily = 3;
 }

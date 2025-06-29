@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System;
+using Managers;
 using Tables;
 using UnityEngine;
 
@@ -12,6 +13,34 @@ public static class QuestsUtils {
     public static float GetQuestProgressPercent(QuestData data) {
         return (data.Progress + 0f) / data.ProgressNeeded;
     }
+
+    public static float GetQuestReadyForSend(QuestData data) {
+        if (Enum.TryParse(data.TargetType, out Crop crop)) {
+            return InventoryManager.Instance.CountCrops(crop);
+        }
+
+        return 0;
+    }
+
+    public static bool IsReadyForSend(QuestData data) {
+        if (Enum.TryParse(data.TargetType, out Crop crop)) {
+            return InventoryManager.Instance.CountCrops(crop) >= data.ProgressNeeded;
+        }
+
+        return false;
+    }
+    
+    public static void SendQuest(QuestData data) {
+        if (Enum.TryParse(data.TargetType, out Crop crop)) {
+            for (int i = 0; i < data.ProgressNeeded; i++) {
+                SaveLoadManager.CurrentSave.CropsCollected.Remove(crop);
+            }
+        }
+
+        data.IsCompleted = true;
+        SaveLoadManager.SaveGame();
+    }
+
 
     public static void ClaimQuest(QuestData data) {
         if (data.Reward != null) {
@@ -27,6 +56,7 @@ public static class QuestsUtils {
         }
     }
 
+    
     public static void PlaceQuestBoard() {
         SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_11);
         SmartTilemap.Instance.PlaceTile(QuestBoardPosition + Vector2Int.right, TileType.QuestBoard2);

@@ -18,6 +18,18 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
 
     [SerializeField]
     private TextMeshProUGUI _timerText;
+
+    [SerializeField]
+    private TextMeshProUGUI _dailyQuestsText, _dailyQuestsLockedText;
+
+    [SerializeField]
+    private GameObject _dailyLocked;
+
+
+    [SerializeField]
+    private GameObject _dailyNormal, _dailyChangeForAds;
+
+    private int _selectedQuestForChange;
     
     
     public override void SetData(QuestsDialogData data) {
@@ -25,6 +37,14 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _firstQuestView.SetData(data.FirstQuest);
         _secondQuestView.SetData(data.SecondQuest);
         QuestsUpdateTimer(this.GetCancellationTokenOnDestroy()).Forget();
+        
+        SetDailyLockedState(!QuestsManager.Instance.IsDailyUnlocked, ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily);
+    }
+
+    private void SetDailyLockedState(bool isLocked, int lvlToUnlock) {
+        _dailyLocked.gameObject.SetActive(isLocked);
+        _dailyQuestsText.gameObject.SetActive(!isLocked);
+        _dailyQuestsLockedText.text = $"{lvlToUnlock} уровень";
     }
 
     private async UniTaskVoid QuestsUpdateTimer(CancellationToken cancellationToken) {
@@ -61,8 +81,40 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     }
 
     public void OpenOther(bool isOn) {
+        if (!QuestsManager.Instance.IsDailyUnlocked) {
+            return;
+        }
+        
         _secondaryTab.gameObject.SetActive(isOn);
         _mainTab.gameObject.SetActive(!isOn);
+    }
+
+    public void OpenChangeForAds() {
+        _dailyNormal.gameObject.SetActive(false);
+        _dailyChangeForAds.gameObject.SetActive(true);
+    }
+
+    public void CloseChangeForAds() {
+        _dailyNormal.gameObject.SetActive(true);
+        _dailyChangeForAds.gameObject.SetActive(false);
+    }
+
+    public void SetQuestForChangeAfterAd1(bool isOn) {
+        if (!isOn) {
+            return;
+        }
+        _selectedQuestForChange = 0;
+    }
+    public void SetQuestForChangeAfterAd2(bool isOn) {
+        if (!isOn) {
+            return;
+        }
+        _selectedQuestForChange = 1;
+    }
+
+    public void ConfirmShowAd() {
+        CloseChangeForAds();
+        QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
     }
 }
 

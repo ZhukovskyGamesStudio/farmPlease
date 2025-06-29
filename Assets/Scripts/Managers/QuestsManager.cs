@@ -14,7 +14,7 @@ public class QuestsManager : Singleton<QuestsManager> {
     private List<QuestConfig> _mainQuests;
 
     [SerializeField]
-    private List<QuestConfig> _generatableQuests;
+    private List<GeneratableQuestConfig> _generatableQuests;
 
     private QuestsDialogData QuestsData => SaveLoadManager.CurrentSave.QuestsData;
 
@@ -23,6 +23,9 @@ public class QuestsManager : Singleton<QuestsManager> {
 
     private QuestsDialog _questsDialog;
 
+    public bool IsDailyUnlocked => SaveLoadManager.CurrentSave.CurrentLevel >= ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily-1;
+    
+    
     public void TryStartQuestsTimer() {
         QuestsUpdateTimer(this.GetCancellationTokenOnDestroy()).Forget();
     }
@@ -74,7 +77,13 @@ public class QuestsManager : Singleton<QuestsManager> {
 
     private QuestData GenerateRandomizedQuest() {
         var rnd = _generatableQuests[Random.Range(0, _generatableQuests.Count)];
-        return rnd.QuestData;
+    
+        var data = new QuestData();
+        data.Copy(rnd.QuestData);
+        var rndMultiplier = Random.Range(rnd.MinMultiplier, rnd.MaxMultiplier + 1);
+        data.ProgressNeeded *= rndMultiplier;
+        data.XpReward *= rndMultiplier;
+        return data;
     }
 
     public void OpenQuestsDialog() {
@@ -117,4 +126,17 @@ public class QuestsManager : Singleton<QuestsManager> {
             quest.IsCompleted = true;
         }
     }
+
+    public void ChangeQuestForAd(int questIndex) {
+        if (questIndex == 0) {
+            QuestsData.FirstQuest = GenerateRandomizedQuest();
+        } else {
+            QuestsData.SecondQuest = GenerateRandomizedQuest();
+        }
+        if (_questsDialog != null) {
+            _questsDialog.ShowSideQuestChange(QuestsData.FirstQuest, QuestsData.SecondQuest);
+        }
+    }
+
+    
 }

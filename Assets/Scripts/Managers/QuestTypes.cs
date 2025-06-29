@@ -3,7 +3,8 @@
 [Serializable]
 public enum QuestTypes {
     None = 0,
-    Collect = 1,
+    Collect,
+    Send
 }
 
 [Serializable]

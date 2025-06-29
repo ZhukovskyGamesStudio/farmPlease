@@ -14,15 +14,23 @@ public class QuestData {
     public string TargetType;
 
     public string TriggerName => QuestType + TargetType;
-    public int ProgressNeeded;
-
-    public string QuestName;
-    public string QuestText;
-    public Reward Reward;
-    public int XpReward;
+   
+    
+    [HideInInspector]
     public int Progress;
 
+    [HideInInspector]
     public bool IsCompleted;
+    [HideInInspector]
+    public Reward Reward;
+    
+    [Header("Texts")]
+    public string QuestName;
+    public string QuestText;
+    
+    [Header("Values")]
+    public int ProgressNeeded;
+    public int XpReward;
 
     public void Copy(QuestData other) {
         if (other == null) return;

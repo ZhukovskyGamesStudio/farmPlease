@@ -109,6 +109,10 @@ namespace Managers {
             UpdateInventoryUI();
         }
 
+        public int CountCrops(Crop crop) {
+            return SaveLoadManager.CurrentSave.CropsCollected.Count(c => c == crop);
+        }
+
         public void AddCropPoint(int amount) {
             _uiHud.CountersView.CropsCounter.ChangeAmount(amount);
         }
