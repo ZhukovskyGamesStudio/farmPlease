@@ -36,7 +36,11 @@ public class AdminManager : MonoBehaviour {
         if(amountToNextLevel > 10000) {
             amountToNextLevel = 10000; // Limit to prevent excessive XP addition
         }
+     
+        SaveLoadManager.CurrentSave.CurrentLevel++;
+        UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
         InventoryManager.Instance.AddXp(amountToNextLevel);
+        SaveLoadManager.SaveGame();
     }
 
     public void AddCollectedCrops(int amount) {

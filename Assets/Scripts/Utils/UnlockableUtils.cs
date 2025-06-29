@@ -33,7 +33,7 @@ public static class UnlockableUtils {
     
     public static void Unlock(string unlockable) {
         if(unlockable == Unlockable.FoodMarket.ToString()) {
-            TimeManager.Instance.AddMissingFoodMarkets();
+            TimeManager.AddMissingFoodMarkets();
         }
         AddAndSave(unlockable);
     }
@@ -46,14 +46,18 @@ public static class UnlockableUtils {
         if (!NotInCroponom.Contains(unlockable)) {
             SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
         }
-    
-        UIHud.Instance.CroponomAttention.ShowAttention();
+
+       
+      
         Unlocked?.Add(unlockable);
         if (SaveLoadManager.Instance != null) {
             SaveLoadManager.SaveGame();
         }
         
-        UIHud.Instance.OpenCroponomButton.UpdateTags();
+        if (LoadingManager.IsGameLoaded) {
+            UIHud.Instance.CroponomAttention.ShowAttention();
+            UIHud.Instance.OpenCroponomButton.UpdateTags();
+        }
     }
 
     public static List<string> GetInitialUnlockables() {

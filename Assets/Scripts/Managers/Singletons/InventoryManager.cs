@@ -265,7 +265,8 @@ namespace Managers {
             if (!ToolsStored.ContainsKey(buff)) {
                 ToolsStored.Add(buff, 0);
             }
-
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + TargetTypes.Tool, amount);
+            QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + buff, amount);
             ToolsStored[buff] += amount;
             UpdateInventoryUI();
         }

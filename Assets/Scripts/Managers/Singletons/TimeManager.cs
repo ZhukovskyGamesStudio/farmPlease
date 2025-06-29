@@ -99,7 +99,7 @@ public class TimeManager : Singleton<TimeManager> {
         }
     }
 
-    public void AddMissingFoodMarkets() {
+    public static void AddMissingFoodMarkets() {
         for (int i = 0; i < MaxDays; i++) {
             int x = i + _skipDaysAmount;
             if (x % 7 == 0 && x > 0) {

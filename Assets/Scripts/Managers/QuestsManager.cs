@@ -11,10 +11,7 @@ using Random = UnityEngine.Random;
 
 public class QuestsManager : Singleton<QuestsManager> {
     [SerializeField]
-    private List<QuestConfig> _mainQuests;
-
-    [SerializeField]
-    private List<GeneratableQuestConfig> _generatableQuests;
+    private QuestsConfig _questsConfig;
 
     private QuestsDialogData QuestsData => SaveLoadManager.CurrentSave.QuestsData;
 
@@ -44,7 +41,7 @@ public class QuestsManager : Singleton<QuestsManager> {
     public void GenerateNextMainQuest() {
         if (QuestsData.MainQuest == null) {
             QuestsData.MainQuest = new QuestData();
-            QuestsData.MainQuest.Copy(_mainQuests[QuestsData.MainQuestProgressIndex].QuestData);
+            QuestsData.MainQuest.Copy(_questsConfig.MainQuestline[QuestsData.MainQuestProgressIndex].QuestData);
         }
     }
 
@@ -52,10 +49,10 @@ public class QuestsManager : Singleton<QuestsManager> {
         QuestsData.MainQuestProgressIndex++;
 
         QuestsData.MainQuest = new QuestData();
-        if (QuestsData.MainQuestProgressIndex >= _mainQuests.Count) {
+        if (QuestsData.MainQuestProgressIndex >= _questsConfig.MainQuestline.Count) {
             QuestsData.MainQuest.Copy(GenerateRandomizedQuest());
         } else {
-            QuestsData.MainQuest.Copy(_mainQuests[QuestsData.MainQuestProgressIndex].QuestData);
+            QuestsData.MainQuest.Copy(_questsConfig.MainQuestline[QuestsData.MainQuestProgressIndex].QuestData);
         }
 
         if (_questsDialog != null) {
@@ -76,7 +73,7 @@ public class QuestsManager : Singleton<QuestsManager> {
     }
 
     private QuestData GenerateRandomizedQuest() {
-        var rnd = _generatableQuests[Random.Range(0, _generatableQuests.Count)];
+        var rnd = _questsConfig.GeneratableQuestConfigs[Random.Range(0, _questsConfig.GeneratableQuestConfigs.Count)];
     
         var data = new QuestData();
         data.Copy(rnd.QuestData);

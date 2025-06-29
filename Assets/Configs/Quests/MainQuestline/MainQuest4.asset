@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7da3d30d13c44fa8c5d051d0c36a577, type: 3}
-  m_Name: MainQuest2
+  m_Name: MainQuest4
   m_EditorClassIdentifier: 
   QuestData:
     IsMain: 1
-    MinLevelToUnlock: 3
+    MinLevelToUnlock: 5
     <QuestType>k__BackingField: 1
-    TargetType: Crop
-    ProgressNeeded: 5
-    QuestName: "\u0422\u0435\u0440\u043F\u0435\u043B\u0438\u0432\u044B\u0439 \u0431\u0430\u043A\u043B\u0430\u0436\u0430\u043D"
-    QuestText: "\u0421\u043E\u0431\u0435\u0440\u0438 %N \u0431\u043E\u043B\u044C\u0448\u0438\u0445
-      \u0431\u0430\u043A\u043B\u0430\u0436\u0430\u043D\u043E\u0432"
+    TargetType: Tool
+    Progress: 0
+    IsCompleted: 0
+    IsClaimed: 0
     Reward:
       Items:
       - Type: Coins
         Amount: 1
+    QuestName: "\u041A\u0430\u043A \u044D\u0442\u0438\u043C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C\u0441\u044F?"
+    QuestText: "\u041A\u0443\u043F\u0438 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442"
+    ProgressNeeded: 1
     XpReward: 30
-    Progress: 0
-    IsCompleted: 0
