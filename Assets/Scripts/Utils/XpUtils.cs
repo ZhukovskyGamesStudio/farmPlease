@@ -25,7 +25,7 @@ public static class XpUtils {
     }
 
     public static int LevelByXp(int xp) {
-        var levels = ConfigsManager.Instance.LevelConfigs;
+        var levels = ConfigsManager.Instance.LevelsConfig.LevelConfigs;
         var costs = ConfigsManager.Instance.CostsConfig.LevelXpProgression;
         int levelByXp = 0;
         int accubulatedXp = 0;
@@ -42,7 +42,7 @@ public static class XpUtils {
     }
 
     public static int XpByLevel(int level) {
-        var levels = ConfigsManager.Instance.LevelConfigs;
+        var levels = ConfigsManager.Instance.LevelsConfig.LevelConfigs;
         var costs = ConfigsManager.Instance.CostsConfig.LevelXpProgression;
         int accubulatedXp = 0;
         for (int i = 0; i < level; i++) {

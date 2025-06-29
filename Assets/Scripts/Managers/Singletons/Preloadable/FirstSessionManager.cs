@@ -164,7 +164,7 @@ namespace Managers {
             UIHud.Instance.OpenRealShopButton.gameObject.SetActive(true);
 
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
-            SmartTilemap.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
+            TileUtils.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
             QuestsUtils.PlaceQuestBoard();
             
             SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);

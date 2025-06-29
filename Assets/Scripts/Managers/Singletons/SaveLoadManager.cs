@@ -116,7 +116,7 @@ namespace Managers {
             }
            
             for (int i = 0; i < CurrentSave.CurrentLevel; i++) {
-                var unlockable = ConfigsManager.Instance.LevelConfigs[i].Reward.Unlockable;
+                var unlockable = ConfigsManager.Instance.LevelsConfig.LevelRewards[i].Reward.Unlockable;
                 if (!CurrentSave.Unlocked.Contains(unlockable)) {
                     UnlockableUtils.Unlock(unlockable);
                 }
@@ -153,7 +153,7 @@ namespace Managers {
         private static async UniTaskVoid FindPlayerOnServer() {
             var res = await PlayerAPI.GetPlayerAsync(CurrentSave.UserId);
             if (res == null) {
-                UnityEngine.Debug.Log("❌ Player not found on server, creating new player");
+                Debug.Log("❌ Player not found on server, creating new player");
                 await CreatePlayerOnServer();
             }
         }

@@ -92,4 +92,6 @@ public enum Unlockable {
     ToolShop = 0,
     FoodMarket = 1,
     FarmerCommunity = 2,
+    Field1 = 3,
+    Field2 = 4
 }

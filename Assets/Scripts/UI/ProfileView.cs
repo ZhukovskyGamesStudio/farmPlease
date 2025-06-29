@@ -19,7 +19,7 @@ public class ProfileView : MonoBehaviour {
         int curLevelMin = XpUtils.XpByLevel(profile.CurrentLevel);
         int nextLevel = XpUtils.XpByLevel(profile.CurrentLevel + 1);
         XpProgressBar.SetAmount(profile.Xp - curLevelMin, nextLevel - curLevelMin);
-        _levelIcon.sprite = ConfigsManager.Instance.LevelConfigs[profile.CurrentLevel].LevelMiniIcon;
+        _levelIcon.sprite = ConfigsManager.Instance.LevelsConfig.LevelConfigs[profile.CurrentLevel].LevelMiniIcon;
     }
 
     public void OnClick() {

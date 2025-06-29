@@ -20,7 +20,7 @@ public class SmartTilemap : MonoBehaviour {
 
     public float animtime = 0.5f;
     private const int TILES_RADIUS = 11;
-    private const int STARTING_CIRCLE_RADIUS = 5;
+    public const int STARTING_CIRCLE_RADIUS = 3;
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
     private Dictionary<Vector2Int, SmartTile> _tiles;
@@ -46,15 +46,7 @@ public class SmartTilemap : MonoBehaviour {
        // UnityEngine.Debug.Log("Playercoord: " + Playercoord);
     }
 
-    public static void UnlockTiles(TilesData tilesData) {
-        foreach (var coord in tilesData.Tiles.Keys) {
-            if(!SaveLoadManager.CurrentSave.TilesData.Tiles.ContainsKey(coord)) {
-                SaveLoadManager.CurrentSave.TilesData.Tiles.Add(coord, TileType.Sand);
-            } else if(SaveLoadManager.CurrentSave.TilesData.Tiles[coord] == TileType.Rocks) {
-                SaveLoadManager.CurrentSave.TilesData.Tiles[coord] = TileType.Sand;
-            }
-        }
-    }
+  
 
     public static TilesData GenerateFtueTiles() {
         var tilesData = GenerateCircleTiles(TILES_RADIUS, TileType.Rocks);
@@ -81,9 +73,8 @@ public class SmartTilemap : MonoBehaviour {
         return tilesData;
     }
     
-    public static TilesData GenerateInitialCircleTiles() {
-        var tilesData = GenerateCircleTiles(STARTING_CIRCLE_RADIUS, TileType.Sand);
-        return tilesData;
+    public static List<Vector2Int> GenerateInitialCircleTiles() {
+        return TileUtils.GenerateCircleTiles(STARTING_CIRCLE_RADIUS);
     }
 
     public static TilesData GenerateCircleTiles(int radius, TileType type) {

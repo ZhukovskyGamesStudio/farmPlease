@@ -9,8 +9,6 @@ public class LevelConfig : ScriptableObject {
     public string LevelNameLoc;
     public string LevelName;
     public Sprite LevelMiniIcon;
-
-    public RewardWithUnlockable Reward;
 }
 
 [Serializable]

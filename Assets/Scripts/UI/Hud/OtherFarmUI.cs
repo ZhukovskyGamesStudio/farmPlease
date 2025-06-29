@@ -23,7 +23,7 @@ public class OtherFarmUI : MonoBehaviour {
         gameObject.SetActive(true);
         _profileView.SetData(otherFarm);
         _countersView.SetData(otherFarm);
-        _levelIcon.sprite = ConfigsManager.Instance.LevelsIcon[otherFarm.CurrentLevel];
+        _levelIcon.sprite = ConfigsManager.Instance.LevelsConfig.LevelsIcon[otherFarm.CurrentLevel];
         
         _farmerCommunityBadgeView.gameObject.SetActive(false);
     }

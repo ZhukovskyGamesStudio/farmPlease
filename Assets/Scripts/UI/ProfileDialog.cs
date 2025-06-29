@@ -37,10 +37,10 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
         _cropsCollectedText.text = SaveLoadManager.CurrentSave.CropPoints.ToString();
         _coinsText.text = SaveLoadManager.CurrentSave.Coins.ToString();
 
-        _currentLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[SaveLoadManager.CurrentSave.CurrentLevel];
+        _currentLevelIcon.sprite = ConfigsManager.Instance.LevelsConfig.LevelsIcon[SaveLoadManager.CurrentSave.CurrentLevel];
 
         //TODO add view for last ingame level
-        _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsIcon[SaveLoadManager.CurrentSave.CurrentLevel + 1];
+        _nextLevelIcon.sprite = ConfigsManager.Instance.LevelsConfig.LevelsIcon[SaveLoadManager.CurrentSave.CurrentLevel + 1];
         SetLevelProgress();
 
         SetRewards();
@@ -51,12 +51,12 @@ public class ProfileDialog : DialogWithData<ProfileDialogData> {
         int curLevelMin = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel);
         int nextLevel = XpUtils.XpByLevel(SaveLoadManager.CurrentSave.CurrentLevel + 1);
         _xpProgressBar.SetAmount(SaveLoadManager.CurrentSave.Xp - curLevelMin, nextLevel - curLevelMin);
-        _nextLevelNameText.text = LocalizationUtils.L(ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel + 1].LevelNameLoc);
+        _nextLevelNameText.text = LocalizationUtils.L(ConfigsManager.Instance.LevelsConfig.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel + 1].LevelNameLoc);
     }
 
     private void SetRewards() {
         var nextLevel = SaveLoadManager.CurrentSave.CurrentLevel;
-        var reward = ConfigsManager.Instance.LevelConfigs[nextLevel].Reward;
+        var reward = ConfigsManager.Instance.LevelsConfig.LevelRewards[nextLevel].Reward;
         RewardUtils.SetRewardsView(reward, _rewardItemViews, _coinRewardIcon);
     }
 

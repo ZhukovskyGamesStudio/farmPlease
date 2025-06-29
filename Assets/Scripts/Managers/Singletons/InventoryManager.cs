@@ -156,7 +156,7 @@ namespace Managers {
                 return;
             }
 
-            RewardWithUnlockable reward = ConfigsManager.Instance.LevelConfigs[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
+            RewardWithUnlockable reward = ConfigsManager.Instance.LevelsConfig.LevelRewards[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
             DialogsManager.Instance.ShowDialogWithData(typeof(NewLevelDialog), SaveLoadManager.CurrentSave.CurrentLevel+1);
             DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
                 Reward = reward,

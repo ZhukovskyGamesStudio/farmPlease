@@ -34,6 +34,10 @@ public static class RewardUtils {
                     return "Магазин инструментов";
                 case Unlockable.FarmerCommunity:
                     return "Клуб фермеров";
+                case Unlockable.Field1:
+                    return "Увеличение поля I";
+                case Unlockable.Field2:
+                    return "Увеличение поля II";
             }
         }
 
@@ -54,7 +58,7 @@ public static class RewardUtils {
         }
 
         if (Enum.TryParse(reward, out Unlockable type)) {
-            return ConfigsManager.Instance.UnclockableIcons.Find(icon => icon.Unlockable == reward)?.Icon;
+            return ConfigsManager.Instance.LevelsConfig.UnlockableIcons.Find(icon => icon.Unlockable == reward)?.Icon;
         }
 
         throw new KeyNotFoundException();
@@ -77,11 +81,16 @@ public static class RewardUtils {
     
     public static void ClaimReward(Reward reward) {
         if (reward is RewardWithUnlockable rewardWithUnlockable) {
-            UnlockableUtils.Unlock(rewardWithUnlockable.Unlockable);
-            KnowledgeHintsFactory.Instance.TryShowHintByUnlockable(rewardWithUnlockable.Unlockable);
-            if (rewardWithUnlockable.Unlockable == Unlockable.ToolShop.ToString()) {
+            var unlocked = rewardWithUnlockable.Unlockable;
+            UnlockableUtils.Unlock(unlocked);
+            KnowledgeHintsFactory.Instance.TryShowHintByUnlockable(unlocked);
+            if (unlocked == Unlockable.ToolShop.ToString()) {
                 SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(ToolBuff.Unlimitedwatercan.ToString());
-            } 
+            } else if (unlocked == Unlockable.Field1.ToString()) {
+                TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 1));
+            } else if (unlocked == Unlockable.Field2.ToString()) {
+                TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 2));
+            }
         }
 
         foreach (var item in reward.Items) {
