@@ -13,34 +13,46 @@ public class QuestView : MonoBehaviour {
     private RewardItemView _rewardItemView;
 
     [SerializeField]
-    private GameObject _collectState, _sendState, _completedState;
+    private GameObject _collectState, _sendState, _completedState, _claimedState;
 
     [SerializeField]
     private Button _sendButton;
 
     private QuestData _questData;
 
+    [SerializeField]
+    private int _questIndex;
+
     public void SetData(QuestData data) {
         if (data == null) {
+            gameObject.SetActive(false);
             return;
         }
 
-        UpdateState(data);
+        if (_claimedState) {
+            _claimedState.SetActive(data.IsClaimed);
+        }
 
-        _sendStateProgress.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestProgress(data));
-        _sendButton.interactable = QuestsUtils.GetQuestReadyForSend(data) >= data.ProgressNeeded;
-        
-        
+        if (data.IsClaimed) {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        gameObject.SetActive(true);
+        UpdateState(data);
         _questData = data;
+
         _text.text = data.QuestName + " -";
         _xpRewardText.text = data.XpReward.ToString();
+
         if (data.IsCompleted) {
-            _progressText.text = "Нажми чтобы собрать награду";
-            _questProgressSlider.value = 1;
-        } else {
-            _progressText.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestProgress(data));
-            _questProgressSlider.value = QuestsUtils.GetQuestProgressPercent(data);
+            return;
         }
+
+        _sendStateProgress.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestSendProgress(data));
+        _sendButton.interactable = QuestsUtils.GetQuestReadyForSend(data) >= data.ProgressNeeded;
+        _progressText.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestProgress(data));
+        _questProgressSlider.value = QuestsUtils.GetQuestProgressPercent(data);
     }
 
     private void UpdateState(QuestData data) {
@@ -54,8 +66,9 @@ public class QuestView : MonoBehaviour {
             return;
         }
 
-        if ( _questData.IsCompleted) {
+        if (_questData.IsCompleted) {
             QuestsUtils.ClaimQuest(_questData);
+            QuestsManager.Instance.MarkQuestClaimed(_questIndex);
         }
     }
 
@@ -70,7 +83,5 @@ public class QuestView : MonoBehaviour {
         }
     }
 
-    public void ShowChangeToNextQuest(QuestData data) {
-       
-    }
+    public void ShowChangeToNextQuest(QuestData data) { }
 }

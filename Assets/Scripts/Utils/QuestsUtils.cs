@@ -9,12 +9,15 @@ public static class QuestsUtils {
     public static string GetQuestProgress(QuestData data) {
         return $"{data.Progress}/{data.ProgressNeeded}";
     }
+    public static string GetQuestSendProgress(QuestData data) {
+        return $"{GetQuestReadyForSend(data)}/{data.ProgressNeeded}";
+    }
 
     public static float GetQuestProgressPercent(QuestData data) {
         return (data.Progress + 0f) / data.ProgressNeeded;
     }
 
-    public static float GetQuestReadyForSend(QuestData data) {
+    public static int GetQuestReadyForSend(QuestData data) {
         if (Enum.TryParse(data.TargetType, out Crop crop)) {
             return InventoryManager.Instance.CountCrops(crop);
         }
@@ -35,6 +38,7 @@ public static class QuestsUtils {
             for (int i = 0; i < data.ProgressNeeded; i++) {
                 SaveLoadManager.CurrentSave.CropsCollected.Remove(crop);
             }
+            InventoryManager.Instance.AddCropPoint(-data.ProgressNeeded);
         }
 
         data.IsCompleted = true;

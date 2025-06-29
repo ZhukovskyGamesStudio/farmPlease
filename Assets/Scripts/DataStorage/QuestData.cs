@@ -22,6 +22,8 @@ public class QuestData {
     [HideInInspector]
     public bool IsCompleted;
     [HideInInspector]
+    public bool IsClaimed;
+    [HideInInspector]
     public Reward Reward;
     
     [Header("Texts")]

@@ -138,5 +138,17 @@ public class QuestsManager : Singleton<QuestsManager> {
         }
     }
 
+    public void MarkQuestClaimed(int questIndex) {
+        if (questIndex == 0) {
+            QuestsData.FirstQuest.IsClaimed = true;
+        } else {
+            QuestsData.SecondQuest.IsClaimed = true;
+        }
+        if (_questsDialog != null) {
+            _questsDialog.ShowSideQuestChange(QuestsData.FirstQuest, QuestsData.SecondQuest);
+        }
+        SaveLoadManager.SaveGame();
+    }
+
     
 }
