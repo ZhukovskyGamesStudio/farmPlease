@@ -12,7 +12,7 @@ namespace Managers {
         public static bool IsGameLoaded { get; private set; }
 
         [SerializeField]
-        private float _delayBeforeSceneSwitch = 1;
+        private float _delayBeforeSceneSwitch = 2.5f;
 
         public void StartLoading() {
             if (IsGameLoaded)
