@@ -901,6 +901,7 @@ GameObject:
   - component: {fileID: 1747241827945017133}
   - component: {fileID: 1129108959202157964}
   - component: {fileID: 8402160984484584807}
+  - component: {fileID: 7014207390021375632}
   m_Layer: 5
   m_Name: UnlockHeader Text
   m_TagString: Untagged
@@ -1039,6 +1040,20 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &7014207390021375632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4238385480018024075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: reward_unlock
+  updateOnStart: 1
 --- !u!1 &4422105476742256401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,6 +1066,7 @@ GameObject:
   - component: {fileID: 5244840519373020222}
   - component: {fileID: 4584010164363768597}
   - component: {fileID: 1635104817138310639}
+  - component: {fileID: 8955841057882591798}
   m_Layer: 5
   m_Name: AdditionalHeader Text
   m_TagString: Untagged
@@ -1190,6 +1206,20 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &8955841057882591798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4422105476742256401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: reward_additional
+  updateOnStart: 1
 --- !u!1 &5152146122975626209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,6 +1593,7 @@ GameObject:
   - component: {fileID: 3634914592674343208}
   - component: {fileID: 3646908011520148738}
   - component: {fileID: 1701818294118501578}
+  - component: {fileID: 5771607432162222188}
   m_Layer: 5
   m_Name: NameText
   m_TagString: Untagged
@@ -1689,6 +1720,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5771607432162222188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627779843095827008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: reward_claim
+  updateOnStart: 1
 --- !u!1 &7091585803108332391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2321,6 +2366,7 @@ GameObject:
   - component: {fileID: 3214256570693358310}
   - component: {fileID: 5217196569874431447}
   - component: {fileID: 1767527167222716108}
+  - component: {fileID: 3259829260275946027}
   m_Layer: 5
   m_Name: Header Text
   m_TagString: Untagged
@@ -2459,6 +2505,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3259829260275946027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8301033358954856671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: reward_header
+  updateOnStart: 1
 --- !u!1 &8399889070443493598
 GameObject:
   m_ObjectHideFlags: 0
