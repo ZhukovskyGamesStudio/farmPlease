@@ -16,29 +16,29 @@ public static class RewardUtils {
 
         if (Enum.TryParse(reward, out ToolBuff tool)) {
             if (tool == ToolBuff.WeekBattery) {
-                return "Батарейка";
+                return LocalizationUtils.L("week_battery");
             }
-            return ToolsTable.ToolByType(tool).HeaderLoc;
+            return LocalizationUtils.L(ToolsTable.ToolByType(tool).HeaderLoc);
         }
 
         if (Enum.TryParse(reward, out HappeningType weather)) {
-            return WeatherTable.WeatherByType(weather).HeaderLoc;
+            return LocalizationUtils.L(WeatherTable.WeatherByType(weather).HeaderLoc);
         }
 
         if (Enum.TryParse(reward, out Unlockable type)) {
             switch (type) {
                 case Unlockable.None:
-                    return "Ничего";
+                    return LocalizationUtils.L("unlockable_none");;
                 case Unlockable.FoodMarket:
-                    return WeatherTable.WeatherByType(HappeningType.FoodMarket).HeaderLoc;
+                    return LocalizationUtils.L(WeatherTable.WeatherByType(HappeningType.FoodMarket).HeaderLoc);
                 case Unlockable.ToolShop:
-                    return "Магазин инструментов";
+                    return LocalizationUtils.L("unlockable_toolshop");;
                 case Unlockable.FarmerCommunity:
-                    return "Клуб фермеров";
+                    return LocalizationUtils.L("unlockable_farmer_club");;
                 case Unlockable.Field1:
-                    return "Увеличение поля I";
+                    return LocalizationUtils.L("unlockable_field1");;
                 case Unlockable.Field2:
-                    return "Увеличение поля II";
+                    return LocalizationUtils.L("unlockable_field2");;
             }
         }
 
