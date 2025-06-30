@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization;
 using ScriptableObjects;
 using Tables;
 using ZhukovskyGamesPlugin;
@@ -15,17 +16,17 @@ namespace Managers {
         public CheatCodeManager(CheatCodeConfigList cheatCodesConfig) {
             _cheatCodesConfig = cheatCodesConfig;
         }
-
+    
         public bool CheatCodeAvailable(string code, out string errorMessage) {
             CheatCodeConfig cheatCode = CheatCodes.FirstOrDefault(c => c.Code == code);
             if (cheatCode == null) {
-                errorMessage = "Такого кода не существует :P";
+                errorMessage = LocalizationUtils.L("code_error");
                 return false;
             }
 
             if (CheatCodesActivated.ContainsKey(code)) {
                 if (cheatCode.NumberOfUses <= CheatCodesActivated[code]) {
-                    errorMessage = "Все активации кода использованы :3";
+                    errorMessage = LocalizationUtils.L("code_empty");
                     return false;
                 }
             }

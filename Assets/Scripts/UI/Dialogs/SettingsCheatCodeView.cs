@@ -1,4 +1,6 @@
-﻿using Managers;
+﻿using System;
+using Localization;
+using Managers;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace UI {
 
         public void Init(CheatCodeConfigList cheatCodeConfigList) {
             _cheatCodeManager = new CheatCodeManager(cheatCodeConfigList);
+            LocalizationManager.Instance.OnLanguageChanged += (s) => _cheatCodeErrorText.text = "";
         }
 
         private void OnEnable() {
@@ -28,7 +31,7 @@ namespace UI {
             if (isSuccess) {
                 _cheatCodeManager.ExecuteCheatCode(code);
                 _cheatCodeInput.SetTextWithoutNotify("");
-                _cheatCodeErrorText.text = "Код успешно активирован (o_O)";
+                _cheatCodeErrorText.text = LocalizationUtils.L("code_success");
             } else {
                 _cheatCodeErrorText.text = errorMessage;
             }

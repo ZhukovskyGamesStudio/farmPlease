@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0516064c921784d4181aa5d1554a38e5, type: 3}
+  m_Name: SettingsLocalizationData
+  m_EditorClassIdentifier: 
+  url: https://docs.google.com/spreadsheets/d/e/2PACX-1vQUZCiZmMhWlOS2xS6LeXdv_sSKyE-xO9VqLX1BJ37HiGhq-J69gehVtP77CZG-kbd3ytiTai7ClasD/pub?gid=808257765&single=true&output=csv
+  defaultLanguage: en
+  entries:
+  - key: volume_master
+    ru: "\u043E\u0431\u0449\u0430\u044F \u0433\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C"
+    en: master volume
+  - key: volume_music
+    ru: "\u0433\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u043C\u0443\u0437\u044B\u043A\u0438"
+    en: music volume
+  - key: volume_sound
+    ru: "\u0433\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u044D\u0444\u0444\u0435\u043A\u0442\u043E\u0432"
+    en: effects volume
+  - key: language_change
+    ru: "\u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u044F\u0437\u044B\u043A"
+    en: change language
+  - key: save_clear
+    ru: "\u0443\u0434\u0430\u043B\u0438\u0442\u044C \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F"
+    en: delete saves
+  - key: dev_blog
+    ru: "\u0434\u043D\u0435\u0432\u043D\u0438\u043A \u0440\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u0447\u0438\u043A\u0430"
+    en: development blog
+  - key: code_placeholder
+    ru: "\u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043A\u043E\u0434"
+    en: enter code
+  - key: code_error
+    ru: "\u0422\u0430\u043A\u043E\u0433\u043E \u043A\u043E\u0434\u0430 \u043D\u0435
+      \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442 :P"
+    en: Code does not exist :P
+  - key: code_empty
+    ru: "\u0412\u0441\u0435 \u0430\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u0438
+      \u043A\u043E\u0434\u0430 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u044B
+      :3"
+    en: All codes are used :3
