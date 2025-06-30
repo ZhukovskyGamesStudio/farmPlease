@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization;
 using Tables;
 using TMPro;
 using UnityEngine;
@@ -32,7 +33,7 @@ namespace UI {
             SelectedAmount = 0;
 
             _cropImage.sprite = CropsTable.CropByType(crop).VegSprite;
-            _cropText.text = CropsTable.CropByType(crop).header.ToLower();
+            _cropText.text = LocalizationUtils.L(CropsTable.CropByType(crop).HeaderLoc.ToLower());
             UpdateButtonsAndTextsState();
         }
 
