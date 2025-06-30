@@ -16,9 +16,293 @@ MonoBehaviour:
   defaultLanguage: en
   entries:
   - key: main_quest_1_name
-    ru: "\u041F\u0435\u0440\u0432\u044B\u0439 \u043A\u0432\u0435\u0441\u0442"
-    en: First quest
+    ru: "\u041A\u043B\u0443\u0431\u043D\u0438\u0447\u043D\u044B\u0439 \u043F\u043E\u043B\u0438\u0432"
+    en: Strawberry Watering
   - key: main_quest_1_task
-    ru: "\u0414\u043E\u0441\u0442\u0438\u0433\u043D\u0438\u0442\u0435 \u0443\u0440\u043E\u0432\u043D\u044F
-      2"
-    en: Reach level 2
+    ru: "\u041A\u043B\u0443\u0431\u043D\u0438\u043A\u0430 \u043F\u043E\u043B\u0438\u043B\u0430
+      \u0442\u043E\u043C\u0430\u0442\u044B %N"
+    en: The strawberry watered tomatoes %N
+  - key: main_quest_2_name
+    ru: "\u0422\u0435\u0440\u043F\u0435\u043B\u0438\u0432\u044B\u0439 \u0431\u0430\u043A\u043B\u0430\u0436\u0430\u043D"
+    en: Patient Eggplant
+  - key: main_quest_2_task
+    ru: "\u0421\u043E\u0431\u0435\u0440\u0438 %N \u0431\u043E\u043B\u044C\u0448\u0438\u0445
+      \u0431\u0430\u043A\u043B\u0430\u0436\u0430\u043D\u043E\u0432"
+    en: Collect %N giant eggplants
+  - key: main_quest_3_name
+    ru: "\u041A\u043E\u0440\u043D\u0438 \u043E\u0434\u0443\u0432\u0430\u043D\u0447\u0438\u043A\u0430"
+    en: Dandelion Roots
+  - key: main_quest_3_task
+    ru: "\u0412\u0441\u043A\u043E\u043F\u0430\u0439 %N \u043A\u043B\u0435\u0442\u043E\u043A
+      \u043A\u043B\u0443\u0431\u043D\u0438\u043A\u0438 \u043E\u0434\u0443\u0432\u0430\u043D\u0447\u0438\u043A\u0430\u043C\u0438"
+    en: Hoe %N strawberry tiles with dandelions
+  - key: main_quest_4_name
+    ru: "\u041A\u0430\u043A \u044D\u0442\u0438\u043C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C\u0441\u044F?"
+    en: How do I use this?
+  - key: main_quest_4_task
+    ru: "\u041A\u0443\u043F\u0438 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442"
+    en: Buy a tool
+  - key: main_quest_5_name
+    ru: "\u041F\u0435\u0441\u043E\u043A \u0432 \u0431\u043E\u0442\u0438\u043D\u043A\u0430\u0445"
+    en: Sand in the Shoes
+  - key: main_quest_5_task
+    ru: "\u0412\u0441\u043A\u043E\u043F\u0430\u0439 \u0432\u0441\u0451 \u043F\u043E\u043B\u0435
+      %N"
+    en: Hoe the whole field %N
+  - key: main_quest_6_name
+    ru: "\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E
+      I"
+    en: Production I
+  - key: main_quest_6_task
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438 %N \u043E\u0432\u043E\u0449\u0435\u0439"
+    en: Grow %N vegetables
+  - key: main_quest_7_name
+    ru: "\u041A\u0442\u043E \u044F"
+    en: Who am I
+  - key: main_quest_7_task
+    ru: "\u041F\u043E\u043C\u0435\u043D\u044F\u0439 \u043D\u0438\u043A\u043D\u0435\u0439\u043C
+      \u0432 \u043F\u0440\u043E\u0444\u0438\u043B\u0435"
+    en: Change your nickname in the profile
+  - key: main_quest_8_name
+    ru: "\u041F\u043B\u0430\u043D\u0435\u0442\u0430 \u043F\u043E\u043F\u043A\u043E\u0440\u043D\u0430"
+    en: Planet of Popcorn
+  - key: main_quest_8_task
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C %N \u043A\u0443\u043A\u0443\u0440\u0443\u0437\u044B"
+    en: Send %N corn
+  - key: main_quest_9_name
+    ru: "\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440
+      I"
+    en: Collector I
+  - key: main_quest_9_task
+    ru: "\u0421\u043E\u0431\u0435\u0440\u0438 %N \u0440\u0430\u0437\u043D\u044B\u0445
+      \u0442\u0438\u043F\u043E\u0432 \u0441\u0435\u043C\u044F\u043D"
+    en: Collect %N different types of seeds
+  - key: main_quest_10_name
+    ru: "\u041D\u0430\u0447\u0438\u043D\u0430\u044E\u0449\u0438\u0439 \u0430\u0440\u0445\u0438\u0442\u0435\u043A\u0442\u043E\u0440"
+    en: Novice Architect
+  - key: main_quest_10_task
+    ru: "\u041F\u043E\u0441\u0442\u0440\u043E\u0439\u0442\u0435 \u0441\u0435\u043B\u044C\u0445\u043E\u0437
+      \u0441\u0442\u0440\u043E\u0435\u043D\u0438\u0435"
+    en: Build an agricultural building
+  - key: main_quest_11_name
+    ru: "\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440
+      II"
+    en: Collector II
+  - key: main_quest_11_task
+    ru: "\u0421\u043E\u0431\u0435\u0440\u0438 %N \u0442\u0438\u043F\u043E\u0432 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442\u043E\u0432"
+    en: Collect %N types of tools
+  - key: main_quest_12_name
+    ru: "\u0421\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F \u0436\u0430\u0440\u043A\u043E\u0432\u0430\u0442\u043E"
+    en: Getting Hotter
+  - key: main_quest_12_task
+    ru: "\u0412\u044B\u0441\u0443\u0448\u0438 %N \u043B\u0443\u0436 \u0432\u043E
+      \u0432\u0440\u0435\u043C\u044F \u0437\u0430\u0441\u0443\u0445\u0438"
+    en: Dry %N puddles during a drought
+  - key: main_quest_13_name
+    ru: "\u041A\u043E\u043B\u044E\u0447\u0438\u0439 \u0438 \u0432\u043A\u0443\u0441\u043D\u044B\u0439"
+    en: Prickly and Tasty
+  - key: main_quest_13_task
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C %N \u043A\u0430\u043A\u0442\u0443\u0441\u043E\u0432"
+    en: Send %N cactuses
+  - key: main_quest_14_name
+    ru: "\u041A\u043B\u0435\u0442\u043A\u0430 \u0438\u0437\u043E\u0431\u0438\u043B\u0438\u044F"
+    en: Cell of Abundance
+  - key: main_quest_14_task
+    ru: "\u0421\u043E\u0431\u0435\u0440\u0438 6+ \u043E\u0432\u043E\u0449\u0435\u0439
+      \u0441 \u043E\u0434\u043D\u043E\u0439 \u043A\u043B\u0435\u0442\u043A\u0438"
+    en: Collect 6+ vegetables from one tile
+  - key: main_quest_15_name
+    ru: "\u0412\u044B\u0433\u043E\u0434\u043D\u0430\u044F \u043B\u044E\u0431\u043E\u0432\u044C"
+    en: Profitable Love
+  - key: main_quest_15_task
+    ru: "\u041F\u0440\u043E\u0434\u0430\u0439 \u043E\u0432\u043E\u0449\u0438 %N \u043F\u043E
+      \u0443\u0434\u0432\u043E\u0435\u043D\u043D\u043E\u0439 \u0446\u0435\u043D\u0435
+      \u0432 \u043D\u0443\u0436\u043D\u044B\u0439 \u0434\u0435\u043D\u044C"
+    en: Sell %N vegetables at double price on the right day
+  - key: main_quest_16_name
+    ru: "\u0413\u043B\u0430\u0437\u0430 \u0441\u043B\u0435\u0437\u044F\u0442\u0441\u044F"
+    en: Eyes are Tearing
+  - key: main_quest_16_task
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C %N \u043B\u0443\u043A\u0430"
+    en: Send %N onions
+  - key: main_quest_17_name
+    ru: "\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E
+      II"
+    en: Production II
+  - key: main_quest_17_task
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438 %N \u043E\u0432\u043E\u0449\u0435\u0439"
+    en: Grow %N vegetables
+  - key: main_quest_18_name
+    ru: "\u0411\u043E\u0440\u044C\u0431\u0430 \u0441 \u0432\u0440\u0435\u0434\u0438\u0442\u0435\u043B\u044F\u043C\u0438
+      I"
+    en: Pest Control I
+  - key: main_quest_18_task
+    ru: "\u041F\u0440\u0435\u0434\u0441\u043A\u0430\u0436\u0438 \u043D\u0430\u0448\u0435\u0441\u0442\u0432\u0438\u0435
+      \u043D\u0430\u0441\u0435\u043A\u043E\u043C\u044B\u0445 \u0441 \u043F\u043E\u043C\u043E\u0449\u044C\u044E
+      \u043F\u043E\u0433\u043E\u0434\u043E\u043C\u0435\u0442\u0440\u0430"
+    en: Predict an insect invasion using the weather meter
+  - key: main_quest_19_name
+    ru: "\u0411\u043E\u0440\u044C\u0431\u0430 \u0441 \u0432\u0440\u0435\u0434\u0438\u0442\u0435\u043B\u044F\u043C\u0438
+      II"
+    en: Pest Control II
+  - key: main_quest_19_task
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C %N \u043C\u0443\u0445\u043E\u043B\u043E\u0432\u043E\u043A"
+    en: Send %N flycatchers
+  - key: main_quest_20_name
+    ru: "\u041D\u0430\u0440\u0446\u0438\u0441\u0441"
+    en: Narcissus
+  - key: main_quest_20_task
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 \u0441\u0430\u043C\u044B\u0439
+      \u043A\u0440\u0430\u0441\u0438\u0432\u044B\u0439 \u0432 \u043C\u0438\u0440\u0435
+      \u0446\u0432\u0435\u0442\u043E\u043A"
+    en: Grow the most beautiful flower in the world
+  - key: main_quest_21_name
+    ru: "\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E
+      III"
+    en: Production III
+  - key: main_quest_21_task
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 %N \u043E\u0432\u043E\u0449\u0435\u0439
+      \u0438 \u0441\u043F\u0430\u0441\u0438\u0442\u0435 \u0432\u0441\u0435\u043B\u0435\u043D\u043D\u0443\u044E
+      \u043E\u0442 \u0433\u043E\u043B\u043E\u0434\u0430"
+    en: Grow %N vegetables and save the universe from hunger
+  - key: quests_refresh
+    ru: "\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u0441\u044F \u0447\u0435\u0440\u0435\u0437"
+    en: Update in
+  - key: quests_refresh_add_prefix
+    ru: "\u0437\u0430\u0434\u0430\u043D\u0438\u044F \u043E\u0431\u043D\u043E\u0432\u044F\u0442\u0441\u044F
+      \u0447\u0435\u0440\u0435\u0437"
+    en: tasks will be updated after
+  - key: quests_refresh_add_suffix
+    ru: "\u043E\u0431\u043D\u043E\u0432\u0438\u0442\u044C \u0441\u0435\u0439\u0447\u0430\u0441
+      \u0437\u0430 \u0440\u0435\u043A\u043B\u0430\u043C\u0443?"
+    en: update now for advertising?
+  - key: quests_level
+    ru: "\u0443\u0440\u043E\u0432\u0435\u043D\u044C"
+    en: level
+  - key: main_quests_title
+    ru: "\u0441\u044E\u0436\u0435\u0442"
+    en: Main quest
+  - key: main_quests_name_prefix
+    ru: "\u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u043A\u0432\u0435\u0441\u0442\u0430
+      -"
+    en: quest name -
+  - key: main_quests_progress
+    ru: "\u043F\u0440\u043E\u0433\u0440\u0435\u0441\u0441:"
+    en: 'progress:'
+  - key: main_quests_unlock_level
+    ru: "\u0434\u043E\u0441\u0442\u0438\u0433\u043D\u0435\u0442\u0435 \u0443\u0440\u043E\u0432\u043D\u044F
+      <color=#2CE2EF>%N</color>\\n\u0447\u0442\u043E\u0431\u044B \u043E\u0442\u043A\u0440\u044B\u0442\u044C
+      \u0437\u0430\u0434\u0430\u043D\u0438\u0435\""
+    en: reach level <color=#2CE2EF>%N</color>\nto unlock the quest
+  - key: daily_quests_title
+    ru: "\u0415\u0436\u0435\u0434\u043D\u0435\u0432\u043D\u044B\u0435 \u0437\u0430\u0434\u0430\u043D\u0438\u044F"
+    en: Daily quests
+  - key: quests_completed
+    ru: "\u0437\u0430\u0434\u0430\u043D\u0438\u0435 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u043E"
+    en: quest completed
+  - key: quests_collect_exp
+    ru: "\u043D\u0430\u0436\u043C\u0438\u0442\u0435 \u0447\u0442\u043E\u0431\u044B
+      \u0441\u043E\u0431\u0440\u0430\u0442\u044C \u043E\u043F\u044B\u0442"
+    en: click to collect experience
+  - key: quests_refresh_timer_and_ad
+    ru: "\u0437\u0430\u0434\u0430\u043D\u0438\u044F \u0441\u043C\u0435\u043D\u044F\u0442\u0441\u044F
+      \u0447\u0435\u0440\u0435\u0437 \\n\u0441\u043C\u0435\u043D\u0438\u0442\u044C
+      \u0441\u0435\u0439\u0447\u0430\u0441 \u0437\u0430 \u0440\u0435\u043A\u043B\u0430\u043C\u0443?"
+    en: quests will refresh in \nrefresh now for ad?
+  - key: side_quest_name_cactus_grow
+    ru: "\u0410\u0432\u0442\u043E\u0444\u0435\u0440\u043C\u0430 \u043A\u0430\u043A\u0442\u0443\u0441\u043E\u0432"
+    en: Cactus Autofarm
+  - key: side_quest_text_cactus_grow
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 %N \u043A\u0430\u043A\u0442\u0443\u0441\u043E\u0432"
+    en: Grow %N cactuses
+  - key: side_quest_name_cactus_send
+    ru: "\u041D\u0435\u0445\u0432\u0430\u0442\u043A\u0430 \u0433\u0443\u0430\u043A\u043E\u043C\u043E\u043B\u0435"
+    en: Guacamole Shortage
+  - key: side_quest_text_cactus_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u043A\u0430\u043A\u0442\u0443\u0441\u043E\u0432"
+    en: Send %N cactuses
+  - key: side_quest_name_corn_grow
+    ru: "\u041A\u0443\u043A\u0443\u0440\u0443\u0437\u043D\u043E\u0435 \u043F\u043E\u043B\u0435"
+    en: Cornfield
+  - key: side_quest_text_corn_grow
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 %N \u043A\u0443\u043A\u0443\u0440\u0443\u0437\u044B"
+    en: Grow %N corn
+  - key: side_quest_name_corn_send
+    ru: "\u041D\u0435\u0445\u0432\u0430\u0442\u043A\u0430 \u043F\u043E\u043F\u043A\u043E\u0440\u043D\u0430"
+    en: Popcorn Shortage
+  - key: side_quest_text_corn_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u043A\u0443\u043A\u0443\u0440\u0443\u0437\u044B"
+    en: Send %N corn
+  - key: side_quest_name_dandellion_grow
+    ru: "\u0420\u0430\u0441\u0442\u0443\u0442 \u0433\u0434\u0435 \u0445\u043E\u0442\u044F\u0442"
+    en: Grow Where They Want
+  - key: side_quest_text_dandellion_grow
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 %N \u043E\u0434\u0443\u0432\u0430\u043D\u0447\u0438\u043A\u043E\u0432"
+    en: Grow %N dandelions
+  - key: side_quest_name_dandellion_send
+    ru: "\u0412\u043A\u0443\u0441\u043D\u044B\u0435 \u0446\u0432\u0435\u0442\u044B"
+    en: Tasty Flowers
+  - key: side_quest_text_dandellion_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u043E\u0434\u0443\u0432\u0430\u043D\u0447\u0438\u043A\u043E\u0432"
+    en: Send %N dandelions
+  - key: side_quest_name_eggplant_grow
+    ru: "\u041A\u043E\u043D\u043A\u0443\u0440\u0441 \u0431\u0430\u043A\u043B\u0430\u0436\u0430\u043D\u043E\u0432"
+    en: Eggplant Contest
+  - key: side_quest_text_eggplant_grow
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 %N \u0431\u0430\u043A\u043B\u0430\u0436\u0430\u043D\u043E\u0432"
+    en: Grow %N eggplants
+  - key: side_quest_name_eggplant_send
+    ru: "\u0418\u0445 \u043A\u0442\u043E-\u0442\u043E \u0435\u0441\u0442?!"
+    en: Someone Eats Them?!
+  - key: side_quest_text_eggplant_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u0431\u0430\u043A\u043B\u0430\u0436\u0430\u043D\u043E\u0432"
+    en: Send %N eggplants
+  - key: side_quest_name_fern_grow
+    ru: "\u0422\u0430\u043A \u0436\u0438\u043B\u0438 \u0434\u0438\u043D\u043E\u0437\u0430\u0432\u0440\u044B"
+    en: How Dinosaurs Lived
+  - key: side_quest_text_fern_grow
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 %N \u043F\u0430\u043F\u043E\u0440\u043E\u0442\u043D\u0438\u043A\u043E\u0432"
+    en: Grow %N ferns
+  - key: side_quest_name_fern_send
+    ru: "\u041D\u0435\u0445\u0432\u0430\u0442\u043A\u0430 \u0432\u0435\u0435\u0440\u043E\u0432"
+    en: Fan Shortage
+  - key: side_quest_text_fern_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u043F\u0430\u043F\u043E\u0440\u043E\u0442\u043D\u0438\u043A\u043E\u0432"
+    en: Send %N ferns
+  - key: side_quest_name_onion_grow
+    ru: "\u041E\u0431 \u041B\u0423\u0427 \u0435\u043D\u0438\u0435"
+    en: About ONIONing
+  - key: side_quest_text_onion_grow
+    ru: "\u0412\u044B\u0440\u0430\u0441\u0442\u0438\u0442\u0435 %N \u043B\u0443\u043A\u0430"
+    en: Grow %N onions
+  - key: side_quest_name_onion_send
+    ru: "\u0413\u043E\u0440\u0435 \u043B\u0443\u043A\u043E\u0432\u043E\u0435"
+    en: Onion Grief
+  - key: side_quest_text_onion_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u043B\u0443\u043A\u0430"
+    en: Send %N onions
+  - key: side_quest_name_strawberry_harvest
+    ru: "\u0420\u0430\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u0435 \u043A\u043B\u0443\u0431\u043D\u0438\u043A\u0438"
+    en: Strawberry Breeding
+  - key: side_quest_text_strawberry_harvest
+    ru: "\u0421\u043E\u0431\u0435\u0440\u0438\u0442\u0435 %N \u043A\u043B\u0443\u0431\u043D\u0438\u043A\u0438"
+    en: Collect %N strawberries
+  - key: side_quest_name_strawberry_send
+    ru: "\u041D\u0435\u0445\u0432\u0430\u0442\u043A\u0430 \u0432\u0430\u0440\u0435\u043D\u044C\u044F"
+    en: Jam Shortage
+  - key: side_quest_text_strawberry_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u043A\u043B\u0443\u0431\u043D\u0438\u043A\u0438"
+    en: Send %N strawberries
+  - key: side_quest_name_tomato_harvest
+    ru: "\u0418\u0441\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u043D\u0438\u0435
+      \u0442\u043E\u043C\u0430\u0442\u043E\u0432"
+    en: Tomato Research
+  - key: side_quest_text_tomato_harvest
+    ru: "\u0421\u043E\u0431\u0435\u0440\u0438\u0442\u0435 %N \u0442\u043E\u043C\u0430\u0442\u043E\u0432"
+    en: Collect %N tomatoes
+  - key: side_quest_name_tomato_send
+    ru: "\u041D\u0435\u0445\u0432\u0430\u0442\u043A\u0430 \u043A\u0435\u0442\u0447\u0443\u043F\u0430"
+    en: Ketchup Shortage
+  - key: side_quest_text_tomato_send
+    ru: "\u041E\u0442\u043F\u0440\u0430\u0432\u044C\u0442\u0435 %N \u0442\u043E\u043C\u0430\u0442\u043E\u0432"
+    en: Send %N tomatoes

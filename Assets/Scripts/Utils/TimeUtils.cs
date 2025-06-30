@@ -1,15 +1,16 @@
 ﻿using System;
+using Localization;
 
 public static class TimeUtils {
     public static string ToShortString(TimeSpan timeSpan) {
         if (Math.Floor(timeSpan.TotalHours) > 0) {
-            return $"{timeSpan.Hours}h {timeSpan.Minutes}m";
+            return $"{timeSpan.Hours}{LocalizationUtils.L("hour")} {timeSpan.Minutes}{LocalizationUtils.L("minute")} ";
         }
 
         if (Math.Floor(timeSpan.TotalMinutes) > 0) {
-            return $"{timeSpan.Minutes}m {timeSpan.Seconds}s";
+            return $"{timeSpan.Minutes}{LocalizationUtils.L("minute")}  {timeSpan.Seconds}{LocalizationUtils.L("second")} ";
         }
 
-        return $"{timeSpan.Seconds}s";
+        return $"{timeSpan.Seconds}{LocalizationUtils.L("second")} ";
     }
 }

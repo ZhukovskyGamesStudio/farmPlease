@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Localization;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -44,13 +45,13 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     private void SetDailyLockedState(bool isLocked, int lvlToUnlock) {
         _dailyLocked.gameObject.SetActive(isLocked);
         _dailyQuestsText.gameObject.SetActive(!isLocked);
-        _dailyQuestsLockedText.text = $"{lvlToUnlock} уровень";
+        _dailyQuestsLockedText.text = $"{lvlToUnlock} {LocalizationUtils.L("quests_level")}";
     }
 
     private async UniTaskVoid QuestsUpdateTimer(CancellationToken cancellationToken) {
         while (true) {
-            _timerText.text = $"Обновится через {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}";
-            _adsTimerText.text = $"задания обновятся через {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}\n обновить сейчас за рекламу?";
+            _timerText.text = $"{LocalizationUtils.L("quests_refresh")} {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}";
+            _adsTimerText.text = $"{LocalizationUtils.L("quests_refresh_add_prefix")} {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}\n {LocalizationUtils.L("quests_refresh_add_suffix")}";
              
                
             await UniTask.Delay(1, cancellationToken: cancellationToken);

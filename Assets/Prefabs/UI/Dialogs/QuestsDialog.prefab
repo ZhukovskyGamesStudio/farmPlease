@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4395448429113381973}
   - component: {fileID: 1384115573553556550}
   - component: {fileID: 2534280614130369094}
+  - component: {fileID: 7805370468345823888}
   m_Layer: 5
   m_Name: SecondClaimed Text
   m_TagString: Untagged
@@ -137,6 +138,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7805370468345823888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125789512204595901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: quests_completed
+  updateOnStart: 1
 --- !u!1 &136927309210571429
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +163,7 @@ GameObject:
   - component: {fileID: 1386478233844490010}
   - component: {fileID: 3169937854410522766}
   - component: {fileID: 135156957831596000}
+  - component: {fileID: 581814238286907269}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -275,6 +291,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &581814238286907269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136927309210571429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: main_quests_name_prefix
+  updateOnStart: 1
 --- !u!1 &455977955317925056
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +821,7 @@ GameObject:
   - component: {fileID: 8978605053152975936}
   - component: {fileID: 7622669668027990152}
   - component: {fileID: 363792998650542323}
+  - component: {fileID: 6152327893205621601}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -873,12 +904,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9
+  m_fontSize: 11
   m_fontSizeBase: 9
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 5
+  m_fontSizeMax: 11
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -917,6 +948,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6152327893205621601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794946684083530310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: main_quests_title
+  updateOnStart: 1
 --- !u!1 &854743297611272396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,6 +1776,7 @@ GameObject:
   - component: {fileID: 3967460360254522972}
   - component: {fileID: 7470467658975154508}
   - component: {fileID: 2450304136157102171}
+  - component: {fileID: 6424663128542209608}
   m_Layer: 5
   m_Name: Header Text
   m_TagString: Untagged
@@ -1857,6 +1903,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6424663128542209608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469655259001253245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: main_quests_title
+  updateOnStart: 1
 --- !u!1 &1535006210161362551
 GameObject:
   m_ObjectHideFlags: 0
@@ -4139,6 +4199,7 @@ GameObject:
   - component: {fileID: 4337841645672311697}
   - component: {fileID: 3376928263597322586}
   - component: {fileID: 862988781265333364}
+  - component: {fileID: 1562595742765333956}
   m_Layer: 5
   m_Name: Progress Text View
   m_TagString: Untagged
@@ -4266,6 +4327,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1562595742765333956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3633938992752616199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: quests_collect_exp
+  updateOnStart: 1
 --- !u!1 &3655253894170150999
 GameObject:
   m_ObjectHideFlags: 0
@@ -9952,6 +10027,7 @@ GameObject:
   - component: {fileID: 5358846666209868298}
   - component: {fileID: 918374507246118691}
   - component: {fileID: 1900372405569878537}
+  - component: {fileID: 8610850242714938989}
   m_Layer: 5
   m_Name: ChangeHeader Text
   m_TagString: Untagged
@@ -10080,6 +10156,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8610850242714938989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452704012463975017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: quests_refresh_timer_and_ad
+  updateOnStart: 1
 --- !u!1 &8578677987836118177
 GameObject:
   m_ObjectHideFlags: 0
@@ -10591,6 +10681,7 @@ GameObject:
   - component: {fileID: 3269353563907836817}
   - component: {fileID: 5211089648329972770}
   - component: {fileID: 2340574187884255887}
+  - component: {fileID: 8550093662017860953}
   m_Layer: 5
   m_Name: Progress Text View
   m_TagString: Untagged
@@ -10718,6 +10809,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8550093662017860953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8882739477084954499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7955f8895b6e584eba3607479e112e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: quests_collect_exp
+  updateOnStart: 1
 --- !u!1 &9040102803922381987
 GameObject:
   m_ObjectHideFlags: 0

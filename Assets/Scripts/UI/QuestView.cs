@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,19 +46,19 @@ public class QuestView : MonoBehaviour {
         UpdateState(data);
         _questData = data;
 
-        _text.text = data.QuestName + " -";
+        _text.text = LocalizationUtils.L(data.QuestNameLoc) + " -";
         _xpRewardText.text = data.XpReward.ToString();
 
         if (data.IsCompleted) {
             return;
         }
 
-        _sendStateProgress.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestSendProgress(data));
+        _sendStateProgress.text = LocalizationUtils.L(data.QuestDescriptionLoc).Replace("%N", QuestsUtils.GetQuestSendProgress(data));
         _sendButton.interactable = QuestsUtils.GetQuestReadyForSend(data) >= data.ProgressNeeded;
         _sendStateProgress.color = _sendButton.interactable ? _bright : _dark;
         
        
-        _progressText.text = data.QuestText.Replace("%N", QuestsUtils.GetQuestProgress(data));
+        _progressText.text = LocalizationUtils.L(data.QuestDescriptionLoc).Replace("%N", QuestsUtils.GetQuestProgress(data));
         _questProgressSlider.value = QuestsUtils.GetQuestProgressPercent(data);
     }
 
