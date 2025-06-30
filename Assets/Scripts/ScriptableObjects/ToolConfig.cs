@@ -15,6 +15,8 @@ namespace ScriptableObjects
         [Header("ToolShopProperties")]
         public int cost;
 
+        [LocalizationKey("Croponom")] 
+        public string explainTextLoc;
         public string explainText;
         [Min(1)]
         public int buyAmount;

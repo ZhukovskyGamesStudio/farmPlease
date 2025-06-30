@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization;
 using Managers;
 using ScriptableObjects;
 using Tables;
@@ -24,7 +25,7 @@ namespace UI {
             gameObject.SetActive(isActive);
             _toolBuff = tool.buff;
             costText.text = tool.cost.ToString();
-            explainText.text = tool.explainText;
+            explainText.text = LocalizationUtils.L(tool.explainTextLoc);
 
             OfferImage.sprite = tool.gridIcon;
         }

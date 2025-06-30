@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Localization;
 using Managers;
 using Tables;
 using TMPro;
@@ -51,7 +52,7 @@ public class ToolShopDialog : DialogWithData<ToolShopData> {
         _secondActive = data.SecondOfferActive;
 
         ChangeButton.SetActive(data.ChangeButtonActive);
-        _changeToolsCost.text = $"Обновить за {ConfigsManager.Instance.CostsConfig.ToolsShopChangeCost}";
+        _changeToolsCost.text = $"{LocalizationUtils.L("toolshop_update")} {ConfigsManager.Instance.CostsConfig.ToolsShopChangeCost}";
         UpdateNoToolsMessage();
     }
 
