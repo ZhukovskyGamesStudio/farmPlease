@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Abstract;
+using Localization;
 using Managers;
 using ScriptableObjects;
 using Tables;
@@ -61,7 +62,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
             ToolBuff tmpBuff = tools[i].buff;
             FoodMarketOffer offer = Instantiate(ToolPrefab, ToolsGrid);
             offer.gameObject.SetActive(true);
-            offer.Init(tools[i].FoodMarketSprite, tools[i].header, delegate { OpenConfirmPage(tmpBuff); });
+            offer.Init(tools[i].FoodMarketSprite, LocalizationUtils.L(tools[i].HeaderLoc), delegate { OpenConfirmPage(tmpBuff); });
 
             _toolButtonsD.Add(tmpBuff, offer);
         }
@@ -78,7 +79,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
             FoodMarketOffer offer = Instantiate(CropPrefab, CropsGrid);
             offer.gameObject.SetActive(true);
             Crop tmp = crops[i].type;
-            offer.Init(crops[i].VegSprite, crops[i].header, delegate { OpenConfirmPage(tmp); });
+            offer.Init(crops[i].VegSprite, LocalizationUtils.L(crops[i].HeaderLoc), delegate { OpenConfirmPage(tmp); });
 
             _cropButtonsD.Add(tmp, offer);
         }
@@ -94,7 +95,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
             FoodMarketOffer offer = Instantiate(BuildingPrefab, BuildingsGrid);
             offer.gameObject.SetActive(true);
             BuildingType type = buildings[i].type;
-            offer.Init(buildings[i].offerSprite, buildings[i].offerHeader, delegate { OpenConfirmPage(type); });
+            offer.Init(buildings[i].offerSprite, LocalizationUtils.L(buildings[i].HeaderLoc), delegate { OpenConfirmPage(type); });
 
             _buildingButtonsD.Add(type, offer);
         }
@@ -122,7 +123,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
 
     private void OpenConfirmPage(Crop type) {
         CropConfig crop = CropsTable.CropByType(type);
-        _confirmDialog.SetData(crop.VegSprite, crop.header, crop.explainText, CropPrice, delegate { BuyCropButton(type); });
+        _confirmDialog.SetData(crop.VegSprite, LocalizationUtils.L(crop.HeaderLoc), LocalizationUtils.L(crop.explainTextLoc), CropPrice, delegate { BuyCropButton(type); });
         _confirmDialog.UpdateInteractable(InventoryManager.Instance.EnoughCrops(CropPrice));
 
         SetConfirmPageActive(true);
@@ -130,7 +131,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
 
     private void OpenConfirmPage(ToolBuff buff) {
         ToolConfig tool = ToolsTable.ToolByType(buff);
-        _confirmDialog.SetData(tool.FoodMarketSprite, tool.header, tool.explainText, ToolPrice, delegate { BuyToolButton(buff); });
+        _confirmDialog.SetData(tool.FoodMarketSprite, LocalizationUtils.L(tool.HeaderLoc), LocalizationUtils.L(tool.explainTextLoc), ToolPrice, delegate { BuyToolButton(buff); });
         _confirmDialog.UpdateInteractable(InventoryManager.Instance.EnoughCrops(ToolPrice));
 
         SetConfirmPageActive(true);
@@ -138,7 +139,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
 
     private void OpenConfirmPage(BuildingType type) {
         BuildingConfig building = BuildingsTable.BuildingByType(type);
-        _confirmDialog.SetData(building.offerSprite, building.offerHeader, building.offerText, BuildingPrice,
+        _confirmDialog.SetData(building.offerSprite, LocalizationUtils.L(building.HeaderLoc), LocalizationUtils.L(building.explainTextLoc), BuildingPrice,
             delegate { BuyBuildingButton(type); }, true);
         _confirmDialog.UpdateInteractable(InventoryManager.Instance.EnoughCrops(BuildingPrice));
 

@@ -13,6 +13,8 @@ namespace ScriptableObjects {
         [Header("BuildingOffer")]
         public Sprite offerSprite;
 
+        [LocalizationKey("Croponom")] 
+        public string explainTextLoc;
         public string offerHeader;
         public string offerText;
 

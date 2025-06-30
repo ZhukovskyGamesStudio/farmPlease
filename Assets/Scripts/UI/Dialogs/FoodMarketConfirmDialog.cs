@@ -1,4 +1,5 @@
 ﻿using System;
+using Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ public class FoodMarketConfirmDialog : MonoBehaviour {
         _confirmImage.sprite = sprite;
         _nameText.text = headerText;
         _explanationText.text = explainText;
-        _costText.text = (isBuilding ? "Купить за " : "Открыть за ") + cropsCost;
+        _costText.text = (isBuilding ? $"{LocalizationUtils.L("buildingshop_buy")} " : $"{LocalizationUtils.L("buildingshop_open")} ") + cropsCost;
         _onConfirmed = onConfirmed;
     }
 
