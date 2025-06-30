@@ -9,8 +9,12 @@ using UnityEngine;
 
         public string header;
 
+        [LocalizationKey("Croponom")]
+        public string HeaderLoc;
+
         [TextArea]
         public string firstText;
+
         [LocalizationKey("Croponom")]
         public string FirstTextLoc;
 

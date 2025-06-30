@@ -16,10 +16,10 @@ namespace UI
         public Image FactsSecondImage;
 
         public void UpdatePage(ConfigWithCroponomPage pageData) {
-            FactsHeader.text = pageData.header;
+            FactsHeader.text = LocalizationUtils.L(pageData.HeaderLoc);
             FactsFirstText.text = LocalizationUtils.L(pageData.FirstTextLoc);
             FactsSecondText.text = LocalizationUtils.L(pageData.SecondTextLoc);
-
+            
             if (pageData.firstSprite != null) {
                 FactsFirstImage.enabled = true;
                 FactsFirstImage.sprite = pageData.firstSprite;
