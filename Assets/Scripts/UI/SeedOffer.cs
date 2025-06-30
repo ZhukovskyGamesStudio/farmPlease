@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
+using Localization;
 using ScriptableObjects;
 using Tables;
 using TMPro;
@@ -43,7 +44,7 @@ namespace UI {
             _bag = bag;
             CurrentCrop = cropConfig.type;
             _costText.text = cropConfig.cost.ToString();
-            _explainText.text = cropConfig.explainText;
+            _explainText.text = LocalizationUtils.L(cropConfig.explainTextLoc);
             OfferImage.sprite = cropConfig.SeedSprite;
             _buyCallback = buyCallback;
             _startDragCallback = startDragCallback;

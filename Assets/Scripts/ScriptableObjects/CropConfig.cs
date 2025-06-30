@@ -17,6 +17,8 @@ namespace ScriptableObjects
 
         public Sprite SeedSprite;
         public int cost;
+        [LocalizationKey("Croponom")]
+        public string explainTextLoc;
         public string explainText;
         public int buyAmount;
         public int Rarity;
