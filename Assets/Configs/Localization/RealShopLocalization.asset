@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0516064c921784d4181aa5d1554a38e5, type: 3}
+  m_Name: RealShopLocalization
+  m_EditorClassIdentifier: 
+  url: https://docs.google.com/spreadsheets/d/e/2PACX-1vQUZCiZmMhWlOS2xS6LeXdv_sSKyE-xO9VqLX1BJ37HiGhq-J69gehVtP77CZG-kbd3ytiTai7ClasD/pub?gid=1975874344&single=true&output=csv
+  defaultLanguage: en
+  entries:
+  - key: header
+    ru: "\u0437\u043E\u043B\u043E\u0442\u044B\u0435 \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u044F"
+    en: golden upgrades
+  - key: clock_gold_header
+    ru: "\u0447\u0430\u0441\u044B"
+    en: clock
+  - key: clock_gold_time
+    ru: "30 \u043C\u0438\u043D"
+    en: 30 min
+  - key: sickle_gold_header
+    ru: "\u043A\u043E\u0441\u0430"
+    en: sickle
+  - key: sickle_gold_time
+    ru: "1 \u0447\u0430\u0441"
+    en: 1 hour
+  - key: battery_gold_header
+    ru: "\u0431\u0430\u0442\u0430\u0440\u0435\u0439\u043A\u0430"
+    en: battery
+  - key: battery_gold_time
+    ru: "\u043D\u0430\u0432\u0441\u0435\u0433\u0434\u0430"
+    en: permanent
+  - key: croponom_gold_header
+    ru: "\u043A\u0440\u043E\u043F\u043E\u043D\u043E\u043C"
+    en: croponom
+  - key: croponom_gold_time
+    ru: "\u043D\u0430\u0432\u0441\u0435\u0433\u0434\u0430"
+    en: permanent
