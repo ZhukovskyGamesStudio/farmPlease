@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Localization;
 using Managers;
 using Tables;
 using UnityEngine;
@@ -10,18 +11,18 @@ public static class RewardUtils {
     
     public static string GetRewardName(string reward) {
         if (Enum.TryParse(reward, out Crop crop)) {
-            return CropsTable.CropByType(crop).header;
+            return LocalizationUtils.L(CropsTable.CropByType(crop).HeaderLoc);
         }
 
         if (Enum.TryParse(reward, out ToolBuff tool)) {
             if (tool == ToolBuff.WeekBattery) {
                 return "Батарейка";
             }
-            return ToolsTable.ToolByType(tool).header;
+            return ToolsTable.ToolByType(tool).HeaderLoc;
         }
 
         if (Enum.TryParse(reward, out HappeningType weather)) {
-            return WeatherTable.WeatherByType(weather).header;
+            return WeatherTable.WeatherByType(weather).HeaderLoc;
         }
 
         if (Enum.TryParse(reward, out Unlockable type)) {
@@ -29,7 +30,7 @@ public static class RewardUtils {
                 case Unlockable.None:
                     return "Ничего";
                 case Unlockable.FoodMarket:
-                    return WeatherTable.WeatherByType(HappeningType.FoodMarket).header;
+                    return WeatherTable.WeatherByType(HappeningType.FoodMarket).HeaderLoc;
                 case Unlockable.ToolShop:
                     return "Магазин инструментов";
                 case Unlockable.FarmerCommunity:
