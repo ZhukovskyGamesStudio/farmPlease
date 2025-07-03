@@ -102,13 +102,12 @@ namespace Managers {
 
            
             await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.EndHintLoc), true);
-         
-            await ShowGetNextLevelSpotlight();
             
 #if UNITY_EDITOR
             SaveLoadManager.CurrentSave.IsEditor = true;
 #endif
             EndFtue();
+            await ShowGetNextLevelSpotlight();
             _endFtueCts.Cancel();
             _endFtueCts.Dispose();
         }
@@ -164,12 +163,20 @@ namespace Managers {
             UIHud.Instance.OpenRealShopButton.gameObject.SetActive(true);
 
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
-            TileUtils.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
-            QuestsUtils.PlaceQuestBoard();
-            
-            SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
-            UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.SeedBag);
+            UnlockTiles();
+            AddQuestboard();
+            UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Hoe);
             UIHud.Instance.UpdateLockedUI();
+        }
+
+        private static void UnlockTiles() {
+            TileUtils.UnlockTiles(SmartTilemap.GenerateInitialCircleTiles());
+            SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
+        }
+        
+        private static void AddQuestboard() {
+            QuestsUtils.PlaceQuestBoard();
+            SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
         }
 
         private void StepEnded() {
@@ -268,7 +275,9 @@ namespace Managers {
 
         private static Transform GetFarmCenterSpotlight() {
             return UIHud.Instance.CenterFarmTransform;
-            //return SmartTilemap.Instance.GetTile(Vector2Int.zero).transform;
+        }
+        private static Transform GetQuestboardSpotlight() {
+            return UIHud.Instance.QuestboardTransform;
         }
 
         private async UniTask ShowHoeSpotlight() {
@@ -329,12 +338,6 @@ namespace Managers {
             await UniTask.Delay(2200);
             UIHud.Instance.ClockView.IsLockedByFtue = true;
             StepEnded();
-        }
-
-        private async UniTask ShowClockLostEnergySpotlight() {
-            _isWaitingForStepEnd = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform, FtueConfig.ClockLostEnergyHint, StepEnded);
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
 
         private async UniTask ShowDoWaterAgainSpotlight() {
@@ -432,22 +435,19 @@ namespace Managers {
                 FtueConfig.CloseSeedsShopHint, StepEnded, true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
-
-        private async UniTask ShowCroponomSpotlight() {
-            _isWaitingForStepEnd = true;
-
-            UIHud.Instance.CroponomButton.gameObject.SetActive(true);
-            UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.CroponomButton.transform, FtueConfig.BookHint, StepEnded, false,
-                true);
-            UIHud.Instance.Croponom.OnClose += UIHud.Instance.SpotlightWithText.Hide;
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-            UIHud.Instance.Croponom.OnClose -= UIHud.Instance.SpotlightWithText.Hide;
-        }
         
         private async UniTask ShowGetNextLevelSpotlight() {
             _isWaitingForStepEnd = true;
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ProfileView.GetComponent<Button>(), FtueConfig.ProfileHint, StepEnded, true);
+         
+            var buttonObj = GetQuestboardSpotlight();
+            buttonObj.gameObject.SetActive(true);
+            buttonObj.gameObject.AddComponent(typeof(Button));
+            buttonObj.GetComponent<Button>().onClick.AddListener(() => {
+                QuestsManager.Instance.OpenQuestsDialog();
+                buttonObj.gameObject.SetActive(false);
+            });
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(buttonObj.GetComponent<Button>(), FtueConfig.ProfileHint, StepEnded, true);
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
         }
     }

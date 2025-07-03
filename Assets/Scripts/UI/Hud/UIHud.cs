@@ -9,7 +9,7 @@ using ZhukovskyGamesPlugin;
 
 namespace UI {
     public class UIHud : Singleton<UIHud>, ISoundStarter {
-        public Transform CenterFarmTransform;
+        public Transform CenterFarmTransform, QuestboardTransform;
         public BatteryView BatteryView;
         public ScreenEffect screenEffect;
         public FastPanelScript FastPanelScript;
