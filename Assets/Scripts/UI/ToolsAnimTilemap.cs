@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace UI
-{
     public class ToolsAnimTilemap : MonoBehaviour {
         public Tilemap AnimationsTilemap;
 
@@ -55,4 +53,3 @@ namespace UI
         Rain,
         Strawberry
     }
-}

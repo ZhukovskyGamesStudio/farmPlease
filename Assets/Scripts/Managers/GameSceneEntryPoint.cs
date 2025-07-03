@@ -32,6 +32,11 @@ namespace Managers {
             UIHud.Instance.ClockView.UpdateAdIcon();
             QuestsManager.Instance.TryStartQuestsTimer();
             
+            if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+                SmartTilemap.Instance.BrobotAnimTilemap.ShowIdle();
+            } 
+          
+            
             if (!string.IsNullOrEmpty(SaveLoadManager.CurrentSave.UserId)) {
                 FarmerCommunityManager.Instance.PreloadNextFarm().Forget();
             }

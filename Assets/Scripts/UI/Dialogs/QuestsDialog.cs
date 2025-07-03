@@ -26,19 +26,17 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     [SerializeField]
     private GameObject _dailyLocked;
 
-
     [SerializeField]
     private GameObject _dailyNormal, _dailyChangeForAds;
 
     private int _selectedQuestForChange;
-    
-    
+
     public override void SetData(QuestsDialogData data) {
         SetMainQuestData(data.MainQuest);
         _firstQuestView.SetData(data.FirstQuest);
         _secondQuestView.SetData(data.SecondQuest);
         QuestsUpdateTimer(this.GetCancellationTokenOnDestroy()).Forget();
-        
+
         SetDailyLockedState(!QuestsManager.Instance.IsDailyUnlocked, ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily);
     }
 
@@ -51,9 +49,9 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     private async UniTaskVoid QuestsUpdateTimer(CancellationToken cancellationToken) {
         while (true) {
             _timerText.text = $"{LocalizationUtils.L("quests_refresh")} {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}";
-            _adsTimerText.text = $"{LocalizationUtils.L("quests_refresh_add_prefix")} {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}\n {LocalizationUtils.L("quests_refresh_add_suffix")}";
-             
-               
+            _adsTimerText.text =
+                $"{LocalizationUtils.L("quests_refresh_add_prefix")} {TimeUtils.ToShortString(QuestsManager.Instance.TimeToQuestsUpdate)}\n {LocalizationUtils.L("quests_refresh_add_suffix")}";
+
             await UniTask.Delay(1, cancellationToken: cancellationToken);
         }
     }
@@ -74,6 +72,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _mainQuestView.ShowChangeToNextQuest(newQuest);
         SetMainQuestData(newQuest);
     }
+
     public void ShowSideQuestChange(QuestData newQuest, QuestData newQuest1) {
         _firstQuestView.SetData(newQuest);
         _secondQuestView.SetData(newQuest1);
@@ -88,7 +87,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         if (!QuestsManager.Instance.IsDailyUnlocked) {
             return;
         }
-        
+
         _secondaryTab.gameObject.SetActive(isOn);
         _mainTab.gameObject.SetActive(!isOn);
     }
@@ -107,18 +106,26 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         if (!isOn) {
             return;
         }
+
         _selectedQuestForChange = 0;
     }
+
     public void SetQuestForChangeAfterAd2(bool isOn) {
         if (!isOn) {
             return;
         }
+
         _selectedQuestForChange = 1;
     }
 
     public void ConfirmShowAd() {
         CloseChangeForAds();
         QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
+    }
+
+    protected override UniTask Close() {
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
+        return base.Close();
     }
 }
 

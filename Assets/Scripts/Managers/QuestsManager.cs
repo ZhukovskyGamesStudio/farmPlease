@@ -96,6 +96,7 @@ public class QuestsManager : Singleton<QuestsManager> {
     }
 
     public void OpenQuestsDialog() {
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
         var d = DialogsManager.Instance.ShowDialogWithData(typeof(QuestsDialog), new QuestsDialogData() {
             MainQuest = QuestsData.MainQuest,
             FirstQuest = QuestsData.FirstQuest,

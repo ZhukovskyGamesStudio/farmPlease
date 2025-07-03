@@ -13,6 +13,7 @@ public class SmartTilemap : MonoBehaviour {
     public Tilemap MainTilemap;
     public Tilemap BuildingTilemap;
     public ToolsAnimTilemap toolsAnimTilemap;
+    public BrobotAnimTilemap BrobotAnimTilemap;
 
     public TilesTable tilesTablePrefab;
     public Transform TilesHolder;
