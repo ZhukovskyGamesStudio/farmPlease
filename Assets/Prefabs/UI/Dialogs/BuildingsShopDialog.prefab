@@ -177,8 +177,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.9011, y: 32.374607}
-  m_SizeDelta: {x: 71.36069, y: 32.4506}
+  m_AnchoredPosition: {x: 19.36, y: 32.374607}
+  m_SizeDelta: {x: 66.279, y: 32.4506}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1860765292
 CanvasRenderer:
@@ -2863,6 +2863,10 @@ MonoBehaviour:
   _animation: {fileID: 5022762945449482303}
   _idleClip: {fileID: 7400000, guid: ca6ba8e82d1be2d4bbadfdaddc30785c, type: 2}
   _buyClip: {fileID: 7400000, guid: 2018c9500d8eabc4fabc02bf1e819708, type: 2}
+  _headerColors:
+  - {r: 0.34509805, g: 1, b: 0.19607843, a: 1}
+  - {r: 1, g: 0.40784314, b: 0.40784314, a: 1}
+  - {r: 1, g: 0.972549, b: 0.23137255, a: 1}
 --- !u!111 &-2163150896715882237
 Animation:
   m_ObjectHideFlags: 0
@@ -3501,7 +3505,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8c84b93a037ffc049b561401a03485b4, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

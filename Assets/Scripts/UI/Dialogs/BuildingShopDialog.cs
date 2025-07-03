@@ -47,6 +47,9 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
     [SerializeField]
     private AnimationClip _idleClip, _buyClip;
 
+    [SerializeField]
+    private List<Color> _headerColors;
+
     private int ToolPrice => ConfigsManager.Instance.CostsConfig.ToolPrice;
     private int CropPrice => ConfigsManager.Instance.CostsConfig.CropPrice;
     private int BuildingPrice => ConfigsManager.Instance.CostsConfig.BuildingPriceProgression[_data.BuildingPriceIndex];
@@ -149,7 +152,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
         _lastSelectedCrop = type;
         CropConfig crop = CropsTable.CropByType(type);
         _confirmDialog.SetData(crop.VegSprite, LocalizationUtils.L(crop.HeaderLoc), LocalizationUtils.L(crop.explainTextLoc), CropPrice,
-            delegate { BuyCropButton(type); });
+            delegate { BuyCropButton(type); },_headerColors[0]);
         _confirmDialog.UpdateInteractable(InventoryManager.IsCropsBoughtD[type],InventoryManager.Instance.EnoughCrops(CropPrice));
     }
 
@@ -157,7 +160,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
         _lastSelectedTool = buff;
         ToolConfig tool = ToolsTable.ToolByType(buff);
         _confirmDialog.SetData(tool.FoodMarketSprite, LocalizationUtils.L(tool.HeaderLoc), LocalizationUtils.L(tool.explainTextLoc), ToolPrice,
-            delegate { BuyToolButton(buff); });
+            delegate { BuyToolButton(buff); },_headerColors[1]);
         _confirmDialog.UpdateInteractable(InventoryManager.IsToolsBoughtD[buff],InventoryManager.Instance.EnoughCrops(ToolPrice));
     }
 
@@ -165,7 +168,7 @@ public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarte
         _lastSelectedBuilding = type;
         BuildingConfig building = BuildingsTable.BuildingByType(type);
         _confirmDialog.SetData(building.offerSprite, LocalizationUtils.L(building.HeaderLoc), LocalizationUtils.L(building.explainTextLoc),
-            BuildingPrice, delegate { BuyBuildingButton(type); }, true);
+            BuildingPrice, delegate { BuyBuildingButton(type); },_headerColors[2], true);
         _confirmDialog.UpdateInteractable(InventoryManager.IsBuildingsBoughtD[type],InventoryManager.Instance.EnoughCrops(BuildingPrice));
     }
 

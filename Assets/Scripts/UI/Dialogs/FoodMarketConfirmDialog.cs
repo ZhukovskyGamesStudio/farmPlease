@@ -29,9 +29,10 @@ public class FoodMarketConfirmDialog : MonoBehaviour {
 
     private Action _onConfirmed;
 
-    public void SetData(Sprite sprite, string headerText, string explainText, int cropsCost, Action onConfirmed, bool isBuilding = false) {
+    public void SetData(Sprite sprite, string headerText, string explainText, int cropsCost, Action onConfirmed, Color headerColor,bool isBuilding = false) {
         _confirmImage.sprite = sprite;
         _nameText.text = headerText;
+        _nameText.color = headerColor;
         _explanationText.text = explainText;
         _costText.text = (isBuilding ? $"{LocalizationUtils.L(_buildingShopBuy)} " : $"{LocalizationUtils.L(_buildingShopOpen)} ") + cropsCost;
         _boughtText.text = isBuilding ? LocalizationUtils.L(_buildingShopBought): LocalizationUtils.L(_buildingShopOpened);
