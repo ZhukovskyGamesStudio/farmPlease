@@ -11,7 +11,6 @@ public class GameModeConfig : ScriptableObject {
     public bool DisableStrongWind;
     public bool IsBuildingsShopAlwaysOpen;
     public bool IsSkipTraining;
-    public bool Is10xXp = true;
   
 
     [Range(1f, 10)]

@@ -137,10 +137,6 @@ namespace Managers {
         }
 
         public void AddXp(int amount) {
-            if (GameModeManager.Instance.Config.Is10xXp) {
-                amount *= 10;
-            }
-
             if (SaveLoadManager.CurrentSave.RealShopData.HasGoldenCroponom) {
                 _uiHud.OpenCroponomButton.SpawnAdditionalXp(amount);
                 amount *= 2;
@@ -191,7 +187,7 @@ namespace Managers {
 
         public bool TryBuySeed(Crop crop, int cost, int amount) {
             if (SaveLoadManager.CurrentSave.Coins >= cost) {
-                Instance.AddXp(1);
+                Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBuySeed);
                 AddCoins(-1 * cost);
                 AddSeed(crop, amount);
                 StartCoroutine(SmartTilemap.Instance.HappeningSequence());
@@ -280,7 +276,7 @@ namespace Managers {
 
         public void BuyTool(ToolBuff buff, int cost, int amount) {
             AddCoins(-1 * cost);
-            AddXp(3);
+            AddXp(ConfigsManager.Instance.CostsConfig.XpForBuyTool);
             AddTool(buff, amount);
         }
 

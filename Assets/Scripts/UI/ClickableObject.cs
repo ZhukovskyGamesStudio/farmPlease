@@ -6,7 +6,7 @@ namespace UI
 {
     public class ClickableObject : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler {
         public float MaxDistanceDeltaToRegisterClick;
-
+        
         public UnityEvent RightclickEvent;
         public UnityEvent LeftclickEvent;
 

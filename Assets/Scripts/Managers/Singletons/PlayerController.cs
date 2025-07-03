@@ -4,6 +4,7 @@ using Managers;
 using Tables;
 using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using ZhukovskyGamesPlugin;
@@ -41,6 +42,7 @@ public class PlayerController : Singleton<PlayerController> {
 
     private UIHud _uiHud;
     private string _buildingSequenceId;
+    private Vector3Int _tmpBuildingCoord;
 
     [SerializeField]
     private bool _isMouseWheelWorks = false;
@@ -59,17 +61,24 @@ public class PlayerController : Singleton<PlayerController> {
         }
 
         if (isBuilding && _currentTile != null) {
-            FollowBuildingAfterCursor();
+            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) {
+                FollowBuildingAfterCursor();
+            }
         }
     }
 
     private void FollowBuildingAfterCursor() {
-        Vector3Int tmp = _buildingTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        if ((Vector2Int)tmp != _newBuildingcoord) {
+        _tmpBuildingCoord = _buildingTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if ((Vector2Int)_tmpBuildingCoord != _newBuildingcoord) {
             _buildingTilemap.ClearAllTiles();
-            _buildingTilemap.SetTile(tmp, _currentTile);
+            _buildingTilemap.SetTile(_tmpBuildingCoord, _currentTile);
 
-            _newBuildingcoord = (Vector2Int)tmp;
+            _newBuildingcoord = (Vector2Int)_tmpBuildingCoord;
+            
+            
+            bool canPlace = _smartTilemap.BuildingCanBePlaced(_currentBuilding, _newBuildingcoord);
+            _uiHud.BuildingPanel.SetState(canPlace);
+            _smartTilemap.ChangeBuildingColor(canPlace? Color.white : Color.red);
         }
     }
 
@@ -227,116 +236,122 @@ public class PlayerController : Singleton<PlayerController> {
         }
 
         if (isBuilding) {
-            if (_currentTile) {
-                if (_smartTilemap.BuildingCanBePlaced(_currentBuilding, _smartTilemap.Playercoord) &&
-                    _smartTilemap.Playercoord != _oldBuilddingscoord) {
-                    _currentTile = null;
-                    _buildingTilemap.ClearAllTiles();
-                    if (!_fromBackpack) {
-                        _smartTilemap.ActiveBuilding(_currentBuilding, _oldBuilddingscoord);
-                        _smartTilemap.RemoveBuilding(_currentBuilding, _oldBuilddingscoord);
-                    } else if (_currentBuilding == BuildingType.SprinklerTarget) {
-                        //_buildingShopView.BuyBuildingButton(BuildingType.Sprinkler);
-                    } else if (_currentBuilding != BuildingType.Sprinkler) {
-                        // _buildingShopView.BuyBuildingButton(_currentBuilding);
-                    }
-
-                    _smartTilemap.PlaceBuilding(_currentBuilding, _smartTilemap.Playercoord);
-                    QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.BuildBuilding, 1);
-                    SaveLoadManager.Instance.EndSequence(_buildingSequenceId);
-
-                    if (_fromBackpack)
-                        if (_currentBuilding == BuildingType.Sprinkler) {
-                            _helpBuildingsCoord = _smartTilemap.Playercoord;
-                            InitializeBuilding(BuildingType.SprinklerTarget, _fromBackpack);
-                        } else {
-                            StartStopBuilding();
-                        }
-                }
-            } else if (_smartTilemap.AvailabilityCheck("building")) {
-                switch (_smartTilemap.GetPlayerTile().type) {
-                    case TileType.BiogenEmpty:
-                    case TileType.BiogenFull:
-                    case TileType.BiogenT1:
-                    case TileType.BiogenT2:
-                    case TileType.BiogenT3:
-                    case TileType.BiogenConstruction:
-                        _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
-
-                        _smartTilemap.DeactiveBuilding(BuildingType.Biogen, _oldBuilddingscoord);
-                        InitializeBuilding(BuildingType.Biogen);
-                        break;
-
-                    case TileType.FreshenerConstruction:
-                    case TileType.FreshenerEmpty:
-                    case TileType.FreshenerFull:
-                    case TileType.FreshenerT1:
-                    case TileType.FreshenerT2:
-                    case TileType.FreshenerT3:
-                    case TileType.Freshener1:
-                    case TileType.Freshener2:
-                    case TileType.Freshener3:
-                    case TileType.Freshener4:
-                    case TileType.Freshener5:
-                    case TileType.Freshener6:
-                        _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
-
-                        _smartTilemap.DeactiveBuilding(BuildingType.Freshener, _oldBuilddingscoord);
-                        InitializeBuilding(BuildingType.Freshener);
-                        break;
-
-                    case TileType.SprinklerConstruction:
-                    case TileType.SprinklerEmpty:
-                    case TileType.Sprinkler1:
-                    case TileType.Sprinkler2:
-                    case TileType.Sprinkler3:
-                    case TileType.Sprinkler4:
-                    case TileType.Sprinkler5:
-                    case TileType.SprinklerFull:
-                    case TileType.SprinklerT1:
-                    case TileType.SprinklerT2:
-                    case TileType.SprinklerT3:
-                        _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
-
-                        _smartTilemap.DeactiveBuilding(BuildingType.Sprinkler, _oldBuilddingscoord);
-                        InitializeBuilding(BuildingType.Sprinkler);
-                        break;
-
-                    case TileType.SprinklerTarget:
-                        _oldBuilddingscoord = _smartTilemap.Playercoord;
-
-                        _smartTilemap.DeactiveBuilding(BuildingType.SprinklerTarget, _oldBuilddingscoord);
-                        InitializeBuilding(BuildingType.SprinklerTarget);
-                        break;
-
-                    case TileType.SeedDoublerConstruction:
-                    case TileType.SeedDoublerEmpty:
-                    case TileType.SeedDoublerFull:
-                    case TileType.SeedDoublerT1:
-                    case TileType.SeedDoublerT2:
-                    case TileType.SeedDoublerT3:
-                        _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
-
-                        _smartTilemap.DeactiveBuilding(BuildingType.SeedDoubler, _oldBuilddingscoord);
-                        InitializeBuilding(BuildingType.SeedDoubler);
-                        break;
-
-                    case TileType.TractorConstruction:
-                    case TileType.Tractor1:
-                    case TileType.Tractor2:
-                    case TileType.TractorT1:
-                    case TileType.TractorT2:
-                    case TileType.TractorT3:
-                        _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
-
-                        _smartTilemap.DeactiveBuilding(BuildingType.Tractor, _oldBuilddingscoord);
-                        InitializeBuilding(BuildingType.Tractor);
-                        break;
-                }
-            }
+            //PlaceBuilding();
         } else {
             if (CanInteract)
                 StartCoroutine(ClickCoroutine());
+        }
+    }
+
+    private void PlaceBuilding() {
+        if (_currentTile) {
+            var cur = (Vector2Int)_tmpBuildingCoord;
+            if (_smartTilemap.BuildingCanBePlaced(_currentBuilding, cur) &&
+                cur != _oldBuilddingscoord) {
+                _currentTile = null;
+                _buildingTilemap.ClearAllTiles();
+                if (!_fromBackpack) {
+                    _smartTilemap.ActiveBuilding(_currentBuilding, _oldBuilddingscoord);
+                    _smartTilemap.RemoveBuilding(_currentBuilding, _oldBuilddingscoord);
+                } else if (_currentBuilding == BuildingType.SprinklerTarget) {
+                    //_buildingShopView.BuyBuildingButton(BuildingType.Sprinkler);
+                } else if (_currentBuilding != BuildingType.Sprinkler) {
+                    // _buildingShopView.BuyBuildingButton(_currentBuilding);
+                }
+
+                _smartTilemap.PlaceBuilding(_currentBuilding, cur);
+                QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.BuildBuilding, 1);
+                SaveLoadManager.Instance.EndSequence(_buildingSequenceId);
+
+                if (_fromBackpack)
+                    if (_currentBuilding == BuildingType.Sprinkler) {
+                        _helpBuildingsCoord = Vector2Int.zero;
+                        _tmpBuildingCoord = Vector3Int.zero;
+                        InitializeBuilding(BuildingType.SprinklerTarget, _fromBackpack);
+                    } else {
+                        StartStopBuilding();
+                    }
+            }
+        } else if (_smartTilemap.AvailabilityCheck("building")) {
+            switch (_smartTilemap.GetPlayerTile().type) {
+                case TileType.BiogenEmpty:
+                case TileType.BiogenFull:
+                case TileType.BiogenT1:
+                case TileType.BiogenT2:
+                case TileType.BiogenT3:
+                case TileType.BiogenConstruction:
+                    _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
+
+                    _smartTilemap.DeactiveBuilding(BuildingType.Biogen, _oldBuilddingscoord);
+                    InitializeBuilding(BuildingType.Biogen);
+                    break;
+
+                case TileType.FreshenerConstruction:
+                case TileType.FreshenerEmpty:
+                case TileType.FreshenerFull:
+                case TileType.FreshenerT1:
+                case TileType.FreshenerT2:
+                case TileType.FreshenerT3:
+                case TileType.Freshener1:
+                case TileType.Freshener2:
+                case TileType.Freshener3:
+                case TileType.Freshener4:
+                case TileType.Freshener5:
+                case TileType.Freshener6:
+                    _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
+
+                    _smartTilemap.DeactiveBuilding(BuildingType.Freshener, _oldBuilddingscoord);
+                    InitializeBuilding(BuildingType.Freshener);
+                    break;
+
+                case TileType.SprinklerConstruction:
+                case TileType.SprinklerEmpty:
+                case TileType.Sprinkler1:
+                case TileType.Sprinkler2:
+                case TileType.Sprinkler3:
+                case TileType.Sprinkler4:
+                case TileType.Sprinkler5:
+                case TileType.SprinklerFull:
+                case TileType.SprinklerT1:
+                case TileType.SprinklerT2:
+                case TileType.SprinklerT3:
+                    _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
+
+                    _smartTilemap.DeactiveBuilding(BuildingType.Sprinkler, _oldBuilddingscoord);
+                    InitializeBuilding(BuildingType.Sprinkler);
+                    break;
+
+                case TileType.SprinklerTarget:
+                    _oldBuilddingscoord = _smartTilemap.Playercoord;
+
+                    _smartTilemap.DeactiveBuilding(BuildingType.SprinklerTarget, _oldBuilddingscoord);
+                    InitializeBuilding(BuildingType.SprinklerTarget);
+                    break;
+
+                case TileType.SeedDoublerConstruction:
+                case TileType.SeedDoublerEmpty:
+                case TileType.SeedDoublerFull:
+                case TileType.SeedDoublerT1:
+                case TileType.SeedDoublerT2:
+                case TileType.SeedDoublerT3:
+                    _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
+
+                    _smartTilemap.DeactiveBuilding(BuildingType.SeedDoubler, _oldBuilddingscoord);
+                    InitializeBuilding(BuildingType.SeedDoubler);
+                    break;
+
+                case TileType.TractorConstruction:
+                case TileType.Tractor1:
+                case TileType.Tractor2:
+                case TileType.TractorT1:
+                case TileType.TractorT2:
+                case TileType.TractorT3:
+                    _oldBuilddingscoord = _smartTilemap.GetBuildingCoordinatesByPart(_smartTilemap.Playercoord);
+
+                    _smartTilemap.DeactiveBuilding(BuildingType.Tractor, _oldBuilddingscoord);
+                    InitializeBuilding(BuildingType.Tractor);
+                    break;
+            }
         }
     }
 
@@ -370,7 +385,7 @@ public class PlayerController : Singleton<PlayerController> {
 
                 Energy.Instance.LoseOneEnergy();
                 Vector2Int coord = _smartTilemap.Playercoord;
-                InventoryManager.Instance.AddXp(1);
+                InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
                 yield return StartCoroutine(_smartTilemap.HoeTile());
 
                 if (InventoryManager.Instance.IsToolWorking(ToolBuff.Doublehoe)) {
@@ -397,7 +412,7 @@ public class PlayerController : Singleton<PlayerController> {
                     Energy.Instance.LoseOneEnergy();
                 }
 
-                InventoryManager.Instance.AddXp(1);
+                InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
                 yield return StartCoroutine(_smartTilemap.WaterTile());
                 break;
             }
@@ -424,7 +439,7 @@ public class PlayerController : Singleton<PlayerController> {
                     Energy.Instance.LoseOneEnergy();
                 }
 
-                InventoryManager.Instance.AddXp(1);
+                InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
                 yield return StartCoroutine(_smartTilemap.SeedTile(seedBagCrop));
                 break;
             }
@@ -439,7 +454,7 @@ public class PlayerController : Singleton<PlayerController> {
                     sequenceId = SaveLoadManager.Instance.StartSequence();
                     didSomething = true;
 
-                    InventoryManager.Instance.AddXp(1);
+                    InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
                     yield return StartCoroutine(_smartTilemap.WaterTile());
                     break;
                 }
@@ -526,6 +541,8 @@ public class PlayerController : Singleton<PlayerController> {
             CancelBuilding();
         } else {
             _uiHud.SetBuildingPanelState(true);
+            _uiHud.BuildingPanel.Activate(FollowBuildingAfterCursor,PlaceBuilding);
+            
             _buildingTilemap.ClearAllTiles();
             _buildingSequenceId = SaveLoadManager.Instance.StartSequence();
             isBuilding = true;
@@ -537,6 +554,7 @@ public class PlayerController : Singleton<PlayerController> {
         _fromBackpack = isFromBackpack;
 
         _currentTile = BuildingsTable.BuildingByType(type).BuildingPanelTile;
+        _buildingTilemap.SetTile(Vector3Int.zero, _currentTile);
     }
 }
 

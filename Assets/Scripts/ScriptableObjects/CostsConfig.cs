@@ -1,3 +1,4 @@
+using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CostsConfig", menuName = "Scriptable Objects/CostsConfig")]
@@ -17,4 +18,8 @@ public class CostsConfig : ScriptableObject {
 
     public float HoursQuestsChange = 24;
     public int LevelToUnlockDaily = 3;
+
+    public int XpForBuySeed = 1;
+    public int XpForBuyTool = 3;
+    public int XpForBaseAction = 1;
 }

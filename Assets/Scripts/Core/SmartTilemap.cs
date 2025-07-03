@@ -188,14 +188,11 @@ public class SmartTilemap : MonoBehaviour {
             case BuildingType.SeedDoubler:
             case BuildingType.Tractor:
                 SmartTile[] neighbors = GetHexNeighbors(coord);
-                bool isBuilding = _tiles[coord].IsBuilding() || neighbors[5].IsBuilding() || neighbors[0].IsBuilding() ||
-                                  neighbors[1].IsBuilding();
-                bool isRocks = _tiles[coord].type == TileType.Rocks || neighbors[5].type == TileType.Rocks ||
-                               neighbors[0].type == TileType.Rocks || neighbors[1].type == TileType.Rocks;
-                return !isBuilding && !isRocks;
+                return _tiles[coord].type == TileType.Sand && neighbors[5].type == TileType.Sand && neighbors[0].type == TileType.Sand &&
+                       neighbors[1].type == TileType.Sand;
 
             case BuildingType.SprinklerTarget:
-                return !_tiles[coord].IsBuilding() && !(_tiles[coord].type == TileType.Rocks);
+                return _tiles[coord].type == TileType.Sand;
 
             default:
                 UnityEngine.Debug.Log("Wrong");
@@ -592,5 +589,9 @@ public class SmartTilemap : MonoBehaviour {
 
     public SmartTile GetBuildingByPart(Vector2Int coord) {
         return _tiles[GetBuildingCoordinatesByPart(coord)];
+    }
+
+    public void ChangeBuildingColor(Color newColor) {
+        BuildingTilemap.color = newColor;
     }
 }

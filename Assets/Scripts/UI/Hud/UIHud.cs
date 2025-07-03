@@ -22,7 +22,7 @@ namespace UI {
         public OpenCroponomButtonView OpenCroponomButton;
 
         public GameObject HammerToolButton;
-        public GameObject BuildingPanel;
+        public BuildingStatePanel BuildingPanel;
         public GraphicRaycaster GraphicRaycaster;
 
         public GameObject SettingsButton;
@@ -104,7 +104,7 @@ namespace UI {
         }
 
         public void SetBuildingPanelState(bool isActive) {
-            BuildingPanel.SetActive(isActive);
+            BuildingPanel.gameObject.SetActive(isActive);
             ClockView.gameObject.SetActive(!isActive);
             CountersView.gameObject.SetActive(!isActive);
             SettingsButton.gameObject.SetActive(!isActive);
