@@ -1,31 +1,30 @@
 ﻿using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-    public class FoodMarketOffer : MonoBehaviour {
-        [SerializeField]
-        private Image _image;
+public class FoodMarketOffer : MonoBehaviour {
+    [SerializeField]
+    private Image _image, _boughtImage;
 
-        [SerializeField]
-        private TextMeshProUGUI _nameText;
+    [SerializeField]
+    private Toggle _toggle;
 
-        [SerializeField]
-        private Button _button;
+    private Action _onButtonClick;
 
-        private Action _onButtonClick;
-
-        public void Init(Sprite icon, string nameText, Action onButtonClick) {
-            _image.sprite = icon;
-            _nameText.text = nameText;
-            _onButtonClick = onButtonClick;
-        }
-
-        public void OfferButtonClicked() {
-            _onButtonClick?.Invoke();
-        }
-
-        public void UpdateInteractable(bool isInteractable) {
-            _button.interactable = isInteractable;
-        }
+    public void Init(Sprite icon, Action onButtonClick) {
+        _image.sprite = icon;
+        _onButtonClick = onButtonClick;
     }
+
+    public void OfferButtonClicked(bool isOn) {
+        if (!isOn) {
+            return;
+        }
+
+        _onButtonClick?.Invoke();
+    }
+
+    public void UpdateInteractable(bool isInteractable) {
+        _boughtImage.gameObject.SetActive(!isInteractable);
+    }
+}

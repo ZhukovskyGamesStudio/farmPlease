@@ -15,10 +15,17 @@ public class FoodMarketConfirmDialog : MonoBehaviour {
     private TextMeshProUGUI _explanationText;
 
     [SerializeField]
-    private TextMeshProUGUI _costText;
+    private TextMeshProUGUI _costText, _boughtText;
 
     [SerializeField]
     private Image _confirmImage;
+
+    [SerializeField]
+    private GameObject _boughtState, _unboughtState;
+
+    [SerializeField]
+    [LocalizationKey("BuildingShop")]
+    private string _buildingShopBuy, _buildingShopOpen, _buildingShopBought, _buildingShopOpened;
 
     private Action _onConfirmed;
 
@@ -26,7 +33,8 @@ public class FoodMarketConfirmDialog : MonoBehaviour {
         _confirmImage.sprite = sprite;
         _nameText.text = headerText;
         _explanationText.text = explainText;
-        _costText.text = (isBuilding ? $"{LocalizationUtils.L("buildingshop_buy")} " : $"{LocalizationUtils.L("buildingshop_open")} ") + cropsCost;
+        _costText.text = (isBuilding ? $"{LocalizationUtils.L(_buildingShopBuy)} " : $"{LocalizationUtils.L(_buildingShopOpen)} ") + cropsCost;
+        _boughtText.text = isBuilding ? LocalizationUtils.L(_buildingShopBought): LocalizationUtils.L(_buildingShopOpened);
         _onConfirmed = onConfirmed;
     }
 
@@ -34,7 +42,9 @@ public class FoodMarketConfirmDialog : MonoBehaviour {
         _onConfirmed?.Invoke();
     }
 
-    public void UpdateInteractable(bool isInteractable) {
+    public void UpdateInteractable(bool isBought,bool isInteractable) {
         _confirmButton.interactable = isInteractable;
+        _boughtState.SetActive(isBought);
+        _unboughtState.SetActive(!isBought);
     }
 }
