@@ -246,8 +246,7 @@ public class PlayerController : Singleton<PlayerController> {
     private void PlaceBuilding() {
         if (_currentTile) {
             var cur = (Vector2Int)_tmpBuildingCoord;
-            if (_smartTilemap.BuildingCanBePlaced(_currentBuilding, cur) &&
-                cur != _oldBuilddingscoord) {
+            if (_smartTilemap.BuildingCanBePlaced(_currentBuilding, cur) && cur != _oldBuilddingscoord) {
                 _currentTile = null;
                 _buildingTilemap.ClearAllTiles();
                 if (!_fromBackpack) {
@@ -266,7 +265,6 @@ public class PlayerController : Singleton<PlayerController> {
                 if (_fromBackpack)
                     if (_currentBuilding == BuildingType.Sprinkler) {
                         _helpBuildingsCoord = Vector2Int.zero;
-                        _tmpBuildingCoord = Vector3Int.zero;
                         InitializeBuilding(BuildingType.SprinklerTarget, _fromBackpack);
                     } else {
                         StartStopBuilding();
@@ -552,7 +550,8 @@ public class PlayerController : Singleton<PlayerController> {
     public void InitializeBuilding(BuildingType type, bool isFromBackpack = false) {
         _currentBuilding = type;
         _fromBackpack = isFromBackpack;
-
+        _oldBuilddingscoord = Vector2Int.zero;
+        _tmpBuildingCoord = Vector3Int.zero;
         _currentTile = BuildingsTable.BuildingByType(type).BuildingPanelTile;
         _buildingTilemap.SetTile(Vector3Int.zero, _currentTile);
     }

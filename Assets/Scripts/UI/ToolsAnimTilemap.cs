@@ -4,52 +4,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-    public class ToolsAnimTilemap : MonoBehaviour {
-        public Tilemap AnimationsTilemap;
+public class ToolsAnimTilemap : MonoBehaviour {
+    public Tilemap AnimationsTilemap;
 
-        public TileBase hoeAnimation;
-        public TileBase watercanAnimation;
-        [SerializeField]
-        public TileBase _scytheAnimation,_rainAnimation;
+    public TileBase hoeAnimation;
+    public TileBase watercanAnimation;
 
-        public float animationTime;
+    [SerializeField]
+    public TileBase _scytheAnimation, _rainAnimation, _strawberryAnimation, _dandellionAnimation, _tractorAnimation, _windAnimation;
 
-        private Dictionary<AnimationType, TileBase> AnimationsMap;
+    public float animationTime;
 
-        private void Awake() {
-            CreateAnimationsMap();
-        }
+    private Dictionary<AnimationType, TileBase> AnimationsMap;
 
-        private void CreateAnimationsMap() {
-            AnimationsMap = new Dictionary<AnimationType, TileBase>() {
-                { AnimationType.Hoe, hoeAnimation},
-                { AnimationType.Watercan, watercanAnimation},
-                { AnimationType.Scythe, _scytheAnimation},
-                { AnimationType.Rain, _rainAnimation},
-                { AnimationType.Strawberry, _rainAnimation},
-            };
-        }
-
-        public void StartAnimationInCoord(Vector2Int coord, AnimationType type) {
-            StartCoroutine(PlaceAnimation(coord, type));
-        }
-
-        public IEnumerator PlaceAnimation(Vector2Int coord, AnimationType type) {
-            var vec3 = (Vector3Int)coord;
-            AnimationsTilemap.SetTile(vec3, AnimationsMap[type]);
-            yield return new WaitForSeconds(animationTime);
-
-            AnimationsTilemap.SetTile(vec3, null);
-            yield return false;
-        }
+    private void Awake() {
+        CreateAnimationsMap();
     }
-   
 
-    public enum AnimationType {
-        None,
-        Hoe,
-        Watercan,
-        Scythe,
-        Rain,
-        Strawberry
+    private void CreateAnimationsMap() {
+        AnimationsMap = new Dictionary<AnimationType, TileBase>() {
+            { AnimationType.Hoe, hoeAnimation },
+            { AnimationType.Watercan, watercanAnimation },
+            { AnimationType.Scythe, _scytheAnimation },
+            { AnimationType.Rain, _rainAnimation },
+            { AnimationType.Strawberry, _strawberryAnimation },
+            { AnimationType.Dandellion, _dandellionAnimation },
+            { AnimationType.Tractor, _tractorAnimation },
+            { AnimationType.Wind, _windAnimation },
+        };
     }
+
+    public void StartAnimationInCoord(Vector2Int coord, AnimationType type) {
+        StartCoroutine(PlaceAnimation(coord, type));
+    }
+
+    public IEnumerator PlaceAnimation(Vector2Int coord, AnimationType type) {
+        var vec3 = (Vector3Int)coord;
+        AnimationsTilemap.SetTile(vec3, AnimationsMap[type]);
+        yield return new WaitForSeconds(animationTime);
+
+        AnimationsTilemap.SetTile(vec3, null);
+        yield return false;
+    }
+}
+
+public enum AnimationType {
+    None,
+    Hoe,
+    Watercan,
+    Scythe,
+    Rain,
+    Strawberry,
+    Dandellion,
+    Tractor,
+    Wind
+}

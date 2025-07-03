@@ -152,6 +152,15 @@ namespace UI
 
         private void AdjustGridSize(int itemsToShow) {
             SeedsGrid.constraintCount = itemsToShow < 4 ? itemsToShow : 4;
+            if (itemsToShow > 12) {
+                SeedsGrid.constraintCount = 5;
+            }
+            if (itemsToShow > 15) {
+                SeedsGrid.constraintCount = 6;
+            }
+            if (itemsToShow > 18) {
+                SeedsGrid.constraintCount = 7;
+            }
         }
 
         private void ShowConfirmDialog(Action confirmedCallback) {

@@ -147,15 +147,23 @@
             BecomeInactive();
 
             SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
+            var animationType = AnimationType.Hoe;
+            if (isDandellion) {
+                animationType = AnimationType.Dandellion;
+            }
+
+            if (isTractor) {
+                animationType = AnimationType.Tractor;
+            }
 
             switch (type) {
                 case TileType.Sand:
-                    SwitchType(TileType.Soil, AnimationType.Hoe);
+                    SwitchType(TileType.Soil, animationType);
                     break;
                 case TileType.FernDead:
                 case TileType.BeautyflowerDead:
                 case TileType.PeanutDead:
-                    SwitchType(TileType.Soil, AnimationType.Hoe);
+                    SwitchType(TileType.Soil, animationType);
                     break;
 
                 case TileType.Strawberry1:
@@ -194,11 +202,14 @@
             BecomeActive();
         }
 
-        public IEnumerator OnSeeded(Crop seedtype, float animtime) {
+        public IEnumerator OnSeeded(Crop seedtype, float animtime, bool isWind = false) {
             BecomeInactive();
 
             SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
-
+            var animationType = AnimationType.None;
+            if (isWind) {
+                animationType = AnimationType.Wind;
+            }
             TileData data = TilesTable.TileByType(type);
             if (data.TIndex == 1)
                 yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnSeeded(seedtype, animtime));
@@ -210,6 +221,9 @@
                 switch (type) {
                     case TileType.SeedDoublerEmpty:
                     case TileType.SeedDoublerFull:
+                        if (isWind) {
+                            break;
+                        }
                         SaveLoadManager.CurrentSave.SeedShopData.AmbarCrop = seedtype;
                         SwitchType(TileType.SeedDoublerFull);
                         break;
@@ -217,46 +231,46 @@
                     case TileType.Soil:
                         switch (seedtype) {
                             case Crop.Tomato:
-                                SwitchType(TileType.TomatoSeed);
+                                SwitchType(TileType.TomatoSeed,animationType);
                                 break;
 
                             case Crop.Eggplant:
-                                SwitchType(TileType.EggplantSeed);
+                                SwitchType(TileType.EggplantSeed,animationType);
                                 break;
 
                             case Crop.Corn:
-                                SwitchType(TileType.CornSeed);
+                                SwitchType(TileType.CornSeed,animationType);
                                 break;
 
                             case Crop.Dandellion:
-                                SwitchType(TileType.DandellionSeed);
+                                SwitchType(TileType.DandellionSeed,animationType);
                                 break;
 
                             case Crop.Strawberry:
-                                SwitchType(TileType.StrawberrySeed);
+                                SwitchType(TileType.StrawberrySeed,animationType);
                                 break;
 
                             case Crop.Cactus:
-                                SwitchType(TileType.CactusSeed);
+                                SwitchType(TileType.CactusSeed,animationType);
                                 break;
 
                             case Crop.Fern:
-                                SwitchType(TileType.FernSeed);
+                                SwitchType(TileType.FernSeed,animationType);
                                 break;
 
                             case Crop.Beautyflower:
                                 if (animtime == -1)
-                                    SwitchType(TileType.BeautyflowerSibling);
+                                    SwitchType(TileType.BeautyflowerSibling,animationType);
                                 else
-                                    SwitchType(TileType.Beautyflowerseed1);
+                                    SwitchType(TileType.Beautyflowerseed1,animationType);
                                 break;
 
                             case Crop.Flycatcher:
-                                SwitchType(TileType.FlycatherSeed1);
+                                SwitchType(TileType.FlycatherSeed1,animationType);
                                 break;
 
                             case Crop.Onion:
-                                SwitchType(TileType.OnionSeed);
+                                SwitchType(TileType.OnionSeed,animationType);
                                 break;
 
                             case Crop.Pumpkin:
@@ -306,20 +320,20 @@
                                 }
 
                                 if (pumpList.Count == 0)
-                                    SwitchType(TileType.Pumpkinseed1);
+                                    SwitchType(TileType.Pumpkinseed1,animationType);
                                 if (pumpList.Count == 1)
-                                    SwitchType(TileType.Pumpkinseed2);
+                                    SwitchType(TileType.Pumpkinseed2,animationType);
                                 if (pumpList.Count >= 2)
-                                    SwitchType(TileType.Pumpkinseed3);
+                                    SwitchType(TileType.Pumpkinseed3,animationType);
 
                                 break;
 
                             case Crop.Radish:
-                                SwitchType(TileType.RadishSeed);
+                                SwitchType(TileType.RadishSeed,animationType);
                                 break;
 
                             case Crop.Peanut:
-                                SwitchType(TileType.PeanutSeed);
+                                SwitchType(TileType.PeanutSeed,animationType);
                                 break;
                         }
 
@@ -330,17 +344,17 @@
 
             if (InventoryManager.SeedsInventory[seedtype] > 0) {
                 if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeSeeded()) {
-                    yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnSeeded(seedtype, animtime);
+                    yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnSeeded(seedtype, animtime, isWind);
                     InventoryManager.Instance.LoseSeed(seedtype);
                 }
 
                 if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeSeeded()) {
-                    yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnSeeded(seedtype, animtime);
+                    yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnSeeded(seedtype, animtime, isWind);
                     InventoryManager.Instance.LoseSeed(seedtype);
                 }
 
                 if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeSeeded()) {
-                    yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnSeeded(seedtype, animtime);
+                    yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnSeeded(seedtype, animtime, isWind);
                     InventoryManager.Instance.LoseSeed(seedtype);
                 }
             }
@@ -736,8 +750,9 @@
 
         public void SwitchType(TileType newType, AnimationType animationType) {
             SwitchType(newType);
-
-            _tilemap.toolsAnimTilemap.StartAnimationInCoord(_position, animationType);
+            if (animationType != AnimationType.None) {
+                _tilemap.toolsAnimTilemap.StartAnimationInCoord(_position, animationType);
+            }
         }
         
         public void SwitchType(TileType newType) {
