@@ -48,28 +48,36 @@ public class KnowledgeHintsFactory : MonoBehaviour {
     }
 
     private void ShowToolShopHint() {
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
         UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
-        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ToolShopButton, _toolShopHint,
-            delegate { KnowledgeUtils.AddKnowledge(Knowledge.ToolShop); }, true);
+        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ToolShopButton, _toolShopHint, delegate {
+            KnowledgeUtils.AddKnowledge(Knowledge.ToolShop); 
+            SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
+        }, true);
     }
 
     private void ShowFoodMarketHint() {
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
         UIHud.Instance.ShopsPanel.BuildingShopButton.gameObject.SetActive(true);
         UIHud.Instance.ShopsPanel.BuildingShopButton.interactable = true;
-        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ShopsPanel.BuildingShopButton.transform, _foodMarketHint,
-            delegate { KnowledgeUtils.AddKnowledge(Knowledge.FoodMarket); }, true, true);
+        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ShopsPanel.BuildingShopButton.transform, _foodMarketHint, delegate {
+            KnowledgeUtils.AddKnowledge(Knowledge.FoodMarket); 
+            SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
+        }, true, true);
+    
     }
 
     public void TryShowNoEnergyHint() {
         if (KnowledgeUtils.HasKnowledge(Knowledge.NoEnergy)) {
             return;
         }
-
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
         UnlockableUtils.Unlock(ToolBuff.WeekBattery);
         UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform, _noEnergyHint, GiveBatteryReward, true, true);
     }
 
     private static void GiveBatteryReward() {
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
         DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
             Reward = new Reward() {
                 Items = new List<RewardItem>() {
@@ -82,6 +90,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
             OnClaim = delegate {
                 KnowledgeUtils.AddKnowledge(Knowledge.NoEnergy);
                 UIHud.Instance.BackpackAttention.ShowAttention();
+                
             }
         });
     }
@@ -90,25 +99,32 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         if (KnowledgeUtils.HasKnowledge(Knowledge.FarmerCommunity)) {
             return;
         }
-
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
         UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(true);
-        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.FarmerCommunityBadgeView.transform, _farmerCommunityHint,
-            delegate { KnowledgeUtils.AddKnowledge(Knowledge.FarmerCommunity); }, true, true);
+        UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.FarmerCommunityBadgeView.transform, _farmerCommunityHint, delegate {
+            KnowledgeUtils.AddKnowledge(Knowledge.FarmerCommunity); 
+            SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
+        }, true, true);
     }
 
     public void TryShowCalendarHint() {
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
         UIHud.Instance.TimePanel.gameObject.SetActive(true);
         UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.TimePanel.CalendarButton, _calendarHint, ShowWeatherHint);
     }
 
     private void ShowWeatherHint() {
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
         BigCalendarDialog bigCalendarDialog = FindAnyObjectByType<BigCalendarDialog>();
         UIHud.Instance.SpotlightWithText.ShowSpotlight(bigCalendarDialog.transform, _weatherHint,
             delegate { KnowledgeUtils.AddKnowledge(Knowledge.Weather); }, true, true);
     }
 
     public void TryShowHappeningHint() {
-        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.TimePanel.HappeningButton, _happeningHint,
-            delegate { KnowledgeUtils.AddKnowledge(Knowledge.LilCalendar); }, true);
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
+        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.TimePanel.HappeningButton, _happeningHint, delegate {
+            KnowledgeUtils.AddKnowledge(Knowledge.LilCalendar);
+            SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
+        }, true);
     }
 }
