@@ -13,7 +13,7 @@ Shader "Custom/StarsFlicker"
     }
     SubShader
     {
-        Tags { "RenderType"="Overlay" "Queue"="Overlay" }
+        //Tags { "RenderType"="Overlay" "Queue"="Overlay" }
         LOD 200
         Blend SrcAlpha OneMinusSrcAlpha
 
