@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI {
     public class KnowledgeCanSpeak : HasAnimationAndCallback {
@@ -9,36 +13,43 @@ namespace UI {
         protected TextMeshProUGUI _speakText;
 
         [SerializeField]
-        private AnimationClip _showAnimationClip, _hideAnimationClip, _changeAnimationClip;
+        private AnimationClip _showAnimationClip, _hideAnimationClip, _changeStartAnimationClip,_changeEndAnimationClip;
 
         private bool _isHidingAfter;
         private string _hintTextToUpdate;
+        
+         protected CancellationTokenSource _cts = new CancellationTokenSource();
 
         public void ShowSpeak(string text, Action onHideEnded = null, bool isHidingAfter = false) {
             gameObject.SetActive(true);
-            _speakText.text = text;
+            RecreateToken(); // Создаём новый токен для отмены предыдущего
+            
             OnAnimationEnded = onHideEnded;
             _animation.Play(_showAnimationClip.name);
             _isHidingAfter = isHidingAfter;
+
+            TypeText(_speakText, text, _cts.Token).Forget();
         }
 
-        public void ChangeSpeak(string text, Action onHideEnded = null, bool isHidingAfter = false) {
-            gameObject.SetActive(true);
+        public async void ChangeSpeak(string text, Action onHideEnded = null, bool isHidingAfter = false) {
+            RecreateToken();
             _hintTextToUpdate = text;
-
+            gameObject.SetActive(true);
+            
             OnAnimationEnded = onHideEnded;
-            _animation.Play(_changeAnimationClip.name);
+            _animation.Play(_changeStartAnimationClip.name);
+            await UniTask.WaitWhile(()=> _animation.isPlaying, cancellationToken: _cts.Token);
+            RecreateToken();
+            TypeText(_speakText,_hintTextToUpdate, _cts.Token).Forget();
+            _animation.Play(_changeEndAnimationClip.name);
             _isHidingAfter = isHidingAfter;
         }
-
-        public void UpdateText() {
-            _speakText.text = _hintTextToUpdate;
-        }
-
+        
         public void HideSpeak() {
+            RecreateToken();
             if (_isHidingAfter) {
                 _animation.Play(_hideAnimationClip.name);
-                StartCoroutine(WaitForAnimationEnded());
+                WaitForAnimationEnded(_cts.Token).Forget();
             } else {
                 OnAnimationEnded?.Invoke();
             }
@@ -47,6 +58,12 @@ namespace UI {
         public void HideSpeakWithoutCallback() {
             OnAnimationEnded = null;
             _animation.Play(_hideAnimationClip.name);
+        }
+        
+
+        protected override void OnDestroy() {
+            base.OnDestroy();
+            _cts?.Cancel();
         }
     }
 }

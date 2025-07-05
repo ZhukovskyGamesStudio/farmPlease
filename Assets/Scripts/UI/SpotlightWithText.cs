@@ -94,11 +94,14 @@ namespace UI {
             ChangeCenterBlockRaycast(_isHidingByAnyTap);
         }
 
-        private void JumpSpotlightFromVeryBig(Transform target, SpotlightAnimConfig animDataConfig) {
+        private async void JumpSpotlightFromVeryBig(Transform target, SpotlightAnimConfig animDataConfig) {
+            RecreateToken();
             _headFinPosAnchor.position = target.transform.position;
             _shadowTransform.position = target.transform.position;
-            _hintText.text = LocalizationUtils.L(animDataConfig.HintTextLoc);
-            JumpSpotlightEnd(animDataConfig);
+            _hintText.maxVisibleCharacters = 0;
+            ResizeBubbleForText(_hintText, LocalizationUtils.L(animDataConfig.HintTextLoc));
+            await JumpSpotlightEnd(animDataConfig);
+            TypeText(_hintText, LocalizationUtils.L(animDataConfig.HintTextLoc), _cts.Token).Forget();
         }
 
         private void OnTargetButtonPressed() {
@@ -118,7 +121,8 @@ namespace UI {
             _headFinPosAnchor.position = targetPos;
             _headShift.anchoredPosition = _shadowTransform.anchoredPosition + config.HeadShift;
             _shadowCenter.sizeDelta = config.SpotlightSize;
-            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
+            RecreateToken();
+            TypeText(_hintText, LocalizationUtils.L(config.HintTextLoc), _cts.Token).Forget();
             _animation.Play(SHOW);
             _isShown = true;
         }
@@ -152,13 +156,13 @@ namespace UI {
 
         public void HideSpotlight() {
             _animation.Play(HIDE);
-            StartCoroutine(WaitForAnimationEnded());
+            WaitForAnimationEnded(_cts.Token).Forget();
             _isShown = false;
         }
 
         private async UniTask MoveSpotlight(Vector3 targetPos, SpotlightAnimConfig config) {
-            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
-
+            RecreateToken();
+            TypeText(_hintText, LocalizationUtils.L(config.HintTextLoc), _cts.Token).Forget();
             Vector3 startpos = _shadowTransform.position;
             Vector2 headPos = _headShift.anchoredPosition;
             Vector2 shadowSize = _shadowCenter.sizeDelta;
@@ -196,11 +200,13 @@ namespace UI {
 
             MoveHeadPos(config);
             await JumpSpotlightStart(config);
-
+            RecreateToken();
             _shadowTransform.position = targetPos;
-            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
-
+            _hintText.maxVisibleCharacters = 0;
+            ResizeBubbleForText(_hintText, LocalizationUtils.L(config.HintTextLoc));
             await JumpSpotlightEnd(config);
+            TypeText(_hintText, LocalizationUtils.L(config.HintTextLoc), _cts.Token).Forget();
+
         }
 
         private async UniTask JumpSpotlightStart(SpotlightAnimConfig config) {
@@ -245,6 +251,7 @@ namespace UI {
         }
 
         private async UniTask MoveHeadOnly(SpotlightAnimConfig config) {
+            RecreateToken();
             Vector2 headPos = _headShift.anchoredPosition;
             float curTime = 0;
             float maxTime = 0.5f;
@@ -258,9 +265,10 @@ namespace UI {
                 curTime += Time.deltaTime;
                 await UniTask.WaitForEndOfFrame();
             } while (curTime <= maxTime);
-
-            _hintText.text = LocalizationUtils.L(config.HintTextLoc);
+            _hintText.maxVisibleCharacters = 0;
+            ResizeBubbleForText(_hintText, LocalizationUtils.L(config.HintTextLoc));
             await MoveHeadEnd(config);
+            TypeText(_hintText, LocalizationUtils.L(config.HintTextLoc), _cts.Token).Forget();
         }
 
         private async UniTask MoveHeadEnd(SpotlightAnimConfig config) {
