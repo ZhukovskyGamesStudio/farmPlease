@@ -11,7 +11,6 @@ public class QuestTargetDropdownDrawer : PropertyDrawer {
             EditorGUI.LabelField(position, label.text, "Use with string only");
             return;
         }
-
         // Собери значения из всех нужных enum
         List<string> options = new List<string>();
         options.AddRange(Enum.GetNames(typeof(TargetTypes)));
