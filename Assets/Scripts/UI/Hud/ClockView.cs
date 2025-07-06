@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,12 +33,25 @@ namespace UI {
 
         [SerializeField]
         private GameObject _adIcon;
-        
-
+        [SerializeField]
+        private GoldenTimer _goldenTimer;
         public bool IsLockedByFtue { get; set; }
+
+        private void Update()
+        {
+            UpdateGoldenState();
+            UpdateGoldenTimer();
+        }
+
+        private void UpdateGoldenTimer()
+        {
+            _goldenTimer.gameObject.SetActive(RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData));
+            _goldenTimer.SetTime(RealShopUtils.ClockTimeLeft(SaveLoadManager.CurrentSave.RealShopData));
+        }
 
         public void UpdateGoldenState() {
             _goldenClock.SetActive(RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData));
+            
         }
         
         public void UpdateAdIcon() {

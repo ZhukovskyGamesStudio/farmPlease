@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Managers;
 using ScriptableObjects;
 using Tables;
@@ -21,9 +22,23 @@ namespace UI {
         [SerializeField]
         private FastPanelSlotView _normalScythe, _goldenScythe;
 
+        [SerializeField]
+        private GoldenTimer _goldenTimer;
         private Backpack _backpack;
         private Image _calendarImage;
         private Crop _curCropSeed;
+
+        public void Update()
+        {
+            UpdateGoldenScytheState();
+            UpdateGoldenTimer();
+        }
+
+        private void UpdateGoldenTimer()
+        {
+            _goldenTimer.gameObject.SetActive(RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData));
+            _goldenTimer.SetTime(RealShopUtils.ScytheTimeLeft(SaveLoadManager.CurrentSave.RealShopData));
+        }
 
         public void Init() {
             _calendarImage = UIHud.Instance.TimePanel.CalendarImage;
