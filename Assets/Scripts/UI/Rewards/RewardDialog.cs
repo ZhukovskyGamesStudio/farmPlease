@@ -30,7 +30,7 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
 
     [SerializeField]
     private TextMeshProUGUI _headerText;
-
+    private bool _isShowing;
     public override void SetData(RewardDialogData data) {
         _data = data;
         List<RewardItemView> combinedRewardViews = new List<RewardItemView>();
@@ -57,16 +57,23 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
 
         _clicksNeeded++;
         _clicksMade = 0;
+        _isShowing = true;
     }
 
     public override async UniTask Show(Action onClose) {
         UIHud.Instance.ProfileView.Hide();
         _chestAnimation.Play(_chestAppear.name);
-        _chestAnimation.PlayQueued(_chestIdle.name);
+
         await base.Show(onClose);
+        await UniTask.WaitWhile(() => _chestAnimation.isPlaying);
+        _chestAnimation.PlayQueued(_chestIdle.name);
+        _isShowing = false;
     }
 
     public void ClickChest() {
+        if (_isShowing) {
+            return;
+        }
         if (_clicksMade >= _clicksNeeded) {
             return;
         }
@@ -76,12 +83,14 @@ public class RewardDialog : DialogWithData<RewardDialogData> {
         if (_clicksMade >= _clicksNeeded) {
             OpenChest();
         } else {
+            _chestAnimation.Stop();
             _chestAnimation.Play(_chestClick.name);
             _chestAnimation.PlayQueued(_chestIdle.name);
         }
     }
 
     private async void OpenChest() {
+        _chestAnimation.Stop();
         _chestAnimation.Play(_chestClick.name);
         _chestAnimation.PlayQueued(_chestOpen.name);
         await UniTask.WaitWhile(() => _chestAnimation.isPlaying);

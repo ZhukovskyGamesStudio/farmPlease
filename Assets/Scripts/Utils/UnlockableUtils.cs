@@ -32,9 +32,16 @@ public static class UnlockableUtils {
     }
     
     public static void Unlock(string unlockable) {
-        if(unlockable == Unlockable.FoodMarket.ToString()) {
+        if (unlockable == Unlockable.FoodMarket.ToString()) {
             TimeManager.AddMissingFoodMarkets();
+        } else if (unlockable == Unlockable.ToolShop.ToString()) {
+            SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(ToolBuff.Unlimitedwatercan.ToString());
+        } else if (unlockable == Unlockable.Field1.ToString()) {
+            TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 1));
+        } else if (unlockable == Unlockable.Field2.ToString()) {
+            TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 2));
         }
+
         AddAndSave(unlockable);
     }
 
@@ -46,8 +53,6 @@ public static class UnlockableUtils {
         if (!NotInCroponom.Contains(unlockable)) {
             SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
         }
-
-       
       
         Unlocked?.Add(unlockable);
         if (SaveLoadManager.Instance != null) {
@@ -80,12 +85,13 @@ public static class UnlockableUtils {
         SaveLoadManager.CurrentSave.UnseenCroponomPages.Remove(page);
         SaveLoadManager.SaveGame();
     }
-    
-    
+
     public static List<string> NotInCroponom = new List<string> {
         Unlockable.ToolShop.ToString(),
         Unlockable.FarmerCommunity.ToString(),
-        Unlockable.None.ToString()
+        Unlockable.None.ToString(),
+        Unlockable.Field1.ToString(),
+        Unlockable.Field2.ToString()
     };
     
 }
