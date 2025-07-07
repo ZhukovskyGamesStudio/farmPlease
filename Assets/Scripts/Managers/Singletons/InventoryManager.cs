@@ -26,46 +26,21 @@ namespace Managers {
         private Backpack _backpack => UIHud.Instance.Backpack;
         private FastPanelScript _fastPanelScript => UIHud.Instance.FastPanelScript;
 
-        private void Update() {
-            if (GameModeManager.Instance.UnlimitedMoneyCrops && !_isUnlimitedFlag) {
-                _isUnlimitedFlag = true;
-                SaveLoadManager.CurrentSave.Coins = 99999;
-                int left = 150 - SaveLoadManager.CurrentSave.CropsCollected.Count;
-                for (int i = 0; i < left; i++) {
-                    SaveLoadManager.CurrentSave.CropsCollected.Add(Crop.Tomato);
-                    SaveLoadManager.CurrentSave.CropsCollectedQueue.Enqueue(Crop.Tomato);
-                }
-
-                _uiHud.SetCounters();
-            }
-        }
-
         /*****Сохранение и загрузка*****/
 
         public static void GenerateInventory() {
             SaveLoadManager.CurrentSave.Seeds = new SerializableDictionary<Crop, int>();
             SaveLoadManager.CurrentSave.ToolBuffs = new SerializableDictionary<ToolBuff, int>();
 
-            //создаём пустой словарь семян. заполняем его по 100, если включены читы
-            foreach (CropConfig t in CropsTable.Instance.Crops)
-                if (GameModeManager.Instance.UnlimitedSeeds && t.type != Crop.Weed)
-                    SeedsInventory.Add(t.type, 100);
-                else
-                    SeedsInventory.Add(t.type, 0);
+        
+            foreach (CropConfig t in CropsTable.Instance.Crops) {
+                SeedsInventory.Add(t.type, 0);
+            }
 
             //создаём пустой словарь инструментов
             for (int i = 0; i < ToolsTable.Instance.ToolsSO.Length; i++) {
                 ToolsActivated.Add(ToolsTable.Instance.ToolsSO[i].buff, 0);
                 ToolsStored.Add(ToolsTable.Instance.ToolsSO[i].buff, 0);
-            }
-
-            if (GameModeManager.Instance.UnlimitedMoneyCrops) {
-                SaveLoadManager.CurrentSave.Coins = 1000;
-                int left = 150 - SaveLoadManager.CurrentSave.CropsCollected.Count;
-                for (int i = 0; i < left; i++) {
-                    SaveLoadManager.CurrentSave.CropsCollected.Add(Crop.Tomato);
-                    SaveLoadManager.CurrentSave.CropsCollectedQueue.Enqueue(Crop.Tomato);
-                }
             }
 
             GenerateIsBoughtData();
