@@ -74,6 +74,8 @@ public class AdminManager : MonoBehaviour {
         foreach (string unlockable in unlockables) {
             UnlockableUtils.Unlock(unlockable);
         }
+        
+        
         UIHud.Instance.UpdateLockedUI();
     }
 

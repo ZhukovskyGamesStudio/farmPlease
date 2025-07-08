@@ -7,14 +7,7 @@ namespace Managers {
         private readonly Dictionary<KeyCode, Action> _actionsMap;
 
         public KeyboardManager() {
-            _actionsMap = new Dictionary<KeyCode, Action>() {
-                {KeyCode.E, ChangeUnlimitedClockEnergy},
-                {KeyCode.R, ChangeUnlimitedEnergy},
-
-                {KeyCode.RightBracket, ChangeGameSpeedUp},
-                {KeyCode.LeftBracket, ChangeGameSpeedDown},
-                {KeyCode.Backslash, ChangeGameSpeedToNormal},
-            };
+            _actionsMap = new Dictionary<KeyCode, Action>() { };
         }
 
         public void CheckInputs() {
@@ -24,15 +17,6 @@ namespace Managers {
                 }
             }
         }
-
-        private void ChangeUnlimitedClockEnergy() {
-            GameModeManager.Instance.Config.InfiniteClockEnergy = !GameModeManager.Instance.InfiniteClockEnergy;
-        }
-
-        private void ChangeUnlimitedEnergy() {
-            GameModeManager.Instance.Config.InfiniteEnergy = !GameModeManager.Instance.InfiniteEnergy;
-        }
-
 
         private void ChangeGameSpeedUp() {
             GameModeManager.Instance.Config.GameSpeed *= 2;

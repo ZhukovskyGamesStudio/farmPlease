@@ -19,7 +19,7 @@ public class Energy : Singleton<Energy> {
             SaveLoadManager.CurrentSave.Energy = 0;
         }
 
-        if (GameModeManager.Instance.InfiniteEnergy) {
+        if (RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
             SaveLoadManager.CurrentSave.Energy = MaxEnergy;
         }
 

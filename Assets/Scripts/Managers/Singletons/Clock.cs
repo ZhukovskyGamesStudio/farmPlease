@@ -24,7 +24,7 @@ namespace Managers {
                 return;
             }
 
-            if (!HasEnergy && !GameModeManager.Instance.InfiniteClockEnergy) {
+            if (!HasEnergy && !RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
                 ShowNoEnergyAnimation();
                 return;
             }
@@ -76,7 +76,7 @@ namespace Managers {
 
             _realtimeClockCoroutine = null;
 
-            if (Save.ClockEnergy < MAX_ENERGY && !GameModeManager.Instance.InfiniteClockEnergy) {
+            if (Save.ClockEnergy < MAX_ENERGY && !RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
                 TryRefillForRealtimePassed();
             }
         }
@@ -86,7 +86,7 @@ namespace Managers {
                 Save.LastClockRefilledTimestamp = NowTotalMilliseconds;
             }
 
-            if (GameModeManager.Instance.InfiniteClockEnergy || RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
+            if ( RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
                 Save.ClockEnergy = MAX_ENERGY;
             } else {
                 if (_realtimeClockCoroutine == null) {

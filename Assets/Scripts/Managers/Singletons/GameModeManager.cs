@@ -8,11 +8,6 @@ namespace Managers {
         private GameModeConfig _gameModeConfig;
 
         public GameModeConfig Config => _gameModeConfig;
-        
-        public bool UnlimitedMoneyCrops => _gameModeConfig.UnlimitedMoneyCrops;
-        public bool InfiniteEnergy => _gameModeConfig.InfiniteEnergy;
-        public bool InfiniteClockEnergy => _gameModeConfig.InfiniteClockEnergy;
-        public bool UnlimitedSeeds => _gameModeConfig.UnlimitedSeeds;
         public bool ShowTileType => _gameModeConfig.ShowTileType;
         public bool DoNotSave => _gameModeConfig.DoNotSave;
         public bool DisableStrongWind => _gameModeConfig.DisableStrongWind;
