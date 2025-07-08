@@ -65,6 +65,8 @@ public class QuestsManager : Singleton<QuestsManager> {
         if (_questsDialog != null) {
             _questsDialog.ShowMainQuestChange(QuestsData.MainQuest);
         }
+        SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
+        QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
     }
 
     public void GenerateSideQuests() {
@@ -79,6 +81,8 @@ public class QuestsManager : Singleton<QuestsManager> {
         TryChangeSpecial(QuestsData.SecondQuest);
         InventoryManager.Instance.RetriggerCollectionQuests();
         QuestsData.LastTimeQuestsUpdated = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
+        SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
+        QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         SaveLoadManager.SaveGame();
     }
 

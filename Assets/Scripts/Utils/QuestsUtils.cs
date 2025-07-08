@@ -42,6 +42,7 @@ public static class QuestsUtils {
         }
 
         data.IsCompleted = true;
+        ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         SaveLoadManager.SaveGame();
     }
 
@@ -58,6 +59,8 @@ public static class QuestsUtils {
         if (data.IsMain) {
             QuestsManager.Instance.ProgressMainQuestline();
         }
+        ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
+        
     }
 
     
@@ -79,14 +82,22 @@ public static class QuestsUtils {
     public static void ChangeTileView(QuestsDialogData data) {
         if (data.IsUnseenUpdate) {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_new);
-        } else if (data.FirstQuest != null && data.SecondQuest != null) {
+        } else if (IsActiveQuest(data.FirstQuest) && IsActiveQuest(data.SecondQuest)) {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_11);
-        } else if (data.FirstQuest != null && data.SecondQuest == null) {
+        } else if (IsActiveQuest(data.FirstQuest) && !IsActiveQuest(data.SecondQuest)) {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_10);
-        } else if (data.FirstQuest != null && data.SecondQuest == null) {
+        } else if (!IsActiveQuest(data.FirstQuest) && IsActiveQuest(data.SecondQuest)) {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_01);
         } else {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_00);
         }
+    }
+
+    private static bool IsActiveQuest(QuestData data) {
+        if (data == null) {
+            return false;
+        }
+
+        return !data.IsClaimed;
     }
 }

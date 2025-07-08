@@ -134,6 +134,8 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     }
 
     protected override UniTask Close() {
+        SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = false;
+        QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
         return base.Close();
     }

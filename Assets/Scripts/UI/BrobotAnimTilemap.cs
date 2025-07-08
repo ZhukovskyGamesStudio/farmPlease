@@ -28,6 +28,10 @@ public class BrobotAnimTilemap : MonoBehaviour {
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         _animationsTilemap.SetTile((Vector3Int)_coord, null);
     }
+
+    public void Clear() {
+        _animationsTilemap.SetTile((Vector3Int)_coord, null);
+    }
 }
 
 public enum BrobotAnimationType {

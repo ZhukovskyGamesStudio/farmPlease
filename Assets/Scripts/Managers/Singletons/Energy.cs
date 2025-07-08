@@ -19,10 +19,6 @@ public class Energy : Singleton<Energy> {
             SaveLoadManager.CurrentSave.Energy = 0;
         }
 
-        if (RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
-            SaveLoadManager.CurrentSave.Energy = MaxEnergy;
-        }
-
         UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
 
         if (CurEnergy == 0 && SaveLoadManager.CurrentSave.ClockEnergy == 0) {
