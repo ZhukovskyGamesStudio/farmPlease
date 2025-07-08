@@ -18,8 +18,10 @@ public class FarmerCommunityManager : MonoBehaviour {
     }
 
     public async UniTask GoToNextFarmer() {
+        
         UIHud.Instance.HomeFarmUi.SetActive(false);
         UIHud.Instance.OtherFarmUI.SetData(_nextLoadedFarm);
+        SmartTilemap.Instance.BrobotAnimTilemap.Clear();
         SmartTilemap.Instance.GenerateTilesWithData(_nextLoadedFarm.TilesData);
 
         await PreloadNextFarm();
@@ -47,6 +49,7 @@ public class FarmerCommunityManager : MonoBehaviour {
         UIHud.Instance.HomeFarmUi.SetActive(true);
         UIHud.Instance.OtherFarmUI.Close();
         SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
         UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(IsNextFarmLoaded && IsUnlocked);
     }
 }
