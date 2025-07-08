@@ -31,7 +31,7 @@ namespace Managers {
             UIHud.Instance.ClockView.UpdateGoldenState();
             UIHud.Instance.ClockView.UpdateAdIcon();
             QuestsManager.Instance.TryStartQuestsTimer();
-            
+            QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
             if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 SmartTilemap.Instance.BrobotAnimTilemap.ShowIdle();
             } 
