@@ -194,6 +194,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17856125}
   m_CullTransparentMesh: 1
+--- !u!114 &102985460 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7609779136412160242, guid: bc21681fedd8298498ee7cd6b7ed9e6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 684970733}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27e7dd27ce394948902ca4ccd5058f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &142388826 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5871207821576237737, guid: b9331f9691fb61e469313e5fbf9c99c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1856688790}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27e7dd27ce394948902ca4ccd5058f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &158840315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,6 +1041,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.00025177002
       objectReference: {fileID: 0}
+    - target: {fileID: 3709721283494047003, guid: bc21681fedd8298498ee7cd6b7ed9e6e,
+        type: 3}
+      propertyPath: _knoledgeCanAnimated
+      value: 
+      objectReference: {fileID: 102985460}
     - target: {fileID: 4091422671467808527, guid: bc21681fedd8298498ee7cd6b7ed9e6e,
         type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -3501,7 +3530,7 @@ PrefabInstance:
     - target: {fileID: 442428292388228288, guid: b9331f9691fb61e469313e5fbf9c99c8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 21.01
+      value: 23.01
       objectReference: {fileID: 0}
     - target: {fileID: 442428292388228288, guid: b9331f9691fb61e469313e5fbf9c99c8,
         type: 3}
@@ -3516,7 +3545,7 @@ PrefabInstance:
     - target: {fileID: 442428292388228288, guid: b9331f9691fb61e469313e5fbf9c99c8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -11.505
+      value: -12.505
       objectReference: {fileID: 0}
     - target: {fileID: 442428293626536816, guid: b9331f9691fb61e469313e5fbf9c99c8,
         type: 3}
@@ -3541,7 +3570,7 @@ PrefabInstance:
     - target: {fileID: 442428293626536817, guid: b9331f9691fb61e469313e5fbf9c99c8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 26.01
+      value: 28.01
       objectReference: {fileID: 0}
     - target: {fileID: 442428293626536817, guid: b9331f9691fb61e469313e5fbf9c99c8,
         type: 3}
@@ -3730,6 +3759,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3417645744473338865, guid: b9331f9691fb61e469313e5fbf9c99c8,
         type: 3}
+      propertyPath: _knoledgeCanAnimated
+      value: 
+      objectReference: {fileID: 142388826}
+    - target: {fileID: 3417645744473338865, guid: b9331f9691fb61e469313e5fbf9c99c8,
+        type: 3}
       propertyPath: _changeEndAnimationClip
       value: 
       objectReference: {fileID: 7400000, guid: d80cd1e7041d8bc4d83e10072111c8c3, type: 2}
@@ -3898,7 +3932,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 2074212543
   m_SortingOrder: 20

@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace UI {
     public class KnowledgeCanSpeak : HasAnimationAndCallback {
@@ -14,7 +15,7 @@ namespace UI {
 
         [SerializeField]
         private AnimationClip _showAnimationClip, _hideAnimationClip, _changeStartAnimationClip,_changeEndAnimationClip;
-
+        
         private bool _isHidingAfter;
         private string _hintTextToUpdate;
         

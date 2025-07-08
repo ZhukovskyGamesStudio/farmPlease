@@ -118,7 +118,17 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _selectedQuestForChange = 1;
     }
 
-    public void ConfirmShowAd() {
+    public void ConfirmShowAd()
+    {
+        ShowAdAsync();
+    }
+
+    private Animation _watchadforquestanimation;
+    private async void ShowAdAsync()
+    {
+        _watchadforquestanimation.Play("WatchAdForQuest");
+            
+       await UniTask.WaitWhile(() => _watchadforquestanimation.isPlaying);
         CloseChangeForAds();
         QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
     }
