@@ -31,6 +31,14 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
 
     private int _selectedQuestForChange;
 
+    [SerializeField]
+    private Animation _watchAdForQuestAnimation;
+
+    [SerializeField]
+    private AnimationClip _watchAdClip, _sellBotIdleCLip;
+
+    private bool _isShowingAd;
+
     public override void SetData(QuestsDialogData data) {
         SetMainQuestData(data.MainQuest);
         _firstQuestView.SetData(data.FirstQuest);
@@ -38,6 +46,11 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         QuestsUpdateTimer(this.GetCancellationTokenOnDestroy()).Forget();
 
         SetDailyLockedState(!QuestsManager.Instance.IsDailyUnlocked, ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily);
+    }
+
+    public override UniTask Show(Action onClose) {
+        _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
+        return base.Show(onClose);
     }
 
     private void SetDailyLockedState(bool isLocked, int lvlToUnlock) {
@@ -95,6 +108,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     public void OpenChangeForAds() {
         _dailyNormal.gameObject.SetActive(false);
         _dailyChangeForAds.gameObject.SetActive(true);
+        _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
     }
 
     public void CloseChangeForAds() {
@@ -118,19 +132,23 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _selectedQuestForChange = 1;
     }
 
-    public void ConfirmShowAd()
-    {
+    public void ConfirmShowAd() {
         ShowAdAsync();
     }
 
-    private Animation _watchadforquestanimation;
-    private async void ShowAdAsync()
-    {
-        _watchadforquestanimation.Play("WatchAdForQuest");
-            
-       await UniTask.WaitWhile(() => _watchadforquestanimation.isPlaying);
+    private async void ShowAdAsync() {
+        if (_isShowingAd) {
+            return;
+        }
+
+        _isShowingAd = true;
+        _watchAdForQuestAnimation.Play(_watchAdClip.name);
+        await UniTask.WaitWhile(() => _watchAdForQuestAnimation.isPlaying);
+
+        _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
         CloseChangeForAds();
         QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
+        _isShowingAd = false;
     }
 
     protected override UniTask Close() {
