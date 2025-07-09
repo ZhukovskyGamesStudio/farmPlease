@@ -18,8 +18,6 @@ namespace UI {
         
         private bool _isHidingAfter;
         private string _hintTextToUpdate;
-        
-         protected CancellationTokenSource _cts = new CancellationTokenSource();
 
         public void ShowSpeak(string text, Action onHideEnded = null, bool isHidingAfter = false) {
             gameObject.SetActive(true);

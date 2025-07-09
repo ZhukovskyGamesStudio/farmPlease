@@ -1,5 +1,3 @@
-using UnityEditor;
-using UnityEditor.Toolbars;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/GameModeConfig", fileName = "GameModeConfig", order = 2)]
@@ -17,7 +15,4 @@ public class GameModeConfig : ScriptableObject {
 
     [Range(1f, 10)]
     public float GameSpeed = 1;
-    
-
-    
 }
