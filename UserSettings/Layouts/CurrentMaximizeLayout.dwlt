@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 16210
+  controlID: 20629
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 16211
+  controlID: 20630
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 16212
+  controlID: 20631
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -824,7 +824,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 0.73053914, y: 3.0666986, z: 1415.8296}
     speed: 2
-    m_Value: {x: 0.98122036, y: -0.6298721, z: 7.57401}
+    m_Value: {x: 0.73053914, y: 3.0666986, z: 1415.8296}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -876,7 +876,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 10.99139
     speed: 2
-    m_Value: 9.485185
+    m_Value: 10.99139
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -976,8 +976,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
+      m_SelectedIDs: 7ee1ffff
+      m_LastClickedID: -7810
       m_ExpandedIDs: 9465feffd6e1ffffbee2ffff18fbffffcab60000c843020082450200fe490200ce4c0200bc4d0200304f0200
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 16263
+  controlID: 20696
   draggingID: 0
 --- !u!114 &12
 MonoBehaviour:
@@ -1039,7 +1039,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: AnimationWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -1048,16 +1048,16 @@ MonoBehaviour:
     y: 0
     width: 646.4
     height: 324
-  m_MinSize: {x: 101, y: 126}
+  m_MinSize: {x: 51, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 13}
   - {fileID: 14}
   - {fileID: 15}
   - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 2
+  m_LastSelected: 0
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1288,7 +1288,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 158922
+  m_LastSelectedObjectID: -7810
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1389,7 +1389,7 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: spea
+    m_NameFilter: 
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1399,25 +1399,25 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Graphics/Sprites/UI/RobotAnimations/RobotCat
+    - Assets/Graphics/Sprites/UI/RobotAnimations/RobotNeutral
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
-    m_OriginalText: spea
+    m_OriginalText: 
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Graphics/Sprites/UI/RobotAnimations/RobotCat
+  - Assets/Graphics/Sprites/UI/RobotAnimations/RobotNeutral
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Unity Projects\farmPlease
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 655}
-    m_SelectedIDs: 66b50000
-    m_LastClickedID: 46438
+    scrollPos: {x: 0, y: 595}
+    m_SelectedIDs: 7cb50000
+    m_LastClickedID: 46460
     m_ExpandedIDs: 00000000246f00008eab000090ab000092ab000094ab000096ab000098ab00009aab00009cab00009eab0000a0ab0000a2ab0000a4ab0000a6ab0000a8ab0000aaab0000acab0000aeab0000b0ab0000b2ab0000b4ab0000b6ab0000b8ab00008eb50000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1473,9 +1473,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: 7ee1ffff
+    m_LastClickedInstanceID: -7810
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c62300008ead000030070500600705004807050004760000dc0605000c070500140705003c07050008070500440705005606050058070500640705008c9908003407050024070500fc060500e00605007ed80000c69a0100000000002a95000074ae0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
