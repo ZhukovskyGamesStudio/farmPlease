@@ -136,6 +136,7 @@ namespace Managers {
             UIHud.Instance.SettingsButton.gameObject.SetActive(false);
             UIHud.Instance.OpenRealShopButton.gameObject.SetActive(false);
             UIHud.Instance.ProfileView.IsLockedByFtue = true;
+            AnimatedFarmBackground.Instance.SetUpgradeState(0);
         }
 
         private void EnableUiParts() {
@@ -167,6 +168,7 @@ namespace Managers {
             AddQuestboard();
             UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Hoe);
             UIHud.Instance.UpdateLockedUI();
+            AnimatedFarmBackground.Instance.SetUpgradeState(1);
         }
 
         private static void UnlockTiles() {
@@ -177,6 +179,8 @@ namespace Managers {
         private static void AddQuestboard() {
             QuestsUtils.PlaceQuestBoard();
             SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
+            SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
+            QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         }
 
         private void StepEnded() {

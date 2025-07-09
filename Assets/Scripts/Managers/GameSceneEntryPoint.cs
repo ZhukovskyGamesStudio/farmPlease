@@ -31,9 +31,21 @@ namespace Managers {
             UIHud.Instance.ClockView.UpdateGoldenState();
             UIHud.Instance.ClockView.UpdateAdIcon();
             QuestsManager.Instance.TryStartQuestsTimer();
-            QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
+          
             if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 SmartTilemap.Instance.BrobotAnimTilemap.ShowIdle();
+                QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
+
+                int decorUpgradeState = 1;
+                if (UnlockableUtils.HasUnlockable(Unlockable.Field1.ToString())) {
+                    decorUpgradeState++;
+                }
+
+                if (UnlockableUtils.HasUnlockable(Unlockable.Field2.ToString())) {
+                    decorUpgradeState++;
+                }
+
+                AnimatedFarmBackground.Instance.SetUpgradeState(decorUpgradeState);
             } 
           
             

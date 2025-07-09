@@ -66,7 +66,10 @@ public class QuestsManager : Singleton<QuestsManager> {
             _questsDialog.ShowMainQuestChange(QuestsData.MainQuest);
         }
         SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
-        QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
+        if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+            QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
+        }
+      
     }
 
     public void GenerateSideQuests() {
@@ -82,7 +85,9 @@ public class QuestsManager : Singleton<QuestsManager> {
         InventoryManager.Instance.RetriggerCollectionQuests();
         QuestsData.LastTimeQuestsUpdated = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
         SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
-        QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
+        if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+            QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
+        }
         SaveLoadManager.SaveGame();
     }
 
@@ -144,6 +149,7 @@ public class QuestsManager : Singleton<QuestsManager> {
         if (quest.Progress >= quest.ProgressNeeded) {
             quest.IsCompleted = true;
         }
+        SaveLoadManager.SaveGame();
     }
 
     public static void TryChangeSpecial( QuestData quest) {
@@ -152,6 +158,7 @@ public class QuestsManager : Singleton<QuestsManager> {
             quest.Progress = total - TileUtils.CountTilesOfType(TileType.Sand);
             quest.ProgressNeeded = total;
         }
+        SaveLoadManager.SaveGame();
     }
 
     public void ChangeQuestForAd(int questIndex) {
@@ -163,6 +170,7 @@ public class QuestsManager : Singleton<QuestsManager> {
         if (_questsDialog != null) {
             _questsDialog.ShowSideQuestChange(QuestsData.FirstQuest, QuestsData.SecondQuest);
         }
+        SaveLoadManager.SaveGame();
     }
 
     public void MarkQuestClaimed(int questIndex) {

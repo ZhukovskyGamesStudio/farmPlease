@@ -167,19 +167,20 @@ public class TimeManager : Singleton<TimeManager> {
         ChangeSeedsNewDay();
         ChangeToolsNewDay();
 
-        HappeningType nextDay = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth, false);
+        HappeningType nextDayHappening = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth, false);
         TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
-        StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDay, false));
+        StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDayHappening, false));
         yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
+        AnimatedFarmBackground.Instance.SetState(nextDayHappening);
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
-            if (nextDay == HappeningType.FoodMarket) {
+            if (nextDayHappening == HappeningType.FoodMarket) {
                 UIHud.OpenBuildingsShop();
             } else {
                 UIHud.CloseBuildingsShop();
             }
         }
 
-        yield return StartCoroutine(SmartTilemap.NewDay(nextDay));
+        yield return StartCoroutine(SmartTilemap.NewDay(nextDayHappening));
         UIHud.Instance.ClockView.SetInteractable(true);
         SaveLoadManager.Instance.EndSequence(sequenceId);
     }
