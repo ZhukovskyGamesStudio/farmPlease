@@ -106,8 +106,9 @@ namespace Managers {
 
         public void AddCoins(int amount) {
             SaveLoadManager.CurrentSave.Coins += amount;
-            if (SaveLoadManager.CurrentSave.Coins < 0)
+            if (SaveLoadManager.CurrentSave.Coins < 0) {
                 SaveLoadManager.CurrentSave.Coins = 0;
+            }
             _uiHud.CountersView.CoinsCounter.ChangeAmount(amount);
         }
 

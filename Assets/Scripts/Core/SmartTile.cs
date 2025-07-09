@@ -645,7 +645,7 @@
                         break;
 
                     case TileType.Radish1:
-                        InventoryManager.Instance.AddCoins(-2);
+                        InventoryManager.Instance.AddCoins(-1);
                         break;
                 }
 

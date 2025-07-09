@@ -29,6 +29,9 @@ namespace UI {
                 return;
             }
             _amount += changeAmount;
+            if (_amount < 0) {
+                _amount = 0;
+            }
             SetAmount(_amount);
             if (gameObject.activeInHierarchy) {
                 CounterChangeFx fx = changeAmount > 0 ? _changeUpFx : _changeDownFx;
