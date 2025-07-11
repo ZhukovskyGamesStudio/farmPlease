@@ -13,10 +13,9 @@ using Object = UnityEngine.Object;
 namespace Managers {
     public class FirstSessionManager {
         private FtueConfig FtueConfig => ConfigsManager.Instance.FtueConfig;
-
+        
         private int _curFtueStep;
         private bool _isWaitingForStepEnd;
-        private float _autoSkipAfterSeconds = 5f;
         private CancellationTokenSource _endFtueCts = new CancellationTokenSource();
 
         private void Update() {
@@ -190,7 +189,7 @@ namespace Managers {
         private async UniTask ShowSpeakingBot(string hintText, bool isHidingAfter = false) {
             _isWaitingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ShowSpeak(hintText, StepEnded, isHidingAfter);
-            var delay = UniTask.Delay(TimeSpan.FromSeconds(_autoSkipAfterSeconds));
+            var delay = UniTask.Delay(TimeSpan.FromSeconds(FtueConfig._autoSkipAfterSeconds));
             var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.WhenAny(delay, waitForTap);
             if (_isWaitingForStepEnd) {
@@ -202,7 +201,7 @@ namespace Managers {
         private async UniTask ChangeSpeakingBot(string hintText, bool isHidingAfter = false) {
             _isWaitingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ChangeSpeak(hintText, StepEnded, isHidingAfter);
-            var delay = UniTask.Delay(TimeSpan.FromSeconds(_autoSkipAfterSeconds));
+            var delay = UniTask.Delay(TimeSpan.FromSeconds(FtueConfig._autoSkipAfterSeconds));
             var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.WhenAny(delay, waitForTap);
             if (_isWaitingForStepEnd) {
@@ -286,7 +285,7 @@ namespace Managers {
 
         private async UniTask ShowHoeSpotlight() {
             _isWaitingForStepEnd = true;
-            UIHud.Instance.FastPanelScript.toolButtons[3].interactable = false;
+            
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.FastPanelScript.toolButtons[0], FtueConfig.HoeHint,
                 StepEnded);
@@ -296,7 +295,7 @@ namespace Managers {
 
         private async UniTask ShowDoHoeSpotlight() {
             _isWaitingForStepEnd = true;
-            UIHud.Instance.FastPanelScript.toolButtons[3].interactable = false;
+            
             UIHud.Instance.FastPanelScript.toolButtons[0].gameObject.SetActive(true);
             UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(), FtueConfig.DoHoeHint,
                 StepEnded, false);

@@ -30,8 +30,10 @@ namespace UI {
 
         public void Update()
         {
-            UpdateGoldenScytheState();
-            UpdateGoldenTimer();
+            if (KnowledgeUtils.HasKnowledge(Knowledge.Training)){
+                UpdateGoldenScytheState();
+                UpdateGoldenTimer();
+            }
         }
 
         private void UpdateGoldenTimer()

@@ -43,5 +43,6 @@ namespace ScriptableObjects {
         [Multiline] public string EndHint;
         [LocalizationKey("Ftue")]
         public string EndHintLoc;
+        public float _autoSkipAfterSeconds;
     }
 }
