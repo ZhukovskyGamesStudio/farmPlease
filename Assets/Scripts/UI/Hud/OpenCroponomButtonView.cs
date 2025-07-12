@@ -20,6 +20,10 @@ public class OpenCroponomButtonView : MonoBehaviour {
     private Transform _fxContainer;
     [SerializeField]
     private Sprite _xpIcon;
+
+    [field: SerializeField]
+    public Button OpenButton;
+    
     private void Start() {
         UpdateTags();
     }

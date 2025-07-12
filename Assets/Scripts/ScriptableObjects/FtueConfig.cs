@@ -7,8 +7,6 @@ namespace ScriptableObjects {
         public string StartHintLoc;
         [LocalizationKey("Ftue")]
         public string StartHint2Loc;
-        [Multiline] public string StartHint;
-        [Multiline] public string StartHint2;
         public SpotlightAnimConfig HoeHint;
         public SpotlightAnimConfig DoHoeHint;
         public SpotlightAnimConfig EnergyHint;
@@ -39,10 +37,9 @@ namespace ScriptableObjects {
 
         public SpotlightAnimConfig BookHint;
         public SpotlightAnimConfig ProfileHint;
-
-        [Multiline] public string EndHint;
+        
         [LocalizationKey("Ftue")]
         public string EndHintLoc;
-        public float _autoSkipAfterSeconds;
+        public float AutoSkipAfterSeconds = 60;
     }
 }

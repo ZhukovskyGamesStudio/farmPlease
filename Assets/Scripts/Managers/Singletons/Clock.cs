@@ -51,7 +51,7 @@ namespace Managers {
 
             if (SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(ToolBuff.WeekBattery, 0) > 0) {
                 UIHud.Instance.BackpackAttention.ShowAttention();
-            } else {
+            } else if(KnowledgeUtils.HasKnowledge(Knowledge.NoEnergy)){
                 DialogsManager.Instance.ShowDialogWithData(typeof(WatchAdDialog), new Reward() {
                     Items = new List<RewardItem>() {
                         new RewardItem() {

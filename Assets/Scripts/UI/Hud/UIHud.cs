@@ -16,6 +16,7 @@ namespace UI {
         public TimePanel TimePanel;
         public Backpack Backpack;
         public ShopsPanel ShopsPanel;
+        public Button QuestsInvisibleButton;
 
         public GameObject CroponomButton;
         public AttentionView CroponomAttention, BackpackAttention;
@@ -25,10 +26,10 @@ namespace UI {
         public BuildingStatePanel BuildingPanel;
         public GraphicRaycaster GraphicRaycaster;
 
-        public GameObject SettingsButton;
+        public Button SettingsButton;
 
         public ClockView ClockView;
-       
+
         public SpotlightWithText SpotlightWithText;
         public KnowledgeCanSpeak KnowledgeCanSpeak;
         public Croponom Croponom;
@@ -117,12 +118,13 @@ namespace UI {
             OpenRealShopButton.gameObject.SetActive(!isActive);
             ProfileView.gameObject.SetActive(!isActive);
             HammerToolButton.gameObject.SetActive(!isActive);
+            QuestsInvisibleButton.gameObject.SetActive(!isActive);
         }
 
         public void UpdateLockedUI() {
             TimePanel.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
             ShopsPanel.ToolShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.ToolShop.ToString()));
-            
+
             var buildindsUnlocked = UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString());
             var isTodayFoodmarket = TimeManager.Instance.IsTodayFoodMarket();
             ShopsPanel.BuildingShopButton.gameObject.SetActive(buildindsUnlocked && isTodayFoodmarket);
@@ -131,6 +133,10 @@ namespace UI {
                                                           FarmerCommunityManager.Instance.IsNextFarmLoaded);
 
             HammerToolButton.SetActive(InventoryManager.IsBuildingsBoughtD.Values.Any(v => v));
+        }
+
+        public void OpenQuests() {
+            QuestsManager.Instance.OpenQuestsDialog();
         }
     }
 }

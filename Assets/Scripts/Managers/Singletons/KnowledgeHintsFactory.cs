@@ -9,7 +9,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
     public static KnowledgeHintsFactory Instance { get; private set; }
 
     [SerializeField]
-    private SpotlightAnimConfig _noEnergyHint, _toolShopHint, _foodMarketHint, _farmerCommunityHint;
+    private SpotlightAnimConfig _noEnergyHint,_gotBatteryHint, _toolShopHint, _foodMarketHint, _farmerCommunityHint;
 
     [SerializeField]
     private SpotlightAnimConfig _calendarHint, _weatherHint, _happeningHint;
@@ -76,7 +76,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.ClockView.transform, _noEnergyHint, GiveBatteryReward, true, true);
     }
 
-    private static void GiveBatteryReward() {
+    private void GiveBatteryReward() {
         SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
         DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
             Reward = new Reward() {
@@ -90,10 +90,28 @@ public class KnowledgeHintsFactory : MonoBehaviour {
             OnClaim = delegate {
                 KnowledgeUtils.AddKnowledge(Knowledge.NoEnergy);
                 UIHud.Instance.BackpackAttention.ShowAttention();
-                
+                ShowUseBatteryHint();
             }
         });
     }
+
+    private void ShowUseBatteryHint() {
+        if (KnowledgeUtils.HasKnowledge(Knowledge.GotBattery)) {
+            return;
+        }
+
+        UIHud.Instance.OpenCroponomButton.OpenButton.interactable = false;
+        UIHud.Instance.SettingsButton.interactable = false;
+        SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
+        UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.Backpack.OpenButton, _gotBatteryHint,
+            () => {
+                KnowledgeUtils.AddKnowledge(Knowledge.GotBattery);
+                UIHud.Instance.OpenCroponomButton.OpenButton.interactable = true;
+                UIHud.Instance.SettingsButton.interactable = true;
+            }
+    , true);
+}
+    
 
     private void ShowFarmerCommunityHint() {
         if (KnowledgeUtils.HasKnowledge(Knowledge.FarmerCommunity)) {

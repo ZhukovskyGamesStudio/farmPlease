@@ -24,6 +24,7 @@ public class SmartTilemap : MonoBehaviour {
     public const int STARTING_CIRCLE_RADIUS = 3;
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
+    private Vector2Int AlwaysEmptyTile = new(-1, 5);
     private Dictionary<Vector2Int, SmartTile> _tiles;
     public bool IsTilesInited => _tiles != null;
     private Camera _mainCamera;
@@ -558,11 +559,16 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public SmartTile GetTile(Vector2Int center) {
-        return _tiles[center];
+        if (!_tiles.TryGetValue(center, out SmartTile smartTile)) {
+            Debug.LogWarning($"Tile {center.ToString()} doestnt exist in tiles dictionary");
+            return _tiles[AlwaysEmptyTile];
+        }
+
+        return smartTile;
     }
 
     public SmartTile GetPlayerTile() {
-        return _tiles[Playercoord];
+        return GetTile(Playercoord);
     }
 
     public Vector2Int GetBuildingCoordinatesByPart(Vector2Int coord) {

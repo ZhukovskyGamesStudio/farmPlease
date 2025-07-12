@@ -132,6 +132,8 @@ namespace Managers {
             UIHud.Instance.CroponomButton.gameObject.SetActive(false);
             UIHud.Instance.SettingsButton.gameObject.SetActive(false);
             UIHud.Instance.OpenRealShopButton.gameObject.SetActive(false);
+            
+            UIHud.Instance.QuestsInvisibleButton.gameObject.SetActive(false);
             UIHud.Instance.ProfileView.IsLockedByFtue = true;
             AnimatedFarmBackground.Instance.SetUpgradeState(0);
         }
@@ -159,6 +161,7 @@ namespace Managers {
             UIHud.Instance.CroponomButton.gameObject.SetActive(true);
             UIHud.Instance.SettingsButton.gameObject.SetActive(true);
             UIHud.Instance.OpenRealShopButton.gameObject.SetActive(true);
+            UIHud.Instance.QuestsInvisibleButton.gameObject.SetActive(true);
 
             UIHud.Instance.ProfileView.IsLockedByFtue = false;
             UnlockTiles();
@@ -187,7 +190,7 @@ namespace Managers {
         private async UniTask ShowSpeakingBot(string hintText, bool isHidingAfter = false) {
             _isWaitingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ShowSpeak(hintText, StepEnded, isHidingAfter);
-            var delay = UniTask.Delay(TimeSpan.FromSeconds(FtueConfig._autoSkipAfterSeconds));
+            var delay = UniTask.Delay(TimeSpan.FromSeconds(FtueConfig.AutoSkipAfterSeconds));
             var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.WhenAny(delay, waitForTap);
             if (_isWaitingForStepEnd) {
@@ -199,7 +202,7 @@ namespace Managers {
         private async UniTask ChangeSpeakingBot(string hintText, bool isHidingAfter = false) {
             _isWaitingForStepEnd = true;
             UIHud.Instance.KnowledgeCanSpeak.ChangeSpeak(hintText, StepEnded, isHidingAfter);
-            var delay = UniTask.Delay(TimeSpan.FromSeconds(FtueConfig._autoSkipAfterSeconds));
+            var delay = UniTask.Delay(TimeSpan.FromSeconds(FtueConfig.AutoSkipAfterSeconds));
             var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.WhenAny(delay, waitForTap);
             if (_isWaitingForStepEnd) {

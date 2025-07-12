@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 26.6}
+  m_AnchoredPosition: {x: 0, y: 36}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &17856127
@@ -554,7 +554,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -200, y: 125.899994}
-  m_SizeDelta: {x: 17, y: 16}
+  m_SizeDelta: {x: 20, y: 14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!111 &253183181
 Animation:
@@ -934,7 +934,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -200, y: 125.899994}
-  m_SizeDelta: {x: 17, y: 16}
+  m_SizeDelta: {x: 16, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!111 &380776200
 Animation:
@@ -1282,6 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _noEnergyHint: {fileID: 11400000, guid: 0506181319c34564a8ef446997935f57, type: 2}
+  _gotBatteryHint: {fileID: 11400000, guid: b62855e9b9026644a8c679e80d03fbf8, type: 2}
   _toolShopHint: {fileID: 11400000, guid: 2c8e38e150d321747af86e1621ebee3d, type: 2}
   _foodMarketHint: {fileID: 11400000, guid: 7c046373b6efc954e8e2aea0f32017d9, type: 2}
   _farmerCommunityHint: {fileID: 11400000, guid: db1fe01a416007b4b976c80e59e9ee12,
@@ -6010,11 +6011,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1615526924}
-    - target: {fileID: 4295707139487019956, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6347561145942513112, guid: b5a3b0e0e6b51a641aba3ac432c70f38,
         type: 3}
       propertyPath: Croponom

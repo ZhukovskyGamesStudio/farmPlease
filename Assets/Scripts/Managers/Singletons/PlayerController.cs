@@ -356,9 +356,14 @@ public class PlayerController : Singleton<PlayerController> {
     public IEnumerator ClickCoroutine() {
         bool didSomething = false;
         string sequenceId = null;
+        var tile = _smartTilemap.GetTile(_smartTilemap.Playercoord);
+
         if (GameModeManager.Instance.ShowTileType) {
-            var tile = _smartTilemap.GetTile(_smartTilemap.Playercoord);
-            UnityEngine.Debug.Log(_smartTilemap.Playercoord + "   " + tile.type);
+            Debug.Log(_smartTilemap.Playercoord + "   " + tile.type);
+        }
+
+        if (tile.type == TileType.Rocks) {
+            yield break;
         }
 
         if (_smartTilemap.AvailabilityCheck("click")) {
@@ -367,6 +372,7 @@ public class PlayerController : Singleton<PlayerController> {
             SaveLoadManager.Instance.EndSequence(sequenceId);
             yield break;
         }
+       
 
         switch (_curTool) {
             case Tool.Hoe: {
