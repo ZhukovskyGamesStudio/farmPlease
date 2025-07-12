@@ -119,6 +119,13 @@ namespace UI {
             ProfileView.gameObject.SetActive(!isActive);
             HammerToolButton.gameObject.SetActive(!isActive);
             QuestsInvisibleButton.gameObject.SetActive(!isActive);
+
+            if (isActive) {
+                SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
+            } else {
+                SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
+            }
+            
         }
 
         public void UpdateLockedUI() {

@@ -36,22 +36,26 @@ namespace Managers {
                 SmartTilemap.Instance.BrobotAnimTilemap.ShowIdle();
                 QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
 
-                int decorUpgradeState = 1;
-                if (UnlockableUtils.HasUnlockable(Unlockable.Field1.ToString())) {
-                    decorUpgradeState++;
-                }
-
-                if (UnlockableUtils.HasUnlockable(Unlockable.Field2.ToString())) {
-                    decorUpgradeState++;
-                }
-
-                AnimatedFarmBackground.Instance.SetUpgradeState(decorUpgradeState);
+                UpdateDecorUpgradeState();
             } 
           
             
             if (!string.IsNullOrEmpty(SaveLoadManager.CurrentSave.UserId)) {
                 FarmerCommunityManager.Instance.PreloadNextFarm().Forget();
             }
+        }
+
+        public static void UpdateDecorUpgradeState() {
+            int decorUpgradeState = 1;
+            if (UnlockableUtils.HasUnlockable(Unlockable.Field1.ToString())) {
+                decorUpgradeState++;
+            }
+
+            if (UnlockableUtils.HasUnlockable(Unlockable.Field2.ToString())) {
+                decorUpgradeState++;
+            }
+
+            AnimatedFarmBackground.Instance.SetUpgradeState(decorUpgradeState);
         }
 
         private static void Init() {

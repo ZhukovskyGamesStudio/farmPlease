@@ -38,8 +38,10 @@ public static class UnlockableUtils {
             SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(ToolBuff.Unlimitedwatercan.ToString());
         } else if (unlockable == Unlockable.Field1.ToString()) {
             TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 1));
+            GameSceneEntryPoint.UpdateDecorUpgradeState();
         } else if (unlockable == Unlockable.Field2.ToString()) {
             TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 2));
+            GameSceneEntryPoint.UpdateDecorUpgradeState();
         }
 
         AddAndSave(unlockable);

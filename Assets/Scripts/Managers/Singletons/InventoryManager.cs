@@ -254,6 +254,7 @@ namespace Managers {
             AddCoins(-1 * cost);
             AddXp(ConfigsManager.Instance.CostsConfig.XpForBuyTool);
             AddTool(buff, amount);
+            UIHud.Instance.BackpackAttention.ShowAttention();
         }
 
         public void AddTool(ToolBuff buff, int amount) {
