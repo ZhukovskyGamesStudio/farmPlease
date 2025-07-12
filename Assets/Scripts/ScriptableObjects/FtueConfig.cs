@@ -20,7 +20,7 @@ namespace ScriptableObjects {
         public SpotlightAnimConfig WaterHint;
         public SpotlightAnimConfig DoWaterHint;
 
-        public SpotlightAnimConfig ClockHint;
+        public SpotlightAnimConfig ClockHint, ClockHint2;
         public SpotlightAnimConfig ClockLostEnergyHint;
         public SpotlightAnimConfig DoWaterAgainHint;
         

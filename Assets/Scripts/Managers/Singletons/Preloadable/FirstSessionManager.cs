@@ -59,12 +59,10 @@ namespace Managers {
             await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.StartHintLoc));
             await ChangeSpeakingBot(LocalizationUtils.L(FtueConfig.StartHint2Loc), true);
 
-            await (ShowHoeSpotlight());
-            await (ShowDoHoeSpotlight());
-            await (ShowEnergySpotlight());
-            ShowClockSpotlight();
-            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy < 7);
+            await ShowHoeSpotlight();
+            await ShowDoHoeSpotlight();
+            await ShowEnergySpotlight();
+            await ShowClockSpotlight(FtueConfig.ClockHint);
             
             ShowBackpackSpotlight();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
@@ -73,29 +71,29 @@ namespace Managers {
 
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             UIHud.Instance.BackpackAttention.Hide();
-            await (ShowDoSeedSpotlight());
-
+            await ShowDoSeedSpotlight();
+            await ShowClockSpotlight(FtueConfig.ClockHint2);
             ShowWaterSpotlight();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
-            await (ShowDoWaterSpotlight());
+            await ShowDoWaterSpotlight();
 
             //await ShowClockLostEnergySpotlight();
-            await (ShowDoWaterAgainSpotlight());
+            await ShowDoWaterAgainSpotlight();
 
             ShowScytheSpotlight();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
 
-            await (ShowDoScytheSpotlight());
+            await ShowDoScytheSpotlight();
 
-            await (ShowScalesSpotlight());
-            await (ShowSelectAllSpotlight());
-            await (ShowSellSpotlight());
-            await (ShowCloseScalesSpotlight());
+            await ShowScalesSpotlight();
+            await ShowSelectAllSpotlight();
+            await ShowSellSpotlight();
+            await ShowCloseScalesSpotlight();
 
-            await (ShowSeedShopSpotlight());
-            await (ShowBuyTomatoSpotlight());
+            await ShowSeedShopSpotlight();
+            await ShowBuyTomatoSpotlight();
             //await (ShowBuyEggplantSpotlight());
-            await (ShowCloseSeedShopSpotlight());
+            await ShowCloseSeedShopSpotlight();
 
             //await (ShowCroponomSpotlight());
 
@@ -318,22 +316,19 @@ namespace Managers {
             _isWaitingForStepEnd = true;
             UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(), FtueConfig.DoWaterHint,
                 StepEnded, false);
-            UIHud.Instance.ClockView.IsLockedByFtue = false;
-            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 0);
-            UIHud.Instance.ClockView.IsLockedByFtue = true;
-            await UniTask.Delay(100);
             await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy >0);
             StepEnded();
             await UniTask.WaitWhile(() => _isWaitingForStepEnd);
             await UniTask.Delay(300);
         }
 
-        private async UniTask ShowClockSpotlight() {
+        private async UniTask ShowClockSpotlight(SpotlightAnimConfig hint) {
             _isWaitingForStepEnd = true;
             UIHud.Instance.FastPanelScript.toolButtons[1].interactable = false;
             UIHud.Instance.ClockView.gameObject.SetActive(true);
+            UIHud.Instance.ClockView.IsLockedByFtue = false;
             bool isWaitingForClock = true;
-            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ClockView.GetComponent<Button>(), FtueConfig.ClockHint,
+            UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ClockView.GetComponent<Button>(), hint,
                 delegate {
                     isWaitingForClock = false;
                 }, true);
@@ -341,6 +336,8 @@ namespace Managers {
             await UniTask.Delay(2200);
             UIHud.Instance.ClockView.IsLockedByFtue = true;
             StepEnded();
+            await UniTask.WaitWhile(() => _isWaitingForStepEnd);
+            await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy < 7);
         }
 
         private async UniTask ShowDoWaterAgainSpotlight() {
