@@ -136,7 +136,7 @@ namespace Managers {
                     SaveLoadManager.CurrentSave.CurrentLevel++;
                     UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
 
-                    if (SaveLoadManager.CurrentSave.CurrentLevel == ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily) {
+                    if (SaveLoadManager.CurrentSave.CurrentLevel == ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily-1) {
                         QuestsManager.Instance.GenerateSideQuests();
                         QuestsManager.Instance.TryStartQuestsTimer();
                     }
