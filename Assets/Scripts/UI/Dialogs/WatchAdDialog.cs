@@ -13,7 +13,7 @@ public class WatchAdDialog : DialogWithData<Reward> {
     private Animation _animation;
 
     [SerializeField]
-    private AnimationClip _dialogShow,_dialogIdle, _watchAd;
+    private AnimationClip _dialogShow, _dialogIdle, _watchAd;
 
     private bool _isWatchingAd;
 
@@ -44,6 +44,15 @@ public class WatchAdDialog : DialogWithData<Reward> {
     }
 
     private async UniTask WatchRewardedAd() {
+        _animation.Play(_watchAd.name);
+        await UniTask.WaitWhile(() => _animation.isPlaying);
+        YgManager.Provider.ShowAdvReward(() => {
+            AddRewardDialog();
+            Close().Forget();
+        });
+    }
+
+    private static void AddRewardDialog() {
         DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
             Reward = new Reward() {
                 Items = new List<RewardItem>() {
@@ -55,8 +64,5 @@ public class WatchAdDialog : DialogWithData<Reward> {
             },
             OnClaim = () => { UIHud.Instance.BackpackAttention.ShowAttention(); }
         });
-        _animation.Play(_watchAd.name);
-        await UniTask.WaitWhile(() => _animation.isPlaying);
-        Close();
     }
 }
