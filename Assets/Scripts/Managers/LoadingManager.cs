@@ -30,7 +30,6 @@ namespace Managers {
                 }
                
             }
-
             yield return new WaitForSeconds(_delayBeforeSceneSwitch);
 
             IsGameLoaded = true;
