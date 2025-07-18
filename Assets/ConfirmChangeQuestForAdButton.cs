@@ -18,7 +18,7 @@ public class ConfirmChangeQuestForAdButton : MonoBehaviour
     {
         m_myButton.enabled = false;
         
-            AdsManager.EResultCode code =  AdsManager.ShowRewarded(this.gameObject, OnFinishAds, "ChanheAdForQuest");
+            AdsManager.EResultCode code =  AdsManager.ShowRewarded(this.gameObject, OnFinishAds, "ChangeAdForQuest");
             if (code != AdsManager.EResultCode.OK)
             {
                 // Не сыграли рекламу, плашку, насрать return;  я не вижу куда начало анимаций пихать, пока скипну

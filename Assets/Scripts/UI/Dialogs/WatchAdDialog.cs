@@ -34,29 +34,29 @@ public class WatchAdDialog : DialogWithData<Reward> {
         await base.Close();
     }
 
-    public void WatchRewardedAdButton() {
-        if (_isWatchingAd) {
-            return;
-        }
+    /*   public void WatchRewardedAdButton() {
+          if (_isWatchingAd) {
+              return;
+          }
 
-        _isWatchingAd = true;
-        WatchRewardedAd().Forget();
-    }
+          _isWatchingAd = true;
+          WatchRewardedAd().Forget();
+      }
 
-    private async UniTask WatchRewardedAd() {
-        DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
-            Reward = new Reward() {
-                Items = new List<RewardItem>() {
-                    new RewardItem() {
-                        Type = ToolBuff.WeekBattery.ToString(),
-                        Amount = 1
-                    }
-                }
-            },
-            OnClaim = () => { UIHud.Instance.BackpackAttention.ShowAttention(); }
-        });
-        _animation.Play(_watchAd.name);
-        await UniTask.WaitWhile(() => _animation.isPlaying);
-        Close();
-    }
+     private async UniTask WatchRewardedAd() {
+          DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
+              Reward = new Reward() {
+                  Items = new List<RewardItem>() {
+                      new RewardItem() {
+                          Type = ToolBuff.WeekBattery.ToString(),
+                          Amount = 1
+                      }
+                  }
+              },
+              OnClaim = () => { UIHud.Instance.BackpackAttention.ShowAttention(); }
+          });
+          _animation.Play(_watchAd.name);
+          await UniTask.WaitWhile(() => _animation.isPlaying);
+          Close();
+      }*/
 }
