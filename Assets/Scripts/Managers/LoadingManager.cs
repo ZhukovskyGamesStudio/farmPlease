@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using Abstract;
+using MadPixel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ZhukovskyGamesPlugin;
@@ -31,7 +32,7 @@ namespace Managers {
                
             }
             yield return new WaitForSeconds(_delayBeforeSceneSwitch);
-
+            yield return new WaitUntil(() => AdsManager.Ready());
             IsGameLoaded = true;
             if (SceneManager.GetActiveScene().name == "LoadingScene") {
                 LoadGameScene();

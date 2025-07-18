@@ -132,7 +132,11 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _selectedQuestForChange = 1;
     }
 
-    public void ConfirmShowAd() {
+    public void ChangeSelectedQuestForAd() {
+        QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
+    }
+
+   /* public void ConfirmShowAd() {
         ShowAdAsync();
     }
 
@@ -149,7 +153,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         CloseChangeForAds();
         QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
         _isShowingAd = false;
-    }
+    }*/
 
     protected override UniTask Close() {
         SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = false;
