@@ -1,9 +1,11 @@
 using System;
 using System.Globalization;
 using Cysharp.Threading.Tasks;
+using MadPixel.InApps;
 using Managers;
 using UI;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.UI;
 
 public class RealShopDialog : DialogWithData<RealShopData> {
@@ -14,8 +16,20 @@ public class RealShopDialog : DialogWithData<RealShopData> {
     private RealShopAcceptorView _acceptorView;
     
     public override UniTask Show(Action onClose) {
+        /* if (MobileInAppPurchaser.Exist)
+        {
+          Product battery =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenBattery");
+          Product croponom =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenCroponom");
+          Product clock =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenClock");
+          Product scythe =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenScythe");
+          if (battery != null && croponom != null && clock != null && scythe != null)
+          {
+              priceText.text = battery.local
+          }
+        }*/
         UIHud.Instance.ProfileView.Hide();
         return base.Show(onClose);
+        
     }
 
     protected override UniTask Close() {
