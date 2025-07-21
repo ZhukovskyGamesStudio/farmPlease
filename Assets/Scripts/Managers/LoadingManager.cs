@@ -32,7 +32,7 @@ namespace Managers {
                
             }
             yield return new WaitForSeconds(_delayBeforeSceneSwitch);
-            yield return new WaitUntil(() => AdsManager.Ready());
+            yield return new WaitUntil(() => ZhukovskyAdsManager.Instance.AdsProvider.IsAdsReady());
             IsGameLoaded = true;
             if (SceneManager.GetActiveScene().name == "LoadingScene") {
                 LoadGameScene();

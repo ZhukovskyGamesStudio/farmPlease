@@ -150,7 +150,8 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _isWatchingAd = true;
         ZhukovskyAdsManager.Instance.AdsProvider.ShowRewardedAd(AdsIds.RewardedBattery,() => {
             _isWatchingAd = false;
-           
+            CloseChangeForAds();
+            QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
         },()=>   _isWatchingAd = false);
         
         
@@ -158,8 +159,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         await UniTask.WaitWhile(() => _watchAdForQuestAnimation.isPlaying);
         await UniTask.WaitWhile(() => _isWatchingAd);
         _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
-        CloseChangeForAds();
-        QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
+      
     }
 
     protected override UniTask Close() {

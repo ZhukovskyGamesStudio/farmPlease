@@ -9,6 +9,8 @@ public class ZhukovskyAdsManager: PreloadableSingleton<ZhukovskyAdsManager> {
         
 #if MADPIXEL
          AdsProvider = new MadPixelAdsProvider();
+#elif YG_PLATFORM
+        AdsProvider = new YGAdsProvider();
 #else
         AdsProvider = new AdsProviderMock();
 #endif

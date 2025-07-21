@@ -22,7 +22,11 @@ public class MadPixelAdsProvider : IAdsProvider {
             _isShowing = false;
         }
     }
-    
+
+    public bool IsAdsReady() {
+        return AdsManager.Ready();
+    }
+
     private void OnFinishAds(bool adShowSuccess)
     {
         if (adShowSuccess)

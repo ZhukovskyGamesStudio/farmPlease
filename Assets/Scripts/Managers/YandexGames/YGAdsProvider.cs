@@ -1,8 +1,10 @@
 ﻿using System;
+using YG;
 
-public class AdsProviderMock :IAdsProvider {
+public class YGAdsProvider : IAdsProvider {
+
     public void ShowRewardedAd(string placeId, Action onSuccess, Action onFail) {
-        onSuccess?.Invoke();
+        YG2.RewardedAdvShow(placeId, onSuccess);
     }
     
     public bool IsAdsReady() {
