@@ -1,6 +1,6 @@
 ﻿using System;
 
-    public interface InAppsProvider {
+    public interface IInAppsProvider {
 
         public void Init();
         

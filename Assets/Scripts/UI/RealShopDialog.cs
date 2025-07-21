@@ -15,7 +15,7 @@ public class RealShopDialog : DialogWithData<RealShopData> {
     [SerializeField]
     private RealShopAcceptorView _acceptorView;
     
-    private  InAppsProvider Provider => InAppsManager.Instance.InAppsProvider;
+    private  IInAppsProvider Provider => InAppsManager.Instance.InAppsProvider;
     
     public override UniTask Show(Action onClose) {
         /* if (MobileInAppPurchaser.Exist)

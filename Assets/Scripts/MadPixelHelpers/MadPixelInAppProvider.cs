@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MadPixel.InApps;
 using UnityEngine.Purchasing;
 
-public class MadPixelInAppProvider : InAppsProvider{
+public class MadPixelInAppProvider : IInAppsProvider{
     
     private readonly Dictionary<string, Action> _successCallbacks = new Dictionary<string, Action>();
     

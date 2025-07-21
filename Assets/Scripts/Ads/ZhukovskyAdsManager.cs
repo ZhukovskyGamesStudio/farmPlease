@@ -6,6 +6,12 @@ public class ZhukovskyAdsManager: PreloadableSingleton<ZhukovskyAdsManager> {
 
     protected override void OnFirstInit() {
         base.OnFirstInit();
-        AdsProvider = new MadPixelAdsProvider();
+        
+#if MADPIXEL
+         AdsProvider = new MadPixelAdsProvider();
+#else
+        AdsProvider = new AdsProviderMock();
+#endif
+       
     }
 }
