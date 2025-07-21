@@ -1,8 +1,7 @@
 ﻿using System;
 
 public class InAppsProviderMock : IInAppsProvider {
-    public void Init() {
-    }
+    public void Init() { }
     public string GetPrice(string name) {
        return "0$";
     }

@@ -31,9 +31,9 @@ public class MadPixelInAppProvider : IInAppsProvider{
 
     private void OnPurchaseResult(Product product) {
         if (product == null) {
-           
             return;
         } 
+        
         string id = product.definition.id;
 
         if (_successCallbacks.TryGetValue(id, out Action callback)) {

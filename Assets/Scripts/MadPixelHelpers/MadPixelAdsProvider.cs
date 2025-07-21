@@ -32,8 +32,9 @@ public class MadPixelAdsProvider : IAdsProvider {
         if (adShowSuccess)
         {
             _onRewardedShown?.Invoke();
+        } else {
+            _onFail?.Invoke(); 
         }
-        _onFail?.Invoke();
         _isShowing = false;
     }
 }

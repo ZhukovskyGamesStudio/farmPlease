@@ -8,10 +8,10 @@ public class InAppsManager : PreloadableSingleton<InAppsManager> {
         base.OnFirstInit();
 
 #if MADPIXEL
-         InAppsProvider = new MadPixelInAppProvider();
+        InAppsProvider = new MadPixelInAppProvider();
 #else
         InAppsProvider = new InAppsProviderMock();
-        #endif
+#endif
         
        
         InAppsProvider.Init();
