@@ -17,6 +17,8 @@ public class RealShopOfferView : MonoBehaviour {
 
     [SerializeField]
     private TextMeshProUGUI _timeText;
+    [SerializeField]
+    private TextMeshProUGUI _priceText;
 
     public Action _onBuy;
     private bool _isInteractable;
@@ -32,6 +34,10 @@ public class RealShopOfferView : MonoBehaviour {
         _onBuy = onBuy;
         _buyButton.interactable = isInteractable;
         _isInteractable = isInteractable;
+    }
+
+    public void SetPrice(string localizedPrice) {
+        _priceText.text = localizedPrice;
     }
 
     public async UniTask StartTimer(TimeSpan timeLeft) {

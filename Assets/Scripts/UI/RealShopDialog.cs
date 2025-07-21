@@ -15,6 +15,8 @@ public class RealShopDialog : DialogWithData<RealShopData> {
     [SerializeField]
     private RealShopAcceptorView _acceptorView;
     
+    private  InAppsProvider Provider => InAppsManager.Instance.InAppsProvider;
+    
     public override UniTask Show(Action onClose) {
         /* if (MobileInAppPurchaser.Exist)
         {
@@ -38,20 +40,26 @@ public class RealShopDialog : DialogWithData<RealShopData> {
     }
 
     public override void SetData(RealShopData data) {
-        _goldenBatteryButton.SetData(!data.HasGoldenBattery, BuyGoldenBattery);
-        _goldenCroponomButton.SetData(!data.HasGoldenCroponom, BuyGoldenCroponom);
+        _goldenBatteryButton.SetData(!data.HasGoldenBattery, ()=>Provider.Buy(InApsIds.Battery, BuyGoldenBattery));
+        _goldenCroponomButton.SetData(!data.HasGoldenCroponom, ()=>Provider.Buy(InApsIds.Croponom, BuyGoldenCroponom));
 
         bool isClockActive = RealShopUtils.IsGoldenClockActive(data);
-        _goldenClockButton.SetData(!isClockActive, BuyGoldenClock);
+        _goldenClockButton.SetData(!isClockActive, ()=>Provider.Buy(InApsIds.Clock, BuyGoldenClock));
         if (isClockActive) {
             _goldenClockButton.StartTimer(RealShopUtils.ClockTimeLeft(data));
         }
 
         bool isScytheActive = RealShopUtils.IsGoldenScytheActive(data);
-        _goldenScytheButton.SetData(!isScytheActive, BuyGoldenScythe);
+        _goldenScytheButton.SetData(!isScytheActive, ()=>Provider.Buy(InApsIds.Scythe, BuyGoldenScythe));
         if (isScytheActive) {
             _goldenScytheButton.StartTimer(RealShopUtils.ScytheTimeLeft(data));
         }
+        
+       
+        _goldenBatteryButton.SetPrice(Provider.GetPrice(InApsIds.Battery));
+        _goldenScytheButton.SetPrice(Provider.GetPrice(InApsIds.Scythe));
+        _goldenClockButton.SetPrice(Provider.GetPrice(InApsIds.Clock));
+        _goldenCroponomButton.SetPrice(Provider.GetPrice(InApsIds.Croponom));
     }
 
     public void BuyGoldenClock() {
