@@ -37,7 +37,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
     [SerializeField]
     private AnimationClip _watchAdClip, _sellBotIdleCLip;
 
-    private bool _isShowingAd;
+    private bool _isWatchingAd;
 
     public override void SetData(QuestsDialogData data) {
         SetMainQuestData(data.MainQuest);
@@ -52,6 +52,8 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
         return base.Show(onClose);
     }
+    
+    
 
     private void SetDailyLockedState(bool isLocked, int lvlToUnlock) {
         _dailyLocked.gameObject.SetActive(isLocked);
@@ -131,31 +133,39 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
 
         _selectedQuestForChange = 1;
     }
-
+    
     public void ChangeSelectedQuestForAd() {
         QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
     }
 
-   /* public void ConfirmShowAd() {
+    public void ConfirmShowAd() {
         ShowAdAsync();
     }
 
     private async void ShowAdAsync() {
-        if (_isShowingAd) {
+        if (_isWatchingAd) {
             return;
         }
 
-        _isShowingAd = true;
+        _isWatchingAd = true;
+        ZhukovskyAdsManager.Instance.AdsProvider.ShowRewardedAd(AdsIds.RewardedBattery,() => {
+            _isWatchingAd = false;
+           
+        },()=>   _isWatchingAd = false);
+        
+        
         _watchAdForQuestAnimation.Play(_watchAdClip.name);
         await UniTask.WaitWhile(() => _watchAdForQuestAnimation.isPlaying);
-
+        await UniTask.WaitWhile(() => _isWatchingAd);
         _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
         CloseChangeForAds();
         QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
-        _isShowingAd = false;
-    }*/
+    }
 
     protected override UniTask Close() {
+        if (_isWatchingAd) {
+            return UniTask.Delay(0);
+        }
         SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = false;
         QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();

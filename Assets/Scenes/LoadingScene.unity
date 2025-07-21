@@ -2003,6 +2003,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1257976359}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1285530900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1285530901}
+  - component: {fileID: 1285530902}
+  m_Layer: 0
+  m_Name: AdsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1285530901
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285530900}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1285530902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285530900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95763acce86f42b792972e4927732008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1438872284
 GameObject:
   m_ObjectHideFlags: 0
@@ -2915,6 +2959,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
+        type: 3}
+      propertyPath: consumablesSKUs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
+        type: 3}
+      propertyPath: 'consumablesSKUs.Array.data[0]'
+      value: com.zhukovskyGames.FarmPlease.GoldenClock
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
+        type: 3}
+      propertyPath: 'consumablesSKUs.Array.data[1]'
+      value: com.zhukovskyGames.FarmPlease.GoldenScythe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
+        type: 3}
+      propertyPath: 'consumablesSKUs.Array.data[2]'
+      value: com.zhukovskyGames.FarmPlease.GoldenScythe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
+        type: 3}
+      propertyPath: 'consumablesSKUs.Array.data[3]'
+      value: com.zhukovskyGames.FarmPlease.GoldenScythe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
+        type: 3}
+      propertyPath: m_otherNonConsumablesSKUs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
+        type: 3}
+      propertyPath: 'm_otherNonConsumablesSKUs.Array.data[2]'
+      value: com.zhukovskyGames.FarmPlease.GoldenScythe
+      objectReference: {fileID: 0}
     - target: {fileID: 8178348527808360177, guid: de73b35a70284c54db5c79561a4cab27,
         type: 3}
       propertyPath: m_Name
@@ -3084,3 +3163,4 @@ SceneRoots:
   - {fileID: 632921720}
   - {fileID: 279655444421980319}
   - {fileID: 1564617019}
+  - {fileID: 1285530901}

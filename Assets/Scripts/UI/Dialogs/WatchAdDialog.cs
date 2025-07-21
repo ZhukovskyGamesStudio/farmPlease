@@ -30,11 +30,14 @@ public class WatchAdDialog : DialogWithData<Reward> {
     }
 
     protected override async UniTask Close() {
+        if (_isWatchingAd) {
+            return;
+        }
         UIHud.Instance.ProfileView.Show();
         await base.Close();
     }
 
-    /*   public void WatchRewardedAdButton() {
+       public void WatchRewardedAdButton() {
           if (_isWatchingAd) {
               return;
           }
@@ -44,6 +47,21 @@ public class WatchAdDialog : DialogWithData<Reward> {
       }
 
      private async UniTask WatchRewardedAd() {
+        
+         ZhukovskyAdsManager.Instance.AdsProvider.ShowRewardedAd(AdsIds.RewardedBattery,() => {
+             _isWatchingAd = false;
+             GiveBatteryReward();
+             Close();
+         }, () => {
+             _isWatchingAd = false;
+             Close();
+         });
+         
+         _animation.Play(_watchAd.name);
+         await UniTask.WaitWhile(() => _animation.isPlaying);
+      }
+
+      private static void GiveBatteryReward() {
           DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
               Reward = new Reward() {
                   Items = new List<RewardItem>() {
@@ -55,8 +73,5 @@ public class WatchAdDialog : DialogWithData<Reward> {
               },
               OnClaim = () => { UIHud.Instance.BackpackAttention.ShowAttention(); }
           });
-          _animation.Play(_watchAd.name);
-          await UniTask.WaitWhile(() => _animation.isPlaying);
-          Close();
-      }*/
+      }
 }
