@@ -11,7 +11,12 @@ public class MadPixelDDOL : PreloadableSingleton<MadPixelDDOL> {
 
     protected override void OnFirstInit() {
         base.OnFirstInit();
-        ActivateManagers();
+#if MADPIXEL
+       ActivateManagers();
+#else
+        Destroy(gameObject);
+        #endif
+        
     }
 
     private void ActivateManagers() {
