@@ -2,6 +2,7 @@
 using System.Collections;
 using Abstract;
 using UnityEngine;
+using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
 namespace Managers
@@ -16,6 +17,11 @@ namespace Managers
         private int _curSource;
         private bool _isInitialized;
 
+        [SerializeField]
+        private AudioMixerGroup _master, _music, _sfx;
+
+        private float _curVolume;
+        
         private void Update() {
             if (!musicSource.isPlaying && _isInitialized) {
                 musicSource.clip = songs[Random.Range(0, songs.Length)];
@@ -30,6 +36,13 @@ namespace Managers
         public void ChangeVolume(float master, float music, float effects) {
             musicSource.volume = master * music;
             foreach (AudioSource source in effectsSource) source.volume = master * effects;
+        }
+
+        public void MuteForAd() {
+            _master.audioMixer.SetFloat("Volume", 0);
+        }
+        public void UnmuteAfterAd() {
+            _master.audioMixer.SetFloat("Volume", 1f);
         }
 
         private void NextSource() {
