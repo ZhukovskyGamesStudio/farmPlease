@@ -1,7 +1,7 @@
 ﻿
     public static class InApsIds {
-        public static string Clock = "com.zhukovskyGames.FarmPlease.GoldenClock";
-        public static string Scythe = "com.zhukovskyGames.FarmPlease.GoldenScythe";
-        public static string Battery = "com.zhukovskyGames.FarmPlease.GoldenBattery";
-        public static string Croponom = "com.zhukovskyGames.FarmPlease.GoldenCroponom";
+        public static string Clock = "pixel.farming.space.valley.GoldenClock";
+        public static string Scythe = "pixel.farming.space.valley.GoldenScythe";
+        public static string Battery = "pixel.farming.space.valley.GoldenBattery";
+        public static string Croponom = "pixel.farming.space.valley.GoldenCroponom";
     }
