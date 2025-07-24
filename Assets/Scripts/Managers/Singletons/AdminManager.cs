@@ -4,11 +4,15 @@ using Managers;
 using Tables;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AdminManager : MonoBehaviour {
     [SerializeField]
     private GameObject _adminPanelToggle, _adminPanel;
 
+    [SerializeField]private Image _adminPanelToggleBackground;
+    private bool _uiEbabled = true;
+    
     public static AdminManager Instance { get; private set; }
 
     private void Awake() {
@@ -96,5 +100,21 @@ public class AdminManager : MonoBehaviour {
     public void ResetMainQuestline() {
         SaveLoadManager.CurrentSave.QuestsData.MainQuestProgressIndex = -1;
         QuestsManager.Instance.ProgressMainQuestline();
+    }
+
+    public void ToggleUi() {
+        if (_uiEbabled) {
+            UIHud.Instance.gameObject.SetActive(false);
+            var color = _adminPanelToggleBackground.color;
+            color.a = 0f;
+            _adminPanelToggleBackground.color = color;
+            _uiEbabled = false;
+        } else {
+            UIHud.Instance.gameObject.SetActive(true);
+            var color = _adminPanelToggleBackground.color;
+            color.a = 1f;
+            _adminPanelToggleBackground.color = color;
+            _uiEbabled = true;
+        }
     }
 }
