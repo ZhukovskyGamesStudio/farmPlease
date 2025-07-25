@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 #if YandexGamesPlatform_yg
 using System.Runtime.InteropServices;
 
@@ -24,4 +25,5 @@ namespace YG.Insides
         public void ErrorRewardedAdv() => YGInsides.ErrorRewardedAdv();
     }
 }
+#endif
 #endif
