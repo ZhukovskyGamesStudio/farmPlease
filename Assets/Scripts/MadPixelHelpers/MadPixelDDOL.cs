@@ -8,6 +8,7 @@ public class MadPixelDDOL : PreloadableSingleton<MadPixelDDOL> {
     private List<GameObject> _managers;
 
     public override int InitPriority => -100;
+    protected override bool IsDontDestroyOnLoad => false;
 
     protected override void OnFirstInit() {
         base.OnFirstInit();
@@ -21,6 +22,7 @@ public class MadPixelDDOL : PreloadableSingleton<MadPixelDDOL> {
 
     private void ActivateManagers() {
         foreach (GameObject manager in _managers) {
+            manager.transform.SetParent(null);
             manager.SetActive(true);
         }
     }

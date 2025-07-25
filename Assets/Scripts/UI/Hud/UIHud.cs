@@ -101,7 +101,6 @@ namespace UI {
         }
 
         public void GlobalRecordsButton() {
-            GpsManager.Instance.ShowLeaderBoard();
         }
 
         public void SetBuildingPanelState(bool isActive) {

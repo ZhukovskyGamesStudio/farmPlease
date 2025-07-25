@@ -17,13 +17,9 @@ public class Settings : Singleton<Settings> {
     }
     
     public void InitSettingsView() {
-        GpsManager.Instance.InitializeNotifications();
 
         RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, false);
         RealTImeManager.SkipOne = SettingsData.SkipOne;
-        //DebugManager.instance.Log("New day notify is " + settingsProfile.sendNotifications);
-//        GpsManager.Instance.NewDayNotification(SettingsData.SendNotifications);
-
         Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
     }
 
@@ -33,7 +29,6 @@ public class Settings : Singleton<Settings> {
     }
 
     public void NotificationChanged() {
-        GpsManager.Instance.NewDayNotification(SettingsData.SendNotifications);
     }
 
     public TimeSpan GetDayPoint() {

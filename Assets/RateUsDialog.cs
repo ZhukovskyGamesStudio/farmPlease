@@ -1,59 +1,62 @@
 using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Google.Play.Review;
-public class RateUs : MonoBehaviour
-{
-    [SerializeField] private Button _ratebutton, _closebutton, _alsoclosebutton;
-    [SerializeField] private Text _ratetext;
 
-    [SerializeField] private GameObject _rateusdialog;
+public class RateUsDialog : DialogBase {
+    [SerializeField]
+    private Button _ratebutton, _alsoclosebutton;
+
+    [SerializeField]
+    private Text _ratetext;
+
+    [SerializeField]
+    private GameObject _rateusdialog;
+
     //[SerializeField] private OtherScript _otherscript;
     private ReviewManager _reviewmanager;
+
     private PlayReviewInfo _playReviewInfo;
-    
-// Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {
+
+    public override UniTask Show(Action onClose) {
         _reviewmanager = new ReviewManager();
-        _closebutton.onClick.AddListener(CloseView);
-        _alsoclosebutton.onClick.AddListener(CloseView);
-        _ratebutton.onClick.AddListener(ReviewDialog);
+        return base.Show(onClose);
     }
 
-    private void CloseView()
-    {
-        if(_rateusdialog != null)
-            _rateusdialog.SetActive(false);
-    }
-    // Update is called once per frame
-    private void ReviewDialog()
-    {
+    public void RateGood() {
         StartCoroutine(LaunchReviewFlow());
     }
 
-    private IEnumerator LaunchReviewFlow()
-    {
+    public void RateBad() {
+        CloseByButton();
+    }
+
+    private void CloseView() {
+        if (_rateusdialog != null)
+            _rateusdialog.SetActive(false);
+    }
+
+    private IEnumerator LaunchReviewFlow() {
         var requestFlowOperation = _reviewmanager.RequestReviewFlow();
         yield return requestFlowOperation;
-        if (requestFlowOperation.Error != ReviewErrorCode.NoError)
-        {
+        if (requestFlowOperation.Error != ReviewErrorCode.NoError) {
             Debug.LogError(requestFlowOperation.Error.ToString());
             yield break;
         }
+
         _playReviewInfo = requestFlowOperation.GetResult();
 
         var launchFlowOperation = _reviewmanager.LaunchReviewFlow(_playReviewInfo);
         yield return launchFlowOperation;
         _playReviewInfo = null; // Сброс объекта
 
-        if (launchFlowOperation.Error != ReviewErrorCode.NoError)
-        {
+        if (launchFlowOperation.Error != ReviewErrorCode.NoError) {
             Debug.LogError(launchFlowOperation.Error.ToString());
             yield break;
         }
         // Окно оценки успешно показано пользователю
-    //    CloseView();
+        //    CloseView();
     }
 }

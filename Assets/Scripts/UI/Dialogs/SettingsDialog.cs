@@ -57,7 +57,6 @@ namespace UI {
             musicSoundSlider.SetValueWithoutNotify(data.MusicVolume);
             effectsSoundSlider.SetValueWithoutNotify(data.EffectsVolume);
             NotificationsToggle.SetIsOnWithoutNotify(data.SendNotifications);
-            GpgsUpdated(GpsManager.IsAuthenticated);
             _versionText.text = "v"+Application.version;
             ResetButton.SetActive(false);
         }
@@ -88,7 +87,6 @@ namespace UI {
         }
 
         public void ConnectGpgs() {
-            GpsManager.Instance.Initialize();
         }
 
         public void GpgsUpdated(bool isAuthenticated) {

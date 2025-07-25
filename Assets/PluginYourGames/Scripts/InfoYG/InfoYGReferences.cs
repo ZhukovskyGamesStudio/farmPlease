@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace YG
 {
-    public partial class InfoYG
+    public partial class InfoYG : MonoBehaviour
     {
         public const string NAME_PLUGIN = "PluginYG2";
         public const string FULL_NAME_PLUGIN = "Plugin Your Games";
