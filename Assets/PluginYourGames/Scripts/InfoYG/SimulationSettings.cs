@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR&& YG_PLATFORM
 using System;
 using UnityEngine;
 using YG.Insides;

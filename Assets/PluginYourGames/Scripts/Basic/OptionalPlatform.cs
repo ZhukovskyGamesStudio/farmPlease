@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 namespace YG.Insides
 {
     public partial class OptionalPlatform
@@ -9,3 +10,4 @@ namespace YG.Insides
         }
     }
 }
+#endif

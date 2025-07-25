@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -232,3 +233,4 @@ namespace YG
 #endif
     }
 }
+#endif

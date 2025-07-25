@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if YG_PLATFORM
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
@@ -189,3 +190,4 @@ namespace YG.EditorScr.BuildModify
         }
     }
 }
+#endif

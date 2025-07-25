@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR&& YG_PLATFORM
 using UnityEngine;
 using System.Collections;
 

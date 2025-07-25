@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 using UnityEngine;
 
 namespace YG
@@ -17,3 +18,4 @@ namespace YG
     public partial class PlatformYG2 : IPlatformsYG2 { }
     public partial class PlatformYG2NoRealization : IPlatformsYG2 { }
 }
+#endif

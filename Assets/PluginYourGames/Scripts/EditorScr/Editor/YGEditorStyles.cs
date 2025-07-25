@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 namespace YG.EditorScr
 {
     using UnityEngine;
@@ -337,3 +338,4 @@ namespace YG.EditorScr
         }
     }
 }
+#endif

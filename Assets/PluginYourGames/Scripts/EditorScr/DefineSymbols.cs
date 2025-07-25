@@ -1,4 +1,5 @@
-﻿#if UNITY_EDITOR
+﻿ 
+#if UNITY_EDITOR&&YG_PLATFORM
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if YG_Platform
+using System;
 using YG;
 
 public class YGProvider : IYGProvider {
@@ -7,3 +8,4 @@ public class YGProvider : IYGProvider {
         YG2.RewardedAdvShow(id, onShown);
     }
 }
+#endif

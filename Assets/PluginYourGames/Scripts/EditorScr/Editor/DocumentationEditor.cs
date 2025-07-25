@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if YG_PLATFORM
+using UnityEngine;
 using UnityEditor;
 using YG.Insides;
 
@@ -58,3 +59,4 @@ namespace YG.EditorScr
         }
     }
 }
+#endif

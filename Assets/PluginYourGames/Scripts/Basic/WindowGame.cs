@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 using System;
 
 namespace YG
@@ -49,4 +50,5 @@ namespace YG.Insides
         public void SetFocusWindowGame(string visible) => YG2.SetFocusWindowGame(visible == "true");
     }
 }
+#endif
 #endif

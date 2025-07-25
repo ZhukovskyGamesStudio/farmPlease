@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if YG_PLATFORM
+using System;
 using YG;
 
 public class YGAdsProvider : IAdsProvider {
@@ -15,3 +16,4 @@ public class YGAdsProvider : IAdsProvider {
         return true;
     }
 }
+#endif

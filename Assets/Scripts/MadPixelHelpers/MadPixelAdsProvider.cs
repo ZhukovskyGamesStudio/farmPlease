@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if MADPIXEL
+using System;
 using MadPixel;
 
 public class MadPixelAdsProvider : IAdsProvider {
@@ -55,3 +56,4 @@ public class MadPixelAdsProvider : IAdsProvider {
         _isShowing = false;
     }
 }
+#endif

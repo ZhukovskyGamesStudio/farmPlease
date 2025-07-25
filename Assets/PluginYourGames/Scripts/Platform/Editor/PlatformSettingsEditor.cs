@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if YG_PLATFORM
+using System;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
@@ -240,3 +241,4 @@ namespace YG.EditorScr
         }
     }
 }
+#endif

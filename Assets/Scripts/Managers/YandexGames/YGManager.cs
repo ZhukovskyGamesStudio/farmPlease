@@ -1,4 +1,5 @@
-﻿using Abstract;
+﻿#if YG_PLATFORM
+using Abstract;
 
 public class YgManager : PreloadableSingleton<YgManager> {
     private IYGProvider _provider;
@@ -14,3 +15,4 @@ public class YgManager : PreloadableSingleton<YgManager> {
 #endif
     }
 }
+#endif

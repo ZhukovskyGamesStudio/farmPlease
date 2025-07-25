@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if YG_PLATFORM
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace YG.Example
@@ -57,3 +58,4 @@ namespace YG.Example
         }
     }
 }
+#endif

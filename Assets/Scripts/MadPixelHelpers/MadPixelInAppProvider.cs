@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if MADPIXEL
+using System;
 using System.Collections.Generic;
 using MadPixel.InApps;
 using UnityEngine.Purchasing;
@@ -41,3 +42,4 @@ public class MadPixelInAppProvider : IInAppsProvider{
         }
     }
 }
+#endif

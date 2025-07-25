@@ -1,4 +1,5 @@
-﻿namespace YG
+﻿#if YG_PLATFORM
+namespace YG
 {
     public partial interface IPlatformsYG2
     {
@@ -45,3 +46,4 @@
         }
     }
 }
+#endif

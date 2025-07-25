@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR&& YG_PLATFORM
 namespace YG.Insides
 {
     public partial class ProjectSettings

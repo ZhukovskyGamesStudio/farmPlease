@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,7 +16,7 @@ namespace YG.Insides
             OnEnable,
             OnDisable,
 #if RU_YG2
-            [InspectorName("Вручную (метод ExecuteEvent)")]
+            [InspectorName("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ ExecuteEvent)")]
 #endif
             Manual
         }
@@ -69,3 +70,4 @@ namespace YG.Insides
         }
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 namespace YG.Insides
 {
     public static partial class YGInsides
@@ -8,3 +9,4 @@ namespace YG.Insides
         public static void GetDataInvoke() => YG2.GetDataInvoke();
     }
 }
+#endif

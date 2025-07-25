@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if YG_PLATFORM
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using YG.Insides;
@@ -186,3 +187,4 @@ namespace YG
         }
     }
 }
+#endif

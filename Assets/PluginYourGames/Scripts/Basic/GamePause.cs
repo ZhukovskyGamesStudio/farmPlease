@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 namespace YG
 {
     using System;
@@ -59,4 +60,5 @@ namespace YG.Insides
         public void SetPauseGame(string pause) => YG2.PauseGame(pause == "true");
     }
 }
+#endif
 #endif

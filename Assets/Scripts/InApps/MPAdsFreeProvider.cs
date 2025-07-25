@@ -1,3 +1,4 @@
+#if MADPIXEL
 using System;
 using System.Collections.Generic;
 using MadPixel;
@@ -46,3 +47,4 @@ public class MPAdsFreeProvider : IAdsFreeProvider
         
     }
 }
+#endif

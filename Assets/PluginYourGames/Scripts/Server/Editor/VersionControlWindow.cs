@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if YG_PLATFORM
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -737,3 +738,4 @@ namespace YG.EditorScr
         }
     }
 }
+#endif

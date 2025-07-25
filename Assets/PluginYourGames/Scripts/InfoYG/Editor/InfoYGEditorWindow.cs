@@ -1,3 +1,4 @@
+#if YG_PLATFORM
 namespace YG.EditorScr
 {
     using System;
@@ -528,3 +529,4 @@ namespace YG.EditorScr
         }
     }
 }
+#endif

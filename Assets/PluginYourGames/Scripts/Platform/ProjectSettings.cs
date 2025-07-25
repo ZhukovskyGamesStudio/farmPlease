@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if YG_PLATFORM
+using System;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -87,3 +88,4 @@ namespace YG.Insides
 #endif
     }
 }
+#endif

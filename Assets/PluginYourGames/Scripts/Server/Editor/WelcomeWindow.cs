@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿#if YG_PLATFORM
+using System.Globalization;
 using UnityEditor;
 using UnityEngine;
 using YG.EditorScr.BuildModify;
@@ -216,3 +217,4 @@ namespace YG.EditorScr
         }
     }
 }
+#endif
