@@ -58,6 +58,9 @@ public class GameSaveProfile {
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
 
+
+    public bool WasRated;
+    public string LastTimeRateUsShowed;
     
     
     #region Obsolete

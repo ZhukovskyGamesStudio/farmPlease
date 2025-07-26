@@ -183,7 +183,8 @@ namespace Managers {
                 Unlocked = UnlockableUtils.GetInitialUnlockables(),
                 TilesData = SmartTilemap.GenerateFtueTiles(),
                 Nickname = "Farmer #" + Random.Range(999, 10000),
-                CurrentLanguage = LocalizationUtils.GetDeviceLanguage()
+                CurrentLanguage = LocalizationUtils.GetDeviceLanguage(),
+                LastTimeRateUsShowed = DateTime.Now.AddDays(-3).ToString(CultureInfo.InvariantCulture),
             };
 
             InventoryManager.GenerateInventory();
