@@ -1,4 +1,5 @@
-﻿using Abstract;
+﻿using System.Collections.Generic;
+using Abstract;
 using UnityEngine.Analytics;
 
 public class ZhukovskyAnalyticsManager : PreloadableSingleton<ZhukovskyAnalyticsManager> {
@@ -11,5 +12,10 @@ public class ZhukovskyAnalyticsManager : PreloadableSingleton<ZhukovskyAnalytics
 #else		
 		AnalyticProvider = new AnalyticsProviderMock();
 #endif	
+	}
+
+
+	public void SendCustomEvent(string eventName, Dictionary<string, object> data) {
+		AnalyticProvider.SendEvent(eventName, data);
 	}
 }

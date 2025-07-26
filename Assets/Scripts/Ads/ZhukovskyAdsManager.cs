@@ -54,6 +54,7 @@ public class ZhukovskyAdsManager : PreloadableSingleton<ZhukovskyAdsManager> {
     }
 
     private void Update() {
-        InterAdRunner.Update();
+        if (InterAdRunner == null) return;
+            InterAdRunner.Update();
     }
 }

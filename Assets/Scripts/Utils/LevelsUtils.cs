@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System.Collections.Generic;
+using Managers;
 
 public static class LevelsUtils {
     public static void TryUnlockAfterLevel() {
@@ -12,7 +13,7 @@ public static class LevelsUtils {
         }
 
         if (CurrentLevel == CostsConfig.LevelToRateUs - 1) {
-            RateUsManager.Instance.TryShowDialog();
+            RateUsManager.Instance.TryShowDialog("level_up");
         }
     }
 
