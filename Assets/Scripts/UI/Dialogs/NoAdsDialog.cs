@@ -21,6 +21,7 @@ public class NoAdsDialog : DialogBase {
 
     private void OnBought() {
         SaveLoadManager.CurrentSave.RealShopData.HasNoAds = true;
+        ZhukovskyAdsManager.Instance.CancelAdsAndDisableButton();
         SaveLoadManager.SaveGame();
         CloseByButton();
     }

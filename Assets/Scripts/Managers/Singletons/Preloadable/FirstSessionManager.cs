@@ -132,6 +132,7 @@ namespace Managers {
             UIHud.Instance.CroponomButton.gameObject.SetActive(false);
             UIHud.Instance.SettingsButton.gameObject.SetActive(false);
             UIHud.Instance.OpenRealShopButton.gameObject.SetActive(false);
+            UIHud.Instance.OpenNoAdsButtonView.gameObject.SetActive(false);
             
             UIHud.Instance.QuestsInvisibleButton.gameObject.SetActive(false);
             UIHud.Instance.ProfileView.IsLockedByFtue = true;

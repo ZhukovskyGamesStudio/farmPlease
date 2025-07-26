@@ -344,7 +344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 208432117}
   m_Layer: 0
-  m_Name: --DDOL--
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -369,6 +369,10 @@ Transform:
   - {fileID: 1002456981}
   - {fileID: 1052814067}
   - {fileID: 29310228}
+  - {fileID: 1564617019}
+  - {fileID: 1285530901}
+  - {fileID: 1277302472}
+  - {fileID: 279655444421980320}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &294604297
@@ -1948,12 +1952,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277302470}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 208432117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1285530900
 GameObject:
@@ -1980,12 +1984,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285530900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 208432117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1285530902
 MonoBehaviour:
@@ -2317,12 +2321,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564617017}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 208432117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1607958650
 GameObject:
@@ -2860,7 +2864,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 208432117}
     m_Modifications:
     - target: {fileID: 5655464906567957574, guid: de73b35a70284c54db5c79561a4cab27,
         type: 3}
@@ -2885,17 +2889,17 @@ PrefabInstance:
     - target: {fileID: 5655464906567957574, guid: de73b35a70284c54db5c79561a4cab27,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5655464906567957574, guid: de73b35a70284c54db5c79561a4cab27,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5655464906567957574, guid: de73b35a70284c54db5c79561a4cab27,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5655464906567957574, guid: de73b35a70284c54db5c79561a4cab27,
         type: 3}
@@ -2912,61 +2916,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6180369482619275225, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6354011575218721053, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: m_cooldownBetweenInterstitials
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: consumablesSKUs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: 'consumablesSKUs.Array.data[0]'
-      value: com.zhukovskyGames.FarmPlease.GoldenClock
-      objectReference: {fileID: 0}
-    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: 'consumablesSKUs.Array.data[1]'
-      value: com.zhukovskyGames.FarmPlease.GoldenScythe
-      objectReference: {fileID: 0}
-    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: 'consumablesSKUs.Array.data[2]'
-      value: com.zhukovskyGames.FarmPlease.GoldenScythe
-      objectReference: {fileID: 0}
-    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: 'consumablesSKUs.Array.data[3]'
-      value: com.zhukovskyGames.FarmPlease.GoldenScythe
-      objectReference: {fileID: 0}
-    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: m_otherNonConsumablesSKUs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7852957846095515083, guid: de73b35a70284c54db5c79561a4cab27,
-        type: 3}
-      propertyPath: 'm_otherNonConsumablesSKUs.Array.data[2]'
-      value: com.zhukovskyGames.FarmPlease.GoldenScythe
-      objectReference: {fileID: 0}
     - target: {fileID: 8178348527808360177, guid: de73b35a70284c54db5c79561a4cab27,
         type: 3}
       propertyPath: m_Name
-      value: Madpixel
+      value: MadpixelManagers
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de73b35a70284c54db5c79561a4cab27, type: 3}
+--- !u!4 &279655444421980320 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5655464906567957574, guid: de73b35a70284c54db5c79561a4cab27,
+    type: 3}
+  m_PrefabInstance: {fileID: 279655444421980319}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5444314090460385762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3124,7 +3089,3 @@ SceneRoots:
   - {fileID: 1692119500}
   - {fileID: 1952266986}
   - {fileID: 632921720}
-  - {fileID: 279655444421980319}
-  - {fileID: 1564617019}
-  - {fileID: 1285530901}
-  - {fileID: 1277302472}

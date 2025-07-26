@@ -41,6 +41,7 @@ namespace UI {
         public GameObject HomeFarmUi;
         public OtherFarmUI OtherFarmUI;
         public OpenRealShopButtonView OpenRealShopButton;
+        public OpenNoAdsButtonView OpenNoAdsButtonView;
 
         public void ClosePanel() {
             if (Backpack.isOpen)
@@ -115,6 +116,7 @@ namespace UI {
             FastPanelScript.gameObject.SetActive(!isActive);
             BatteryView.gameObject.SetActive(!isActive);
             OpenRealShopButton.gameObject.SetActive(!isActive);
+            OpenNoAdsButtonView.gameObject.SetActive(!isActive);
             ProfileView.gameObject.SetActive(!isActive);
             HammerToolButton.gameObject.SetActive(!isActive);
             QuestsInvisibleButton.gameObject.SetActive(!isActive);

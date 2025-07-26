@@ -16,6 +16,10 @@ public class AdsProviderMock : IAdsProvider {
         }
     }
 
+    public void SetBanners(bool isActive) {
+        Debug.Log("Setting banners" + isActive);
+    }
+
     public bool IsAdsReady() {
         return true;
     }

@@ -8,7 +8,7 @@ public static class LevelsUtils {
         }
 
         if (IsIntersUnlocked) {
-            ZhukovskyAdsManager.Instance.InterAdRunner.IsInterAdRunEnabled = true;
+            ZhukovskyAdsManager.Instance.EnableIntersAndBanners();
         }
 
         if (CurrentLevel == CostsConfig.LevelToRateUs - 1) {

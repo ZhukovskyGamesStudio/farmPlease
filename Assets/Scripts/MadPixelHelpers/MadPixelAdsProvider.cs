@@ -26,7 +26,7 @@ public class MadPixelAdsProvider : IAdsProvider {
         if (_isShowing) {
             return;
         }
-
+        
         _onAdShown = onSuccess;
         _onFail = onFail;
         _isShowing = true;
@@ -35,6 +35,10 @@ public class MadPixelAdsProvider : IAdsProvider {
             _onFail?.Invoke();
             _isShowing = false;
         }
+    }
+
+    public void SetBanners(bool isActive) {
+        AdsManager.ToggleBanner(true);
     }
 
     public bool IsAdsReady() {
