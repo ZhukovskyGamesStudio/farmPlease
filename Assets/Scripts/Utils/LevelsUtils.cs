@@ -12,7 +12,7 @@ public static class LevelsUtils {
             ZhukovskyAdsManager.Instance.EnableIntersAndBanners();
         }
 
-        if (CurrentLevel == CostsConfig.LevelToRateUs - 1) {
+        if (CurrentLevel >= CostsConfig.LevelToRateUs - 1) {
             RateUsManager.Instance.TryShowDialog("level_up");
         }
         
