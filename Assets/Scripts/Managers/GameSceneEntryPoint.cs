@@ -21,7 +21,7 @@ namespace Managers {
             AdminManager.Instance.Init(SaveLoadManager.CurrentSave.IsAdmin);
             Settings.Instance.InitSettingsView();
             Clock.Instance.TryRefillForRealtimePassed();
-            InventoryManager.CheckNewLevelDialog();
+            InventoryManager.Instance.CheckNewLevelDialog();
             KnowledgeHintsFactory.Instance.CheckAllUnshownHints();
             UIHud.Instance.UpdateLockedUI();
             UIHud.Instance.FarmerCommunityBadgeView.gameObject.SetActive(false);

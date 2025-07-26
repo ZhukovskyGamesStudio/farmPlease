@@ -14,48 +14,27 @@ public class RealShopDialog : DialogWithData<RealShopData> {
 
     [SerializeField]
     private RealShopAcceptorView _acceptorView;
-    
-    private  IInAppsProvider Provider => InAppsManager.Instance.InAppsProvider;
-    
-    public override UniTask Show(Action onClose) {
-        /* if (MobileInAppPurchaser.Exist)
-        {
-          Product battery =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenBattery");
-          Product croponom =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenCroponom");
-          Product clock =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenClock");
-          Product scythe =  MobileInAppPurchaser.Instance.GetProduct("com.zhukovskyGames.FarmPlease.GoldenScythe");
-          if (battery != null && croponom != null && clock != null && scythe != null)
-          {
-              priceText.text = battery.local
-          }
-        }*/
-        UIHud.Instance.ProfileView.Hide();
-        return base.Show(onClose);
-        
-    }
 
-    protected override UniTask Close() {
-        UIHud.Instance.ProfileView.Show();
-        return base.Close();
-    }
+    private IInAppsProvider Provider => InAppsManager.Instance.InAppsProvider;
+
+    protected override bool IsHideProfile => true;
 
     public override void SetData(RealShopData data) {
-        _goldenBatteryButton.SetData(!data.HasGoldenBattery, ()=>Provider.Buy(InApsIds.Battery, BuyGoldenBattery));
-        _goldenCroponomButton.SetData(!data.HasGoldenCroponom, ()=>Provider.Buy(InApsIds.Croponom, BuyGoldenCroponom));
+        _goldenBatteryButton.SetData(!data.HasGoldenBattery, () => Provider.Buy(InApsIds.Battery, BuyGoldenBattery));
+        _goldenCroponomButton.SetData(!data.HasGoldenCroponom, () => Provider.Buy(InApsIds.Croponom, BuyGoldenCroponom));
 
         bool isClockActive = RealShopUtils.IsGoldenClockActive(data);
-        _goldenClockButton.SetData(!isClockActive, ()=>Provider.Buy(InApsIds.Clock, BuyGoldenClock));
+        _goldenClockButton.SetData(!isClockActive, () => Provider.Buy(InApsIds.Clock, BuyGoldenClock));
         if (isClockActive) {
             _goldenClockButton.StartTimer(RealShopUtils.ClockTimeLeft(data));
         }
 
         bool isScytheActive = RealShopUtils.IsGoldenScytheActive(data);
-        _goldenScytheButton.SetData(!isScytheActive, ()=>Provider.Buy(InApsIds.Scythe, BuyGoldenScythe));
+        _goldenScytheButton.SetData(!isScytheActive, () => Provider.Buy(InApsIds.Scythe, BuyGoldenScythe));
         if (isScytheActive) {
             _goldenScytheButton.StartTimer(RealShopUtils.ScytheTimeLeft(data));
         }
-        
-       
+
         _goldenBatteryButton.SetPrice(Provider.GetPrice(InApsIds.Battery));
         _goldenScytheButton.SetPrice(Provider.GetPrice(InApsIds.Scythe));
         _goldenClockButton.SetPrice(Provider.GetPrice(InApsIds.Clock));
@@ -104,6 +83,7 @@ public class RealShopDialog : DialogWithData<RealShopData> {
 
 [Serializable]
 public class RealShopData {
+    public bool HasNoAds;
     public bool HasGoldenBattery;
     public bool HasGoldenCroponom;
 

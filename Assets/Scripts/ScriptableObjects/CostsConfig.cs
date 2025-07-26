@@ -22,4 +22,8 @@ public class CostsConfig : ScriptableObject {
     public int XpForBuySeed = 1;
     public int XpForBuyTool = 3;
     public int XpForBaseAction = 1;
+
+
+    public int LevelToRateUs = 3;
+    public int LevelToStartInters = 3;
 }

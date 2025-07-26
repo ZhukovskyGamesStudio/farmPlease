@@ -22,7 +22,7 @@ public class QuestsManager : Singleton<QuestsManager> {
 
     private QuestsDialog _questsDialog;
 
-    public bool IsDailyUnlocked => SaveLoadManager.CurrentSave.CurrentLevel >= ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily-1;
+    public bool IsDailyUnlocked => LevelsUtils.IsDailyUnlocked;
     
     
     public void TryStartQuestsTimer() {

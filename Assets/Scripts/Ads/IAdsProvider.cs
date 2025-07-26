@@ -5,4 +5,6 @@ public interface IAdsProvider {
     public void ShowInterAd(string placeId, Action onSuccess = null, Action onFail = null);
 
     public bool IsAdsReady();
+
+    public void CancelAds();
 }

@@ -32,9 +32,6 @@ public class TimeManager : Singleton<TimeManager> {
             return;
         }
         
-        if (SaveLoadManager.CurrentSave.CurrentDayInMonth == ZhukovskyAdsManager.Instance.DayWhenInterAdEnabled) {
-            ZhukovskyAdsManager.Instance.InterAdRunner.IsInterAdRunEnabled = true;
-        }
         MaxDays = daysData.Count;
         _skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
@@ -132,10 +129,6 @@ public class TimeManager : Singleton<TimeManager> {
 
         if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.FoodMarket)) {
             TryShowFoodMarketHint();
-        }
-
-        if (SaveLoadManager.CurrentSave.CurrentDayInMonth == ZhukovskyAdsManager.Instance.DayWhenInterAdEnabled) {
-            ZhukovskyAdsManager.Instance.InterAdRunner.IsInterAdRunEnabled = true;
         }
     }
 

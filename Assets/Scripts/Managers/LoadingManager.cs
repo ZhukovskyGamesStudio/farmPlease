@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using Abstract;
-using MadPixel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ZhukovskyGamesPlugin;
@@ -9,7 +8,8 @@ using ZhukovskyGamesPlugin;
 namespace Managers {
     public class LoadingManager : MonoBehaviour {
         private string _sceneName;
-        [field:Resettable]
+
+        [field: Resettable]
         public static bool IsGameLoaded { get; private set; }
 
         [SerializeField]
@@ -23,14 +23,15 @@ namespace Managers {
 
         private IEnumerator LoadManagers() {
             CustomMonoBehaviour[] preloadedManagers =
-                FindObjectsByType<CustomMonoBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(m=>m.InitPriority).ToArray();
-            
+                FindObjectsByType<CustomMonoBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(m => m.InitPriority)
+                    .ToArray();
+
             foreach (CustomMonoBehaviour manager in preloadedManagers) {
                 if (manager is IPreloadable preloadable) {
                     preloadable.Init();
                 }
-               
             }
+
             yield return new WaitForSeconds(_delayBeforeSceneSwitch);
             yield return new WaitUntil(() => ZhukovskyAdsManager.Instance.AdsProvider.IsAdsReady());
             IsGameLoaded = true;
@@ -40,9 +41,8 @@ namespace Managers {
         }
 
         private void LoadGameScene() {
-            // _sceneName = SaveLoadManager.IsNoSaveExist() ? "Training" : "Game";
-            _sceneName = "Game";
-            SceneManager.LoadSceneAsync(_sceneName);
+            _sceneName = "GameScene";
+            SceneManager.LoadSceneAsync("GameScene");
             SceneManager.sceneLoaded += ActivateScene;
         }
 

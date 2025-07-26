@@ -123,7 +123,7 @@ namespace Managers {
             CheckNewLevelDialog();
         }
 
-        public static void CheckNewLevelDialog() {
+        public void CheckNewLevelDialog() {
             if (!XpUtils.IsNextLevel(SaveLoadManager.CurrentSave.CurrentLevel, SaveLoadManager.CurrentSave.Xp)) {
                 return;
             }
@@ -132,18 +132,19 @@ namespace Managers {
             DialogsManager.Instance.ShowDialogWithData(typeof(NewLevelDialog), SaveLoadManager.CurrentSave.CurrentLevel+1);
             DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
                 Reward = reward,
-                OnClaim = () => {
-                    SaveLoadManager.CurrentSave.CurrentLevel++;
-                    UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
-
-                    if (SaveLoadManager.CurrentSave.CurrentLevel == ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily-1) {
-                        QuestsManager.Instance.GenerateSideQuests();
-                        QuestsManager.Instance.TryStartQuestsTimer();
-                    }
-                    SaveLoadManager.SaveGame();
-                }
+                OnClaim = OnClaimNewLevel
             });
         }
+
+        private void OnClaimNewLevel() {
+            SaveLoadManager.CurrentSave.CurrentLevel++;
+            UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
+
+            LevelsUtils.TryUnlockAfterLevel();
+            SaveLoadManager.SaveGame();
+        }
+
+     
 
         /*****Семена*****/
 
