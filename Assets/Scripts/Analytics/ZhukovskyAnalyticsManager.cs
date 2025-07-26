@@ -15,7 +15,7 @@ public class ZhukovskyAnalyticsManager : PreloadableSingleton<ZhukovskyAnalytics
 	}
 
 
-	public void SendCustomEvent(string eventName, Dictionary<string, object> data) {
-		AnalyticProvider.SendEvent(eventName, data);
+	public void SendCustomEvent(string eventName, Dictionary<string, object> data, bool bSendEventBuffer = false) {
+		AnalyticProvider.SendEvent(eventName, data, bSendEventBuffer);
 	}
 }
