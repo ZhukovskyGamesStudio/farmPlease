@@ -58,7 +58,9 @@ public class GameSaveProfile {
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
 
-
+    public bool FirstLaunch = true;
+    public bool FirstLoad = true;
+    
     public bool WasRated;
     public string LastTimeRateUsShowed;
     

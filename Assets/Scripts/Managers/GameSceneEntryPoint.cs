@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Abstract;
 using Cysharp.Threading.Tasks;
@@ -43,6 +44,12 @@ namespace Managers {
             if (!string.IsNullOrEmpty(SaveLoadManager.CurrentSave.UserId)) {
                 FarmerCommunityManager.Instance.PreloadNextFarm().Forget();
             }
+            ZhukovskyAnalyticsManager.Instance.SendCustomEvent("technical", new Dictionary<string, object> {
+                {"step_name", "02_gameLoad"},
+                {"first_start", SaveLoadManager.CurrentSave.FirstLoad}
+            }, true);
+            SaveLoadManager.CurrentSave.FirstLoad = false;
+            SaveLoadManager.SaveGame();
         }
 
         public static void UpdateDecorUpgradeState() {

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Abstract;
 using UnityEngine;
@@ -31,9 +32,15 @@ namespace Managers {
                     preloadable.Init();
                 }
             }
-
+            
             yield return new WaitForSeconds(_delayBeforeSceneSwitch);
             yield return new WaitUntil(() => ZhukovskyAdsManager.Instance.AdsProvider.IsAdsReady());
+            ZhukovskyAnalyticsManager.Instance.SendCustomEvent("technical", new Dictionary<string, object> {
+                {"step_name", "01_gameLaunch"},
+                {"first_start", SaveLoadManager.CurrentSave.FirstLaunch}
+            }, true);
+            SaveLoadManager.CurrentSave.FirstLaunch = false;
+            SaveLoadManager.SaveGame();
             IsGameLoaded = true;
             if (SceneManager.GetActiveScene().name == "LoadingScene") {
                 LoadGameScene();
