@@ -15,6 +15,10 @@ public static class LevelsUtils {
         if (CurrentLevel == CostsConfig.LevelToRateUs - 1) {
             RateUsManager.Instance.TryShowDialog("level_up");
         }
+        
+        ZhukovskyAnalyticsManager.Instance.SendCustomEvent("level_up", new Dictionary<string, object> {
+            { "level", CurrentLevel + 1 }
+        });
     }
 
     public static bool IsDailyUnlocked => CurrentLevel >= CostsConfig.LevelToUnlockDaily - 1;
