@@ -15,11 +15,13 @@ public class RateUsDialog : DialogBase {
         
         _isWaitingReview = true;
         SaveLoadManager.CurrentSave.WasRated = true;
+        SaveLoadManager.SaveGame();
         LaunchReviewFlow().Forget();
     }
 
     public void RateBad() {
         SaveLoadManager.CurrentSave.LastTimeRateUsShowed = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+        SaveLoadManager.SaveGame();
         CloseByButton();
     }
 

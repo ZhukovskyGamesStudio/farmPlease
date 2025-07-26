@@ -184,7 +184,7 @@ namespace Managers {
                 TilesData = SmartTilemap.GenerateFtueTiles(),
                 Nickname = "Farmer #" + Random.Range(999, 10000),
                 CurrentLanguage = LocalizationUtils.GetDeviceLanguage(),
-                LastTimeRateUsShowed = DateTime.Now.AddDays(-3).ToString(CultureInfo.InvariantCulture),
+                LastTimeRateUsShowed = DateTime.Now.AddDays(RateUsManager.Instance.RateUsCooldown).ToString(CultureInfo.InvariantCulture),
             };
 
             InventoryManager.GenerateInventory();
