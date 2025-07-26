@@ -17,6 +17,7 @@ namespace UI {
         public Toggle NotificationsToggle;
         public GameObject ResetButton;
         public DevlogManager Devlog;
+        public GameObject RateUsButton;
 
         [SerializeField]
         private SettingsCheatCodeView _settingsCheatCodeView;
@@ -59,6 +60,7 @@ namespace UI {
             NotificationsToggle.SetIsOnWithoutNotify(data.SendNotifications);
             _versionText.text = "v"+Application.version;
             ResetButton.SetActive(false);
+            RateUsButton.SetActive(!SaveLoadManager.CurrentSave.WasRated);
         }
 
         public void OnNotificationChanged() {
@@ -124,6 +126,12 @@ namespace UI {
             LocalizationManager.Instance.ChangeLanguageToNext();
             _countryImage.sprite = _languageSprites[LocalizationManager.Instance.CurrentLanguage];
             SaveLoadManager.SaveGame();
+        }
+
+        public void ShowRateUs() {
+            Close().Forget();
+            RateUsManager.Instance.RateUsSource = "settings";
+            DialogsManager.Instance.ShowDialog(typeof(RateUsDialog));
         }
     }
 }
