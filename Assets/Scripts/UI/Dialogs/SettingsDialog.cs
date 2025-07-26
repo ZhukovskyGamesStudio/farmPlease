@@ -86,7 +86,8 @@ namespace UI {
             Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
         }
 
-        public void ConnectGpgs() {
+        public void OpenPrivacy() {
+            Application.OpenURL("https://madpixel.dev/privacy.html");
         }
 
         public void GpgsUpdated(bool isAuthenticated) {
