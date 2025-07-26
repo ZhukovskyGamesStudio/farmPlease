@@ -9,8 +9,8 @@ using ZhukovskyGamesPlugin;
 namespace Managers {
     public class Clock : Singleton<Clock> {
         public const int MAX_ENERGY = 7;
-        private const string REFILLED_ENERGIES_TEXT = "здравствуй фермер,\n заряды часов восстановлены.";
-        private const string REFILLED_ENERGY_TEXT = "заряд\nчасов\nвосстановлен.";
+        private string RefilledEnergiesText => Localization.LocalizationManager.Instance.GetText("energy_refill");
+        private string RefilledEnergyText => Localization.LocalizationManager.Instance.GetText("energy_refill_one");
 
         private TimeSpan TimespanForRefillOneEnergy => TimeSpan.FromMinutes(ConfigsManager.Instance.CostsConfig.MunitesForOneChargeRefill);
 
@@ -51,7 +51,7 @@ namespace Managers {
 
             if (SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(ToolBuff.WeekBattery, 0) > 0) {
                 UIHud.Instance.BackpackAttention.ShowAttention();
-            } else if(KnowledgeUtils.HasKnowledge(Knowledge.NoEnergy)){
+            } else if (KnowledgeUtils.HasKnowledge(Knowledge.NoEnergy)) {
                 DialogsManager.Instance.ShowDialogWithData(typeof(WatchAdDialog), new Reward() {
                     Items = new List<RewardItem>() {
                         new RewardItem() {
@@ -66,7 +66,7 @@ namespace Managers {
         private IEnumerator ClockRealtimeCoroutine(float timeLeft) {
             float cur = 0;
             while (cur < timeLeft) {
-                if(KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
+                if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                     cur += Time.deltaTime;
                 }
 
@@ -86,7 +86,7 @@ namespace Managers {
                 Save.LastClockRefilledTimestamp = NowTotalMilliseconds;
             }
 
-            if ( RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
+            if (RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
                 Save.ClockEnergy = MAX_ENERGY;
             } else {
                 if (_realtimeClockCoroutine == null) {
@@ -142,7 +142,7 @@ namespace Managers {
             Save.LastClockRefilledTimestamp += (long)TimespanForRefillOneEnergy.TotalMilliseconds * refillAmount;
             SaveLoadManager.SaveGame();
             DialogsManager.Instance.ShowDialogWithData(typeof(EnergyRefillDialog),
-                refillAmount > 1 ? REFILLED_ENERGIES_TEXT : REFILLED_ENERGY_TEXT);
+                refillAmount > 1 ? RefilledEnergiesText : RefilledEnergyText);
             if (Save.ClockEnergy != MAX_ENERGY) {
                 _realtimeClockCoroutine = StartCoroutine(ClockRealtimeCoroutine((float)TimespanForRefillOneEnergy.TotalSeconds));
             }
