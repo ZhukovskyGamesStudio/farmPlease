@@ -86,9 +86,9 @@ namespace Managers {
                 TryUpdateSave();
             } else {
                 GenerateGame();
-                UnityEngine.Debug.Log("Generating finished. Saving started");
+                Debug.Log("Generating finished. Saving started");
                 RewriteGameSavedData();
-                UnityEngine.Debug.Log("New profile is saved");
+                Debug.Log("New profile is saved");
             }
         }
 
@@ -96,9 +96,9 @@ namespace Managers {
             UpdateTools();
             if (!KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 GenerateGame();
-                UnityEngine.Debug.Log("Generating finished. Saving started");
+                Debug.Log("Generating finished. Saving started");
                 RewriteGameSavedData();
-                UnityEngine.Debug.Log("New profile is saved");
+                Debug.Log("New profile is saved");
             }
 
             if (CurrentSave.Unlocked == null) {

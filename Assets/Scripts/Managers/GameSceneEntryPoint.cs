@@ -54,15 +54,17 @@ namespace Managers {
 
         public static void UpdateDecorUpgradeState() {
             int decorUpgradeState = 1;
-            if (UnlockableUtils.HasUnlockable(Unlockable.Field1.ToString())) {
+            if (UnlockableUtils.HasUnlockable(nameof(Unlockable.Field1))) {
                 decorUpgradeState++;
             }
 
-            if (UnlockableUtils.HasUnlockable(Unlockable.Field2.ToString())) {
+            if (UnlockableUtils.HasUnlockable(nameof(Unlockable.Field2))) {
                 decorUpgradeState++;
             }
 
-            AnimatedFarmBackground.Instance.SetUpgradeState(decorUpgradeState);
+            if (AnimatedFarmBackground.Instance != null) {
+                AnimatedFarmBackground.Instance.SetUpgradeState(decorUpgradeState);
+            }
         }
 
         private static void Init() {

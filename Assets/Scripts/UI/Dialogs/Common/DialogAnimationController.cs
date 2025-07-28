@@ -20,7 +20,7 @@ public class DialogAnimationController : MonoBehaviour {
         }
 
         _isShown = true;
-        await UniTask.WaitWhile(() => Animation.isPlaying);
+        await UniTask.WaitWhile(() => Animation.isPlaying, cancellationToken: this.GetCancellationTokenOnDestroy());
     }
 
     private void EnsureClip(AnimationClip clip) {
@@ -36,6 +36,6 @@ public class DialogAnimationController : MonoBehaviour {
         }
 
         _isShown = false;
-        await UniTask.WaitWhile(() => Animation.isPlaying);
+        await UniTask.WaitWhile(() => Animation.isPlaying, cancellationToken: this.GetCancellationTokenOnDestroy());
     }
 }

@@ -15,7 +15,7 @@ public class MadPixelAdsProvider : IAdsProvider {
         _onAdShown = onSuccess;
         _onFail = onFail;
         _isShowing = true;
-        AdsManager.EResultCode code = AdsManager.ShowRewarded(MadPixelDDOL.Instance.gameObject, OnFinishAds, placeId);
+        AdsManager.EResultCode code = AdsManager.ShowRewarded(ZhukovskyAdsManager.Instance.gameObject, OnFinishAds, placeId);
         if (code != AdsManager.EResultCode.OK) {
             _onFail?.Invoke();
             _isShowing = false;
@@ -30,7 +30,7 @@ public class MadPixelAdsProvider : IAdsProvider {
         _onAdShown = onSuccess;
         _onFail = onFail;
         _isShowing = true;
-        AdsManager.EResultCode code = AdsManager.ShowInter(MadPixelDDOL.Instance.gameObject, OnFinishAds, placeId);
+        AdsManager.EResultCode code = AdsManager.ShowInter(ZhukovskyAdsManager.Instance.gameObject, OnFinishAds, placeId);
         if (code != AdsManager.EResultCode.OK) {
             _onFail?.Invoke();
             _isShowing = false;

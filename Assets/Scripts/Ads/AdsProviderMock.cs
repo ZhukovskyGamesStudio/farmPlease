@@ -10,9 +10,11 @@ public class AdsProviderMock : IAdsProvider {
 
     public void ShowInterAd(string placeId, Action onSuccess = null, Action onFail = null) {
         if (_isAdsCancelled) {
+            onSuccess?.Invoke();
             Debug.Log("Ads cancelled, no interstitial!");
         } else {
             Debug.Log("Showing interstitial!");
+            onFail?.Invoke();
         }
     }
 
