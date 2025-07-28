@@ -23,6 +23,7 @@ public class MadPixelDDOL : PreloadableSingleton<MadPixelDDOL> {
     private void ActivateManagers() {
         foreach (GameObject manager in _managers) {
             manager.transform.SetParent(null);
+            DontDestroyOnLoad(manager.gameObject);
             manager.SetActive(true);
         }
     }

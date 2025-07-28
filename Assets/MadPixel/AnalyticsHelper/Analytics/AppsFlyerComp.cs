@@ -59,6 +59,7 @@ namespace MadPixelAnalytics {
 
             AppsFlyer.startSDK();
 
+            Debug.Log($"[APPSFLYER] subscribed to analytics");
             MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent += SetAdRevenue;
             MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += SetAdRevenue;
             MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += SetAdRevenue;
@@ -66,6 +67,7 @@ namespace MadPixelAnalytics {
         }
 
         private void OnDestroy() {
+            Debug.Log($"[APPSFLYER] destroyed");
             MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent -= SetAdRevenue;
             MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent -= SetAdRevenue;
             MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent -= SetAdRevenue;
@@ -147,6 +149,7 @@ namespace MadPixelAnalytics {
         #region AdRevenue
 
         public static void SetAdRevenue(string a_adUnit, MaxSdkBase.AdInfo a_adInfo) {
+            Debug.Log($"[APPSFLYER] LogAdPurchase: {a_adUnit}. \n{JsonUtility.ToJson(a_adInfo)}");
             Dictionary<string, string> additionalParams = new Dictionary<string, string>();
             additionalParams.Add("custom_AdUnitIdentifier", a_adInfo.AdUnitIdentifier);
             additionalParams.Add(AdRevenueScheme.AD_TYPE, a_adInfo.AdFormat);

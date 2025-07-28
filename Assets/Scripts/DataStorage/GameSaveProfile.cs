@@ -23,6 +23,7 @@ public class GameSaveProfile {
     public string Date;
     public string SavedDate;
     public TilesData TilesData = new TilesData();
+    public int TotalDays;
     public int CurrentDayInMonth;
     public int CurrentMonth;
     public int DayOfWeek;

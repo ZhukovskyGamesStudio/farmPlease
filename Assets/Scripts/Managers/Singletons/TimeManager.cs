@@ -109,7 +109,12 @@ public class TimeManager : Singleton<TimeManager> {
     }
 
     public void AddDay() {
+        
+       
+        
         SaveLoadManager.CurrentSave.CurrentDayInMonth++;
+        SaveLoadManager.CurrentSave.TotalDays++;
+        
         int daysInMonth = DateTime.DaysInMonth(SaveLoadManager.CurrentSave.ParsedDate.Year, SaveLoadManager.CurrentSave.ParsedDate.Month);
         SaveLoadManager.CurrentSave.Date = SaveLoadManager.CurrentSave.ParsedDate.AddDays(1).ToString(CultureInfo.InvariantCulture);
 
@@ -130,6 +135,10 @@ public class TimeManager : Singleton<TimeManager> {
         if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.FoodMarket)) {
             TryShowFoodMarketHint();
         }
+        ZhukovskyAnalyticsManager.Instance.SendCustomEvent("level_start", new Dictionary<string, object> {
+            {"level_number",  SaveLoadManager.CurrentSave.TotalDays},
+            {"level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString()},
+        }, true);
     }
 
     private void TryShowCalendarHint() {
