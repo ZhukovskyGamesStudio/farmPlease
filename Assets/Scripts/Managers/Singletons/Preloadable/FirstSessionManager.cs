@@ -224,7 +224,7 @@ namespace Managers {
 		private async UniTask ShowEnergySpotlight() {
 			_isWaitingForStepEnd = true;
 			UIHud.Instance.BatteryView.gameObject.SetActive(true);
-
+			PlayerController.Instance.ChangeTool(Tool.Collect);
 			UIHud.Instance.SpotlightWithText.ShowSpotlight(UIHud.Instance.BatteryView.transform, FtueConfig.EnergyHint,
 				StepEnded);
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
@@ -353,7 +353,7 @@ namespace Managers {
 				hint,
 				delegate { isWaitingForClock = false; }, true);
 			await UniTask.WaitWhile(() => isWaitingForClock);
-			await UniTask.Delay(2200);
+			await UniTask.Delay(1500);
 			UIHud.Instance.ClockView.IsLockedByFtue = true;
 			StepEnded();
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
