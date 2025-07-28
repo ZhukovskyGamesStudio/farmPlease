@@ -112,7 +112,7 @@ PrefabInstance:
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
       propertyPath: m_adsFreeSKU
-      value: pixel.farming.space.valley.NoAds
+      value: pixel.farming.space.valley.noads
       objectReference: {fileID: 0}
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
@@ -132,12 +132,12 @@ PrefabInstance:
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
       propertyPath: 'consumablesSKUs.Array.data[0]'
-      value: pixel.farming.space.valley.GoldenClock
+      value: pixel.farming.space.valley.clock
       objectReference: {fileID: 0}
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
       propertyPath: 'consumablesSKUs.Array.data[1]'
-      value: pixel.farming.space.valley.GoldenScythe
+      value: pixel.farming.space.valley.scythe
       objectReference: {fileID: 0}
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
@@ -147,12 +147,12 @@ PrefabInstance:
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
       propertyPath: 'm_otherNonConsumablesSKUs.Array.data[0]'
-      value: pixel.farming.space.valley.GoldenBattery
+      value: pixel.farming.space.valley.battery
       objectReference: {fileID: 0}
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
       propertyPath: 'm_otherNonConsumablesSKUs.Array.data[1]'
-      value: pixel.farming.space.valley.GoldenCroponom
+      value: pixel.farming.space.valley.croponom
       objectReference: {fileID: 0}
     - target: {fileID: 6401947343802579199, guid: 8b52e8abe47af714bab92fd9b525ccf1,
         type: 3}
@@ -277,7 +277,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6963895332198784093, guid: 8989aa7a79c46c449945bde093d5cf0a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8668610459137376713}
   m_SourcePrefab: {fileID: 100100000, guid: 8989aa7a79c46c449945bde093d5cf0a, type: 3}
 --- !u!1 &6180369482619275225 stripped
 GameObject:
@@ -285,6 +289,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3846545377672715140}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8668610459137376713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6180369482619275225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a4811ed6993684d8ce6dde62e6c4ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8539757917975277741 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4891749430784731945, guid: 8989aa7a79c46c449945bde093d5cf0a,
