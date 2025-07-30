@@ -38,7 +38,7 @@ public class MadPixelAdsProvider : IAdsProvider {
     }
 
     public void SetBanners(bool isActive) {
-        AdsManager.ToggleBanner(true);
+        AdsManager.ToggleBanner(isActive, MaxSdkBase.AdViewPosition.CenterRight);
     }
 
     public bool IsAdsReady() {

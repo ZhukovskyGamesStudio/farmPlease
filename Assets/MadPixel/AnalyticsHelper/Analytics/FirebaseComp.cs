@@ -23,28 +23,23 @@ public class FirebaseComp : MonoBehaviour {
 #if UNITY_EDITOR
         return;
 #endif
-        InitOnDevice();
-    }
-
-    private void InitOnDevice() {
-        Debug.LogError($"[FIREBASE] Start init on device");
-        //Сюда доходит, внутрь заходит
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
-            //сюда не доходит
             var dependencyStatus = task.Result;
-            if (dependencyStatus == DependencyStatus.Available) {
-                FirebaseApp app = FirebaseApp.DefaultInstance;
+            if (dependencyStatus == Firebase.DependencyStatus.Available) {
+                // Create and hold a reference to your FirebaseApp,
+                // where app is a Firebase.FirebaseApp property of your application class.
+                FirebaseApp app = Firebase.FirebaseApp.DefaultInstance;
                 FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-                Debug.LogError($"[FIREBASE] Inited");
                 InnerInit();
             } else {
-                Debug.LogError($"[FIREBASE] Could not resolve all Firebase dependencies: {dependencyStatus}");
+                Debug.LogError(System.String.Format(
+                    "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                // Firebase Unity SDK is not safe to use here.
             }
         });
     }
 
     private void OnDestroy() {
-        Debug.Log($"[FIREBASE] destroyed");
         MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent -= LogAdPurchase;
         MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent -= LogAdPurchase;
         MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent -= LogAdPurchase;
@@ -54,7 +49,7 @@ public class FirebaseComp : MonoBehaviour {
 
     private void InnerInit() {
         m_initialized = true;
-        Debug.Log($"[FIREBASE] subscribed to analytics");
+
         MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent += LogAdPurchase;
         MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += LogAdPurchase;
         MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += LogAdPurchase;
@@ -63,7 +58,6 @@ public class FirebaseComp : MonoBehaviour {
 
     private void LogAdPurchase(string a_adUnitId, MaxSdkBase.AdInfo a_adInfo) {
         double revenue = a_adInfo.Revenue;
-        Debug.Log($"[FIREBASE] LogAdPurchase: {a_adUnitId}. \n{JsonUtility.ToJson(a_adInfo)}");
         if (revenue > 0 && m_initialized) {
             string countryCode = MaxSdk.GetSdkConfiguration()
                         .CountryCode; // "US" for the United States, etc - Note: Do not confuse this with currency code which is "USD" in most cases!

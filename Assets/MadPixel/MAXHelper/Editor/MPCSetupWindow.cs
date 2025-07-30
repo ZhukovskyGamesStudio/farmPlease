@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -335,7 +334,7 @@ namespace MadPixel.Editor {
 
         private void CheckMaxVersion() {
             string[] filesPaths = System.IO.Directory.GetFiles(MEDIATIONS_PATH);
-            try {  if (filesPaths != null && filesPaths.Length > 0) {
+            if (filesPaths != null && filesPaths.Length > 0) {
                 List<string> Paths = filesPaths.ToList();
                 bool bMissingPackage = false;
                 foreach (string PackageName in MAX_VARIANT_PACKAGES) {
@@ -346,10 +345,7 @@ namespace MadPixel.Editor {
                 }
 
                 m_isMaxVariantInstalled = !bMissingPackage;
-            }} catch  {
-                m_isMaxVariantInstalled = false;
             }
-           
         }
 
         public static string GetVersion() {

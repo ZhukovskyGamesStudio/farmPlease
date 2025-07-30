@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.Purchasing;
 using MadPixel;
 using System.Globalization;
-
+using AppsFlyerConnector;
 using UnityEngine.Serialization;
-using AppsFlyerPurchaseConnector = AppsFlyerSDK.AppsFlyerPurchaseConnector;
+using AppsFlyerAutoLogPurchaseRevenueOptions = AppsFlyerConnector.AppsFlyerAutoLogPurchaseRevenueOptions;
+using AppsFlyerPurchaseConnector = AppsFlyerConnector.AppsFlyerPurchaseConnector;
 
 namespace MadPixelAnalytics {
     public class AppsFlyerComp : MonoBehaviour {
@@ -47,7 +48,7 @@ namespace MadPixelAnalytics {
 
             // Purchase connector implementation 
             if (m_usePurchaseConnector) {
-                AppsFlyerPurchaseConnector.init(this, AppsFlyerSDK.Store.GOOGLE);
+                AppsFlyerPurchaseConnector.init(this, AppsFlyerConnector.Store.GOOGLE);
                 AppsFlyerPurchaseConnector.setIsSandbox(false);
                 AppsFlyerPurchaseConnector.setAutoLogPurchaseRevenue(
                     AppsFlyerAutoLogPurchaseRevenueOptions.AppsFlyerAutoLogPurchaseRevenueOptionsAutoRenewableSubscriptions,
@@ -59,7 +60,6 @@ namespace MadPixelAnalytics {
 
             AppsFlyer.startSDK();
 
-            Debug.Log($"[APPSFLYER] subscribed to analytics");
             MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent += SetAdRevenue;
             MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += SetAdRevenue;
             MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += SetAdRevenue;
@@ -67,7 +67,6 @@ namespace MadPixelAnalytics {
         }
 
         private void OnDestroy() {
-            Debug.Log($"[APPSFLYER] destroyed");
             MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent -= SetAdRevenue;
             MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent -= SetAdRevenue;
             MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent -= SetAdRevenue;
@@ -149,7 +148,6 @@ namespace MadPixelAnalytics {
         #region AdRevenue
 
         public static void SetAdRevenue(string a_adUnit, MaxSdkBase.AdInfo a_adInfo) {
-            Debug.Log($"[APPSFLYER] LogAdPurchase: {a_adUnit}. \n{JsonUtility.ToJson(a_adInfo)}");
             Dictionary<string, string> additionalParams = new Dictionary<string, string>();
             additionalParams.Add("custom_AdUnitIdentifier", a_adInfo.AdUnitIdentifier);
             additionalParams.Add(AdRevenueScheme.AD_TYPE, a_adInfo.AdFormat);
