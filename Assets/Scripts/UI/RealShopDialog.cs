@@ -1,12 +1,8 @@
 using System;
 using System.Globalization;
-using Cysharp.Threading.Tasks;
-using MadPixel.InApps;
 using Managers;
 using UI;
 using UnityEngine;
-using UnityEngine.Purchasing;
-using UnityEngine.UI;
 
 public class RealShopDialog : DialogWithData<RealShopData> {
     [SerializeField]

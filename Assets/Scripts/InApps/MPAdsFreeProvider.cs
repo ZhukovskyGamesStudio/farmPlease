@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using MadPixel;
 using MadPixel.InApps;
-using UnityEngine;
 using UnityEngine.Purchasing;
 
 public class MPAdsFreeProvider : IAdsFreeProvider

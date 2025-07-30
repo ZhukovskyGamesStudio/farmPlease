@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Firebase;
 using Firebase.Analytics;
 using Firebase.Extensions;

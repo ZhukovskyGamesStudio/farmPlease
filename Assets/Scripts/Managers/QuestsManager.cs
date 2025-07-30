@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Managers;
-using Tables;
-using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 using Random = UnityEngine.Random;

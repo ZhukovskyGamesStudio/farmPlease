@@ -3,7 +3,6 @@ using UnityEditor;
 #endif
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Localization
 {

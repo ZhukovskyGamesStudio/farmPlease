@@ -7,7 +7,6 @@ using Cysharp.Threading.Tasks;
 using Localization;
 using Tables;
 using UnityEngine;
-using ZhukovskyGamesPlugin;
 using Random = UnityEngine.Random;
 
 namespace Managers {

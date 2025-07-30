@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Managers;
-using ScriptableObjects;
 using Tables;
 using UI;
-using UnityEngine;
 
 public static class UnlockableUtils {
     private static List<string> Unlocked => SaveLoadManager.CurrentSave?.Unlocked;

@@ -1,5 +1,4 @@
-﻿using Tables;
-using UnityEngine;
+﻿using UnityEngine;
 using ZhukovskyGamesPlugin;
 
 namespace Managers {

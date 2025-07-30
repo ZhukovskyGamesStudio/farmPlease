@@ -1,6 +1,5 @@
 ﻿using System;
 using Localization;
-using Managers;
 using ScriptableObjects;
 using Tables;
 using TMPro;

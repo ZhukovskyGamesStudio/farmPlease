@@ -4,7 +4,6 @@ using Io.AppMetrica.Profile;
 using MadPixel;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using UnityEngine.Purchasing.MiniJSON;
 
 namespace MadPixelAnalytics {
     public class AppMetricaComp : MonoBehaviour {

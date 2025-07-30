@@ -1,5 +1,4 @@
 ﻿using System;
-using Tables;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 

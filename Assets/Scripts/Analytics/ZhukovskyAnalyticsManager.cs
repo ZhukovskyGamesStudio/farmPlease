@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Abstract;
-using UnityEngine.Analytics;
 
 public class ZhukovskyAnalyticsManager : PreloadableSingleton<ZhukovskyAnalyticsManager> {
 	

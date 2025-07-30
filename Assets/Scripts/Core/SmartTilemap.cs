@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Managers;
 using Tables;
-using UI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TileData = Tables.TileData;

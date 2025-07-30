@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Abstract;
 using UnityEngine;
 using UnityEngine.Audio;

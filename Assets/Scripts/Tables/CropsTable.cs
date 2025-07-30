@@ -5,7 +5,6 @@ using Abstract;
 using ScriptableObjects;
 using UI;
 using UnityEngine;
-using ZhukovskyGamesPlugin;
 
 namespace Tables {
     public class CropsTable : PreloadableSingleton<CropsTable> {

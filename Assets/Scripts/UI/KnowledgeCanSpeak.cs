@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
 using Abstract;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace UI {
     public class KnowledgeCanSpeak : HasAnimationAndCallback {

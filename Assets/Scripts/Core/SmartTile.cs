@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using Managers;
     using Tables;
-    using UI;
     using UnityEngine;
     using Random = UnityEngine.Random;
 

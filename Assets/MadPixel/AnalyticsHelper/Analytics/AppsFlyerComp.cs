@@ -1,11 +1,8 @@
 using AppsFlyerSDK;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Purchasing;
 using MadPixel;
 using System.Globalization;
-using AppsFlyerConnector;
 using UnityEngine.Serialization;
 using AppsFlyerAutoLogPurchaseRevenueOptions = AppsFlyerConnector.AppsFlyerAutoLogPurchaseRevenueOptions;
 using AppsFlyerPurchaseConnector = AppsFlyerConnector.AppsFlyerPurchaseConnector;

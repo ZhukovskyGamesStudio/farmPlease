@@ -1,4 +1,3 @@
-using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CostsConfig", menuName = "Scriptable Objects/CostsConfig")]

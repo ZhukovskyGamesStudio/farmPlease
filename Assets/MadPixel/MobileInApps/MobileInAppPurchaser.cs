@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
-using UnityEngine.Purchasing.Security;
 using UnityEngine.Serialization;
 
 namespace MadPixel.InApps {

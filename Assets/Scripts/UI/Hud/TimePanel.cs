@@ -1,4 +1,3 @@
-using Managers;
 using Tables;
 using UnityEngine;
 using UnityEngine.UI;

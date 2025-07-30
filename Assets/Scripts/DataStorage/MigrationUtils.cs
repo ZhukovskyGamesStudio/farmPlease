@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using Tables;
-using UnityEngine;
-
-public static class MigrationUtils {
+﻿public static class MigrationUtils {
     //Obsolete if all saves BuildingPrice == -1
     public static void TryMigrateToBuildingShopData(GameSaveProfile save) {
         if (save.BuildingShopData == null) {
