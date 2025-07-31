@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
+using UnityEngine.Purchasing.Security;
 using UnityEngine.Serialization;
 
 namespace MadPixel.InApps {
@@ -431,7 +432,7 @@ namespace MadPixel.InApps {
             }
 
             // NOTE: UNITY VALIDATION
-
+            
             List<string> receitsIDs = new List<string>();
             bool validPurchase = true; // Presume valid for platforms with no R.V.
                                        // Unity IAP's validation logic is only included on these platforms.
