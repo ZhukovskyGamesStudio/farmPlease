@@ -117,4 +117,9 @@ public class AdminManager : MonoBehaviour {
             _uiEbabled = true;
         }
     }
+    
+    public void ShowRateUs() {
+        RateUsManager.Instance.RateUsSource = "settings";
+        DialogsManager.Instance.ShowDialog(typeof(RateUsDialog));
+    }
 }
