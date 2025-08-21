@@ -2,26 +2,6 @@ apply plugin: 'com.android.library'
 apply from: '../shared/keepUnitySymbols.gradle'
 **APPLY_PLUGINS**
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        // Локальный Maven для Firebase
-        maven { url uri('../ExternalMaven') }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url uri('../ExternalMaven') } // сюда кладём Firebase aar
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
@@ -65,8 +45,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828' // Packages/com.applovin.mediation.adapters.inmobi.android/Editor/Dependencies.xml:5
     implementation 'io.appmetrica.analytics:analytics:7.9.0' // Packages/io.appmetrica.analytics/Editor/AppMetricaDependencies.xml:4
 // Android Resolver Dependencies End
-**DEPS**
-}
+**DEPS**}
 
 // Android Resolver Exclusions Start
 android {
@@ -79,7 +58,6 @@ android {
   }
 }
 // Android Resolver Exclusions End
-
 android {
     namespace "com.unity3d.player"
     ndkPath "**NDKPATH**"
@@ -115,7 +93,6 @@ android {
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
     }**PACKAGING**
 }
-
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**
