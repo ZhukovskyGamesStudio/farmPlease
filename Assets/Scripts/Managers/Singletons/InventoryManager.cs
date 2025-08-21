@@ -23,7 +23,7 @@ namespace Managers {
 
         private UIHud _uiHud => UIHud.Instance;
         private Backpack _backpack => UIHud.Instance.Backpack;
-        private FastPanelScript _fastPanelScript => UIHud.Instance.FastPanelScript;
+        private FastPanel _fastPanelScript => UIHud.Instance.FastPanelScript;
 
         /*****Сохранение и загрузка*****/
 

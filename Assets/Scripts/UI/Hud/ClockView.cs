@@ -32,33 +32,31 @@ namespace UI {
 
         [SerializeField]
         private GameObject _adIcon;
+
         [SerializeField]
         private GoldenTimer _goldenTimer;
+
         public bool IsLockedByFtue { get; set; }
 
-        private void Update()
-        {
+        private void Update() {
             UpdateGoldenState();
             UpdateGoldenTimer();
         }
 
-        private void UpdateGoldenTimer()
-        {
-            _goldenTimer.gameObject.SetActive(RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData));
+        private void UpdateGoldenTimer() {
+            _goldenTimer.gameObject.SetActive(!RealShopUtils.IsAllEndless &&
+                                              RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData));
             _goldenTimer.SetTime(RealShopUtils.ClockTimeLeft(SaveLoadManager.CurrentSave.RealShopData));
         }
 
         public void UpdateGoldenState() {
             _goldenClock.SetActive(RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData));
-            
         }
-        
+
         public void UpdateAdIcon() {
             _adIcon.SetActive(Clock.Instance.IsAdIconActive());
         }
 
-        
-        
         public void ClockPressedButton() {
             if (IsLockedByFtue) {
                 return;
@@ -67,7 +65,7 @@ namespace UI {
             Clock.Instance.TryAddDay();
             UpdateAdIcon();
         }
-        
+
         public void SetClockArrowRotation(float rotation) {
             _clockArrow.localRotation = Quaternion.Euler(0, 0, rotation);
         }

@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
-    public class FastPanelScript : MonoBehaviour {
+    public class FastPanel : MonoBehaviour {
         public Button[] toolButtons;
         public Sprite HoeNormalSprite, WatercanNormalSprite, SeedNormalSprite, ScytheNormalSprite, CalendarNormalSprite;
         public Image HoeImage, WatercanImage, SeedImage, ScytheImage;
@@ -37,7 +37,7 @@ namespace UI {
 
         private void UpdateGoldenTimer()
         {
-            _goldenTimer.gameObject.SetActive(RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData));
+            _goldenTimer.gameObject.SetActive(!RealShopUtils.IsAllEndless &&RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData));
             _goldenTimer.SetTime(RealShopUtils.ScytheTimeLeft(SaveLoadManager.CurrentSave.RealShopData));
         }
 

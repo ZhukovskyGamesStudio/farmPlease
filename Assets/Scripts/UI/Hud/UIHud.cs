@@ -12,7 +12,7 @@ namespace UI {
         public Transform CenterFarmTransform, QuestboardTransform;
         public BatteryView BatteryView;
         public ScreenEffect screenEffect;
-        public FastPanelScript FastPanelScript;
+        public FastPanel FastPanelScript;
         public TimePanel TimePanel;
         public Backpack Backpack;
         public ShopsPanel ShopsPanel;

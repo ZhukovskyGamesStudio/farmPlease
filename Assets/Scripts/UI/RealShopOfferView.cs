@@ -19,6 +19,7 @@ public class RealShopOfferView : MonoBehaviour {
     [SerializeField]
     private TextMeshProUGUI _priceText;
 
+
     public Action _onBuy;
     private bool _isInteractable;
     private bool _isOpening;
@@ -40,6 +41,9 @@ public class RealShopOfferView : MonoBehaviour {
     }
 
     public async UniTask StartTimer(TimeSpan timeLeft) {
+        if (RealShopUtils.IsAllEndless) {
+            _timeText.gameObject.SetActive(false);
+        }
         var token = this.GetCancellationTokenOnDestroy();
         while (timeLeft.TotalSeconds > 0) {
             if (!_isOpening) {
