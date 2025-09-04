@@ -109,8 +109,10 @@ public class TimeManager : Singleton<TimeManager> {
     }
 
     public void AddDay() {
-        
-       
+        ZhukovskyAnalyticsManager.Instance.SendCustomEvent("level_finish", new Dictionary<string, object> {
+            {"level_number",  SaveLoadManager.CurrentSave.TotalDays},
+            {"level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString()},
+        }, true);
         
         SaveLoadManager.CurrentSave.CurrentDayInMonth++;
         SaveLoadManager.CurrentSave.TotalDays++;
@@ -135,10 +137,6 @@ public class TimeManager : Singleton<TimeManager> {
         if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.FoodMarket)) {
             TryShowFoodMarketHint();
         }
-        ZhukovskyAnalyticsManager.Instance.SendCustomEvent("level_start", new Dictionary<string, object> {
-            {"level_number",  SaveLoadManager.CurrentSave.TotalDays},
-            {"level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString()},
-        }, true);
     }
 
     private void TryShowCalendarHint() {
@@ -192,6 +190,10 @@ public class TimeManager : Singleton<TimeManager> {
         yield return StartCoroutine(SmartTilemap.NewDay(nextDayHappening));
         UIHud.Instance.ClockView.SetInteractable(true);
         SaveLoadManager.Instance.EndSequence(sequenceId);
+        ZhukovskyAnalyticsManager.Instance.SendCustomEvent("level_start", new Dictionary<string, object> {
+            {"level_number",  SaveLoadManager.CurrentSave.TotalDays},
+            {"level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString()},
+        }, true);
     }
 
     private void ChangeSeedsNewDay() {
