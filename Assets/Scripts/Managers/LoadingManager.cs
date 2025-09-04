@@ -17,6 +17,7 @@ namespace Managers {
         private float _delayBeforeSceneSwitch = 2.5f;
 
         public void StartLoading() {
+            Application.targetFrameRate = -1;
             if (IsGameLoaded)
                 return;
             StartCoroutine(LoadManagers());
