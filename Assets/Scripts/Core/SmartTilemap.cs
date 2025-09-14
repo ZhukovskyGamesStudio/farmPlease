@@ -18,6 +18,8 @@ public class SmartTilemap : MonoBehaviour {
     public Transform TilesHolder;
     public Vector2Int Playercoord;
 
+    public ParticleSystem HoeFx;
+
     public float animtime = 0.5f;
     private const int TILES_RADIUS = 11;
     public const int STARTING_CIRCLE_RADIUS = 3;

@@ -197,6 +197,7 @@
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeHoed())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnHoed(animtime, isDandellion, isTractor);
 
+            BurstFx(_tilemap.HoeFx);
             Audio.Instance.PlaySound(Sounds.Hoed);
             BecomeActive();
         }
@@ -774,5 +775,10 @@
                 var obj = Instantiate(CropsTable.Instance.FlyingCropFxPrefab);
                 obj.Init(CropsTable.CropByType(croptype).VegSprite, worldPosition);
             }
+        }
+        
+        private void BurstFx(ParticleSystem prefab) {
+            Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
+            var ps = Instantiate(prefab, worldPosition,Quaternion.identity );
         }
     }
