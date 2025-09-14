@@ -110,8 +110,11 @@ namespace UI {
                 OnAnimationEnded?.Invoke();
             }
 
-            _target.onClick.RemoveListener(OnTargetButtonPressed);
-            _target = null;
+            if (_target != null) {
+                _target.onClick.RemoveListener(OnTargetButtonPressed);
+                _target = null;
+            }
+          
         }
 
         private void ShowSpotlight(Vector3 targetPos, SpotlightAnimConfig config) {
