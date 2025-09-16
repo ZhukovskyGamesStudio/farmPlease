@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using Tables;
 using UnityEngine;
@@ -9,6 +10,7 @@ using TileData = Tables.TileData;
 public class SmartTilemap : MonoBehaviour {
     [Resettable]
     public static SmartTilemap Instance;
+
     public Tilemap MainTilemap;
     public Tilemap BuildingTilemap;
     public ToolsAnimTilemap toolsAnimTilemap;
@@ -46,10 +48,8 @@ public class SmartTilemap : MonoBehaviour {
         }
 
         Playercoord = (Vector2Int)MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
-       // UnityEngine.Debug.Log("Playercoord: " + Playercoord);
+        // UnityEngine.Debug.Log("Playercoord: " + Playercoord);
     }
-
-  
 
     public static TilesData GenerateFtueTiles() {
         var tilesData = GenerateCircleTiles(TILES_RADIUS, TileType.Rocks);
@@ -70,12 +70,12 @@ public class SmartTilemap : MonoBehaviour {
         };
         foreach (var VARIABLE in ftueTiles) {
             tilesData.Tiles[VARIABLE] = TileType.Sand;
-           // tilesData.Tiles.Add(VARIABLE, TileType.Sand);
+            // tilesData.Tiles.Add(VARIABLE, TileType.Sand);
         }
 
         return tilesData;
     }
-    
+
     public static List<Vector2Int> GenerateInitialCircleTiles() {
         return TileUtils.GenerateCircleTiles(STARTING_CIRCLE_RADIUS);
     }
@@ -89,7 +89,7 @@ public class SmartTilemap : MonoBehaviour {
         Vector2Int curCoord = new(0, 0);
 
         while (circle < radius) {
-           // TileType type = circle < STARTING_CIRCLE_RADIUS ? TileType.Sand : TileType.Rocks;
+            // TileType type = circle < STARTING_CIRCLE_RADIUS ? TileType.Sand : TileType.Rocks;
             tilesData.Tiles.Add(curCoord, type);
 
             curCoord = TilemapTools.Next(curCoord, circle, step);
@@ -111,11 +111,12 @@ public class SmartTilemap : MonoBehaviour {
 
     public void GenerateTilesWithData(TilesData data) {
         MainTilemap.ClearAllTiles();
-        if(_tiles != null) {
+        if (_tiles != null) {
             foreach (var VARIABLE in _tiles) {
                 Destroy(VARIABLE.Value.gameObject);
             }
         }
+
         _tiles = new Dictionary<Vector2Int, SmartTile>();
         foreach (var pos in data.Tiles.Keys) {
             TileType tile = data.Tiles[pos];
@@ -184,6 +185,11 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public bool BuildingCanBePlaced(BuildingType type, Vector2Int coord) {
+        _tiles.TryGetValue(coord, out SmartTile center);
+        if (center == null) {
+            return false;
+        }
+
         switch (type) {
             case BuildingType.Freshener:
             case BuildingType.Biogen:
@@ -191,11 +197,13 @@ public class SmartTilemap : MonoBehaviour {
             case BuildingType.SeedDoubler:
             case BuildingType.Tractor:
                 SmartTile[] neighbors = GetHexNeighbors(coord);
-                return _tiles[coord].type == TileType.Sand && neighbors[5].type == TileType.Sand && neighbors[0].type == TileType.Sand &&
-                       neighbors[1].type == TileType.Sand;
+                List<SmartTile> needToBeSand = new List<SmartTile>() {
+                    center, neighbors[5], neighbors[0], neighbors[1]
+                };
+                return needToBeSand.All(t => t != null) && needToBeSand.All(t=>t.type == TileType.Sand);
 
             case BuildingType.SprinklerTarget:
-                return _tiles[coord].type == TileType.Sand;
+                return center.type == TileType.Sand;
 
             default:
                 UnityEngine.Debug.Log("Wrong");
@@ -365,8 +373,8 @@ public class SmartTilemap : MonoBehaviour {
 
     public IEnumerator CollectTile() {
         bool hasGoldenScythe = RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData);
-        yield return StartCoroutine(
-            _tiles[Playercoord].OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe),hasGoldenScythe, animtime / 3));
+        yield return StartCoroutine(_tiles[Playercoord]
+            .OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), hasGoldenScythe, animtime / 3));
         yield return StartCoroutine(HappeningSequence());
     }
 
@@ -494,19 +502,19 @@ public class SmartTilemap : MonoBehaviour {
         SmartTile[] neighbors = new SmartTile[6];
 
         if (center.y % 2 == 0) {
-            _tiles.TryGetValue(center + new Vector2Int(0, 1),out neighbors[0]);
-            _tiles.TryGetValue(center + new Vector2Int(1, 0),out neighbors[1]);
-            _tiles.TryGetValue(center + new Vector2Int(0, -1),out neighbors[2]);
-            _tiles.TryGetValue(center + new Vector2Int(-1, -1),out neighbors[3]);
-            _tiles.TryGetValue(center + new Vector2Int(-1, 0),out neighbors[4]);
-            _tiles.TryGetValue(center + new Vector2Int(-1, 1),out neighbors[5]);
+            _tiles.TryGetValue(center + new Vector2Int(0, 1), out neighbors[0]);
+            _tiles.TryGetValue(center + new Vector2Int(1, 0), out neighbors[1]);
+            _tiles.TryGetValue(center + new Vector2Int(0, -1), out neighbors[2]);
+            _tiles.TryGetValue(center + new Vector2Int(-1, -1), out neighbors[3]);
+            _tiles.TryGetValue(center + new Vector2Int(-1, 0), out neighbors[4]);
+            _tiles.TryGetValue(center + new Vector2Int(-1, 1), out neighbors[5]);
         } else {
-             _tiles.TryGetValue(center + new Vector2Int(1, 1),out neighbors[0]);
-             _tiles.TryGetValue(center + new Vector2Int(1, 0),out neighbors[1]);
-             _tiles.TryGetValue(center + new Vector2Int(1, -1),out neighbors[2]);
-             _tiles.TryGetValue(center + new Vector2Int(0, -1),out neighbors[3]);
-             _tiles.TryGetValue(center + new Vector2Int(-1, 0),out neighbors[4]);
-             _tiles.TryGetValue(center + new Vector2Int(0, 1),out neighbors[5]);
+            _tiles.TryGetValue(center + new Vector2Int(1, 1), out neighbors[0]);
+            _tiles.TryGetValue(center + new Vector2Int(1, 0), out neighbors[1]);
+            _tiles.TryGetValue(center + new Vector2Int(1, -1), out neighbors[2]);
+            _tiles.TryGetValue(center + new Vector2Int(0, -1), out neighbors[3]);
+            _tiles.TryGetValue(center + new Vector2Int(-1, 0), out neighbors[4]);
+            _tiles.TryGetValue(center + new Vector2Int(0, 1), out neighbors[5]);
         }
 
         return neighbors;
