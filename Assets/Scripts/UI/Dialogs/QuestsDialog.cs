@@ -148,7 +148,7 @@ public class QuestsDialog : DialogWithData<QuestsDialogData> {
         }
 
         _isWatchingAd = true;
-        ZhukovskyAdsManager.Instance.AdsProvider.ShowRewardedAd(AdsIds.RewardedBattery,() => {
+        ZhukovskyAdsManager.Instance.AdsProvider.ShowRewardedAd(AdsIds.RewardedQuestsChange,() => {
             _isWatchingAd = false;
             CloseChangeForAds();
             QuestsManager.Instance.ChangeQuestForAd(_selectedQuestForChange);
