@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Localization;
+using ZG_Localization;
 using Managers;
 using Tables;
 using UnityEngine;

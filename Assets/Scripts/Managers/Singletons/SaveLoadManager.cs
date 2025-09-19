@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Abstract;
 using Cysharp.Threading.Tasks;
-using Localization;
+using ZG_Localization;
 using Tables;
 using UnityEngine;
 using Random = UnityEngine.Random;

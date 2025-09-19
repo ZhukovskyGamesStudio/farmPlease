@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
-using Localization;
+using ZG_Localization;
 using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using ZG_Localization;
 namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "FtueConfig", menuName = "Scriptable Objects/FtueConfig", order = 6)]
     public class FtueConfig : ScriptableObject {

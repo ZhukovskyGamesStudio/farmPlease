@@ -1,5 +1,5 @@
 ﻿using System;
-using Localization;
+using ZG_Localization;
 
 public static class TimeUtils {
     public static string ToShortString(TimeSpan timeSpan) {

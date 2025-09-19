@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using ZG_Localization;
     public abstract class ConfigWithCroponomPage : ScriptableObject {
         [Header("CroponomPage")]
         public Sprite gridIcon;

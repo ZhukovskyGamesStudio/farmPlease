@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Localization;
+using ZG_Localization;
 using Managers;
 using Tables;
 using TMPro;

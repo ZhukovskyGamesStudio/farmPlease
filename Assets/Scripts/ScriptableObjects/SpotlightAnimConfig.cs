@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using ZG_Localization;
 namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "SpotlightAnim", menuName = "Scriptable Objects/SpotlightAnimConfig", order = 7)]
     public class SpotlightAnimConfig : ScriptableObject {

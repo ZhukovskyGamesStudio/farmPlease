@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Localization;
+using ZG_Localization;
 using Managers;
 using TMPro;
 using UnityEngine;

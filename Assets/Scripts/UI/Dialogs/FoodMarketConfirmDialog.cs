@@ -1,5 +1,5 @@
 ﻿using System;
-using Localization;
+using ZG_Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

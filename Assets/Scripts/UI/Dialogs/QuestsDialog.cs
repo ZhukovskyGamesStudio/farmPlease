@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Localization;
+using ZG_Localization;
 using Managers;
 using TMPro;
 using UnityEngine;

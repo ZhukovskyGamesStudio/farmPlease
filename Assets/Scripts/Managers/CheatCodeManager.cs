@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Localization;
 using ScriptableObjects;
 using Tables;
+using ZG_Localization;
 using ZhukovskyGamesPlugin;
 
 namespace Managers {

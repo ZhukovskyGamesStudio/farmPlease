@@ -5,12 +5,13 @@ using Tables;
 using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
+using ZG_Localization;
 
 namespace Managers {
     public class Clock : Singleton<Clock> {
         public const int MAX_ENERGY = 7;
-        private string RefilledEnergiesText => Localization.LocalizationManager.Instance.GetText("energy_refill");
-        private string RefilledEnergyText => Localization.LocalizationManager.Instance.GetText("energy_refill_one");
+        private string RefilledEnergiesText => ZG_Localization.LocalizationManager.Instance.GetText("energy_refill");
+        private string RefilledEnergyText => LocalizationManager.Instance.GetText("energy_refill_one");
 
         private TimeSpan TimespanForRefillOneEnergy => TimeSpan.FromMinutes(ConfigsManager.Instance.CostsConfig.MunitesForOneChargeRefill);
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Tables;
 using UnityEngine;
-
+using ZG_Localization;
 [CreateAssetMenu(fileName = "LevelConfig", menuName = "Scriptable Objects/LevelConfig", order = 0)]
 public class LevelConfig : ScriptableObject {
     [LocalizationKey("Main")]

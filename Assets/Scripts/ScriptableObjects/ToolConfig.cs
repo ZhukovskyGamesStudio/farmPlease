@@ -1,7 +1,7 @@
 using System;
 using Tables;
 using UnityEngine;
-
+using ZG_Localization;
 namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "Tool", menuName = "Scriptable Objects/Tool", order = 3)]

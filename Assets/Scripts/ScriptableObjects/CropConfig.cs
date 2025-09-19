@@ -1,6 +1,6 @@
 using Tables;
 using UnityEngine;
-
+using ZG_Localization;
 namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "Crop", menuName = "Scriptable Objects/Crop", order = 2)]

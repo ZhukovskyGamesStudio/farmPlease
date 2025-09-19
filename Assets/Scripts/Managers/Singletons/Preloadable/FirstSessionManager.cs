@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Localization;
+using ZG_Localization;
 using ScriptableObjects;
 using Tables;
 using UI;

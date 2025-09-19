@@ -1,7 +1,7 @@
 using Tables;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
+using ZG_Localization;
 namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/Building", order = 5)]
     public class BuildingConfig : ConfigWithCroponomPage {

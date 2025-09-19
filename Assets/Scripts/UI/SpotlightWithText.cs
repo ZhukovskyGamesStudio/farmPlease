@@ -1,7 +1,7 @@
 using System;
 using Abstract;
 using Cysharp.Threading.Tasks;
-using Localization;
+using ZG_Localization;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;

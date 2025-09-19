@@ -1,4 +1,4 @@
-﻿using Localization;
+﻿using ZG_Localization;
 using Managers;
 using ScriptableObjects;
 using TMPro;

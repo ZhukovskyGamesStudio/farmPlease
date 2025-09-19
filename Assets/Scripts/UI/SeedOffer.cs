@@ -1,6 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Localization;
+using ZG_Localization;
 using ScriptableObjects;
 using Tables;
 using TMPro;

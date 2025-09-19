@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-
+using ZG_Localization;
 [Serializable]
 public class QuestData {
     public bool IsMain;
