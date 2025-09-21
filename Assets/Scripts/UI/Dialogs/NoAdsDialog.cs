@@ -10,9 +10,9 @@ public class NoAdsDialog : Dialogs.DialogBase {
 
     protected override bool IsHideProfile => true;
 
-    public override UniTask Show(Action onClose) {
+    public override UniTask Show(Action onClose, Action<bool> onHideUI) {
         _priceText.text = InAppsManager.Instance.InAppsProvider.GetPrice(InApsIds.NoAds);
-        return base.Show(onClose);
+        return base.Show(onClose, onHideUI);
     }
 
     public void Buy() {

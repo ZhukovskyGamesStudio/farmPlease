@@ -68,9 +68,9 @@ public class BuildingShopDialog :  Dialogs.DialogWithData<BuildingShopData>, ISo
         GenerateToolsButtons();
     }
 
-    public override UniTask Show(Action onClose) {
+    public override UniTask Show(Action onClose, Action<bool> onHideUI) {
         _animation.Play(_idleClip.name);
-        return base.Show(onClose);
+        return base.Show(onClose, onHideUI);
     }
 
     private void GenerateToolsButtons() {

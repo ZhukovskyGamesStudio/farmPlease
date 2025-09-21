@@ -31,13 +31,13 @@ public class ScalesDialog :  Dialogs.DialogWithData<int> {
         //TODO add proper data handling if needed
     }
 
-    public override async UniTask Show(Action onClose) {
+    public override async UniTask Show(Action onClose, Action<bool> onHideUI) {
         IsSellingAnimation = false;
         //ShowRainingCrops();
         _sellTablet.SetData(SaveLoadManager.CurrentSave.CropsCollectedQueue, scalesView.OnSelectedAmountChange);
         scalesView.Init();
         _sellTablet.Open();
-        await base.Show(onClose);
+        await base.Show(onClose, onHideUI);
     }
 
     protected override async UniTask Close() {

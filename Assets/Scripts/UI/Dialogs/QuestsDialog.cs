@@ -48,9 +48,9 @@ public class QuestsDialog :  Dialogs.DialogWithData<QuestsDialogData> {
         SetDailyLockedState(!QuestsManager.Instance.IsDailyUnlocked, ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily);
     }
 
-    public override UniTask Show(Action onClose) {
+    public override UniTask Show(Action onClose, Action<bool> onHideUI) {
         _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
-        return base.Show(onClose);
+        return base.Show(onClose, onHideUI);
     }
     
     

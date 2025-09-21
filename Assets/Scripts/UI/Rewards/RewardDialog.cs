@@ -60,11 +60,11 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
         _isShowing = true;
     }
 
-    public override async UniTask Show(Action onClose) {
+    public override async UniTask Show(Action onClose, Action<bool> onHideUI) {
         UIHud.Instance.ProfileView.Hide();
         _chestAnimation.Play(_chestAppear.name);
 
-        await base.Show(onClose);
+        await base.Show(onClose, onHideUI);
         await UniTask.WaitWhile(() => _chestAnimation.isPlaying);
         _chestAnimation.PlayQueued(_chestIdle.name);
         _isShowing = false;

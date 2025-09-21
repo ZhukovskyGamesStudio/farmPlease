@@ -37,10 +37,10 @@ namespace UI {
         private SettingsData SettingsData => SaveLoadManager.CurrentSave.SettingsData;
         private SettingsData _unchangedData;
 
-        public override UniTask Show(Action onClose) {
+        public override UniTask Show(Action onClose, Action<bool> onHideUI) {
             UIHud.Instance.ProfileView.Hide();
             _countryImage.sprite = _languageSprites[LocalizationManager.Instance.CurrentLanguage];
-            return base.Show(onClose);
+            return base.Show(onClose, onHideUI);
         }
 
         public override void SetData(CheatCodeConfigList data) {

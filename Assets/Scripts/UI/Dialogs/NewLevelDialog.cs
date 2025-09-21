@@ -33,9 +33,9 @@ public class NewLevelDialog :  Dialogs.DialogWithData<int> {
        
     }
 
-    public override async UniTask Show(Action onClose) {
+    public override async UniTask Show(Action onClose, Action<bool> onHideUI) {
         UIHud.Instance.ProfileView.Hide();
-        await base.Show(onClose);
+        await base.Show(onClose, onHideUI);
     
         _levelAnimation.Play(_previousIdleClip.name);
     }

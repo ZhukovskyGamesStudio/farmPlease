@@ -32,7 +32,7 @@ public class ProfileDialog :  Dialogs.DialogWithData<ProfileDialogData> {
         _data = data;
     }
 
-    public override async UniTask Show(Action onClose) {
+    public override async UniTask Show(Action onClose, Action<bool> onHideUI) {
         _nicknameInput.SetTextWithoutNotify(SaveLoadManager.CurrentSave.Nickname);
         _cropsCollectedText.text = SaveLoadManager.CurrentSave.CropPoints.ToString();
         _coinsText.text = SaveLoadManager.CurrentSave.Coins.ToString();
@@ -44,7 +44,7 @@ public class ProfileDialog :  Dialogs.DialogWithData<ProfileDialogData> {
         SetLevelProgress();
 
         SetRewards();
-        await base.Show(onClose);
+        await base.Show(onClose, onHideUI);
     }
 
     private void SetLevelProgress() {

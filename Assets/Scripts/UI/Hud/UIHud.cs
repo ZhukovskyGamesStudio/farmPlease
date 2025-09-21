@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Abstract;
 using Managers;
 using Tables;
@@ -42,6 +43,18 @@ namespace UI {
         public OtherFarmUI OtherFarmUI;
         public OpenRealShopButtonView OpenRealShopButton;
         public OpenNoAdsButtonView OpenNoAdsButtonView;
+
+        private void Start() {
+            Dialogs.DialogsManager.Instance.OnHideUI += OnDialogShowHide;
+        }
+
+        private void OnDialogShowHide(bool isShow) {
+            if (isShow) {
+                ProfileView.Hide();
+            } else {
+                ProfileView.Show();
+            }
+        }
 
         public void ClosePanel() {
             if (Backpack.isOpen)
@@ -101,8 +114,7 @@ namespace UI {
             SceneManager.LoadScene(sceneName);
         }
 
-        public void GlobalRecordsButton() {
-        }
+        public void GlobalRecordsButton() { }
 
         public void SetBuildingPanelState(bool isActive) {
             BuildingPanel.gameObject.SetActive(isActive);
@@ -126,7 +138,6 @@ namespace UI {
             } else {
                 SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
             }
-            
         }
 
         public void UpdateLockedUI() {

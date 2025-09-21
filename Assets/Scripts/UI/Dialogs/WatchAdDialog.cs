@@ -24,9 +24,9 @@ public class WatchAdDialog :  Dialogs.DialogWithData<Reward> {
         }, null);
     }
 
-    public override async UniTask Show(Action onClose) {
+    public override async UniTask Show(Action onClose, Action<bool> onHideUI) {
         UIHud.Instance.ProfileView.Hide();
-        await base.Show(onClose);
+        await base.Show(onClose, onHideUI);
         _animation.PlayQueued(_dialogIdle.name);
     }
 

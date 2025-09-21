@@ -43,13 +43,13 @@ public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
         SetSeedShopWithData(_data);
     }
 
-    public override async UniTask Show(Action onClose) {
+    public override async UniTask Show(Action onClose, Action<bool> onHideUI) {
         if (_data.NeedShowChange) {
             _mainAnimation.Play("HideUIInstant");
             ShowChangeEndAnimation().Forget();
             SaveLoadManager.CurrentSave.SeedShopData.NeedShowChange = false;
         }
-        await base.Show(onClose);
+        await base.Show(onClose, onHideUI);
     }
 
     public void SetSeedShopWithData(SeedShopData save) {
