@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class SeedShopDialog : DialogWithData<SeedShopData> {
+public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
     [SerializeField]
     private Button _closeButton;
 

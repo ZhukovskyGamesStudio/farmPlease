@@ -10,7 +10,7 @@ using Tables;
 using UI;
 using UnityEngine;
 
-public class BuildingShopDialog : DialogWithData<BuildingShopData>, ISoundStarter {
+public class BuildingShopDialog :  Dialogs.DialogWithData<BuildingShopData>, ISoundStarter {
     [Header("Buildings")]
     public Transform BuildingsGrid;
 

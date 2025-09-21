@@ -1,3 +1,4 @@
+using Dialogs;
 using UnityEngine;
 
 public class OpenNoAdsButtonView : MonoBehaviour {

@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProfileDialog : DialogWithData<ProfileDialogData> {
+public class ProfileDialog :  Dialogs.DialogWithData<ProfileDialogData> {
     [SerializeField]
     private TMP_InputField _nicknameInput;
 

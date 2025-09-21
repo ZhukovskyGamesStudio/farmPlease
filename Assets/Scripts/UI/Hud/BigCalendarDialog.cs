@@ -5,7 +5,7 @@ using Tables;
 using UI;
 using UnityEngine;
 
-public class BigCalendarDialog : DialogWithData<BigCalendarData> {
+public class BigCalendarDialog :  Dialogs.DialogWithData<BigCalendarData> {
     private List<CalendarDayView> _days;
     private List<CalendarDayView> _skippedDays;
     public CalendarDayView DayPref;

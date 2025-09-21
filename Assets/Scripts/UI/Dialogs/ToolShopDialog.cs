@@ -6,7 +6,7 @@ using TMPro;
 using UI;
 using UnityEngine;
 
-public class ToolShopDialog : DialogWithData<ToolShopData> {
+public class ToolShopDialog :  Dialogs.DialogWithData<ToolShopData> {
     [SerializeField]
     private GameObject ChangeButton;
     [SerializeField]

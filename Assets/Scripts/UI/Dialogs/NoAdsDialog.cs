@@ -4,7 +4,7 @@ using Managers;
 using TMPro;
 using UnityEngine;
 
-public class NoAdsDialog : DialogBase {
+public class NoAdsDialog : Dialogs.DialogBase {
     [SerializeField]
     private TextMeshProUGUI _priceText;
 

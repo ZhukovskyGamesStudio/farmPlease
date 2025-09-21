@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 namespace UI {
-    public class EnergyRefillDialog : DialogWithData<string> {
+    public class EnergyRefillDialog :  Dialogs.DialogWithData<string> {
         [SerializeField]
         private TextMeshProUGUI _hintText;
 

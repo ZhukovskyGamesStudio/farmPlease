@@ -1,6 +1,7 @@
 ﻿using System;
 using Abstract;
 using Cysharp.Threading.Tasks;
+using Dialogs;
 using ZG_Localization;
 using Managers;
 using ScriptableObjects;
@@ -10,7 +11,7 @@ using UnityEngine.UI;
 using ZhukovskyGamesPlugin;
 
 namespace UI {
-    public class SettingsDialog : DialogWithData<CheatCodeConfigList>, ISoundStarter {
+    public class SettingsDialog : Dialogs.DialogWithData<CheatCodeConfigList>, ISoundStarter {
         public Slider masterSoundSlider, musicSoundSlider, effectsSoundSlider;
         public Button GPGSButton;
         public Text GPGSText;

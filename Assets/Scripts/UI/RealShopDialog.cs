@@ -4,7 +4,7 @@ using Managers;
 using UI;
 using UnityEngine;
 
-public class RealShopDialog : DialogWithData<RealShopData> {
+public class RealShopDialog :  Dialogs.DialogWithData<RealShopData> {
     [SerializeField]
     private RealShopOfferView _goldenClockButton, _goldenScytheButton, _goldenBatteryButton, _goldenCroponomButton;
 

@@ -7,7 +7,7 @@ using Managers;
 using TMPro;
 using UnityEngine;
 
-public class QuestsDialog : DialogWithData<QuestsDialogData> {
+public class QuestsDialog :  Dialogs.DialogWithData<QuestsDialogData> {
     [SerializeField]
     private QuestView _mainQuestView, _firstQuestView, _secondQuestView;
 

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Dialogs;
 using Tables;
 using UI;
 using UnityEngine;
 
-public class WatchAdDialog : DialogWithData<Reward> {
+public class WatchAdDialog :  Dialogs.DialogWithData<Reward> {
     [SerializeField]
     private RewardItemView _rewardItemView;
 

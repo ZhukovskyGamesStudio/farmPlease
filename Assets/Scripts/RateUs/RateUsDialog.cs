@@ -4,7 +4,7 @@ using System.Globalization;
 using Cysharp.Threading.Tasks;
 using Managers;
 
-public class RateUsDialog : DialogBase {
+public class RateUsDialog : Dialogs.DialogBase {
     private bool _isWaitingReview;
 
     protected override bool IsHideProfile => true;

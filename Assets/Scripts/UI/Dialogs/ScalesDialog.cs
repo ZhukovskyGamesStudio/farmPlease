@@ -8,7 +8,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScalesDialog : DialogWithData<int> {
+public class ScalesDialog :  Dialogs.DialogWithData<int> {
     [SerializeField]
     private ScalesView scalesView;
 

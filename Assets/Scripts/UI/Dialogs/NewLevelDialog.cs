@@ -6,7 +6,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewLevelDialog : DialogWithData<int> {
+public class NewLevelDialog :  Dialogs.DialogWithData<int> {
     [SerializeField]
     private Image _previousLevelIcon, _nextLevelIcon;
 

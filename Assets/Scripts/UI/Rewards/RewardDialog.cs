@@ -5,7 +5,7 @@ using TMPro;
 using UI;
 using UnityEngine;
 
-public class RewardDialog : DialogWithData<RewardDialogData> {
+public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
     private RewardDialogData _data;
 
     [SerializeField]
