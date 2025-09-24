@@ -32,6 +32,22 @@ public class Tile3d : MonoBehaviour {
 
     [SerializeField]
     private float _overshootScale = 1.1f;
+    
+    [Header("Scythe")]
+    [SerializeField]
+    private float _scytheAngle = 30f;
+
+    [SerializeField]
+    private float _scytheFallDistance = 0.6f;
+
+    [SerializeField]
+    private float _scytheDuration = 0.5f;
+
+    [SerializeField]
+    private float _scytheAddedDuration = 0.2f;
+
+    [SerializeField]
+    private float _scytheDelay = 0.05f;
 
     private void Start() {
         if (IsGrowOnStart) {
@@ -121,6 +137,70 @@ public class Tile3d : MonoBehaviour {
         t.localScale = Vector3.one;
         t.localRotation = Quaternion.identity;
     }
+    
+    public async UniTask Scythe() {
+        var objs = transform.GetComponentsInChildren<Transform>();
+        var tasks = new List<UniTask>();
+        var rnd = new System.Random();
+        var ct = this.GetCancellationTokenOnDestroy();
+
+        foreach (var t in objs) {
+            if (t == transform) {
+                continue;
+            }
+
+            float delay = (float)rnd.NextDouble() * _scytheDelay;
+            float duration = _scytheDuration + (float)rnd.NextDouble() * _scytheAddedDuration;
+
+            tasks.Add(ScytheOne(t, duration, delay, ct));
+        }
+
+        await UniTask.WhenAll(tasks);
+    }
+
+    private async UniTask ScytheOne(Transform t, float duration, float startDelay, CancellationToken ct) {
+        var copy = Instantiate(t, t.position, t.rotation);
+        t.gameObject.SetActive(false);
+        var sr = copy.GetComponent<SpriteRenderer>();
+
+        if (startDelay > 0f) {
+            await UniTask.Delay(TimeSpan.FromSeconds(startDelay));
+        }
+
+        Vector3 startPos = copy.localPosition;
+        Quaternion startRot = copy.localRotation;
+        Color startColor = sr != null ? sr.color : Color.white;
+
+        float elapsed = 0f;
+        while (elapsed < duration) {
+            elapsed += Time.deltaTime;
+            float p = Mathf.Clamp01(elapsed / duration);
+
+            // поворот
+            float angle = Mathf.Lerp(0f, _scytheAngle, p);
+            copy.localRotation = Quaternion.Euler(0f, 0f, angle);
+
+            // падение вниз
+            copy.localPosition = startPos + Vector3.down * _scytheFallDistance * p;
+
+            // затухание
+            if (sr != null) {
+                Color c = startColor;
+                c.a = Mathf.Lerp(1f, 0f, p);
+                sr.color = c;
+            }
+
+            await UniTask.Yield(PlayerLoopTiming.Update);
+        }
+
+        if (sr != null) {
+            Color c = sr.color;
+            c.a = 0f;
+            sr.color = c;
+        }
+
+        Destroy(copy.gameObject);
+    }
 }
 
 public static class Tile3dExtensions {
@@ -154,4 +234,7 @@ public static class Tile3dExtensions {
 
         t.localScale = new Vector3(targetScale, targetScale, 1f);
     }
+    
+    
+    
 }

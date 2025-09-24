@@ -2,6 +2,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Cysharp.Threading.Tasks;
     using Managers;
     using Tables;
     using UnityEngine;
@@ -421,6 +422,7 @@
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeWatered())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime,isRain,isStrawberry);
 
+            BurstFx(_tilemap.WaterFx);
             Audio.Instance.PlaySound(Sounds.Watered);
             BecomeActive();
         }
@@ -446,6 +448,11 @@
                     QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.GiantEggplant, 1);
                 }
 
+                var obj =_tilemap.MainTilemap.GetInstantiatedObject((Vector3Int)_position);
+                if (obj != null) {
+                    obj.GetComponent<Tile3d>().Scythe().Forget();
+                }
+                
                 SwitchType(_isSandAfterHarvest? TileType.Sand: TileType.Soil, AnimationType.Scythe);
             } else {
                 switch (type) {
@@ -499,6 +506,7 @@
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeCollected())
                 yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
 
+            BurstFx(_tilemap.ScytheFx);
             Audio.Instance.PlaySound(Sounds.Collect);
             BecomeActive();
         }

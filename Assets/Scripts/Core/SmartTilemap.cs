@@ -20,7 +20,7 @@ public class SmartTilemap : MonoBehaviour {
     public Transform TilesHolder;
     public Vector2Int Playercoord;
 
-    public ParticleSystem HoeFx;
+    public ParticleSystem HoeFx, WaterFx, ScytheFx;
 
     public float animtime = 0.5f;
     private const int TILES_RADIUS = 11;
