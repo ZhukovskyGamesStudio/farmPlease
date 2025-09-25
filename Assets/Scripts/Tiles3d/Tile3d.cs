@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Random = System.Random;
 
 public class Tile3d : MonoBehaviour {
     [Header("Grow")]
@@ -32,7 +33,7 @@ public class Tile3d : MonoBehaviour {
 
     [SerializeField]
     private float _overshootScale = 1.1f;
-    
+
     [Header("Scythe")]
     [SerializeField]
     private float _scytheAngle = 30f;
@@ -49,17 +50,43 @@ public class Tile3d : MonoBehaviour {
     [SerializeField]
     private float _scytheDelay = 0.05f;
 
+    [Header("Wind Sway")]
+    [SerializeField]
+    private float _windSwayAmplitude = 3f; // градусы
+
+    [SerializeField]
+    private float _windSwayFrequency = 1f; // сколько колебаний в секунду
+
+    [SerializeField]
+    private float _windSwayIntervalMin = 5f; // минимальное время между покачиваниями
+
+    [SerializeField]
+    private float _windSwayIntervalMax = 15f; // максимальное время
+
     private void Start() {
+        var ct = this.GetCancellationTokenOnDestroy();
+
         if (IsGrowOnStart) {
             if (_previousState != null) {
-                GrowFromPrevious().Forget();
+                GrowFromPrevious().ContinueWith(StartWind);
             } else {
-                Grow().Forget();
+                Grow(ct: ct).ContinueWith(StartWind);
             }
+        } else {
+            StartWind();
         }
     }
 
-    private async UniTaskVoid GrowFromPrevious() {
+    private void StartWind() {
+        var ct = this.GetCancellationTokenOnDestroy();
+        var children = transform.GetComponentsInChildren<Transform>();
+        foreach (var t in children) {
+            if (t == transform) continue;
+            WindSway(t, ct).Forget();
+        }
+    }
+
+    private async UniTask GrowFromPrevious() {
         var ct = this.GetCancellationTokenOnDestroy();
 
         var children = new List<Transform>();
@@ -70,7 +97,7 @@ public class Tile3d : MonoBehaviour {
             }
         }
 
-        var prev = Instantiate(_previousState, transform.position, transform.rotation, transform.parent);
+        var prev = Instantiate(_previousState, transform.position, transform.rotation, transform);
 
         await prev.SquashTo(_squashScale, _squashDuration, ct);
 
@@ -110,7 +137,8 @@ public class Tile3d : MonoBehaviour {
         await UniTask.WhenAll(tasks);
     }
 
-    private async UniTask GrowOne(Transform t, float duration, float startDelay, float fromScale, float overshoot, CancellationToken cancellationToken) {
+    private async UniTask GrowOne(Transform t, float duration, float startDelay, float fromScale, float overshoot,
+        CancellationToken cancellationToken) {
         if (startDelay > 0f) {
             await UniTask.Delay(TimeSpan.FromSeconds(startDelay), cancellationToken: cancellationToken);
         }
@@ -137,7 +165,7 @@ public class Tile3d : MonoBehaviour {
         t.localScale = Vector3.one;
         t.localRotation = Quaternion.identity;
     }
-    
+
     public async UniTask Scythe() {
         var objs = transform.GetComponentsInChildren<Transform>();
         var tasks = new List<UniTask>();
@@ -201,6 +229,28 @@ public class Tile3d : MonoBehaviour {
 
         Destroy(copy.gameObject);
     }
+
+    private async UniTaskVoid WindSway(Transform t, CancellationToken ct) {
+        var rnd = new Random();
+        float waitTime = UnityEngine.Random.Range(0, _windSwayIntervalMin);
+        while (!ct.IsCancellationRequested) {
+            await UniTask.Delay(TimeSpan.FromSeconds(waitTime), cancellationToken: ct);
+
+            float elapsed = 0f;
+            float duration = 2f; // длительность одного покачивания
+            Quaternion startRot = t.localRotation;
+
+            while (elapsed < duration) {
+                elapsed += Time.deltaTime;
+                float angle = Mathf.Sin(elapsed * Mathf.PI * _windSwayFrequency) * _windSwayAmplitude;
+                t.localRotation = startRot * Quaternion.Euler(0f, 0f, angle);
+                await UniTask.Yield(PlayerLoopTiming.Update, ct);
+            }
+
+            t.localRotation = startRot; // вернуть исходную ориентацию
+            waitTime = _windSwayIntervalMin + (float)rnd.NextDouble() * (_windSwayIntervalMax - _windSwayIntervalMin);
+        }
+    }
 }
 
 public static class Tile3dExtensions {
@@ -234,7 +284,4 @@ public static class Tile3dExtensions {
 
         t.localScale = new Vector3(targetScale, targetScale, 1f);
     }
-    
-    
-    
 }

@@ -458,6 +458,7 @@
                 switch (type) {
                     case TileType.Weed:
                         UnlockableUtils.Unlock(Crop.Weed);
+                        DropCoin(1 * multiplier);
                         InventoryManager.Instance.AddCoins(1 * multiplier);
                         if (hasGreenScythe) {
                             HarvestCrop(Crop.Weed, 1 * multiplier);
@@ -774,6 +775,7 @@
             
             InventoryManager.Instance.AddCollectedCrop(croptype, amount);
             InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
+            //DropXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
             DropCrop(croptype, amount);
         }
 
@@ -782,6 +784,22 @@
             for (int i = 0; i < amount; i++) {
                 var obj = Instantiate(CropsTable.Instance.FlyingCropFxPrefab);
                 obj.Init(CropsTable.CropByType(croptype).VegSprite, worldPosition);
+            }
+        }
+        
+        private void DropCoin(int amount) {
+            Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
+            for (int i = 0; i < amount; i++) {
+                var obj = Instantiate(CropsTable.Instance.FlyingCoinFxPrefab);
+                obj.Init( worldPosition);
+            }
+        }
+        
+        private void DropXp(int amount) {
+            Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
+            for (int i = 0; i < amount; i++) {
+                var obj = Instantiate(CropsTable.Instance.FlyingXpFxPrefab);
+                obj.Init( worldPosition);
             }
         }
         
