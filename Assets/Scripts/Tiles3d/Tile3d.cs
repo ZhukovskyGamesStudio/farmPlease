@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Tables;
 using UnityEngine;
 using Random = System.Random;
 
@@ -62,6 +64,9 @@ public class Tile3d : MonoBehaviour {
 
     [SerializeField]
     private float _windSwayIntervalMax = 15f; // максимальное время
+
+    [SerializeField]
+    private List<SpriteRenderer> _crops = new List<SpriteRenderer>();
 
     private void Start() {
         var ct = this.GetCancellationTokenOnDestroy();
@@ -166,12 +171,41 @@ public class Tile3d : MonoBehaviour {
         t.localRotation = Quaternion.identity;
     }
 
-    public async UniTask Scythe() {
+    public async UniTask Scythe(Crop cropCollected, int collectedAmount) {
+       
+        
+        List<FlyingCropFx> fcs = new();
+        _crops = _crops.OrderBy(t => UnityEngine.Random.Range(0, 1f)).ToList();
+        Queue<SpriteRenderer> queue = new(_crops);
+        var startPos = transform.position;
+        int min = Math.Min(collectedAmount, _crops.Count);
+        for (int index = 0; index < min; index++) {
+            SpriteRenderer crop = queue.Dequeue();
+            queue.Enqueue(crop);
+            crop.transform.SetParent(null);
+            crop.sortingOrder = 3;
+            var fc = crop.gameObject.AddComponent<FlyingCropFx>();
+            fc.CacheFinalSprite(CropsTable.CropByType(cropCollected).VegSprite);
+            if (index >= collectedAmount) {
+                fc.SetEarlyDisappear();
+            }
+
+            fcs.Add(fc);
+        }
+
+        for (int i = 0; i < collectedAmount - _crops.Count; i++) {
+            var rndc = fcs[UnityEngine.Random.Range(0, fcs.Count)];
+            var clone = Instantiate(rndc);
+            fcs.Add(clone);
+        }
+      
+       
+
         var objs = transform.GetComponentsInChildren<Transform>();
         var tasks = new List<UniTask>();
         var rnd = new System.Random();
-        var ct = this.GetCancellationTokenOnDestroy();
 
+      
         foreach (var t in objs) {
             if (t == transform) {
                 continue;
@@ -180,13 +214,22 @@ public class Tile3d : MonoBehaviour {
             float delay = (float)rnd.NextDouble() * _scytheDelay;
             float duration = _scytheDuration + (float)rnd.NextDouble() * _scytheAddedDuration;
 
-            tasks.Add(ScytheOne(t, duration, delay, ct));
+            tasks.Add(ScytheOne(t, duration, delay + 0.25f));
         }
-
+        await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
+        StartFlyingAll(fcs, startPos);
         await UniTask.WhenAll(tasks);
     }
 
-    private async UniTask ScytheOne(Transform t, float duration, float startDelay, CancellationToken ct) {
+    private void StartFlyingAll(List<FlyingCropFx> crops, Vector3 fanCenter, float fanAngle = 135f) {
+        int total = crops.Count;
+        crops = crops.OrderByDescending(c => c.transform.position.x).ToList();
+        for (int i = 0; i < total; i++) {
+            crops[i].PlayAnimAndDestroyFan(i, total, fanCenter, fanAngle).Forget();
+        }
+    }
+
+    private async UniTask ScytheOne(Transform t, float duration, float startDelay) {
         var copy = Instantiate(t, t.position, t.rotation);
         t.gameObject.SetActive(false);
         var sr = copy.GetComponent<SpriteRenderer>();
