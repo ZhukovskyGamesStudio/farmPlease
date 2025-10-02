@@ -51,10 +51,10 @@ public abstract class FlyingItemFx : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public async UniTask PlayAnimAndDestroyFan(int index, int total, Vector3 fanCenter, float fanAngle = 60f) {
+    public async UniTask PlayAnimAndDestroyFan(float endPixekCropScale, int index, int total, Vector3 fanCenter, float fanAngle = 60f) {
         float jumpTime = 0.3f + index * 0.1f;
         float startScale = 1f;
-        float maxScale = 2.5f;
+        float maxScale = endPixekCropScale;
 
         float halfAngle = fanAngle * 0.5f;
         float angleStep = fanAngle / Mathf.Max(total - 1, 1);
@@ -81,12 +81,12 @@ public abstract class FlyingItemFx : MonoBehaviour {
         await UniTask.Delay(System.TimeSpan.FromSeconds(0.15f));
         if (this is FlyingCropFx crop) {
             Sequence changeSeq = DOTween.Sequence();
-            changeSeq.Join(transform.DORotate(Vector3.up * 90, 0.2f/2));
+            changeSeq.Join(transform.DORotate(Vector3.up * 90, 0.2f / 2));
             changeSeq.AppendCallback(() => {
                 transform.localScale = Vector3.one;
                 crop.SetFinalSpriteFromCache();
             });
-            changeSeq.Append(transform.DORotate(Vector3.zero, 0.2f/2));
+            changeSeq.Append(transform.DORotate(Vector3.zero, 0.2f / 2));
             await changeSeq.AsyncWaitForCompletion();
         }
 
