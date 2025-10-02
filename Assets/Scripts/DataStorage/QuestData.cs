@@ -27,8 +27,6 @@ public class QuestData {
     public Reward Reward;
     
     [Header("Texts")]
-    public string QuestName;
-    public string QuestText;
     [LocalizationKey("Quests")]
     public string QuestNameLoc;
     [LocalizationKey("Quests")]
@@ -43,8 +41,6 @@ public class QuestData {
         IsMain = other.IsMain;
         MinLevelToUnlock = other.MinLevelToUnlock;
         ProgressNeeded = other.ProgressNeeded;
-        QuestName = other.QuestName;
-        QuestText = other.QuestText;
         XpReward = other.XpReward;
         Progress = other.Progress;
         IsCompleted = other.IsCompleted;

@@ -74,7 +74,9 @@ public class QuestView : MonoBehaviour {
 
         if (_questData.IsCompleted) {
             QuestsUtils.ClaimQuest(_questData);
-            QuestsManager.Instance.MarkQuestClaimed(_questIndex);
+            if (!_questData.IsMain) {
+                QuestsManager.Instance.MarkQuestClaimed(_questIndex);
+            }
         }
     }
 

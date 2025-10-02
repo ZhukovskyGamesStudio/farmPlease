@@ -18,9 +18,9 @@ public enum TargetTypes {
 [Serializable]
 public enum SpecialTargetTypes {
     None = 0,
-    StrawberryWateredTomato,
+    StrawberryWatered,
     GiantEggplant,
-    DandellionHoedStrawberry,
+    DandellionHoed,
     DigAllField,
     ChangeNickname,
     CollectNSeedTypes,

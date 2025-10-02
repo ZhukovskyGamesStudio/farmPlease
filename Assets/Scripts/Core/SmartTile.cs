@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Managers;
 using Tables;
@@ -64,19 +65,6 @@ public class SmartTile : MonoBehaviour {
 
         if (TilesTable.TileByType(type).CanBeWatered) {
             return true;
-        }
-
-        if (type == TileType.Dandellion1) {
-            isActive = false;
-            SmartTile[] neighbors = _tilemap.GetHexNeighbors(_position);
-            List<SmartTile> neighborsL = new();
-
-            for (int j = 0; j < neighbors.Length; j++)
-                if (neighbors[j].CanBeHoed())
-                    neighborsL.Add(neighbors[j]);
-
-            isActive = true;
-            return neighborsL.Count > 0;
         }
 
         return false;
@@ -149,6 +137,7 @@ public class SmartTile : MonoBehaviour {
         var animationType = AnimationType.Hoe;
         if (isDandellion) {
             animationType = AnimationType.Dandellion;
+            QuestsManager.TriggerQuest(nameof(QuestTypes.Collect) + SpecialTargetTypes.DandellionHoed, 1);
         }
 
         if (isTractor) {
@@ -179,10 +168,6 @@ public class SmartTile : MonoBehaviour {
                         neighborsL.Remove(tile);
                         yield return StartCoroutine(tile.OnWatered(animtime, isStrawberry: true));
                     }
-
-                if (isDandellion) {
-                    QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.DandellionHoedStrawberry, 1);
-                }
 
                 break;
         }
@@ -375,12 +360,9 @@ public class SmartTile : MonoBehaviour {
             AnimationType animType = AnimationType.Watercan;
             if (isStrawberry) {
                 animType = AnimationType.Strawberry;
+                QuestsManager.TriggerQuest(nameof(QuestTypes.Collect) + SpecialTargetTypes.StrawberryWatered, 1);
             } else if (isRain) {
                 animType = AnimationType.Rain;
-            }
-
-            if (isStrawberry && (data.type is TileType.TomatoSeed or TileType.Tomato1 or TileType.Tomato2)) {
-                QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.StrawberryWateredTomato, 1);
             }
 
             SwitchType(TilesTable.TileByType(type).WaterSwitch, animType);
@@ -392,25 +374,7 @@ public class SmartTile : MonoBehaviour {
             else if (data.TIndex == 3)
                 yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime, isRain, isStrawberry));
             else
-                switch (type) {
-                    case TileType.Dandellion1:
-
-                        SmartTile[] neighbors = _tilemap.GetHexNeighbors(_position);
-                        List<SmartTile> neighborsL = new();
-
-                        for (int i = 0; i < neighbors.Length; i++)
-                            if (neighbors[i].CanBeHoed())
-                                neighborsL.Add(neighbors[i]);
-
-                        for (int i = 0; i < 2; i++)
-                            if (neighborsL.Count > 0) {
-                                SmartTile tile = neighborsL[Random.Range(0, neighborsL.Count)];
-                                neighborsL.Remove(tile);
-                                yield return StartCoroutine(tile.OnHoed(animtime, isDandellion: true));
-                            }
-
-                        break;
-                }
+                switch (type) { }
         }
 
         yield return new WaitForSeconds(animtime);
@@ -517,8 +481,10 @@ public class SmartTile : MonoBehaviour {
     public IEnumerator OnNeyDayed(float animtime) {
         BecomeInactive();
 
-        if (TilesTable.TileByType(type).NewDaySwitch != TileType.None)
+        if (TilesTable.TileByType(type).NewDaySwitch != TileType.None) {
             SwitchType(TilesTable.TileByType(type).NewDaySwitch);
+            yield return StartCoroutine(OnAppear(animtime));
+        }
         else
             switch (type) {
                 case TileType.WateredSoil:
@@ -664,6 +630,24 @@ public class SmartTile : MonoBehaviour {
         BecomeActive();
     }
 
+    public IEnumerator OnAppear(float animtime) {
+        switch (type) {
+            case TileType.Dandellion1:
+                SmartTile[] neighbors = _tilemap.GetHexNeighbors(_position);
+                List<SmartTile> neighborsL = neighbors.Where(t => t.CanBeHoed()).ToList();
+
+                for (int i = 0; i < 2; i++)
+                    if (neighborsL.Count > 0) {
+                        SmartTile tile = neighborsL[Random.Range(0, neighborsL.Count)];
+                        neighborsL.Remove(tile);
+                        yield return StartCoroutine(tile.OnHoed(animtime, isDandellion: true));
+                    }
+
+                break;
+        }
+    }
+    
+
     public IEnumerator OnErosioned(float animtime) {
         BecomeInactive();
         switch (type) {
@@ -762,7 +746,6 @@ public class SmartTile : MonoBehaviour {
     public void SwitchType(TileType newType, AnimationType animationType) {
         SwitchType(newType);
         if (animationType != AnimationType.None) {
-            
             _tilemap.toolsAnimTilemap.StartAnimationInCoord(_position, animationType);
             /*if (animationType == AnimationType.Scythe) {
                 _tilemap.scytheAnimTilemap.StartAnimationInCoord(_position, animationType);
