@@ -219,17 +219,13 @@ namespace Managers {
 
             SmartTile[] alltiles = tilemap.GetAllTiles();
 
-            List<SmartTile> emptyTiles = new();
-
-            for (int i = 0; i < alltiles.Length; i++)
-                if (alltiles[i].CanBeSeeded())
-                    emptyTiles.Add(alltiles[i]);
+            List<SmartTile> emptyTiles = alltiles.Where(t => t.CanBeSeeded()).ToList();
 
             int whileStopper = 1000;
-            while (seedsList.Count > 0) {
+            while (seedsList.Count > 0 &&emptyTiles.Count > 0) {
                 whileStopper--;
                 if (whileStopper < 0) {
-                    UnityEngine.Debug.Log("never use while!");
+                    Debug.LogError("never use while!");
                     break;
                 }
 
@@ -237,11 +233,9 @@ namespace Managers {
                 seedsList.Remove(crop);
                 LoseSeed(crop);
 
-                if (emptyTiles.Count > 0) {
-                    SmartTile tile = emptyTiles[Random.Range(0, emptyTiles.Count)];
-                    emptyTiles.Remove(tile);
-                    yield return StartCoroutine(tile.OnSeeded(crop, 0.2f));
-                }
+                SmartTile tile = emptyTiles[Random.Range(0, emptyTiles.Count)];
+                emptyTiles.Remove(tile);
+                yield return StartCoroutine(tile.OnSeeded(crop, 0.2f));
 
                 yield return new WaitForSeconds(0.05f);
             }
