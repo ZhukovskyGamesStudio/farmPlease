@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ZhukovskyGamesPlugin;
@@ -15,6 +16,12 @@ namespace Managers {
 
         [SerializeField]
         private float _delayBeforeSceneSwitch = 2.5f;
+
+        [SerializeField]
+        private Animation _loadingEndAnimation;
+        
+        [SerializeField]
+        private AnimationClip _loadingEndClip;
 
         public void StartLoading() {
             Application.targetFrameRate = -1;
@@ -48,15 +55,25 @@ namespace Managers {
             }
         }
 
-        private void LoadGameScene() {
+        private async void LoadGameScene() {
             _sceneName = "GameScene";
-            SceneManager.LoadSceneAsync("GameScene");
-            SceneManager.sceneLoaded += ActivateScene;
-        }
+            var op = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
+            op.allowSceneActivation = false;
 
-        private void ActivateScene(Scene arg0, LoadSceneMode arg1) {
-            SceneManager.sceneLoaded -= ActivateScene;
+            // ждём загрузку до 90% (Unity не даёт больше, пока allowSceneActivation = false)
+            await UniTask.WaitUntil(() => op.progress >= 0.9f);
+
+            // играем анимацию окончания загрузки
+            _loadingEndAnimation.Play(_loadingEndClip.name);
+            await UniTask.WaitWhile(() => _loadingEndAnimation.isPlaying);
+
+            // разрешаем активацию
+            op.allowSceneActivation = true;
+
+            await UniTask.WaitUntil(() => op.isDone);
+
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(_sceneName));
+            SceneManager.UnloadSceneAsync("LoadingScene");
         }
     }
 }

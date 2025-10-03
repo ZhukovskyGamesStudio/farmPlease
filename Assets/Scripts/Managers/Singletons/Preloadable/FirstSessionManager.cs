@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Dialogs;
 using ZG_Localization;
 using ScriptableObjects;
 using Tables;
@@ -57,6 +58,13 @@ namespace Managers {
 			DisableUiParts();
 
 			PlayerController.Instance.ChangeTool(Tool.Collect);
+			
+			var planetD = DialogsManager.Instance.ShowDialogWithData(typeof(PlanetDialog), new PlanetDialog.Data { IsRocketCutscene = true }) as PlanetDialog;
+			await UniTask.WaitForSeconds(5);
+			await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.StartHintLoc),true, isShadow:false);
+			await planetD.ContinueCutscene();
+			await UniTask.WaitWhile(()=> planetD != null);
+			
 			await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.StartHintLoc));
 			await ChangeSpeakingBot(LocalizationUtils.L(FtueConfig.StartHint2Loc), true);
 
@@ -195,9 +203,9 @@ namespace Managers {
 			_isWaitingForStepEnd = false;
 		}
 
-		private async UniTask ShowSpeakingBot(string hintText, bool isHidingAfter = false) {
+		private async UniTask ShowSpeakingBot(string hintText, bool isHidingAfter = false, bool isShadow = true) {
 			_isWaitingForStepEnd = true;
-			UIHud.Instance.KnowledgeCanSpeak.ShowSpeak(hintText, StepEnded, isHidingAfter);
+			UIHud.Instance.KnowledgeCanSpeak.ShowSpeak(hintText, StepEnded, isHidingAfter, isShadow);
 			var delay = UniTask.Delay(TimeSpan.FromSeconds(FtueConfig.AutoSkipAfterSeconds));
 			var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
 			await UniTask.WhenAny(delay, waitForTap);

@@ -498,11 +498,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animation: {fileID: 1664950728908019416}
+  _knoledgeCanAnimated: {fileID: 0}
   _speakText: {fileID: 3460130643404781059}
   _showAnimationClip: {fileID: 7400000, guid: 0335afd9454343e4eb4ca6e8a538b122, type: 2}
   _hideAnimationClip: {fileID: 7400000, guid: 0fa187487807524478297858ec76add4, type: 2}
-  _changeAnimationClip: {fileID: 7400000, guid: d810fbf5e875ba34384fc8696909aef2,
-    type: 2}
+  _changeStartAnimationClip: {fileID: 0}
+  _changeEndAnimationClip: {fileID: 0}
+  _shadow: {fileID: 3753113265365537441}
 --- !u!1 &476039864136421246
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,6 +890,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8588520685054916025}
   - component: {fileID: 379464251913573760}
+  - component: {fileID: 3753113265365537441}
   m_Layer: 5
   m_Name: Shadow
   m_TagString: Untagged
@@ -931,6 +934,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5554058805093146786}
   m_CullTransparentMesh: 1
+--- !u!225 &3753113265365537441
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554058805093146786}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5744002211415031834
 GameObject:
   m_ObjectHideFlags: 0

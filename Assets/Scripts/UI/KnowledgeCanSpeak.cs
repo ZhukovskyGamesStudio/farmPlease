@@ -11,14 +11,17 @@ namespace UI {
 
         [SerializeField]
         private AnimationClip _showAnimationClip, _hideAnimationClip, _changeStartAnimationClip,_changeEndAnimationClip;
+
+        [SerializeField]
+        private CanvasGroup _shadow;
         
         private bool _isHidingAfter;
         private string _hintTextToUpdate;
 
-        public void ShowSpeak(string text, Action onHideEnded = null, bool isHidingAfter = false) {
+        public void ShowSpeak(string text, Action onHideEnded = null, bool isHidingAfter = false, bool isShadow = true) {
             gameObject.SetActive(true);
             RecreateToken(); // Создаём новый токен для отмены предыдущего
-            
+            _shadow.alpha = isShadow ? 1 : 0;
             OnAnimationEnded = onHideEnded;
             _animation.Play(_showAnimationClip.name);
             _isHidingAfter = isHidingAfter;

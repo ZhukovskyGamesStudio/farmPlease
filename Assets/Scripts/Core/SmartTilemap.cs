@@ -48,6 +48,9 @@ public class SmartTilemap : MonoBehaviour {
             mousePos = Vector3.zero;
         }
 
+        if (_mainCamera == null) {
+            _mainCamera = Camera.main;
+        }
         Playercoord = (Vector2Int)MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
         // UnityEngine.Debug.Log("Playercoord: " + Playercoord);
     }
