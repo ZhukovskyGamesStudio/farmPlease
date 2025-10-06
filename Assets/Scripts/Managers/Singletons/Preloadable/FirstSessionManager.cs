@@ -58,27 +58,28 @@ namespace Managers {
 			DisableUiParts();
 
 			PlayerController.Instance.ChangeTool(Tool.Collect);
-
+			
 			var planetD =
 				DialogsManager.Instance.ShowDialogWithData(typeof(PlanetDialog), new PlanetDialog.Data { IsRocketCutscene = true }) as
 					PlanetDialog;
+			SendTutorialCustomEvent("01_cutscene");
 			await UniTask.WaitForSeconds(1);
 			await UniTask.WaitWhile(() => planetD.IsShowing);
-			
+			SendTutorialCustomEvent("02_cutscene");
 			await planetD.ShowRocketSpeakCutscene(LocalizationUtils.L(FtueConfig.RocketSpeak), true);
-			
 			await planetD.ContinueCutscene();
+			SendTutorialCustomEvent("03_cutscene");
 			await UniTask.WaitWhile(()=> planetD != null);
-			
+			SendTutorialCustomEvent("00_planet");
 			await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.StartHintLoc));
 			await ChangeSpeakingBot(LocalizationUtils.L(FtueConfig.StartHint2Loc), true);
 
 			await ShowHoeSpotlight();
 			await ShowDoHoeSpotlight();
-			SendTutorialCustomeEvent("01_hoe");
+			SendTutorialCustomEvent("01_hoe");
 			await ShowEnergySpotlight();
 			await ShowClockSpotlight(FtueConfig.ClockHint);
-			SendTutorialCustomeEvent("02_clock");
+			SendTutorialCustomEvent("02_clock");
 
 			ShowBackpackSpotlight();
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
@@ -89,29 +90,29 @@ namespace Managers {
 			UIHud.Instance.BackpackAttention.Hide();
 			await ShowDoSeedSpotlight();
 			await ShowClockSpotlight(FtueConfig.ClockHint2);
-			SendTutorialCustomeEvent("03_seeds");
+			SendTutorialCustomEvent("03_seeds");
 			ShowWaterSpotlight();
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
 			await ShowDoWaterSpotlight();
 
 			//await ShowClockLostEnergySpotlight();
 			await ShowDoWaterAgainSpotlight();
-			SendTutorialCustomeEvent("04_water");
+			SendTutorialCustomEvent("04_water");
 			ShowScytheSpotlight();
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
 
 			await ShowDoScytheSpotlight();
-			SendTutorialCustomeEvent("05_scythe");
+			SendTutorialCustomEvent("05_scythe");
 			await ShowScalesSpotlight();
 			await ShowSelectAllSpotlight();
 			await ShowSellSpotlight();
 			await ShowCloseScalesSpotlight();
-			SendTutorialCustomeEvent("06_sellCrops");
+			SendTutorialCustomEvent("06_sellCrops");
 			await ShowSeedShopSpotlight();
 			await ShowBuyTomatoSpotlight();
 			//await (ShowBuyEggplantSpotlight());
 			await ShowCloseSeedShopSpotlight();
-			SendTutorialCustomeEvent("07_seedShop");
+			SendTutorialCustomEvent("07_seedShop");
 
 			//await (ShowCroponomSpotlight());
 
@@ -123,7 +124,7 @@ namespace Managers {
 #endif
 			EndFtue();
 			await ShowGetNextLevelSpotlight();
-			SendTutorialCustomeEvent("08_quests");
+			SendTutorialCustomEvent("08_quests");
 			
 			_endFtueCts.Cancel();
 			_endFtueCts.Dispose();
@@ -488,7 +489,7 @@ namespace Managers {
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
 		}
 
-		private void SendTutorialCustomeEvent(string step) {
+		private void SendTutorialCustomEvent(string step) {
 			ZhukovskyAnalyticsManager.Instance.SendCustomEvent("tutorial", new Dictionary<string, object> {
 				{ "step_name", step }
 			}, true);
