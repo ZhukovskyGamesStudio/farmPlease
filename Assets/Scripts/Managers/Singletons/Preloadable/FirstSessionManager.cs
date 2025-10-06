@@ -124,6 +124,7 @@ namespace Managers {
 #endif
 			EndFtue();
 			await ShowGetNextLevelSpotlight();
+			UIHud.Instance.QuestsAttention.ShowAttention();
 			SendTutorialCustomEvent("08_quests");
 			
 			_endFtueCts.Cancel();
@@ -201,7 +202,7 @@ namespace Managers {
 		private static void AddQuestboard() {
 			QuestsUtils.PlaceQuestBoard();
 			SmartTilemap.Instance.GenerateTilesWithData(SaveLoadManager.CurrentSave.TilesData);
-			SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
+			SaveLoadManager.CurrentSave.QuestsData.IsUnseenMainUpdate = true;
 			QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
 		}
 

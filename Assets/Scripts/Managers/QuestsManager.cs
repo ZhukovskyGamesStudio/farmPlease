@@ -5,6 +5,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Dialogs;
 using Managers;
+using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 using Random = UnityEngine.Random;
@@ -63,7 +64,6 @@ public class QuestsManager : Singleton<QuestsManager> {
         if (_questsDialog != null) {
             _questsDialog.ShowMainQuestChange(QuestsData.MainQuest);
         }
-        SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
         if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
             QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         }
@@ -71,6 +71,8 @@ public class QuestsManager : Singleton<QuestsManager> {
     }
 
     public void GenerateSideQuests() {
+        
+        UIHud.Instance.QuestsAttention.ShowAttention();
         QuestsData.FirstQuest = GenerateRandomizedQuest();
         QuestsData.SecondQuest = GenerateRandomizedQuest();
 
@@ -82,7 +84,7 @@ public class QuestsManager : Singleton<QuestsManager> {
         TryChangeSpecial(QuestsData.SecondQuest);
         InventoryManager.Instance.RetriggerCollectionQuests();
         QuestsData.LastTimeQuestsUpdated = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture);
-        SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = true;
+        SaveLoadManager.CurrentSave.QuestsData.IsUnseenDailyUpdate = true;
         if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
             QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         }
@@ -146,6 +148,12 @@ public class QuestsManager : Singleton<QuestsManager> {
 
         if (quest.Progress >= quest.ProgressNeeded) {
             quest.IsCompleted = true;
+            if (quest.IsMain) {
+                SaveLoadManager.CurrentSave.QuestsData.IsUnseenMainUpdate = true;
+            } else {
+                SaveLoadManager.CurrentSave.QuestsData.IsUnseenDailyUpdate = true;
+            }
+            UIHud.Instance.QuestsAttention.ShowAttention();
         }
         SaveLoadManager.SaveGame();
     }

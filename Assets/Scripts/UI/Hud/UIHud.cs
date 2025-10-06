@@ -20,7 +20,7 @@ namespace UI {
         public Button QuestsInvisibleButton;
 
         public GameObject CroponomButton;
-        public AttentionView CroponomAttention, BackpackAttention;
+        public AttentionView CroponomAttention, BackpackAttention, QuestsAttention;
         public OpenCroponomButtonView OpenCroponomButton;
 
         public GameObject HammerToolButton;

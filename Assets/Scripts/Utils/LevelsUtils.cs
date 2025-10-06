@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using Managers;
+using UI;
 
 public static class LevelsUtils {
     public static void TryUnlockAfterLevel() {
         if (IsDailyUnlocked) {
             QuestsManager.Instance.GenerateSideQuests();
             QuestsManager.Instance.TryStartQuestsTimer();
+            UIHud.Instance.QuestsAttention.ShowAttention();
         }
 
         if (IsIntersUnlocked) {

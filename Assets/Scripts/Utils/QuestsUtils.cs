@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Managers;
 using Tables;
+using UI;
 using UnityEngine;
 
 public static class QuestsUtils {
@@ -59,6 +61,12 @@ public static class QuestsUtils {
         if (data.IsMain) {
             QuestsManager.Instance.ProgressMainQuestline();
         }
+        
+        ZhukovskyAnalyticsManager.Instance.SendCustomEvent("quest_complete", new Dictionary<string, object> {
+            { "quest_name", data.TriggerName },
+            {"is_main", data.IsMain},
+        }, true);
+        
         ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         
     }
@@ -80,7 +88,7 @@ public static class QuestsUtils {
     }
 
     public static void ChangeTileView(QuestsDialogData data) {
-        if (data.IsUnseenUpdate) {
+        if (data.IsUnseenMainUpdate || data.IsUnseenDailyUpdate) {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_new);
         } else if (IsActiveQuest(data.FirstQuest) && IsActiveQuest(data.SecondQuest)) {
             SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_11);

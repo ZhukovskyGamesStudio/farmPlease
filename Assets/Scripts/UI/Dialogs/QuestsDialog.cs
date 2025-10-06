@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using ZG_Localization;
 using Managers;
 using TMPro;
+using UI;
 using UnityEngine;
 
 public class QuestsDialog :  Dialogs.DialogWithData<QuestsDialogData> {
@@ -46,10 +47,18 @@ public class QuestsDialog :  Dialogs.DialogWithData<QuestsDialogData> {
         QuestsUpdateTimer(this.GetCancellationTokenOnDestroy()).Forget();
 
         SetDailyLockedState(!QuestsManager.Instance.IsDailyUnlocked, ConfigsManager.Instance.CostsConfig.LevelToUnlockDaily);
+
+        if (SaveLoadManager.CurrentSave.QuestsData.IsUnseenMainUpdate) {
+            SaveLoadManager.CurrentSave.QuestsData.IsUnseenMainUpdate = false;
+        } else if (QuestsManager.Instance.IsDailyUnlocked && SaveLoadManager.CurrentSave.QuestsData.IsUnseenDailyUpdate) {
+            OpenOther(true);
+            SaveLoadManager.CurrentSave.QuestsData.IsUnseenDailyUpdate = false;
+        }
     }
 
     public override UniTask Show(Action onClose, Action<bool> onHideUI) {
         _watchAdForQuestAnimation.Play(_sellBotIdleCLip.name);
+        UIHud.Instance.QuestsAttention.Hide();
         return base.Show(onClose, onHideUI);
     }
     
@@ -96,13 +105,14 @@ public class QuestsDialog :  Dialogs.DialogWithData<QuestsDialogData> {
     public void OpenMain(bool isOn) {
         _mainTab.gameObject.SetActive(isOn);
         _secondaryTab.gameObject.SetActive(!isOn);
+        SaveLoadManager.CurrentSave.QuestsData.IsUnseenMainUpdate = false;
     }
 
     public void OpenOther(bool isOn) {
         if (!QuestsManager.Instance.IsDailyUnlocked) {
             return;
         }
-
+        SaveLoadManager.CurrentSave.QuestsData.IsUnseenDailyUpdate = false;
         _secondaryTab.gameObject.SetActive(isOn);
         _mainTab.gameObject.SetActive(!isOn);
     }
@@ -166,7 +176,6 @@ public class QuestsDialog :  Dialogs.DialogWithData<QuestsDialogData> {
         if (_isWatchingAd) {
             return UniTask.Delay(0);
         }
-        SaveLoadManager.CurrentSave.QuestsData.IsUnseenUpdate = false;
         QuestsUtils.ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
         return base.Close();
@@ -180,5 +189,6 @@ public class QuestsDialogData {
     public QuestData FirstQuest, SecondQuest;
     public string LastTimeQuestsUpdated = DateTime.MinValue.ToString(CultureInfo.InvariantCulture);
     public DateTime LastTimeQuestsUpdatedDateTime => DateTime.Parse(LastTimeQuestsUpdated, CultureInfo.InvariantCulture);
-    public bool IsUnseenUpdate;
+    public bool IsUnseenMainUpdate;
+    public bool IsUnseenDailyUpdate;
 }
