@@ -55,7 +55,7 @@ namespace Managers {
             }
         }
 
-        private async void LoadGameScene() {
+        private async UniTask LoadGameScene() {
             _sceneName = "GameScene";
             var op = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
             op.allowSceneActivation = false;
@@ -74,6 +74,7 @@ namespace Managers {
 
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(_sceneName));
             SceneManager.UnloadSceneAsync("LoadingScene");
+            ZhukovskyAdsManager.Instance.InterAdRunner.SubscribeToDialogsClose();
         }
     }
 }

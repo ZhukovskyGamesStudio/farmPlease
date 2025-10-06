@@ -29,7 +29,8 @@ public class NewLevelDialog :  Dialogs.DialogWithData<int> {
         _previousLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelsConfig.LevelConfigs[newLevel - 1].LevelNameLoc);
         _nextLevelName.text = LocalizationUtils.L(ConfigsManager.Instance.LevelsConfig.LevelConfigs[newLevel].LevelNameLoc);
 
-        _clicksNeeded = 3 + newLevel;
+        //_clicksNeeded = 3 + newLevel;
+        _clicksNeeded = 3;
        
     }
 

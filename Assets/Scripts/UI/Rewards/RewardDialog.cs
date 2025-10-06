@@ -56,6 +56,8 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
         }
 
         _clicksNeeded++;
+        _clicksNeeded = Math.Min(_clicksNeeded, 3);
+        
         _clicksMade = 0;
         _isShowing = true;
     }

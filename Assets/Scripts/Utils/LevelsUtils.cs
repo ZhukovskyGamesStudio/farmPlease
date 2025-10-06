@@ -12,7 +12,7 @@ public static class LevelsUtils {
             ZhukovskyAdsManager.Instance.EnableIntersAndBanners();
         }
 
-        if (CurrentLevel >= CostsConfig.LevelToRateUs - 1) {
+        if (CurrentLevel >= CostsConfig.LevelToRateUs - 1 && KnowledgeHintsFactory.Instance.HasHintByUnlockable(CurrentLevelUnlockable)) {
             RateUsManager.Instance.TryShowDialog("level_up");
         }
         
@@ -20,6 +20,8 @@ public static class LevelsUtils {
             { "level", CurrentLevel + 1 }
         });
     }
+
+    private static string CurrentLevelUnlockable => ConfigsManager.Instance.LevelsConfig.LevelRewards[CurrentLevel].Reward.Unlockable;
 
     public static bool IsDailyUnlocked => CurrentLevel >= CostsConfig.LevelToUnlockDaily - 1;
 

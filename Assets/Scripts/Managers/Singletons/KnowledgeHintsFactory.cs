@@ -25,6 +25,15 @@ public class KnowledgeHintsFactory : MonoBehaviour {
         }
     }
 
+    public bool HasHintByUnlockable(string unlockable) {
+        return unlockable switch {
+            nameof(Unlockable.ToolShop) => true,
+            nameof(Unlockable.FoodMarket) => true,
+            nameof(Unlockable.FarmerCommunity) => true,
+            _ => false
+        };
+    }
+    
     public void TryShowHintByUnlockable(string unlockable) {
         switch (unlockable) {
             case nameof(Unlockable.ToolShop):
