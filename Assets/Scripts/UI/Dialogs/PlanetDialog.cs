@@ -1,5 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
+using ScriptableObjects;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +17,12 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
 
     [SerializeField]
     private Button _dunesButton;
+    
+    [SerializeField]
+    private KnowledgeCanSpeak _knowledgeCanSpeak;
 
     private bool _isWaitForClick;
+    public bool IsShowing { get; private set; }
 
     protected override bool IsHideProfile => true;
 
@@ -38,9 +44,28 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
     }
 
     public async UniTask ShowRocketCutscene() {
+        IsShowing = true;
         _animation.Play(_rocketAppear.name);
         await UniTask.WaitWhile(() => _animation.isPlaying);
         _animation.Play(_rocketFly.name);
+        IsShowing = false;
+    }
+    
+
+    private bool _isWaitingForStepEnd;
+    private float _autoSkipAfterSeconds = 15f;
+    public async UniTask ShowRocketSpeakCutscene(string hintText, bool isHidingAfter = false, bool isShadow = true) {
+        _knowledgeCanSpeak.gameObject.SetActive(true);
+        _isWaitingForStepEnd = true;
+        _knowledgeCanSpeak.ShowSpeak(hintText, () => { _isWaitingForStepEnd = false; }, isHidingAfter, isShadow);
+        var delay = UniTask.Delay(TimeSpan.FromSeconds(_autoSkipAfterSeconds));
+        var waitForTap = UniTask.WaitWhile(() => _isWaitingForStepEnd);
+        await UniTask.WhenAny(delay, waitForTap);
+        if (_isWaitingForStepEnd) {
+            _knowledgeCanSpeak.HideSpeak();
+        }
+
+        await UniTask.WaitWhile(() => _isWaitingForStepEnd);
     }
 
     public async UniTask ContinueCutscene() {

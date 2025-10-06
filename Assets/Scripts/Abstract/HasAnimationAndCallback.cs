@@ -31,13 +31,13 @@ namespace Abstract {
         protected async UniTask TypeText(TextMeshProUGUI t,string text, CancellationToken cancellationToken) {
             ResizeBubbleForText(t, text);
             int type = Random.Range(0, 3);
-            _knoledgeCanAnimated.SetAnimationState(type, true);
+            _knoledgeCanAnimated?.SetAnimationState(type, true);
             await UniTask.Delay(_letterSpeed*3, cancellationToken: cancellationToken);
             for (int i = 1; i <= text.Length; i++) {
                 t.maxVisibleCharacters = i;
                 await UniTask.Delay(_letterSpeed, cancellationToken: cancellationToken); // скорость появления букв
             }
-            _knoledgeCanAnimated.SetAnimationState(type, false);
+            _knoledgeCanAnimated?.SetAnimationState(type, false);
         }
 
         protected static void ResizeBubbleForText(TextMeshProUGUI t, string text) {

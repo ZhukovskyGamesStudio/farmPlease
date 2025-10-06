@@ -4,6 +4,9 @@ namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "FtueConfig", menuName = "Scriptable Objects/FtueConfig", order = 6)]
     public class FtueConfig : ScriptableObject {
         [LocalizationKey("Ftue")]
+        public string RocketSpeak;
+        
+        [LocalizationKey("Ftue")]
         public string StartHintLoc;
         [LocalizationKey("Ftue")]
         public string StartHint2Loc;

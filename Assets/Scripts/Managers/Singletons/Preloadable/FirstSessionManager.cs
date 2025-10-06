@@ -58,10 +58,15 @@ namespace Managers {
 			DisableUiParts();
 
 			PlayerController.Instance.ChangeTool(Tool.Collect);
+
+			var planetD =
+				DialogsManager.Instance.ShowDialogWithData(typeof(PlanetDialog), new PlanetDialog.Data { IsRocketCutscene = true }) as
+					PlanetDialog;
+			await UniTask.WaitForSeconds(1);
+			await UniTask.WaitWhile(() => planetD.IsShowing);
 			
-			var planetD = DialogsManager.Instance.ShowDialogWithData(typeof(PlanetDialog), new PlanetDialog.Data { IsRocketCutscene = true }) as PlanetDialog;
-			await UniTask.WaitForSeconds(5);
-			await ShowSpeakingBot(LocalizationUtils.L(FtueConfig.StartHintLoc),true, isShadow:false);
+			await planetD.ShowRocketSpeakCutscene(LocalizationUtils.L(FtueConfig.RocketSpeak), true);
+			
 			await planetD.ContinueCutscene();
 			await UniTask.WaitWhile(()=> planetD != null);
 			
