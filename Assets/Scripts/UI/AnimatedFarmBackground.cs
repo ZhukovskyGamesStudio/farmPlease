@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Tables;
+using UI;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 using Random = UnityEngine.Random;
@@ -32,6 +34,7 @@ public class AnimatedFarmBackground : Singleton<AnimatedFarmBackground> {
     protected override bool IsDontDestroyOnLoad => false;
 
     private void Start() {
+        SetAppear();
         WiggleDecors(this.GetCancellationTokenOnDestroy()).Forget();
         FlyAround(this.GetCancellationTokenOnDestroy()).Forget();
     }
@@ -111,6 +114,14 @@ public class AnimatedFarmBackground : Singleton<AnimatedFarmBackground> {
         }
 
         _animator.SetInteger(_animType, type);
+    }
+
+    public async void SetAppear() {
+        _animator.SetTrigger("Appear");
+        var canvasGroup = PlayerController.Instance.GetComponent<CanvasGroup>();
+        await UniTask.WaitForSeconds(0.5f);
+        canvasGroup.DOFade(1, 0.35f);
+        _animator.SetBool("Appeared", true);
     }
 
     public enum DayAnimationType {
