@@ -93,16 +93,16 @@ public class Tile3d : MonoBehaviour {
             float delay = (float)rnd.NextDouble() * _animConfig.Delay;
             float duration = _animConfig.Duration + (float)rnd.NextDouble() * _animConfig.AddedDuration;
 
-            tasks.Add(GrowOne(t, duration, delay, fromScale, overshoot, ct));
+            tasks.Add(GrowOne(t, duration, delay, fromScale, overshoot));
         }
 
         await UniTask.WhenAll(tasks);
     }
 
-    private async UniTask GrowOne(Transform t, float duration, float startDelay, float fromScale, float overshoot,
-        CancellationToken cancellationToken) {
+    private async UniTask GrowOne(Transform t, float duration, float startDelay, float fromScale, float overshoot) {
+        var ct = t.GetCancellationTokenOnDestroy();
         if (startDelay > 0f) {
-            await UniTask.Delay(TimeSpan.FromSeconds(startDelay), cancellationToken: cancellationToken);
+            await UniTask.Delay(TimeSpan.FromSeconds(startDelay), cancellationToken: ct);
         }
 
         float elapsed = 0f;
@@ -121,7 +121,7 @@ public class Tile3d : MonoBehaviour {
             t.localScale = new Vector3(scaleWithOvershoot, scaleWithOvershoot, 1f);
             t.localRotation = Quaternion.Euler(0f, 0f, angle);
 
-            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+            await UniTask.Yield(PlayerLoopTiming.Update, ct);
         }
 
         t.localScale = Vector3.one;
