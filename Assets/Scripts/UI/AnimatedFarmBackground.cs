@@ -116,12 +116,20 @@ public class AnimatedFarmBackground : Singleton<AnimatedFarmBackground> {
         _animator.SetInteger(_animType, type);
     }
 
-    public async void SetAppear() {
+    public async UniTask SetAppear() {
         _animator.SetTrigger("Appear");
         var canvasGroup = PlayerController.Instance.GetComponent<CanvasGroup>();
         await UniTask.WaitForSeconds(0.5f);
-        canvasGroup.DOFade(1, 0.35f);
         _animator.SetBool("Appeared", true);
+        await canvasGroup.DOFade(1, 0.35f).AsyncWaitForCompletion();
+       
+    }
+    public async UniTask DisappearAndReappear() {
+        var canvasGroup = PlayerController.Instance.GetComponent<CanvasGroup>();
+        _animator.SetBool("Appeared", false);
+        _animator.SetTrigger("Disappear");
+        canvasGroup.DOFade(0, 0.35f);
+        await UniTask.WaitForSeconds(0.5f);
     }
 
     public enum DayAnimationType {
