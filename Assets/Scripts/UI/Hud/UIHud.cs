@@ -44,8 +44,13 @@ namespace UI {
         public OpenRealShopButtonView OpenRealShopButton;
         public OpenNoAdsButtonView OpenNoAdsButtonView;
 
+        public LockView ToolsShopLock;
+
         private void Start() {
             Dialogs.DialogsManager.Instance.OnHideUI += OnDialogShowHide;
+            
+            ToolsShopLock.SetLevelToUnlock(ConfigsManager.Instance.LevelsConfig.LevelRewards.FindIndex(r=>r.Reward.Unlockable == nameof(Unlockable.ToolShop))+1);
+            
         }
 
         private void OnDialogShowHide(bool isShow) {
@@ -92,16 +97,6 @@ namespace UI {
             }
         }
 
-        public void OpenMarketPlace() {
-            ShopsPanel.ToolShopButton.GetComponent<Button>().interactable = true;
-            ShopsPanel.SeedShopButton.GetComponent<Button>().interactable = false;
-        }
-
-        public void CloseMarketPlace() {
-            ShopsPanel.ToolShopButton.GetComponent<Button>().interactable = false;
-            ShopsPanel.SeedShopButton.GetComponent<Button>().interactable = true;
-        }
-
         public void OpenCroponom() {
             UIHud.Instance.Croponom.Open();
         }
@@ -142,9 +137,9 @@ namespace UI {
 
         public void UpdateLockedUI() {
             TimePanel.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
-            ShopsPanel.ToolShopButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(Unlockable.ToolShop.ToString()));
+            ToolsShopLock.SetInteractable(UnlockableUtils.HasUnlockable(nameof(Unlockable.ToolShop)));
 
-            var buildindsUnlocked = UnlockableUtils.HasUnlockable(Unlockable.FoodMarket.ToString());
+            var buildindsUnlocked = UnlockableUtils.HasUnlockable(nameof(Unlockable.FoodMarket));
             var isTodayFoodmarket = TimeManager.Instance.IsTodayFoodMarket();
             ShopsPanel.BuildingShopButton.gameObject.SetActive(buildindsUnlocked && isTodayFoodmarket);
 

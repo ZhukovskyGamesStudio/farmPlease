@@ -67,7 +67,7 @@ public class QuestsDialog :  Dialogs.DialogWithData<QuestsDialogData> {
     private void SetDailyLockedState(bool isLocked, int lvlToUnlock) {
         _dailyLocked.gameObject.SetActive(isLocked);
         _dailyQuestsText.gameObject.SetActive(!isLocked);
-        _dailyQuestsLockedText.text = $"{lvlToUnlock} {LocalizationUtils.L("quests_level")}";
+        _dailyQuestsLockedText.text = $"{lvlToUnlock}";
     }
 
     private async UniTaskVoid QuestsUpdateTimer(CancellationToken cancellationToken) {

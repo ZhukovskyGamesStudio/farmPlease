@@ -59,7 +59,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
 
     private void ShowToolShopHint() {
         SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();
-        UIHud.Instance.ShopsPanel.ToolShopButton.gameObject.SetActive(true);
+        UIHud.Instance.ToolsShopLock.SetInteractable(true);
         UIHud.Instance.SpotlightWithText.ShowSpotlightOnButton(UIHud.Instance.ShopsPanel.ToolShopButton, _toolShopHint, delegate {
             KnowledgeUtils.AddKnowledge(Knowledge.ToolShop); 
             SmartTilemap.Instance.BrobotAnimTilemap.ShowLandAnimation();
