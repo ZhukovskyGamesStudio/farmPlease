@@ -16,7 +16,7 @@ public static class UnlockableUtils {
     public static void Unlock(Crop unlockable) {
         AddAndSave(unlockable.ToString());
     }
-    
+
     public static void Unlock(BuildingType unlockable) {
         AddAndSave(unlockable.ToString());
     }
@@ -28,7 +28,12 @@ public static class UnlockableUtils {
     public static void Unlock(HappeningType unlockable) {
         AddAndSave(unlockable.ToString());
     }
-    
+
+    public static int FindUnlockLvl(string unlockable) {
+        int lvl = ConfigsManager.Instance.LevelsConfig.LevelRewards.FindIndex(r => r.Reward.Unlockable == unlockable) + 1;
+        return lvl;
+    }
+
     public static void Unlock(string unlockable) {
         if (unlockable == Unlockable.FoodMarket.ToString()) {
             TimeManager.AddMissingFoodMarkets();
@@ -53,12 +58,12 @@ public static class UnlockableUtils {
         if (!NotInCroponom.Contains(unlockable)) {
             SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(unlockable);
         }
-      
+
         Unlocked?.Add(unlockable);
         if (SaveLoadManager.Instance != null) {
             SaveLoadManager.SaveGame();
         }
-        
+
         if (LoadingManager.IsGameLoaded) {
             UIHud.Instance.CroponomAttention.ShowAttention();
             UIHud.Instance.OpenCroponomButton.UpdateTags();
@@ -79,9 +84,10 @@ public static class UnlockableUtils {
     }
 
     public static void TryRemoveSeenPage(string page) {
-        if( !SaveLoadManager.CurrentSave.UnseenCroponomPages.Contains(page)) {
+        if (!SaveLoadManager.CurrentSave.UnseenCroponomPages.Contains(page)) {
             return;
         }
+
         SaveLoadManager.CurrentSave.UnseenCroponomPages.Remove(page);
         SaveLoadManager.SaveGame();
     }
@@ -93,7 +99,6 @@ public static class UnlockableUtils {
         Unlockable.Field1.ToString(),
         Unlockable.Field2.ToString()
     };
-    
 }
 
 [Serializable]

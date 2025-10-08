@@ -48,8 +48,9 @@ namespace UI {
 
         private void Start() {
             Dialogs.DialogsManager.Instance.OnHideUI += OnDialogShowHide;
-            
-            ToolsShopLock.SetLevelToUnlock(ConfigsManager.Instance.LevelsConfig.LevelRewards.FindIndex(r=>r.Reward.Unlockable == nameof(Unlockable.ToolShop))+1);
+
+            int lvl = ConfigsManager.Instance.LevelsConfig.LevelRewards.FindIndex(r => r.Reward.Unlockable == nameof(Unlockable.ToolShop)) + 1;
+            ToolsShopLock.SetLevelToUnlock(lvl);
             
         }
 

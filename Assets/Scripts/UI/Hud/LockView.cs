@@ -13,7 +13,7 @@ public class LockView : MonoBehaviour {
 
     public void SetLevelToUnlock(int level) {
         _levelToUnlock = level;
-        _lvlToUnlock.text = level.ToString();
+        _lvlToUnlock.text = level == 0 ? "?" : level.ToString();
     }
 
     public void SetInteractable(bool isUnlocked) {

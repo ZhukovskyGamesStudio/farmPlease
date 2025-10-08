@@ -12,17 +12,25 @@ public class CroponomGridButtonView : MonoBehaviour {
     [SerializeField]
     private AttentionView _attentionView;
 
+    [SerializeField]
+    private LockView _lockView;
+    
     private ConfigWithCroponomPage _config;
     private Action<ConfigWithCroponomPage> _onClick;
 
     public void SetData(ConfigWithCroponomPage config, Action<ConfigWithCroponomPage> onClick) {
         _config = config;
         _onClick = onClick;
+      
     }
 
     public void SetLockState(bool isUnlocked) {
+        //_image.sprite = _config.gridIcon;
         _image.sprite = isUnlocked ? _config.gridIcon : _config.LockedGridIcon;
         _button.interactable = isUnlocked;
+        int l = UnlockableUtils.FindUnlockLvl(_config.GetUnlockable());
+        _lockView.SetLevelToUnlock( l);
+        _lockView.SetInteractable(isUnlocked);
     }
 
     public void SetAttentionState(bool isAttention) {
