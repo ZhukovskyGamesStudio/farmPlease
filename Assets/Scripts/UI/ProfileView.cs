@@ -12,6 +12,8 @@ public class ProfileView : MonoBehaviour {
 
     [SerializeField]
     private Image _levelIcon;
+    
+    public Image LevelIcon => _levelIcon;
 
     public bool IsLockedByFtue;
 

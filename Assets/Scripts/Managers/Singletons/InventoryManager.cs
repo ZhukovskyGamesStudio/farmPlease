@@ -32,7 +32,6 @@ namespace Managers {
             SaveLoadManager.CurrentSave.Seeds = new SerializableDictionary<Crop, int>();
             SaveLoadManager.CurrentSave.ToolBuffs = new SerializableDictionary<ToolBuff, int>();
 
-        
             foreach (CropConfig t in CropsTable.Instance.Crops) {
                 SeedsInventory.Add(t.type, 0);
             }
@@ -99,7 +98,7 @@ namespace Managers {
             SaveLoadManager.CurrentSave.CropsCollected = list;
             AddCropPoint(-amount);
         }
-        
+
         public bool HasEnoughCrops(int amount) {
             return SaveLoadManager.CurrentSave.CropsCollected.Count >= amount;
         }
@@ -109,6 +108,7 @@ namespace Managers {
             if (SaveLoadManager.CurrentSave.Coins < 0) {
                 SaveLoadManager.CurrentSave.Coins = 0;
             }
+
             _uiHud.CountersView.CoinsCounter.ChangeAmount(amount);
         }
 
@@ -117,7 +117,7 @@ namespace Managers {
                 _uiHud.OpenCroponomButton.SpawnAdditionalXp(amount);
                 amount *= 2;
             }
-          
+
             SaveLoadManager.CurrentSave.Xp += amount;
             UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
             CheckNewLevelDialog();
@@ -128,10 +128,17 @@ namespace Managers {
                 return;
             }
 
-            RewardWithUnlockable reward = ConfigsManager.Instance.LevelsConfig.LevelRewards[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
-            DialogsManager.Instance.ShowDialogWithData(typeof(NewLevelDialog), SaveLoadManager.CurrentSave.CurrentLevel+1);
+            RewardWithUnlockable rewardWithUnlockable =
+                ConfigsManager.Instance.LevelsConfig.LevelRewards[SaveLoadManager.CurrentSave.CurrentLevel].Reward;
+            DialogsManager.Instance.ShowDialogWithData(typeof(NewLevelDialog), new NewLevelDialog.Data() {
+                newLevel = SaveLoadManager.CurrentSave.CurrentLevel + 1,
+                RewardWithUnlockable = rewardWithUnlockable
+            });
+            Reward onlyReward = new Reward() {
+                Items = rewardWithUnlockable.Items,
+            };
             DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
-                Reward = reward,
+                Reward = onlyReward,
                 OnClaim = OnClaimNewLevel
             });
         }
@@ -143,8 +150,6 @@ namespace Managers {
             LevelsUtils.TryUnlockAfterLevel();
             SaveLoadManager.SaveGame();
         }
-
-     
 
         /*****Семена*****/
 
@@ -196,7 +201,6 @@ namespace Managers {
         private static void TriggerCollectSeedTypes() {
             int diffSeddTypes = SeedsInventory.Values.Count(c => c > 0);
             QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + SpecialTargetTypes.CollectNSeedTypes, diffSeddTypes, true);
-            
         }
 
         public void LoseSeed(Crop crop) {
@@ -222,7 +226,7 @@ namespace Managers {
             List<SmartTile> emptyTiles = alltiles.Where(t => t.CanBeSeeded()).ToList();
 
             int whileStopper = 1000;
-            while (seedsList.Count > 0 &&emptyTiles.Count > 0) {
+            while (seedsList.Count > 0 && emptyTiles.Count > 0) {
                 whileStopper--;
                 if (whileStopper < 0) {
                     Debug.LogError("never use while!");
@@ -256,23 +260,27 @@ namespace Managers {
             if (!ToolsStored.ContainsKey(buff)) {
                 ToolsStored.Add(buff, 0);
             }
+
             QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + TargetTypes.Tool, amount);
             QuestsManager.TriggerQuest(QuestTypes.Collect.ToString() + buff, amount);
             ToolsStored[buff] += amount;
             TriggerCollectToolTypes();
             UpdateInventoryUI();
         }
-        
+
         public void AddBuilding(BuildingType type) {
             if (!BuildingsStored.Contains(type)) {
                 BuildingsStored.Add(type);
             }
+
             UpdateInventoryUI();
         }
+
         public void RemoveBuilding(BuildingType type) {
             if (BuildingsStored.Contains(type)) {
                 BuildingsStored.Remove(type);
             }
+
             UpdateInventoryUI();
         }
 
@@ -319,8 +327,7 @@ namespace Managers {
                     UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Collect);
                     break;
             }
-            
-            
+
             SaveLoadManager.SaveGame();
             UpdateInventoryUI();
         }
@@ -366,6 +373,7 @@ namespace Managers {
             if (type == BuildingType.Sprinkler) {
                 UnlockableUtils.Unlock(BuildingType.SprinklerTarget);
             }
+
             RemoveRandomCollectedCrops(cost);
         }
 

@@ -6,9 +6,8 @@ using Tables;
 using UnityEngine;
 
 public static class RewardUtils {
-    
     public static string COINS_KEY = CommonReward.Coins.ToString();
-    
+
     public static string GetRewardName(string reward) {
         if (Enum.TryParse(reward, out Crop crop)) {
             return LocalizationUtils.L(CropsTable.CropByType(crop).HeaderLoc);
@@ -18,6 +17,7 @@ public static class RewardUtils {
             if (tool == ToolBuff.WeekBattery) {
                 return LocalizationUtils.L("week_battery");
             }
+
             return LocalizationUtils.L(ToolsTable.ToolByType(tool).HeaderLoc);
         }
 
@@ -28,23 +28,28 @@ public static class RewardUtils {
         if (Enum.TryParse(reward, out Unlockable type)) {
             switch (type) {
                 case Unlockable.None:
-                    return LocalizationUtils.L("unlockable_none");;
+                    return LocalizationUtils.L("unlockable_none");
+                    ;
                 case Unlockable.FoodMarket:
                     return LocalizationUtils.L(WeatherTable.WeatherByType(HappeningType.FoodMarket).HeaderLoc);
                 case Unlockable.ToolShop:
-                    return LocalizationUtils.L("unlockable_toolshop");;
+                    return LocalizationUtils.L("unlockable_toolshop");
+                    ;
                 case Unlockable.FarmerCommunity:
-                    return LocalizationUtils.L("unlockable_farmer_club");;
+                    return LocalizationUtils.L("unlockable_farmer_club");
+                    ;
                 case Unlockable.Field1:
-                    return LocalizationUtils.L("unlockable_field1");;
+                    return LocalizationUtils.L("unlockable_field1");
+                    ;
                 case Unlockable.Field2:
-                    return LocalizationUtils.L("unlockable_field2");;
+                    return LocalizationUtils.L("unlockable_field2");
+                    ;
             }
         }
 
         return "";
     }
-    
+
     public static Sprite GetRewardIcon(string reward) {
         if (Enum.TryParse(reward, out Crop crop)) {
             return CropsTable.CropByType(crop).gridIcon;
@@ -64,7 +69,7 @@ public static class RewardUtils {
 
         throw new KeyNotFoundException();
     }
-    
+
     public static ItemColorType GetRewardColorType(string reward) {
         if (Enum.TryParse(reward, out Crop crop)) {
             return ItemColorType.Seed;
@@ -74,10 +79,17 @@ public static class RewardUtils {
             if (tool == ToolBuff.WeekBattery) {
                 return ItemColorType.Energy;
             }
+
             return ItemColorType.Tool;
         }
 
         return ItemColorType.None;
+    }
+
+    public static void ClaimUnlockOnly(RewardWithUnlockable rewardWithUnlockable) {
+        var unlocked = rewardWithUnlockable.Unlockable;
+        UnlockableUtils.Unlock(unlocked);
+        KnowledgeHintsFactory.Instance.TryShowHintByUnlockable(unlocked);
     }
     
     public static void ClaimReward(Reward reward) {
@@ -94,7 +106,7 @@ public static class RewardUtils {
             }
 
             if (Enum.TryParse(key, out Crop crop)) {
-                InventoryManager.Instance.AddSeed(crop,item.Amount);
+                InventoryManager.Instance.AddSeed(crop, item.Amount);
             }
 
             if (Enum.TryParse(key, out ToolBuff tool)) {
@@ -105,26 +117,34 @@ public static class RewardUtils {
             }
         }
     }
-    
+
     public static void SetRewardsView(Reward reward, List<RewardItemView> views, Sprite coinRewardIcon) {
         int rewardsAmount = reward.Items.Count + (reward is RewardWithUnlockable ? 1 : 0);
         foreach (RewardItemView itemView in views) {
             itemView.gameObject.SetActive(false);
         }
+
         for (int i = 0; i < rewardsAmount; i++) {
-           
-            
             if (i == 0 && reward is RewardWithUnlockable rewardWithUnlockable) {
                 ItemColorType colorType = GetRewardColorType(rewardWithUnlockable.Unlockable);
-                
-                views[i].SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), GetRewardName(rewardWithUnlockable.Unlockable),colorType);
+
+                views[i].SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), GetRewardName(rewardWithUnlockable.Unlockable), colorType);
                 continue;
             }
-        
+
             RewardItem item = reward.Items[i + (reward is RewardWithUnlockable ? -1 : 0)];
             Sprite icon = item.Type == COINS_KEY ? coinRewardIcon : GetRewardIcon(item.Type);
             ItemColorType colorType2 = GetRewardColorType(item.Type);
-            views[i].SetData(icon, GetRewardName(item.Type), item.Amount,colorType2);
+            views[i].SetData(icon, GetRewardName(item.Type), item.Amount, colorType2);
+        }
+    }
+
+    public static void SetUnlockView(Reward reward, RewardItemView view) {
+        if (reward is RewardWithUnlockable rewardWithUnlockable) {
+            ItemColorType colorType = GetRewardColorType(rewardWithUnlockable.Unlockable);
+            view.SetData(GetRewardIcon(rewardWithUnlockable.Unlockable), GetRewardName(rewardWithUnlockable.Unlockable), colorType);
+        } else {
+            Debug.LogError("Reward is not RewardWithUnlockable");
         }
     }
 }
