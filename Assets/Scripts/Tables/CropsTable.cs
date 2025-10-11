@@ -34,6 +34,9 @@ namespace Tables {
         
         public async UniTask LoadCropsAsync() {
             Crops = Resources.LoadAll<CropConfig>("Configs/Crops");
+            FlyingCropFxPrefab = Resources.Load<FlyingCropFx>("Fx/FlyingCropFx");
+            FlyingCoinFxPrefab = Resources.Load<FlyingCoinFx>("Fx/FlyingCoinFx");
+            FlyingXpFxPrefab = Resources.Load<FlyingXpFx>("Fx/FlyingXpFx");
             await UniTask.Yield();
         }
     }

@@ -1,24 +1,17 @@
 ﻿using System;
 using Dialogs;
 using Managers;
-using ScriptableObjects;
 using UI;
-using UnityEngine;
 using ZhukovskyGamesPlugin;
 
 public class Settings : Singleton<Settings> {
     public SettingsData SettingsData => SaveLoadManager.CurrentSave.SettingsData;
 
-    [SerializeField]
-    private CheatCodeConfigList CheatCodeConfigList;
-
-
     public void OpenSettings() {
-        DialogsManager.Instance.ShowDialogWithData(typeof(SettingsDialog), CheatCodeConfigList);
+        DialogsManager.Instance.ShowDialogWithData(typeof(SettingsDialog), ConfigsManager.Instance.CheatCodeConfigList);
     }
-    
-    public void InitSettingsView() {
 
+    public void InitSettingsView() {
         RealTImeManager.ChangeDayPoint(GetDayPoint().TotalSeconds, false);
         RealTImeManager.SkipOne = SettingsData.SkipOne;
         Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
@@ -29,8 +22,7 @@ public class Settings : Singleton<Settings> {
         SaveLoadManager.SaveGame();
     }
 
-    public void NotificationChanged() {
-    }
+    public void NotificationChanged() { }
 
     public TimeSpan GetDayPoint() {
         switch (SettingsData.NewDayPoint) {
