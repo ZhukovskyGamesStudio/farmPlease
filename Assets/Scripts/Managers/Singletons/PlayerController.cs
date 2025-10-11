@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using Managers;
 using Tables;
 using UI;
@@ -239,7 +240,7 @@ public class PlayerController : Singleton<PlayerController> {
             //PlaceBuilding();
         } else {
             if (CanInteract)
-                StartCoroutine(ClickCoroutine());
+                ClickCoroutine().Forget();
         }
     }
 
@@ -353,7 +354,7 @@ public class PlayerController : Singleton<PlayerController> {
         }
     }
 
-    public IEnumerator ClickCoroutine() {
+    public async UniTask ClickCoroutine() {
         bool didSomething = false;
         string sequenceId = null;
         var tile = _smartTilemap.GetTile(_smartTilemap.Playercoord);
@@ -363,14 +364,14 @@ public class PlayerController : Singleton<PlayerController> {
         }
 
         if (tile.type == TileType.Rocks) {
-            yield break;
+            return;
         }
 
         if (_smartTilemap.AvailabilityCheck("click")) {
             sequenceId = SaveLoadManager.Instance.StartSequence();
-            yield return StartCoroutine(_smartTilemap.ClickTile());
+            await _smartTilemap.ClickTile();
             SaveLoadManager.Instance.EndSequence(sequenceId);
-            yield break;
+            return;
         }
        
 
@@ -390,10 +391,10 @@ public class PlayerController : Singleton<PlayerController> {
                 Energy.Instance.LoseOneEnergy();
                 Vector2Int coord = _smartTilemap.Playercoord;
                 InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
-                yield return StartCoroutine(_smartTilemap.HoeTile());
+                await _smartTilemap.HoeTile();
 
                 if (InventoryManager.Instance.IsToolWorking(ToolBuff.Doublehoe)) {
-                    yield return StartCoroutine(_smartTilemap.HoeRandomNeighbor(coord));
+                    await _smartTilemap.HoeRandomNeighbor(coord);
                 }
 
                 break;
@@ -417,7 +418,7 @@ public class PlayerController : Singleton<PlayerController> {
                 }
 
                 InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
-                yield return StartCoroutine(_smartTilemap.WaterTile());
+                await _smartTilemap.WaterTile();
                 break;
             }
 
@@ -444,7 +445,7 @@ public class PlayerController : Singleton<PlayerController> {
                 }
 
                 InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
-                yield return StartCoroutine(_smartTilemap.SeedTile(seedBagCrop));
+                await _smartTilemap.SeedTile(seedBagCrop);
                 break;
             }
 
@@ -459,7 +460,7 @@ public class PlayerController : Singleton<PlayerController> {
                     didSomething = true;
 
                     InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
-                    yield return StartCoroutine(_smartTilemap.WaterTile());
+                    await _smartTilemap.WaterTile();
                     break;
                 }
 
@@ -469,7 +470,7 @@ public class PlayerController : Singleton<PlayerController> {
 
                     Vector2Int coord = _smartTilemap.Playercoord;
                     while (_smartTilemap.GetTile(coord).type == TileType.WateredSoil) {
-                        yield return StartCoroutine(_smartTilemap.GetTile(coord).OnNeyDayed(_smartTilemap.animtime));
+                        await _smartTilemap.GetTile(coord).OnNeyDayed(_smartTilemap.animtime);
                     }
 
                     break;
@@ -480,7 +481,7 @@ public class PlayerController : Singleton<PlayerController> {
                     didSomething = true;
 
                     //InventoryManager.Instance.AddXp(hasGoldenScythe ? 3 :1  );
-                    yield return StartCoroutine(_smartTilemap.CollectTile());
+                    await _smartTilemap.CollectTile();
                 }
 
                 break;
@@ -511,14 +512,14 @@ public class PlayerController : Singleton<PlayerController> {
                 StartStopBuilding();
             }
         } else if (CanInteract) {
-            StartCoroutine(RightClickCoroutine());
+            RightClickCoroutine().Forget();
         }
     }
 
-    public IEnumerator RightClickCoroutine() {
+    public async UniTask RightClickCoroutine() {
         Tool before = _curTool;
         _curTool = Tool.Collect;
-        yield return StartCoroutine(ClickCoroutine());
+        await ClickCoroutine();
         _curTool = before;
     }
 

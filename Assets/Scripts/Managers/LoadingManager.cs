@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Abstract;
 using Cysharp.Threading.Tasks;
+using Tables;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ZhukovskyGamesPlugin;
@@ -27,10 +28,11 @@ namespace Managers {
             Application.targetFrameRate = -1;
             if (IsGameLoaded)
                 return;
-            StartCoroutine(LoadManagers());
+            LoadManagers().Forget();
         }
 
-        private IEnumerator LoadManagers() {
+        private async UniTask LoadManagers() {
+            //TODO отрефакторить чтобы зависимости сами решались, написать норм DI, а лучше использовать готовый
             CustomMonoBehaviour[] preloadedManagers =
                 FindObjectsByType<CustomMonoBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(m => m.InitPriority)
                     .ToArray();
@@ -40,9 +42,20 @@ namespace Managers {
                     preloadable.Init();
                 }
             }
+
+            await ConfigsManager.Instance.LoadConfigsAsync();
+            await BuildingsTable.Instance.LoadBuildingsAsync();
+            await ToolsTable.Instance.LoadToolsAsync();
+            await WeatherTable.Instance.LoadWeathersAsync();
+            await CropsTable.Instance.LoadCropsAsync();
+            await TilesTable.Instance.LoadTilesAsync();
+            await Audio.Instance.LoadAudioConfigAsync();
             
-            yield return new WaitForSeconds(_delayBeforeSceneSwitch);
-            yield return new WaitUntil(() => ZhukovskyAdsManager.Instance.AdsProvider.IsAdsReady());
+            SaveLoadManager.LoadGame();
+            ZhukovskyAdsManager.Instance.TryEnableOrCancelAdsFromSave();
+            
+            await UniTask.WaitForSeconds(_delayBeforeSceneSwitch);
+            await UniTask.WaitUntil(() => ZhukovskyAdsManager.Instance.AdsProvider.IsAdsReady());
             ZhukovskyAnalyticsManager.Instance.SendCustomEvent("technical", new Dictionary<string, object> {
                 {"step_name", "01_gameLaunch"},
                 {"first_start", SaveLoadManager.CurrentSave.FirstLaunch}

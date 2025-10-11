@@ -24,8 +24,8 @@ namespace Managers {
 
         protected override void OnFirstInit() {
             base.OnFirstInit();
-            LoadGame();
         }
+        
 
         public string StartSequence() {
             _isWaitingSequence = true;

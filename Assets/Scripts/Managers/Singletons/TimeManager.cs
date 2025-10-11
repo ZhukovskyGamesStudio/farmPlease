@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Cysharp.Threading.Tasks;
 using Dialogs;
 using Managers;
 using Tables;
@@ -32,7 +33,7 @@ public class TimeManager : Singleton<TimeManager> {
             GenerateDays(date);
             return;
         }
-        
+
         MaxDays = daysData.Count;
         _skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
 
@@ -46,7 +47,7 @@ public class TimeManager : Singleton<TimeManager> {
             }
         }
 
-        StartCoroutine(UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth], false));
+        UIHud.screenEffect.SetEffectCoroutine(Days[SaveLoadManager.CurrentSave.CurrentDayInMonth], false).Forget();
     }
 
     public bool IsTodayFoodMarket() => Days[SaveLoadManager.CurrentSave.CurrentDayInMonth] == HappeningType.FoodMarket;
@@ -111,13 +112,13 @@ public class TimeManager : Singleton<TimeManager> {
 
     public void AddDay() {
         ZhukovskyAnalyticsManager.Instance.SendCustomEvent("level_finish", new Dictionary<string, object> {
-            {"level_number",  SaveLoadManager.CurrentSave.TotalDays},
-            {"level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString()},
+            { "level_number", SaveLoadManager.CurrentSave.TotalDays },
+            { "level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString() },
         }, true);
-        
+
         SaveLoadManager.CurrentSave.CurrentDayInMonth++;
         SaveLoadManager.CurrentSave.TotalDays++;
-        
+
         int daysInMonth = DateTime.DaysInMonth(SaveLoadManager.CurrentSave.ParsedDate.Year, SaveLoadManager.CurrentSave.ParsedDate.Month);
         SaveLoadManager.CurrentSave.Date = SaveLoadManager.CurrentSave.ParsedDate.AddDays(1).ToString(CultureInfo.InvariantCulture);
 
@@ -125,7 +126,7 @@ public class TimeManager : Singleton<TimeManager> {
             ChangeMonth();
         }
 
-        StartCoroutine(DayPointCoroutine());
+        DayPointCoroutine().Forget();
         Energy.Instance.RestoreEnergy();
         if (!SaveLoadManager.CurrentSave.KnowledgeList.Contains(Knowledge.Weather)) {
             TryShowCalendarHint();
@@ -164,7 +165,7 @@ public class TimeManager : Singleton<TimeManager> {
         GenerateDays(SaveLoadManager.CurrentSave.ParsedDate);
     }
 
-    public IEnumerator DayPointCoroutine() {
+    private async UniTask DayPointCoroutine() {
         string sequenceId = SaveLoadManager.Instance.StartSequence();
         SaveLoadManager.CurrentSave.DayOfWeek = NextDay(SaveLoadManager.CurrentSave.DayOfWeek);
         /*if ( SaveLoadManager.CurrentSave.CurrentDay == MaxDays)
@@ -177,8 +178,9 @@ public class TimeManager : Singleton<TimeManager> {
 
         HappeningType nextDayHappening = UnveilUnknownHappening(SaveLoadManager.CurrentSave.CurrentDayInMonth, false);
         TimePanel.UpdateLilCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);
-        StartCoroutine(UIHud.screenEffect.ChangeEffectCoroutine(nextDayHappening, false));
-        yield return StartCoroutine(UIHud.screenEffect.PlayOverNightAnimation());
+        UIHud.screenEffect.ChangeEffectCoroutine(nextDayHappening, false).Forget();
+
+        await UIHud.screenEffect.PlayOverNightAnimation();
         AnimatedFarmBackground.Instance.SetState(nextDayHappening);
         if (GameModeManager.Instance.GameMode != GameMode.Training) {
             if (nextDayHappening == HappeningType.FoodMarket) {
@@ -188,12 +190,12 @@ public class TimeManager : Singleton<TimeManager> {
             }
         }
 
-        yield return StartCoroutine(SmartTilemap.NewDay(nextDayHappening));
+        await SmartTilemap.NewDay(nextDayHappening);
         UIHud.Instance.ClockView.SetInteractable(true);
         SaveLoadManager.Instance.EndSequence(sequenceId);
         ZhukovskyAnalyticsManager.Instance.SendCustomEvent("level_start", new Dictionary<string, object> {
-            {"level_number",  SaveLoadManager.CurrentSave.TotalDays},
-            {"level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString()},
+            { "level_number", SaveLoadManager.CurrentSave.TotalDays },
+            { "level_type", Days[SaveLoadManager.CurrentSave.CurrentDayInMonth].ToString() },
         }, true);
     }
 
@@ -208,7 +210,7 @@ public class TimeManager : Singleton<TimeManager> {
         ToolsUtils.ChangeTools();
     }
 
-    public static HappeningType UnveilUnknownHappening(int day, bool isPrediction ) {
+    public static HappeningType UnveilUnknownHappening(int day, bool isPrediction) {
         HappeningType happening = Days[day];
         if (happening == HappeningType.Unknown) {
             List<HappeningType> possibleHappenings = new List<HappeningType>();

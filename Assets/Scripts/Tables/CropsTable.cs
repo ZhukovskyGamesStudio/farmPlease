@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using ScriptableObjects;
 using UI;
 using UnityEngine;
@@ -30,6 +31,11 @@ namespace Tables {
             return false;
         }
         public static List<Crop> CropsTypes=> Instance.Crops.Select(t => t.type).ToList();
+        
+        public async UniTask LoadCropsAsync() {
+            Crops = Resources.LoadAll<CropConfig>("Configs/Crops");
+            await UniTask.Yield();
+        }
     }
 
     [Serializable]

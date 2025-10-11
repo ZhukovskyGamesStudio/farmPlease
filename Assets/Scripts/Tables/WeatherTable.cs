@@ -1,6 +1,8 @@
 ﻿using System;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using ScriptableObjects;
+using UnityEngine;
 
 namespace Tables {
     public class WeatherTable : PreloadableSingleton<WeatherTable> {
@@ -12,6 +14,11 @@ namespace Tables {
                     return Instance.WeathersSO[i];
             UnityEngine.Debug.Log("Нет класса Weather под тип " + type);
             return null;
+        }
+        
+        public async UniTask LoadWeathersAsync() {
+            WeathersSO = Resources.LoadAll<WeatherConfig>("Configs/Weather");
+            await UniTask.Yield();
         }
     }
 

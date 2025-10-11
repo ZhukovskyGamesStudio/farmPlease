@@ -20,14 +20,6 @@ public class ZhukovskyAdsManager : PreloadableSingleton<ZhukovskyAdsManager> {
 #endif
 
         InterAdRunner = new InterAdRunner(GameInterAdCooldown, AdsProvider);
-        if (LevelsUtils.IsIntersUnlocked) {
-            InterAdRunner.IsInterAdRunEnabled = true;
-        }
-
-        if (SaveLoadManager.CurrentSave.RealShopData.HasNoAds) {
-            CancelAdsAndDisableButton();
-        }
-
         SceneManager.sceneLoaded += (_, _) => SetAdsButtonVisible();
     }
 
@@ -47,6 +39,15 @@ public class ZhukovskyAdsManager : PreloadableSingleton<ZhukovskyAdsManager> {
         UIHud.Instance.OpenNoAdsButtonView.gameObject.SetActive(isActive);
     }
 
+    public void TryEnableOrCancelAdsFromSave() {
+        if (LevelsUtils.IsIntersUnlocked) {
+            InterAdRunner.IsInterAdRunEnabled = true;
+        }
+        if (SaveLoadManager.CurrentSave.RealShopData.HasNoAds) {
+            CancelAdsAndDisableButton();
+        }
+    }
+    
     public void CancelAdsAndDisableButton() {
         AdsProvider.CancelAds();
         AdsProvider.SetBanners(false);

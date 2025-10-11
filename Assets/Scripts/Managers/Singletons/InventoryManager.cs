@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Dialogs;
 using ScriptableObjects;
 using Tables;
@@ -172,7 +173,7 @@ namespace Managers {
                 Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBuySeed);
                 AddCoins(-1 * cost);
                 AddSeed(crop, amount);
-                StartCoroutine(SmartTilemap.Instance.HappeningSequence());
+                SmartTilemap.Instance.HappeningSequence().Forget();
                 return true;
             }
 
@@ -210,9 +211,10 @@ namespace Managers {
             _fastPanelScript.UpdateSeedFastPanel(crop, SeedsInventory[crop]);
         }
 
-        public IEnumerator WindyDay(SmartTilemap tilemap) {
-            if (GameModeManager.Instance.DisableStrongWind)
-                yield break;
+        public async UniTask WindyDay(SmartTilemap tilemap) {
+            if (GameModeManager.Instance.DisableStrongWind) {
+                return;
+            }
 
             List<Crop> seedsList = new();
             foreach (var seedType in SeedsInventory.Keys) {
@@ -239,12 +241,10 @@ namespace Managers {
 
                 SmartTile tile = emptyTiles[Random.Range(0, emptyTiles.Count)];
                 emptyTiles.Remove(tile);
-                yield return StartCoroutine(tile.OnSeeded(crop, 0.2f));
+                await tile.OnSeeded(crop, 0.2f);
 
-                yield return new WaitForSeconds(0.05f);
+                await UniTask.WaitForSeconds(0.05f);
             }
-
-            yield return false;
         }
 
         /*****Инструменты*****/

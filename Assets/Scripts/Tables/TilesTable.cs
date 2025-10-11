@@ -1,31 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using Abstract;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Tables {
-    [ExecuteAlways]
-    public class TilesTable : MonoBehaviour {
+    public class TilesTable : PreloadableSingleton<TilesTable> {
         public static TileData[] TileDatas;
-        public static TilesTable Instance;
+
+        public TileGroupConfig TileGroupConfig;
 
         public Group[] groups;
         public Group[] BuildingGroups;
-        public int DictionaryEntrancies;
 
-        [Header("Tap to recreate Dictionary")]
-        public bool RecreateDictionary;
-
-        public void Awake() {
-            if (Instance == null)
-                Instance = this;
-        }
-
-        private void Update() {
-            if (RecreateDictionary) {
-                CreateDictionary();
-                RecreateDictionary = false;
-            }
+        public async UniTask LoadTilesAsync() {
+            TileGroupConfig = Resources.Load<TileGroupConfig>("Configs/TileGroupConfig");
+            groups = TileGroupConfig.Groups;
+            BuildingGroups = TileGroupConfig.BuildingGroups;
+            await UniTask.Yield();
+            CreateDictionary();
+            await UniTask.Yield();
         }
 
         public static TileData TileByType(TileType type) {
@@ -60,11 +55,8 @@ namespace Tables {
             }
 
             TileDatas = list.ToArray();
-            DictionaryEntrancies = TileDatas.Length;
         }
     }
-
-   
 
     [Serializable]
     public struct Group {

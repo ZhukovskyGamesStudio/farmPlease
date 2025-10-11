@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using ScriptableObjects;
+using UnityEngine;
 
 namespace Tables
 {
@@ -20,6 +22,11 @@ namespace Tables
         }
 
         public static List<ToolBuff> Tools=> Instance.ToolsSO.Select(t => t.buff).ToList();
+        
+        public async UniTask LoadToolsAsync() {
+            ToolsSO = Resources.LoadAll<ToolConfig>("Configs/Tools");
+            await UniTask.Yield();
+        }
     }
 
     [Serializable]

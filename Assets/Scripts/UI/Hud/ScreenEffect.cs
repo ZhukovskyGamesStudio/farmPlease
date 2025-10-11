@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Tables;
 using UnityEngine;
 using ZhukovskyGamesPlugin;
 
 namespace UI {
     public class ScreenEffect : MonoBehaviour {
-        [SerializeField] private SerializableDictionary<HappeningType, Animation> _happeningAnimations;
+        [SerializeField]
+        private SerializableDictionary<HappeningType, Animation> _happeningAnimations;
 
-        [SerializeField] private Animation _nightAnimation, _nightStarsAnimation;
+        [SerializeField]
+        private Animation _nightAnimation, _nightStarsAnimation;
 
         private const string BEFORE_DAY_APPEAR = "BeforeDayAppear";
         private const string BEFORE_DAY_IDLE = "BeforeDayIdle";
@@ -24,61 +27,60 @@ namespace UI {
         [SerializeField]
         private AnimationClip _starsStart, _starsEnd;
 
-        public IEnumerator SetEffectCoroutine(HappeningType type, bool isTomorrow) {
+        public async UniTask SetEffectCoroutine(HappeningType type, bool isTomorrow) {
             if (NoneHappenings.Contains(type)) {
                 type = HappeningType.NormalSunnyDay;
             }
 
             _curHappeningType = type;
 
-            yield return StartCoroutine(TryPlayCurrentAnimation(type, isTomorrow));
+            await TryPlayCurrentAnimation(type, isTomorrow);
         }
 
-        public IEnumerator PlayOverNightAnimation() {
+        public async UniTask PlayOverNightAnimation() {
             _nightAnimation.Play(NIGHT_APPEAR);
             _nightAnimation.PlayQueued(NIGHT_DISAPPEAR);
             _nightStarsAnimation.Play(_starsStart.name);
             _nightStarsAnimation.PlayQueued(_starsEnd.name);
-            yield return new WaitWhile(() => _nightAnimation.isPlaying);
+            await UniTask.WaitWhile(() => _nightAnimation.isPlaying);
         }
 
-        public IEnumerator ChangeEffectCoroutine(HappeningType type, bool isTomorrow) {
+        public async UniTask ChangeEffectCoroutine(HappeningType type, bool isTomorrow) {
             if (NoneHappenings.Contains(type)) {
                 type = HappeningType.NormalSunnyDay;
             }
 
             if (_curHappeningType == type) {
-                yield break;
+                return;
             }
 
-            yield return StartCoroutine(TryPlayDisappearAnimation(_curHappeningType));
-            yield return StartCoroutine(SetEffectCoroutine(type, isTomorrow));
+            await TryPlayDisappearAnimation(_curHappeningType);
+            await SetEffectCoroutine(type, isTomorrow);
         }
 
-        private IEnumerator TryPlayCurrentAnimation(HappeningType type, bool isTomorrow) {
+        private async UniTask TryPlayCurrentAnimation(HappeningType type, bool isTomorrow) {
             if (!_happeningAnimations.ContainsKey(type)) {
-                yield break;
+                return;
             }
 
             if (isTomorrow) {
                 _happeningAnimations[type].Play(BEFORE_DAY_APPEAR);
-                yield return new WaitWhile(() => _happeningAnimations[type].isPlaying);
+                await UniTask.WaitWhile(() => _happeningAnimations[type].isPlaying);
                 _happeningAnimations[type].PlayQueued(BEFORE_DAY_IDLE);
             } else {
                 _happeningAnimations[type].Play(DAY_APPEAR);
-                yield return new WaitWhile(() => _happeningAnimations[type].isPlaying);
+                await UniTask.WaitWhile(() => _happeningAnimations[type].isPlaying);
                 _happeningAnimations[type].PlayQueued(DAY_IDLE);
             }
         }
 
-        private IEnumerator TryPlayDisappearAnimation(HappeningType type) {
+        private async UniTask TryPlayDisappearAnimation(HappeningType type) {
             if (!_happeningAnimations.ContainsKey(type)) {
-                yield break;
+                return;
             }
 
-
             _happeningAnimations[type].Play(DAY_DISAPPEAR);
-            yield return new WaitWhile(() => _happeningAnimations[type].isPlaying);
+            await UniTask.WaitWhile(() => _happeningAnimations[type].isPlaying);
         }
 
         private List<HappeningType> NoneHappenings => new List<HappeningType>() {

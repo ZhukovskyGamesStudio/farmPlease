@@ -20,12 +20,6 @@ namespace Managers {
 		private bool _isWaitingForStepEnd;
 		private CancellationTokenSource _endFtueCts = new CancellationTokenSource();
 
-		private void Update() {
-			if (Input.GetKeyDown(KeyCode.RightShift)) {
-				SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-			}
-		}
-
 		public void TryStartFtue() {
 			bool isFirstSession = !KnowledgeUtils.HasKnowledge(Knowledge.Training);
 			if (!isFirstSession) {

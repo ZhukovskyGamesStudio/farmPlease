@@ -70,7 +70,7 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
 
     public async UniTask ContinueCutscene() {
         _animation.Play(_rocketLand.name);
-        await UniTask.WaitWhile(() => _animation.isPlaying);
+        await UniTask.WaitWhile(() => _animation != null && _animation.isPlaying);
         _dunesButton.interactable = true;
         _dunesWhite.gameObject.SetActive(true);
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Managers;
 using Tables;
 using UnityEngine;
@@ -29,7 +30,7 @@ public class SmartTilemap : MonoBehaviour {
     private Vector2Int _fieldSizeI = new(-11, 9);
     private Vector2Int _fieldSizeJ = new(-13, 13);
     private Vector2Int AlwaysEmptyTile = new(-1, 5);
-    private Dictionary<Vector2Int, SmartTile> _tiles;
+    private Dictionary<Vector2Int, SmartTile> _tiles  = new Dictionary<Vector2Int, SmartTile>();
     public bool IsTilesInited => _tiles != null;
     private Camera _mainCamera;
 
@@ -51,6 +52,7 @@ public class SmartTilemap : MonoBehaviour {
         if (_mainCamera == null) {
             _mainCamera = Camera.main;
         }
+
         Playercoord = (Vector2Int)MainTilemap.WorldToCell(_mainCamera.ScreenToWorldPoint(mousePos));
         // UnityEngine.Debug.Log("Playercoord: " + Playercoord);
     }
@@ -115,28 +117,22 @@ public class SmartTilemap : MonoBehaviour {
 
     public void GenerateTilesWithData(TilesData data) {
         MainTilemap.ClearAllTiles();
-        if (_tiles != null) {
-            foreach (var VARIABLE in _tiles) {
-                Destroy(VARIABLE.Value.gameObject);
-            }
-        }
-
-        _tiles = new Dictionary<Vector2Int, SmartTile>();
+      
         foreach (var pos in data.Tiles.Keys) {
             TileType tile = data.Tiles[pos];
+
             Vector2Int position = new(pos.x, pos.y);
-            GameObject tileObject = new();
-            tileObject.transform.parent = TilesHolder;
-            SmartTile smarttile = tileObject.AddComponent<SmartTile>();
+            if (!_tiles.ContainsKey(position)) {
+                SmartTile smartTile = new SmartTile();
+                smartTile.Init(this, tile, position);
+                _tiles.Add(position, smartTile);
+            }
 
-            smarttile.Init(this, tile, position);
             MainTilemap.SetTile((Vector3Int)position, TilesTable.TileByType(tile).TileBase);
-
-            _tiles.Add(position, smarttile);
         }
     }
 
-    public IEnumerator NewDay(HappeningType type) {
+    public async UniTask NewDay(HappeningType type) {
         SetHappeningType(type);
         string sequenceId = SaveLoadManager.Instance.StartSequence();
         Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
@@ -145,8 +141,11 @@ public class SmartTilemap : MonoBehaviour {
         foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanbeNewDayed())
                 toNewDay.Add(smartTile.Value);
-        for (int i = 0; i < toNewDay.Count; i++) yield return StartCoroutine(toNewDay[i].OnNeyDayed(animtime / 5));
-        yield return StartCoroutine(HappeningSequence());
+        for (int i = 0; i < toNewDay.Count; i++) {
+            await toNewDay[i].OnNeyDayed(animtime / 5);
+        }
+
+        await HappeningSequence();
         SaveLoadManager.Instance.EndSequence(sequenceId);
     }
 
@@ -156,23 +155,23 @@ public class SmartTilemap : MonoBehaviour {
         _happeningType = happeningType;
     }
 
-    public IEnumerator HappeningSequence() {
+    public async UniTask HappeningSequence() {
         string sequenceId = SaveLoadManager.Instance.StartSequence();
         switch (_happeningType) {
             case HappeningType.Erosion:
-                yield return StartCoroutine(Erosion());
+                await Erosion();
                 break;
 
             case HappeningType.Rain:
-                yield return StartCoroutine(Rain());
+                await Rain();
                 break;
 
             case HappeningType.Wind:
-                yield return StartCoroutine(InventoryManager.Instance.WindyDay(this));
+                await InventoryManager.Instance.WindyDay(this);
                 break;
 
             case HappeningType.Insects:
-                yield return StartCoroutine(Insects());
+                await Insects();
                 break;
         }
 
@@ -204,7 +203,7 @@ public class SmartTilemap : MonoBehaviour {
                 List<SmartTile> needToBeSand = new List<SmartTile>() {
                     center, neighbors[5], neighbors[0], neighbors[1]
                 };
-                return needToBeSand.All(t => t != null) && needToBeSand.All(t=>t.type == TileType.Sand);
+                return needToBeSand.All(t => t != null) && needToBeSand.All(t => t.type == TileType.Sand);
 
             case BuildingType.SprinklerTarget:
                 return center.type == TileType.Sand;
@@ -361,38 +360,37 @@ public class SmartTilemap : MonoBehaviour {
         return false;
     }
 
-    public IEnumerator NewDayTile() {
-        yield return StartCoroutine(_tiles[Playercoord].OnClicked(animtime));
+    public async UniTask NewDayTile() {
+        await _tiles[Playercoord].OnClicked(animtime);
     }
 
-    public IEnumerator ClickTile() {
-        yield return StartCoroutine(_tiles[Playercoord].OnClicked(animtime));
-        yield return StartCoroutine(HappeningSequence());
+    public async UniTask ClickTile() {
+        await _tiles[Playercoord].OnClicked(animtime);
+        await HappeningSequence();
     }
 
-    public IEnumerator SeedTile(Crop crop) {
-        yield return StartCoroutine(_tiles[Playercoord].OnSeeded(crop, animtime));
-        yield return StartCoroutine(HappeningSequence());
+    public async UniTask SeedTile(Crop crop) {
+        await _tiles[Playercoord].OnSeeded(crop, animtime);
+        await HappeningSequence();
     }
 
-    public IEnumerator CollectTile() {
+    public async UniTask CollectTile() {
         bool hasGoldenScythe = RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData);
-        yield return StartCoroutine(_tiles[Playercoord]
-            .OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), hasGoldenScythe, animtime / 3));
-        yield return StartCoroutine(HappeningSequence());
+        await _tiles[Playercoord].OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), hasGoldenScythe, animtime / 3);
+        await HappeningSequence();
     }
 
-    public IEnumerator HoeTile() {
-        yield return StartCoroutine(_tiles[Playercoord].OnHoed(animtime));
-        yield return StartCoroutine(HappeningSequence());
+    public async UniTask HoeTile() {
+        await _tiles[Playercoord].OnHoed(animtime);
+        await HappeningSequence();
     }
 
-    public IEnumerator WaterTile() {
-        yield return StartCoroutine(_tiles[Playercoord].OnWatered(animtime));
-        yield return StartCoroutine(HappeningSequence());
+    public async UniTask WaterTile() {
+        await _tiles[Playercoord].OnWatered(animtime);
+        await HappeningSequence();
     }
 
-    public IEnumerator HoeRandomNeighbor(Vector2Int center) {
+    public async UniTask HoeRandomNeighbor(Vector2Int center) {
         SmartTile[] neighbors = GetHexNeighbors(center);
         List<SmartTile> neighborsList = new();
 
@@ -401,11 +399,11 @@ public class SmartTilemap : MonoBehaviour {
                 neighborsList.Add(neighbors[i]);
 
         if (neighborsList.Count > 0)
-            yield return StartCoroutine(neighborsList[Random.Range(0, neighborsList.Count)].OnHoed(animtime));
-        yield return StartCoroutine(HappeningSequence());
+            await neighborsList[Random.Range(0, neighborsList.Count)].OnHoed(animtime);
+        await HappeningSequence();
     }
 
-    public IEnumerator Erosion() {
+    public async UniTask Erosion() {
         Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
         List<SmartTile> toErosion = new();
         foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
@@ -413,21 +411,21 @@ public class SmartTilemap : MonoBehaviour {
                 if (smartTile.Value.type != TileType.FreshenerFull) {
                     toErosion.Add(smartTile.Value);
                 } else {
-                    yield return StartCoroutine(smartTile.Value.OnErosioned(animtime / 5));
-                    yield break;
+                    await smartTile.Value.OnErosioned(animtime / 5);
+                    return;
                 }
 
-        for (int i = 0; i < toErosion.Count; i++) yield return StartCoroutine(toErosion[i].OnErosioned(animtime / 5));
+        for (int i = 0; i < toErosion.Count; i++) await toErosion[i].OnErosioned(animtime / 5);
     }
 
-    public IEnumerator Rain() {
+    public async UniTask Rain() {
         Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
         foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
             if (smartTile.Value.CanBeWatered())
-                yield return StartCoroutine(smartTile.Value.OnWatered(animtime / 5f, true));
+                await smartTile.Value.OnWatered(animtime / 5f, true);
     }
 
-    public IEnumerator Insects() {
+    public async UniTask Insects() {
         List<Vector2Int> flycatcherPosition = new();
         foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in _tiles)
             if (smartTile.Value.type == TileType.FlycatherSeed3)
@@ -435,7 +433,7 @@ public class SmartTilemap : MonoBehaviour {
 
         if (flycatcherPosition.Count > 0) {
             for (int i = 0; i < flycatcherPosition.Count; i++)
-                yield return StartCoroutine(_tiles[flycatcherPosition[i]].OnInsected(animtime));
+                await _tiles[flycatcherPosition[i]].OnInsected(animtime);
 
             SmartTile[] alltiles = GetAllTiles();
             List<SmartTile> toSeedList = new();
@@ -446,7 +444,7 @@ public class SmartTilemap : MonoBehaviour {
                 }
 
             for (int i = 0; i < toSeedList.Count; i++) {
-                yield return new WaitForSeconds(animtime / 5);
+                await UniTask.WaitForSeconds(animtime / 5);
                 toSeedList[i].HarvestCrop(Crop.Flycatcher, 1);
                 toSeedList[i].BecomeActive();
             }
@@ -456,7 +454,7 @@ public class SmartTilemap : MonoBehaviour {
             Dictionary<Vector2Int, SmartTile> tempTiles = new(_tiles);
             foreach (KeyValuePair<Vector2Int, SmartTile> smartTile in tempTiles)
                 if (smartTile.Value.CanBeCollected())
-                    yield return StartCoroutine(smartTile.Value.OnInsected(animtime / 5));
+                    await smartTile.Value.OnInsected(animtime / 5);
         }
     }
 

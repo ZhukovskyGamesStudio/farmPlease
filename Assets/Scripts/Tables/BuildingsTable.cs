@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tables
-{
+namespace Tables {
     public class BuildingsTable : PreloadableSingleton<BuildingsTable> {
         public BuildingConfig[] Buildings;
         public override int InitPriority => -10000;
+
         public static BuildingConfig BuildingByType(BuildingType type) {
             for (int i = 0; i < Instance.Buildings.Length; i++)
                 if (Instance.Buildings[i].type == type)
                     return Instance.Buildings[i];
-            UnityEngine.Debug.Log("Нет класса Building под тип " + type);
+            Debug.Log("Нет класса Building под тип " + type);
             return null;
+        }
+
+        public async UniTask LoadBuildingsAsync() {
+            Buildings = Resources.LoadAll<BuildingConfig>("Configs/Buildings");
+            await UniTask.Yield();
         }
     }
 

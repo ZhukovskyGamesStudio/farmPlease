@@ -6,10 +6,11 @@ using Cysharp.Threading.Tasks;
 using Managers;
 using Tables;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [Serializable]
-public class SmartTile : MonoBehaviour {
+public class SmartTile {
     private bool _isSandAfterHarvest = true;
     public TileType type;
     public bool isActive;
@@ -18,11 +19,11 @@ public class SmartTile : MonoBehaviour {
     private SmartTilemap _tilemap;
 
     public void Init(SmartTilemap tilemap, TileType type, Vector2Int pos) {
-        this._tilemap = tilemap;
+        _tilemap = tilemap;
         this.type = type;
         _position = pos;
         isActive = true;
-        this._tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.red);
+        _tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.red);
     }
 
     public bool CanBeHoed() {
@@ -130,7 +131,7 @@ public class SmartTile : MonoBehaviour {
         _tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.grey);
     }
 
-    public IEnumerator OnHoed(float animtime, bool isDandellion = false, bool isTractor = false) {
+    public async UniTask OnHoed(float animtime, bool isDandellion = false, bool isTractor = false) {
         BecomeInactive();
 
         SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
@@ -166,29 +167,29 @@ public class SmartTile : MonoBehaviour {
                     if (neighborsL.Count > 0) {
                         SmartTile tile = neighborsL[Random.Range(0, neighborsL.Count)];
                         neighborsL.Remove(tile);
-                        yield return StartCoroutine(tile.OnWatered(animtime, isStrawberry: true));
+                        await tile.OnWatered(animtime, isStrawberry: true);
                     }
 
                 break;
         }
 
-        yield return new WaitForSeconds(animtime);
+        await UniTask.WaitForSeconds(animtime);
 
         if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeHoed())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnHoed(animtime, isDandellion, isTractor);
+            await _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnHoed(animtime, isDandellion, isTractor);
 
         if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeHoed())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnHoed(animtime, isDandellion, isTractor);
+            await _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnHoed(animtime, isDandellion, isTractor);
 
         if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeHoed())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnHoed(animtime, isDandellion, isTractor);
+            await _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnHoed(animtime, isDandellion, isTractor);
 
         BurstFx(_tilemap.HoeFx);
         Audio.Instance.PlaySound(Sounds.Hoed);
         BecomeActive();
     }
 
-    public IEnumerator OnSeeded(Crop seedtype, float animtime, bool isWind = false) {
+    public async UniTask OnSeeded(Crop seedtype, float animtime, bool isWind = false) {
         BecomeInactive();
 
         SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
@@ -199,11 +200,11 @@ public class SmartTile : MonoBehaviour {
 
         TileData data = TilesTable.TileByType(type);
         if (data.TIndex == 1)
-            yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnSeeded(seedtype, animtime));
+            await _tilemap.GetTile(_position + new Vector2Int(1, -1)).OnSeeded(seedtype, animtime);
         else if (data.TIndex == 2)
-            yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnSeeded(seedtype, animtime));
+            await _tilemap.GetTile(_position + new Vector2Int(0, -1)).OnSeeded(seedtype, animtime);
         else if (data.TIndex == 3)
-            yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnSeeded(seedtype, animtime));
+            await _tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnSeeded(seedtype, animtime);
         else
             switch (type) {
                 case TileType.SeedDoublerEmpty:
@@ -328,21 +329,21 @@ public class SmartTile : MonoBehaviour {
                     break;
             }
 
-        yield return new WaitForSeconds(animtime);
+        await UniTask.WaitForSeconds(animtime);
 
         if (InventoryManager.SeedsInventory[seedtype] > 0) {
             if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeSeeded()) {
-                yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnSeeded(seedtype, animtime, isWind);
+                await _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnSeeded(seedtype, animtime, isWind);
                 InventoryManager.Instance.LoseSeed(seedtype);
             }
 
             if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeSeeded()) {
-                yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnSeeded(seedtype, animtime, isWind);
+                await _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnSeeded(seedtype, animtime, isWind);
                 InventoryManager.Instance.LoseSeed(seedtype);
             }
 
             if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeSeeded()) {
-                yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnSeeded(seedtype, animtime, isWind);
+                await _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnSeeded(seedtype, animtime, isWind);
                 InventoryManager.Instance.LoseSeed(seedtype);
             }
         }
@@ -351,7 +352,7 @@ public class SmartTile : MonoBehaviour {
         BecomeActive();
     }
 
-    public IEnumerator OnWatered(float animtime, bool isRain = false, bool isStrawberry = false) {
+    public async UniTask OnWatered(float animtime, bool isRain = false, bool isStrawberry = false) {
         BecomeInactive();
 
         SmartTile[] neighborTiles = _tilemap.GetHexNeighbors(_position);
@@ -368,32 +369,32 @@ public class SmartTile : MonoBehaviour {
             SwitchType(TilesTable.TileByType(type).WaterSwitch, animType);
         } else {
             if (data.TIndex == 1)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnWatered(animtime, isRain, isStrawberry));
+                await _tilemap.GetTile(_position + new Vector2Int(1, -1)).OnWatered(animtime, isRain, isStrawberry);
             else if (data.TIndex == 2)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnWatered(animtime, isRain, isStrawberry));
+                await _tilemap.GetTile(_position + new Vector2Int(0, -1)).OnWatered(animtime, isRain, isStrawberry);
             else if (data.TIndex == 3)
-                yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime, isRain, isStrawberry));
+                await _tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnWatered(animtime, isRain, isStrawberry);
             else
                 switch (type) { }
         }
 
-        yield return new WaitForSeconds(animtime);
+        await UniTask.WaitForSeconds(animtime);
 
         if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeWatered())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnWatered(animtime, isRain, isStrawberry);
+            await _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnWatered(animtime, isRain, isStrawberry);
 
         if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeWatered())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnWatered(animtime, isRain, isStrawberry);
+            await _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnWatered(animtime, isRain, isStrawberry);
 
         if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeWatered())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime, isRain, isStrawberry);
+            await _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnWatered(animtime, isRain, isStrawberry);
 
         BurstFx(_tilemap.WaterFx);
         Audio.Instance.PlaySound(Sounds.Watered);
         BecomeActive();
     }
 
-    public IEnumerator OnCollected(bool hasGreenScythe, bool hasGoldenScythe, float animtime) {
+    public async UniTask OnCollected(bool hasGreenScythe, bool hasGoldenScythe, float animtime) {
         hasGreenScythe = hasGreenScythe && !hasGoldenScythe;
         BecomeInactive();
         int multiplier = 1;
@@ -439,7 +440,7 @@ public class SmartTile : MonoBehaviour {
                     int counter = 1;
                     for (int i = 0; i < neighborTiles.Length; i++)
                         if (neighborTiles[i].CanBeCollected()) {
-                            yield return neighborTiles[i].OnCollected(false, false, animtime);
+                            await neighborTiles[i].OnCollected(false, false, animtime);
                             counter++;
                         }
 
@@ -455,37 +456,36 @@ public class SmartTile : MonoBehaviour {
 
                     if (soilTiles.Count > 0)
                         if (soilTiles[0].CanBeCollected())
-                            yield return soilTiles[0].OnCollected(false, false, animtime);
+                            await soilTiles[0].OnCollected(false, false, animtime);
 
                     SwitchType(_isSandAfterHarvest ? TileType.Sand : TileType.Soil, AnimationType.Scythe);
                     break;
             }
         }
 
-        yield return new WaitForSeconds(animtime);
+        await UniTask.WaitForSeconds(animtime);
 
         if (neighborTiles[3].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].CanBeCollected())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
+            await _tilemap.GetHexNeighbors(neighborTiles[3]._position)[5].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
 
         if (neighborTiles[4].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].CanBeCollected())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
+            await _tilemap.GetHexNeighbors(neighborTiles[4]._position)[4].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
 
         if (neighborTiles[5].type == TileType.Radish1 && _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].CanBeCollected())
-            yield return _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
+            await _tilemap.GetHexNeighbors(neighborTiles[5]._position)[3].OnCollected(hasGreenScythe, hasGoldenScythe, animtime);
 
         BurstFx(_tilemap.ScytheFx);
         Audio.Instance.PlaySound(Sounds.Collect);
         BecomeActive();
     }
 
-    public IEnumerator OnNeyDayed(float animtime) {
+    public async UniTask OnNeyDayed(float animtime) {
         BecomeInactive();
 
         if (TilesTable.TileByType(type).NewDaySwitch != TileType.None) {
             SwitchType(TilesTable.TileByType(type).NewDaySwitch);
-            yield return StartCoroutine(OnAppear(animtime));
-        }
-        else
+            await OnAppear(animtime);
+        } else
             switch (type) {
                 case TileType.WateredSoil:
                     if (Random.Range(0, 5) == 1)
@@ -504,7 +504,7 @@ public class SmartTile : MonoBehaviour {
 
                     if (soilTiles.Count > 0) {
                         int rnd = Random.Range(0, soilTiles.Count);
-                        yield return StartCoroutine(soilTiles[rnd].OnSeeded(Crop.Corn, animtime));
+                        await soilTiles[rnd].OnSeeded(Crop.Corn, animtime);
                     }
 
                     break;
@@ -514,7 +514,7 @@ public class SmartTile : MonoBehaviour {
                     SmartTile[] alltiles = _tilemap.GetAllTiles();
                     for (int i = 0; i < alltiles.Length; i++)
                         if (alltiles[i].CanBeSeeded() && !TilesTable.TileByType(alltiles[i].type).IsBuilding)
-                            yield return StartCoroutine(alltiles[i].OnSeeded(Crop.Beautyflower, -1));
+                            await alltiles[i].OnSeeded(Crop.Beautyflower, -1);
                     break;
 
                 case TileType.FlycatherSeed1:
@@ -528,7 +528,7 @@ public class SmartTile : MonoBehaviour {
                         if (toSeedList.Count > 0) {
                             SmartTile tile = toSeedList[Random.Range(0, toSeedList.Count)];
                             toSeedList.Remove(tile);
-                            yield return StartCoroutine(tile.OnSeeded(Crop.Flycatcher, animtime / 2));
+                            await tile.OnSeeded(Crop.Flycatcher, animtime / 2);
                         }
 
                     break;
@@ -544,7 +544,7 @@ public class SmartTile : MonoBehaviour {
                         if (toSeedList.Count > 0) {
                             SmartTile tile = toSeedList[Random.Range(0, toSeedList.Count)];
                             toSeedList.Remove(tile);
-                            yield return StartCoroutine(tile.OnSeeded(Crop.Flycatcher, animtime / 2));
+                            await tile.OnSeeded(Crop.Flycatcher, animtime / 2);
                         }
 
                     break;
@@ -560,14 +560,14 @@ public class SmartTile : MonoBehaviour {
                         if (toSeedList.Count > 0) {
                             SmartTile tile = toSeedList[Random.Range(0, toSeedList.Count)];
                             toSeedList.Remove(tile);
-                            yield return StartCoroutine(tile.OnSeeded(Crop.Flycatcher, animtime / 2));
+                            await tile.OnSeeded(Crop.Flycatcher, animtime / 2);
                         }
 
                     break;
 
                 case TileType.SprinklerTarget:
                     if (_tilemap.GetHexNeighbors(_position)[4].CanBeWatered())
-                        yield return StartCoroutine(_tilemap.GetHexNeighbors(_position)[4].OnWatered(animtime, true));
+                        await _tilemap.GetHexNeighbors(_position)[4].OnWatered(animtime, true);
 
                     break;
 
@@ -575,7 +575,7 @@ public class SmartTile : MonoBehaviour {
                     SmartTile[] sandTiles = _tilemap.GetAllTiles(TileType.Sand);
                     if (sandTiles.Length > 0) {
                         SwitchType(TileType.Tractor2);
-                        yield return sandTiles[Random.Range(0, sandTiles.Length)].OnHoed(animtime * 10);
+                        await sandTiles[Random.Range(0, sandTiles.Length)].OnHoed(animtime * 10);
                         SwitchType(TileType.Tractor1);
                     }
 
@@ -594,7 +594,7 @@ public class SmartTile : MonoBehaviour {
                     if (soilTiles.Count > 0) {
                         int rnd = Random.Range(0, soilTiles.Count);
                         soilTiles[rnd].SwitchType(TileType.WateredPeanutSeed);
-                        yield return new WaitForSeconds(animtime);
+                        await UniTask.WaitForSeconds(animtime);
 
                         //Сложная система смерти всей цепочки при смерти последнего растения
                         surroundingtiles = _tilemap.GetHexNeighbors(soilTiles[rnd]._position);
@@ -610,7 +610,7 @@ public class SmartTile : MonoBehaviour {
                                 int whileStopper = 0;
                                 while (soilTiles.Count > 0 && whileStopper < 1000) {
                                     soilTiles[0].SwitchType(TileType.PeanutDead);
-                                    yield return new WaitForSeconds(animtime);
+                                    await UniTask.WaitForSeconds(animtime);
                                     curPose = soilTiles[0]._position;
                                     soilTiles = _tilemap.GetNeighborsWithType(curPose, TileType.Peanut1);
                                     whileStopper++;
@@ -626,11 +626,11 @@ public class SmartTile : MonoBehaviour {
                     break;
             }
 
-        yield return new WaitForSeconds(animtime);
+        await UniTask.WaitForSeconds(animtime);
         BecomeActive();
     }
 
-    public IEnumerator OnAppear(float animtime) {
+    public async UniTask OnAppear(float animtime) {
         switch (type) {
             case TileType.Dandellion1:
                 SmartTile[] neighbors = _tilemap.GetHexNeighbors(_position);
@@ -640,15 +640,14 @@ public class SmartTile : MonoBehaviour {
                     if (neighborsL.Count > 0) {
                         SmartTile tile = neighborsL[Random.Range(0, neighborsL.Count)];
                         neighborsL.Remove(tile);
-                        yield return StartCoroutine(tile.OnHoed(animtime, isDandellion: true));
+                        await tile.OnHoed(animtime, isDandellion: true);
                     }
 
                 break;
         }
     }
-    
 
-    public IEnumerator OnErosioned(float animtime) {
+    public async UniTask OnErosioned(float animtime) {
         BecomeInactive();
         switch (type) {
             case TileType.FreshenerFull:
@@ -669,15 +668,15 @@ public class SmartTile : MonoBehaviour {
                 break;
         }
 
-        yield return new WaitForSeconds(animtime);
+        await UniTask.WaitForSeconds(animtime);
         BecomeActive();
     }
 
-    public IEnumerator OnInsected(float animtime) {
+    public async UniTask OnInsected(float animtime) {
         if (type == TileType.FlycatherSeed3) {
             BecomeInactive();
             SwitchType(TileType.Flycather1);
-            yield break;
+            return;
         }
 
         if (CanBeCollected()) {
@@ -685,20 +684,20 @@ public class SmartTile : MonoBehaviour {
             SwitchType(TileType.Soil);
         }
 
-        yield return new WaitForSeconds(animtime);
+        await UniTask.WaitForSeconds(animtime);
         BecomeActive();
     }
 
-    public IEnumerator OnClicked(float animtime) {
+    public async UniTask OnClicked(float animtime) {
         BecomeInactive();
 
         TileData data = TilesTable.TileByType(type);
         if (data.TIndex == 1)
-            yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(1, -1)).OnClicked(animtime));
+            await _tilemap.GetTile(_position + new Vector2Int(1, -1)).OnClicked(animtime);
         else if (data.TIndex == 2)
-            yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(0, -1)).OnClicked(animtime));
+            await _tilemap.GetTile(_position + new Vector2Int(0, -1)).OnClicked(animtime);
         else if (data.TIndex == 3)
-            yield return StartCoroutine(_tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnClicked(animtime));
+            await _tilemap.GetTile(_position + new Vector2Int(-1, 0)).OnClicked(animtime);
         else
             switch (type) {
                 case TileType.BiogenEmpty:
@@ -717,7 +716,7 @@ public class SmartTile : MonoBehaviour {
                             SwitchType(TileType.BiogenFull);
                             tile.SwitchType(TileType.Soil);
 
-                            yield return new WaitForSeconds(1.5f);
+                            await UniTask.WaitForSeconds(1.5f);
                             Energy.Instance.RestoreEnergy(1);
                             SwitchType(TileType.BiogenEmpty);
                             break;
@@ -739,7 +738,7 @@ public class SmartTile : MonoBehaviour {
                     break;
             }
 
-        yield return new WaitForSeconds(0);
+        await UniTask.WaitForSeconds(0);
         BecomeActive();
     }
 
@@ -774,7 +773,7 @@ public class SmartTile : MonoBehaviour {
     private void DropCrop(Crop croptype, int amount) {
         Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
         for (int i = 0; i < amount; i++) {
-            var obj = Instantiate(CropsTable.Instance.FlyingCropFxPrefab);
+            var obj = Object.Instantiate(CropsTable.Instance.FlyingCropFxPrefab);
             obj.Init(CropsTable.CropByType(croptype).VegSprite, worldPosition);
         }
     }
@@ -782,7 +781,7 @@ public class SmartTile : MonoBehaviour {
     private void DropCoin(int amount) {
         Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
         for (int i = 0; i < amount; i++) {
-            var obj = Instantiate(CropsTable.Instance.FlyingCoinFxPrefab);
+            var obj = Object.Instantiate(CropsTable.Instance.FlyingCoinFxPrefab);
             obj.Init(worldPosition);
         }
     }
@@ -790,13 +789,13 @@ public class SmartTile : MonoBehaviour {
     private void DropXp(int amount) {
         Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
         for (int i = 0; i < amount; i++) {
-            var obj = Instantiate(CropsTable.Instance.FlyingXpFxPrefab);
+            var obj = Object.Instantiate(CropsTable.Instance.FlyingXpFxPrefab);
             obj.Init(worldPosition);
         }
     }
 
     private void BurstFx(ParticleSystem prefab) {
         Vector3 worldPosition = _tilemap.MainTilemap.CellToWorld((Vector3Int)_position);
-        var ps = Instantiate(prefab, worldPosition, Quaternion.identity);
+        var ps = Object.Instantiate(prefab, worldPosition, Quaternion.identity);
     }
 }
