@@ -18,8 +18,6 @@ namespace UI
         public Sprite closed, opened;
         public Sprite closedBuffed, openedBuffed;
 
-        public CropsTable CropsTablePrefab;
-
         [HideInInspector]
         public bool isOpen;
 
@@ -72,8 +70,8 @@ namespace UI
         private void GenerateSeedButtons() {
             _backpackItemsViews = new Dictionary<string, BackpackItem>();
 
-            for (int i = 0; i < CropsTablePrefab.Crops.Length; i++) {
-                CropConfig crop = CropsTablePrefab.Crops[i];
+            for (int i = 0; i < CropsTable.Instance.Crops.Length; i++) {
+                CropConfig crop = CropsTable.Instance.Crops[i];
 
                 BackpackItem backpackItem = Instantiate(_backpackItemPrefab, SeedsGrid.transform);
 

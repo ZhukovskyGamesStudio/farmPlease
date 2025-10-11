@@ -50,6 +50,9 @@ namespace Managers {
             }, true);
             SaveLoadManager.CurrentSave.FirstLoad = false;
             SaveLoadManager.SaveGame();
+            
+            FirstSessionManager firstSessionManager = new();
+            firstSessionManager.TryStartFtue();
         }
 
         public static void UpdateDecorUpgradeState() {
@@ -76,10 +79,6 @@ namespace Managers {
         private static void LoadGame() {
             if (GameModeManager.Instance.DoNotSave)
                 SaveLoadManager.ClearSave();
-
-          
-            FirstSessionManager firstSessionManager = new();
-            firstSessionManager.TryStartFtue();
 
             SetLoadedData();
         }

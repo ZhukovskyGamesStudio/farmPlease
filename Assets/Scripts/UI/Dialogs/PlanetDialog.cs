@@ -13,11 +13,11 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
     private AnimationClip _rocketAppear, _rocketFly, _rocketLand;
 
     [SerializeField]
-    private GameObject _continueButton, _dunesWhite;
+    private GameObject _continueButton, _dunesWhite, _finger;
 
     [SerializeField]
     private Button _dunesButton;
-    
+
     [SerializeField]
     private KnowledgeCanSpeak _knowledgeCanSpeak;
 
@@ -44,16 +44,17 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
     }
 
     public async UniTask ShowRocketCutscene() {
+        _dunesButton.interactable = false;
         IsShowing = true;
         _animation.Play(_rocketAppear.name);
         await UniTask.WaitWhile(() => _animation.isPlaying);
         _animation.Play(_rocketFly.name);
         IsShowing = false;
     }
-    
 
     private bool _isWaitingForStepEnd;
-    private float _autoSkipAfterSeconds = 15f;
+    private float _autoSkipAfterSeconds = 5f;
+
     public async UniTask ShowRocketSpeakCutscene(string hintText, bool isHidingAfter = false, bool isShadow = true) {
         _knowledgeCanSpeak.gameObject.SetActive(true);
         _isWaitingForStepEnd = true;
@@ -73,10 +74,7 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
         await UniTask.WaitWhile(() => _animation != null && _animation.isPlaying);
         _dunesButton.interactable = true;
         _dunesWhite.gameObject.SetActive(true);
-    }
-
-    public void ClickCutscene() {
-        _isWaitForClick = false;
+        _finger.gameObject.SetActive(true);
     }
 
     public void ClickDunes() {
