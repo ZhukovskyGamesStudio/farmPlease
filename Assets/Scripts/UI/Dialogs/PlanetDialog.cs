@@ -53,7 +53,7 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
     }
 
     private bool _isWaitingForStepEnd;
-    private float _autoSkipAfterSeconds = 5f;
+    private float _autoSkipAfterSeconds = 3.5f;
 
     public async UniTask ShowRocketSpeakCutscene(string hintText, bool isHidingAfter = false, bool isShadow = true) {
         _knowledgeCanSpeak.gameObject.SetActive(true);
