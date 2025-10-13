@@ -104,6 +104,21 @@ namespace Managers {
             SaveLoadManager.SaveGame();
         }
 
+        public int SecondsToRefillMaxEnergy() {
+            long now = NowTotalMilliseconds;
+            long last = Save.LastClockRefilledTimestamp;
+
+            int missing = MAX_ENERGY - Save.ClockEnergy;
+
+            if (missing == 0) {
+                return 0;
+            }
+
+            return 10;
+
+            return (int)TimespanForRefillOneEnergy.TotalSeconds * missing;
+        }
+
         public static void GenerateEnergy() {
             SaveLoadManager.CurrentSave.ClockEnergy = MAX_ENERGY;
         }

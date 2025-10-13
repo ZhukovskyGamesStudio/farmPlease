@@ -9,5 +9,10 @@ namespace UI {
         public override void SetData(string data) {
             _hintText.text = data;
         }
+
+        public void ClickToClose() {
+            CloseByButton();
+            NotificationsManager.Instance.TryShowAskDialog();
+        }
     }
 }

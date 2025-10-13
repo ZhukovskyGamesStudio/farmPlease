@@ -64,7 +64,7 @@ public class GameSaveProfile {
     
     public bool WasRated;
     public string LastTimeRateUsShowed;
-    
+    public bool WasAskedNotifications;
     
     #region Obsolete
 
