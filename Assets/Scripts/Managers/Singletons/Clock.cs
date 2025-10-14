@@ -114,7 +114,7 @@ namespace Managers {
                 return 0;
             }
 
-            return 10;
+            return (int)TimeSpan.FromHours(2).TotalSeconds;
 
             return (int)TimespanForRefillOneEnergy.TotalSeconds * missing;
         }

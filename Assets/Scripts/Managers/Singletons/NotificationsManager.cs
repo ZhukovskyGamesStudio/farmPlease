@@ -10,12 +10,17 @@ using Random = UnityEngine.Random;
 public class NotificationsManager : PreloadableSingleton<NotificationsManager> {
     protected override void OnFirstInit() {
         base.OnFirstInit();
+        TryCopyIcons();
         NotificationCenter.Initialize(new NotificationCenterArgs() {
             AndroidChannelId = "energy_channel",
             AndroidChannelDescription = "Alerts when energy is full",
             AndroidChannelName = "Energy Notifications"
         });
         AndroidNotificationCenter.Initialize();
+    }
+
+    private void TryCopyIcons() {
+        NotificationImageHelper.CopyImageToPersistentPath("bigPicture.png");
     }
 
     public void TryShowAskDialog() {
@@ -58,16 +63,28 @@ public class NotificationsManager : PreloadableSingleton<NotificationsManager> {
         AndroidNotificationCenter.RegisterNotificationChannel(channel);
 
         List<string> randoms = new List<string>() {
-            "Твои грядки🌱 скучают по тяпке!",
-            "🤖Роботы ждут твоих команд!",
-            "🚀Ещё немного до следующего уровня!🚀"
+            "energy_notification_d1",
+            "energy_notification_d2",
+            "energy_notification_d3"
         };
         var rnd = randoms[Random.Range(0, randoms.Count)];
 
+        string header = ZG_Localization.LocalizationManager.Instance.GetText("energy_notification");
+        string description = ZG_Localization.LocalizationManager.Instance.GetText(rnd);
         var notification = new AndroidNotification {
-            Title = ZG_Localization.LocalizationManager.Instance.GetText("energy_notification"),
-            Text = ZG_Localization.LocalizationManager.Instance.GetText(rnd),
+            Title = header,
+            Text = description,
             FireTime = DateTime.Now.AddSeconds(secondsToFull),
+            LargeIcon = "tomato",
+            SmallIcon = "tomato_small",
+            BigPicture = new BigPictureStyle() {
+                Picture = NotificationImageHelper.GetPersistentImagePath("bigPicture.png"),
+                LargeIcon = "tomato",
+                SummaryText = header,
+                ContentTitle = header,
+                ContentDescription = description,
+                ShowWhenCollapsed = true
+            }
         };
 
         AndroidNotificationCenter.SendNotification(notification, "energy_channel");
