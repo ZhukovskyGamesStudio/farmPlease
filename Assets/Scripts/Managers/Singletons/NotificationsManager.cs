@@ -45,11 +45,18 @@ public class NotificationsManager : PreloadableSingleton<NotificationsManager> {
 
     private void OnApplicationPause(bool pauseStatus) {
         if (pauseStatus) {
-            if (!RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
+            if (!RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData) &&
+                SaveLoadManager.CurrentSave.ClockEnergy != Clock.MAX_ENERGY) {
                 int seconds = Clock.Instance.SecondsToRefillMaxEnergy();
                 ScheduleEnergyRestoredNotification(seconds);
             }
         } else {
+            CancelNotifications();
+        }
+    }
+
+    private void OnApplicationFocus(bool hasFocus) {
+        if (hasFocus) {
             CancelNotifications();
         }
     }
@@ -83,9 +90,9 @@ public class NotificationsManager : PreloadableSingleton<NotificationsManager> {
                 Picture = NotificationImageHelper.GetPersistentImagePath("bigPicture.png"),
                 LargeIcon = "tomato",
                 SummaryText = header,
-                ContentTitle = header,
+                ContentTitle = description,
                 ContentDescription = description,
-                ShowWhenCollapsed = true
+                ShowWhenCollapsed = true,
             }
         };
 
