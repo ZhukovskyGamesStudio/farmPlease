@@ -3,10 +3,21 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Dialogs;
 using Tables;
+using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class WatchAdDialog :  Dialogs.DialogWithData<Reward> {
+public class WatchAdDialog : DialogWithData<WatchAdDialog.Data> {
+    public class Data {
+        public Reward Reward;
+        public Action OnClaim;
+        public string Header;
+        public bool IsJustImage;
+        public Sprite JustSprite;
+        public string AdId;
+    }
+
     [SerializeField]
     private RewardItemView _rewardItemView;
 
@@ -14,14 +25,30 @@ public class WatchAdDialog :  Dialogs.DialogWithData<Reward> {
     private Animation _animation;
 
     [SerializeField]
-    private AnimationClip _dialogShow,_dialogIdle, _watchAd;
+    private AnimationClip _dialogShow, _dialogIdle, _watchAd;
+
+    [SerializeField]
+    private TextMeshProUGUI _header;
+
+    [SerializeField]
+    private Image _justImage;
 
     private bool _isWatchingAd;
+    private Data _data;
 
-    public override void SetData(Reward data) {
-        RewardUtils.SetRewardsView(data, new List<RewardItemView>() {
+    public override void SetData(Data data) {
+        _data = data;
+        RewardUtils.SetRewardsView(data.Reward, new List<RewardItemView>() {
             _rewardItemView
         }, null);
+        _header.text = data.Header;
+
+        if (_data.IsJustImage) {
+            _justImage.gameObject.SetActive(true);
+            _rewardItemView.gameObject.SetActive(false);
+            _justImage.sprite = _data.JustSprite;
+            _justImage.SetNativeSize();
+        }
     }
 
     public override async UniTask Show(Action onClose, Action<bool> onHideUI) {
@@ -34,45 +61,31 @@ public class WatchAdDialog :  Dialogs.DialogWithData<Reward> {
         if (_isWatchingAd) {
             return;
         }
+
         UIHud.Instance.ProfileView.Show();
         await base.Close();
     }
 
-       public void WatchRewardedAdButton() {
-          if (_isWatchingAd) {
-              return;
-          }
+    public void WatchRewardedAdButton() {
+        if (_isWatchingAd) {
+            return;
+        }
 
-          _isWatchingAd = true;
-          WatchRewardedAd().Forget();
-      }
+        _isWatchingAd = true;
+        WatchRewardedAd().Forget();
+    }
 
-     private async UniTask WatchRewardedAd() {
-        
-         ZhukovskyAdsManager.Instance.AdsProvider.ShowRewardedAd(AdsIds.RewardedBattery,() => {
-             _isWatchingAd = false;
-             GiveBatteryReward();
-             Close();
-         }, () => {
-             _isWatchingAd = false;
-             Close();
-         });
-         
-         _animation.Play(_watchAd.name);
-         await UniTask.WaitWhile(() => _animation.isPlaying);
-      }
+    private async UniTask WatchRewardedAd() {
+        ZhukovskyAdsManager.Instance.AdsProvider.ShowRewardedAd(_data.AdId, () => {
+            _isWatchingAd = false;
+            _data.OnClaim?.Invoke();
+            Close();
+        }, () => {
+            _isWatchingAd = false;
+            Close();
+        });
 
-      private static void GiveBatteryReward() {
-          DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
-              Reward = new Reward() {
-                  Items = new List<RewardItem>() {
-                      new RewardItem() {
-                          Type = ToolBuff.WeekBattery.ToString(),
-                          Amount = 1
-                      }
-                  }
-              },
-              OnClaim = () => { UIHud.Instance.BackpackAttention.ShowAttention(); }
-          });
-      }
+        _animation.Play(_watchAd.name);
+        await UniTask.WaitWhile(() => _animation.isPlaying);
+    }
 }

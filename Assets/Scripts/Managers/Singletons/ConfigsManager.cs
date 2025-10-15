@@ -12,6 +12,9 @@ public class ConfigsManager : PreloadableSingleton<ConfigsManager> {
 
     [field: SerializeField]
     public LevelsConfig LevelsConfig { get; private set; }
+    
+    [field: SerializeField]
+    public AdRewardsConfig AdRewardsConfig { get; private set; }
 
     [field: SerializeField]
 
@@ -23,6 +26,7 @@ public class ConfigsManager : PreloadableSingleton<ConfigsManager> {
         CostsConfig = await Resources.LoadAsync<CostsConfig>("Configs/CostsConfig") as CostsConfig;
         FtueConfig = await Resources.LoadAsync<FtueConfig>("Configs/FtueConfig") as FtueConfig;
         LevelsConfig = await Resources.LoadAsync<LevelsConfig>("Configs/LevelsConfig") as LevelsConfig;
+        AdRewardsConfig = await Resources.LoadAsync<AdRewardsConfig>("Configs/AdRewardsConfig") as AdRewardsConfig;
         CheatCodeConfigList = await Resources.LoadAsync<CheatCodeConfigList>("Configs/CheatCodeConfigList") as CheatCodeConfigList;
         await UniTask.Yield();
     }

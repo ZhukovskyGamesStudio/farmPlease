@@ -281,7 +281,7 @@ public class TimeManager : Singleton<TimeManager> {
         var skipDaysAmount = FirstDayInMonth(date.Year, date.Month);
         DialogsManager.Instance.ShowDialogWithData(typeof(BigCalendarDialog), new BigCalendarData() {
             DaysHappenings = Days,
-            SkipAmount = skipDaysAmount
+            SkipAmount = skipDaysAmount,
         });
     }
 }

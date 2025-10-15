@@ -47,23 +47,40 @@ namespace Managers {
                    SaveLoadManager.CurrentSave.ClockEnergy == 0 && KnowledgeUtils.HasKnowledge(Knowledge.NoEnergy);
         }
 
-        private static void ShowNoEnergyAnimation() {
+        private void ShowNoEnergyAnimation() {
             UIHud.Instance.ClockView.ShowZeroTimeAnimation();
             Audio.Instance.PlaySound(Sounds.ZeroEnergy);
 
             if (SaveLoadManager.CurrentSave.ToolBuffsStored.SafeGet(ToolBuff.WeekBattery, 0) > 0) {
                 UIHud.Instance.BackpackAttention.ShowAttention();
             } else if (KnowledgeUtils.HasKnowledge(Knowledge.NoEnergy)) {
-                DialogsManager.Instance.ShowDialogWithData(typeof(WatchAdDialog), new Reward() {
-                    Items = new List<RewardItem>() {
-                        new RewardItem() {
-                            Type = ToolBuff.WeekBattery.ToString(),
-                            Amount = 1
-                        }
-                    }
+                DialogsManager.Instance.ShowDialogWithData(typeof(WatchAdDialog), new WatchAdDialog.Data() {
+                    Reward = OneBatteryReward,
+                    OnClaim = GiveBatteryReward,
+                    Header = ZG_Localization.LocalizationManager.Instance.GetText("battery_ad_header"),
+                    AdId = AdsIds.RewardedBattery
                 });
             }
         }
+        
+        private void GiveBatteryReward() {
+            DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
+                Reward = OneBatteryReward,
+                OnClaim = () => {
+                    UIHud.Instance.BackpackAttention.ShowAttention();
+                }
+            });
+        }
+
+        private static Reward OneBatteryReward => new Reward() {
+            Items = new List<RewardItem>() {
+                new RewardItem() {
+                    Type = nameof(ToolBuff.WeekBattery),
+                    Amount = 1
+                }
+            }
+        };
+        
 
         private IEnumerator ClockRealtimeCoroutine(float timeLeft) {
             float cur = 0;

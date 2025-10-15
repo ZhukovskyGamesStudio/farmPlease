@@ -66,6 +66,10 @@ public static class RewardUtils {
         if (Enum.TryParse(reward, out Unlockable type)) {
             return ConfigsManager.Instance.LevelsConfig.UnlockableIcons.Find(icon => icon.Unlockable == reward)?.Icon;
         }
+        
+        if (Enum.TryParse(reward, out AdRewards adReward)) {
+            return ConfigsManager.Instance.AdRewardsConfig.AdRewardIcons[adReward];
+        }
 
         throw new KeyNotFoundException();
     }
