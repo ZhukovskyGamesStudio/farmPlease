@@ -304,6 +304,7 @@ namespace Managers {
             if (config.IsInstant) {
                 if (buff == ToolBuff.WeekBattery) {
                     Clock.Instance.RefillToMaxEnergy();
+                    NotificationsManager.Instance.TryShowAskDialog();
                 }
             } else {
                 ToolsActivated[buff] += config.workDaysAmount;

@@ -1,18 +1,16 @@
 using TMPro;
 using UnityEngine;
 
-namespace UI {
-    public class EnergyRefillDialog :  Dialogs.DialogWithData<string> {
-        [SerializeField]
-        private TextMeshProUGUI _hintText;
+public class EnergyRefillDialog : Dialogs.DialogWithData<string> {
+    [SerializeField]
+    private TextMeshProUGUI _hintText;
 
-        public override void SetData(string data) {
-            _hintText.text = data;
-        }
+    public override void SetData(string data) {
+        _hintText.text = data;
+    }
 
-        public void ClickToClose() {
-            CloseByButton();
-            NotificationsManager.Instance.TryShowAskDialog();
-        }
+    public void ClickToClose() {
+        CloseByButton();
+        NotificationsManager.Instance.TryShowAskDialog();
     }
 }

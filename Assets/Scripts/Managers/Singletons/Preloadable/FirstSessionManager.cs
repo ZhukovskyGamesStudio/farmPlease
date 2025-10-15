@@ -371,17 +371,21 @@ namespace Managers {
 
 		private async UniTask ShowDoWaterAgainSpotlight() {
 			_isWaitingForStepEnd = true;
-
+		
 			UIHud.Instance.SpotlightWithText.ShowSpotlight(GetFarmCenterSpotlight(),
 				FtueConfig.DoWaterAgainHint, StepEnded, false);
+			UIHud.Instance.SpotlightWithText.ShowFinger(UIHud.Instance.ClockView.transform.position);
 			UIHud.Instance.ClockView.IsLockedByFtue = false;
 			await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy == 0);
 			UIHud.Instance.ClockView.IsLockedByFtue = true;
+			UIHud.Instance.SpotlightWithText.HideFinger();
 			UIHud.Instance.ClockView.GetComponent<Button>().interactable = false;
 			await UniTask.Delay(100);
 			await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Energy > 0);
 			StepEnded();
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
+			
+			
 		}
 
 		private async UniTask ShowScalesSpotlight() {
@@ -451,10 +455,13 @@ namespace Managers {
 			_isWaitingForStepEnd = true;
 			await UniTask.Delay(1500);
 			var seedShopDialog = Object.FindAnyObjectByType<SeedShopDialog>();
+			
 			UIHud.Instance.SpotlightWithText.ShowSpotlight(seedShopDialog.FirstBagCanvas.transform,
 				FtueConfig.BuyTomatoHint, StepEnded, false);
+			UIHud.Instance.SpotlightWithText.ShowFinger(seedShopDialog.FirstBagCanvas.transform.position);
 			await UniTask.WaitWhile(() => SaveLoadManager.CurrentSave.Seeds[Crop.Tomato] < 12);
 			UIHud.Instance.SpotlightWithText.Hide();
+			UIHud.Instance.SpotlightWithText.HideFinger();
 			await UniTask.WaitWhile(() => _isWaitingForStepEnd);
 		}
 

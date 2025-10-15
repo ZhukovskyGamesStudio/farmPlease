@@ -21,6 +21,9 @@ namespace UI {
         [SerializeField]
         protected CanvasGroup _textBubbleCanvas;
 
+        [field:SerializeField]
+        public GameObject Finger;
+
         private const string SHOW = "SpotlightShow";
         private const string HIDE = "SpotlightHide";
 
@@ -31,7 +34,7 @@ namespace UI {
         private bool _isHidingAfter;
 
         public async void ShowSpotlightOnButton(Button target, SpotlightAnimConfig animDataConfig, Action onButtonPressed = null,
-            bool isHidingAfter = false) {
+            bool isHidingAfter = false, bool isFingerShow = true) {
             _isHidingAfter = isHidingAfter;
             gameObject.SetActive(true);
             if (_isShown) {
@@ -45,13 +48,17 @@ namespace UI {
             OnAnimationEnded = onButtonPressed;
             _isHidingByAnyTap = false;
             ChangeCenterBlockRaycast(_isHidingByAnyTap);
+            if (isFingerShow) {
+                Finger.transform.position = target.transform.position;
+                Finger.SetActive(true);
+            }
         }
 
         public async void ShowSpotlight(Transform target, SpotlightAnimConfig animDataConfig, Action onHideEnded = null,
             bool isHidingByAnyTap = true, bool isHidingAfter = false) {
             _isHidingAfter = isHidingAfter;
             gameObject.SetActive(true);
-
+            Finger.SetActive(false);
             if (_isShown) {
                 JumpSpotlight(target.transform.position, animDataConfig);
             } else {
@@ -136,9 +143,20 @@ namespace UI {
         public void Hide() {
             if (_isHidingAfter) {
                 HideSpotlight();
+                Finger.SetActive(false);
             } else {
                 OnAnimationEnded?.Invoke();
             }
+        }
+
+        public void ShowFinger(Vector3 position) {
+            Finger.transform.position = position;
+            Finger.SetActive(true);
+            
+        }
+
+        public void HideFinger() {
+            Finger.SetActive(false);
         }
 
         public void HideButton() {

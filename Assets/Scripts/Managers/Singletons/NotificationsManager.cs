@@ -45,8 +45,10 @@ public class NotificationsManager : PreloadableSingleton<NotificationsManager> {
 
     private void OnApplicationPause(bool pauseStatus) {
         if (pauseStatus) {
-            int seconds = Clock.Instance.SecondsToRefillMaxEnergy();
-            ScheduleEnergyRestoredNotification(seconds);
+            if (!RealShopUtils.IsGoldenClockActive(SaveLoadManager.CurrentSave.RealShopData)) {
+                int seconds = Clock.Instance.SecondsToRefillMaxEnergy();
+                ScheduleEnergyRestoredNotification(seconds);
+            }
         } else {
             CancelNotifications();
         }
