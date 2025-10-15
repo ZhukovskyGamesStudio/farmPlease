@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Abstract;
+using Cysharp.Threading.Tasks;
 using Dialogs;
 using Managers;
 using Unity.Notifications;
@@ -17,6 +18,12 @@ public class NotificationsManager : PreloadableSingleton<NotificationsManager> {
             AndroidChannelName = "Energy Notifications"
         });
         AndroidNotificationCenter.Initialize();
+
+        var notificationIntentData = AndroidNotificationCenter.GetLastNotificationIntent();
+
+        if (notificationIntentData != null) {
+            ZhukovskyAnalyticsManager.Instance.SendCustomEvent("notification_opened", new Dictionary<string, object> { });
+        }
     }
 
     private void TryCopyIcons() {
@@ -35,7 +42,21 @@ public class NotificationsManager : PreloadableSingleton<NotificationsManager> {
     public void TryRequestPermission() {
         // Проверяем, поддерживает ли устройство запрос разрешения
         if (AndroidNotificationCenter.UserPermissionToPost == PermissionStatus.NotRequested) {
-            NotificationCenter.RequestPermission();
+            NotificationsPermissionRequest request = NotificationCenter.RequestPermission();
+            WaitForRequest(request).Forget();
+        }
+    }
+
+    private async UniTask WaitForRequest(NotificationsPermissionRequest request) {
+        await request.ToUniTask();
+        if (request.Status == NotificationsPermissionStatus.Granted) {
+            ZhukovskyAnalyticsManager.Instance.SendCustomEvent("notification_permission", new Dictionary<string, object> {
+                { "status", "granted" }
+            });
+        } else {
+            ZhukovskyAnalyticsManager.Instance.SendCustomEvent("notification_permission", new Dictionary<string, object> {
+                { "status", "denied" }
+            });
         }
     }
 
