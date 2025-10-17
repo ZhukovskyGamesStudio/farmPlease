@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Lofelt.NiceVibrations;
 using ScriptableObjects;
 using UI;
 using UnityEngine;
@@ -69,6 +70,10 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
         await UniTask.WaitWhile(() => _isWaitingForStepEnd);
     }
 
+    public void PlayImpactVibration() {
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.HeavyImpact);
+    }
+
     public async UniTask ContinueCutscene() {
         _animation.Play(_rocketLand.name);
         await UniTask.WaitWhile(() => _animation != null && _animation.isPlaying);
@@ -78,6 +83,7 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
     }
 
     public void ClickDunes() {
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
         Close();
     }
 }
