@@ -126,9 +126,11 @@ public class SmartTilemap : MonoBehaviour {
                 SmartTile smartTile = new SmartTile();
                 smartTile.Init(this, tile, position);
                 _tiles.Add(position, smartTile);
+            } else {
+                _tiles[position].SwitchType(tile);
             }
 
-            MainTilemap.SetTile((Vector3Int)position, TilesTable.TileByType(tile).TileBase);
+            //MainTilemap.SetTile((Vector3Int)position, TilesTable.TileByType(tile).TileBase);
         }
     }
 

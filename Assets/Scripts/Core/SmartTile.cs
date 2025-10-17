@@ -23,7 +23,7 @@ public class SmartTile {
         this.type = type;
         _position = pos;
         isActive = true;
-        _tilemap.MainTilemap.SetColor((Vector3Int)_position, Color.red);
+        SwitchType(this.type);
     }
 
     public bool CanBeHoed() {
