@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Lofelt.NiceVibrations;
 using Managers;
 using ScriptableObjects;
 using Tables;
@@ -148,6 +149,7 @@ public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
             ShowChangeAnimation().Forget();
             ChangeSeedsButtonActive.SetActive(false);
             SaveLoadManager.CurrentSave.SeedShopData.ChangeButtonActive = false;
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
         }
     }
 

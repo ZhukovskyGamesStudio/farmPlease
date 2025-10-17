@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Dialogs;
+using Lofelt.NiceVibrations;
 using ScriptableObjects;
 using Tables;
 using UI;
@@ -174,6 +175,8 @@ namespace Managers {
                 AddCoins(-1 * cost);
                 AddSeed(crop, amount);
                 SmartTilemap.Instance.HappeningSequence().Forget();
+                
+                HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
                 return true;
             }
 
@@ -296,7 +299,7 @@ namespace Managers {
             }
 
             ToolsStored[buff]--;
-
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
             if (!ToolsActivated.ContainsKey(buff)) {
                 ToolsActivated.Add(buff, 0);
             }

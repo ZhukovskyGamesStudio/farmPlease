@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Lofelt.NiceVibrations;
 using ZG_Localization;
 using Managers;
 using Tables;
@@ -77,7 +78,7 @@ public class ToolShopDialog :  Dialogs.DialogWithData<ToolShopData> {
                 _secondActive = false;
                 SaveLoadManager.CurrentSave.ToolShopData.SecondOfferActive = false;
             }
-
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
             offer.gameObject.SetActive(false);
             StartCoroutine(Buying());
             SaveLoadManager.SaveGame();
@@ -92,6 +93,7 @@ public class ToolShopDialog :  Dialogs.DialogWithData<ToolShopData> {
     public void OnMovedToBag() {
         _waitingToolMovedToBag = false;
         _toolBox.SetActive(false);
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
     }
 
     private IEnumerator Buying() {

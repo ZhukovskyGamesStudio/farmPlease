@@ -8,6 +8,7 @@ public class SettingsData {
     public int NewDayPoint = 2;
     public bool SendNotifications = true;
     public bool SkipOne = false;
+    public bool Vibrations = true;
 
     public SettingsData() { }
 
@@ -18,5 +19,6 @@ public class SettingsData {
         SendNotifications = data.SendNotifications;
         NewDayPoint = data.NewDayPoint;
         SkipOne = data.SkipOne;
+        Vibrations = data.Vibrations;
     }
 }

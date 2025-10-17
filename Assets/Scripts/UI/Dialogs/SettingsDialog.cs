@@ -2,6 +2,7 @@
 using Abstract;
 using Cysharp.Threading.Tasks;
 using Dialogs;
+using Lofelt.NiceVibrations;
 using ZG_Localization;
 using Managers;
 using ScriptableObjects;
@@ -16,6 +17,7 @@ namespace UI {
         public Button GPGSButton;
         public Text GPGSText;
         public Toggle NotificationsToggle;
+        public Toggle VibraionsToggle;
         public GameObject ResetButton;
         public DevlogManager Devlog;
         public GameObject RateUsButton;
@@ -59,6 +61,7 @@ namespace UI {
             musicSoundSlider.SetValueWithoutNotify(data.MusicVolume);
             effectsSoundSlider.SetValueWithoutNotify(data.EffectsVolume);
             NotificationsToggle.SetIsOnWithoutNotify(data.SendNotifications);
+            VibraionsToggle.SetIsOnWithoutNotify(data.Vibrations);
             _versionText.text = "v"+Application.version;
             ResetButton.SetActive(false);
             RateUsButton.SetActive(!SaveLoadManager.CurrentSave.WasRated);
@@ -111,6 +114,12 @@ namespace UI {
             Settings.Instance.NotificationChanged();
             Audio.Instance.ChangeVolume(SettingsData.MasterVolume, SettingsData.MusicVolume, SettingsData.EffectsVolume);
             SaveLoadManager.SaveGame();
+        }
+
+        public void SetVibrations(bool isOn) {
+            SaveLoadManager.CurrentSave.SettingsData.Vibrations = isOn;
+            VibrationsUtils.SetVibrations(isOn);
+            
         }
 
         public void ClearSave() {

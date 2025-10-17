@@ -21,6 +21,8 @@ namespace Managers {
             LoadGame();
             AdminManager.Instance.Init(SaveLoadManager.CurrentSave.IsAdmin);
             Settings.Instance.InitSettingsView();
+            VibrationsUtils.SetVibrations(SaveLoadManager.CurrentSave.SettingsData.Vibrations);
+            
             Clock.Instance.TryRefillForRealtimePassed();
             InventoryManager.Instance.CheckNewLevelDialog();
             KnowledgeHintsFactory.Instance.CheckAllUnshownHints();

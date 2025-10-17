@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Lofelt.NiceVibrations;
 using Managers;
 using Tables;
 using UnityEngine;
@@ -372,22 +373,26 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public async UniTask SeedTile(Crop crop) {
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
         await _tiles[Playercoord].OnSeeded(crop, animtime);
         await HappeningSequence();
     }
 
     public async UniTask CollectTile() {
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
         bool hasGoldenScythe = RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData);
         await _tiles[Playercoord].OnCollected(InventoryManager.Instance.IsToolWorking(ToolBuff.Greenscythe), hasGoldenScythe, animtime / 3);
         await HappeningSequence();
     }
 
     public async UniTask HoeTile() {
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
         await _tiles[Playercoord].OnHoed(animtime);
         await HappeningSequence();
     }
 
     public async UniTask WaterTile() {
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
         await _tiles[Playercoord].OnWatered(animtime);
         await HappeningSequence();
     }

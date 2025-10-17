@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lofelt.NiceVibrations;
 using Managers;
 using Tables;
 using UI;
@@ -11,6 +12,7 @@ public static class QuestsUtils {
     public static string GetQuestProgress(QuestData data) {
         return $"{data.Progress}/{data.ProgressNeeded}";
     }
+
     public static string GetQuestSendProgress(QuestData data) {
         return $"{GetQuestReadyForSend(data)}/{data.ProgressNeeded}";
     }
@@ -34,12 +36,13 @@ public static class QuestsUtils {
 
         return false;
     }
-    
+
     public static void SendQuest(QuestData data) {
         if (Enum.TryParse(data.TargetType, out Crop crop)) {
             for (int i = 0; i < data.ProgressNeeded; i++) {
                 SaveLoadManager.CurrentSave.CropsCollected.Remove(crop);
             }
+
             InventoryManager.Instance.AddCropPoint(-data.ProgressNeeded);
         }
 
@@ -47,7 +50,6 @@ public static class QuestsUtils {
         ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
         SaveLoadManager.SaveGame();
     }
-
 
     public static void ClaimQuest(QuestData data) {
         if (data.Reward != null) {
@@ -60,18 +62,20 @@ public static class QuestsUtils {
 
         if (data.IsMain) {
             QuestsManager.Instance.ProgressMainQuestline();
+
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
+        } else {
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
         }
-        
+
         ZhukovskyAnalyticsManager.Instance.SendCustomEvent("quest_complete", new Dictionary<string, object> {
             { "quest_name", data.TriggerName },
-            {"is_main", data.IsMain},
+            { "is_main", data.IsMain },
         }, true);
-        
+
         ChangeTileView(SaveLoadManager.CurrentSave.QuestsData);
-        
     }
 
-    
     public static void PlaceQuestBoard() {
         SmartTilemap.Instance.PlaceTile(QuestBoardPosition, TileType.QuestBoard1_11);
         SmartTilemap.Instance.PlaceTile(QuestBoardPosition + Vector2Int.right, TileType.QuestBoard2);

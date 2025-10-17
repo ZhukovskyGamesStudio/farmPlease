@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Lofelt.NiceVibrations;
 using Managers;
 using Tables;
 using UI;
@@ -54,7 +55,7 @@ public class ScalesDialog :  Dialogs.DialogWithData<int> {
         }
 
         IsSellingAnimation = true;
-
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
         StartCoroutine(SellCoroutine(crops));
     }
 

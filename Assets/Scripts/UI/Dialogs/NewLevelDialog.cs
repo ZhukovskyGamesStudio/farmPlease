@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Lofelt.NiceVibrations;
 using ZG_Localization;
 using TMPro;
 using UI;
@@ -77,6 +78,7 @@ public class NewLevelDialog : Dialogs.DialogWithData<NewLevelDialog.Data> {
 
     protected override UniTask Close() {
         UIHud.Instance.ProfileView.Show();
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
         RewardUtils.ClaimUnlockOnly(_data.RewardWithUnlockable);
         return base.Close();
     }
@@ -85,10 +87,11 @@ public class NewLevelDialog : Dialogs.DialogWithData<NewLevelDialog.Data> {
         if (_clicksMade >= _clicksNeeded) {
             return;
         }
-
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
         _clicksMade++;
 
         if (_clicksMade >= _clicksNeeded) {
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
             ChangeLevel();
         } else {
             _levelAnimation.Stop();
@@ -105,6 +108,7 @@ public class NewLevelDialog : Dialogs.DialogWithData<NewLevelDialog.Data> {
     }
 
     public void ChangeToUnlock() {
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
         UnlockAnimaion().Forget();
     }
 

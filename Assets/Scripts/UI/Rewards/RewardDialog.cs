@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Lofelt.NiceVibrations;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -85,9 +86,10 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
         }
 
         _clicksMade++;
-
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
         if (_clicksMade >= _clicksNeeded) {
             _isOpening = true;
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
             OpenChest();
         } else {
             _chestAnimation.Stop();
