@@ -21,6 +21,8 @@ public class BigCalendarDialog : Dialogs.DialogWithData<BigCalendarData> {
     [SerializeField]
     private TextMeshProUGUI _monthText;
 
+    protected override bool IsHideProfile => true;
+
     public override void SetData(BigCalendarData data) {
         CreateDaysViews(data.DaysHappenings, data.SkipAmount);
         UpdateBigCalendar(SaveLoadManager.CurrentSave.CurrentDayInMonth);

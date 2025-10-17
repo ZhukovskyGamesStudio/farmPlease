@@ -16,6 +16,9 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
 
     [SerializeField]
     private Sprite _coinRewardIcon;
+    
+    [SerializeField]
+    private CanvasGroup _chestCanvasGroup;
 
     [SerializeField]
     private Animation _chestAnimation, _rewardsAnimation;
@@ -31,6 +34,7 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
     [SerializeField]
     private TextMeshProUGUI _headerText;
     private bool _isShowing;
+    private bool _isOpening;
     public override void SetData(RewardDialogData data) {
         _data = data;
         List<RewardItemView> combinedRewardViews = new List<RewardItemView>();
@@ -73,7 +77,7 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
     }
 
     public void ClickChest() {
-        if (_isShowing) {
+        if (_isShowing || _isOpening) {
             return;
         }
         if (_clicksMade >= _clicksNeeded) {
@@ -83,6 +87,7 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
         _clicksMade++;
 
         if (_clicksMade >= _clicksNeeded) {
+            _isOpening = true;
             OpenChest();
         } else {
             _chestAnimation.Stop();
@@ -96,7 +101,8 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
         _chestAnimation.Play(_chestClick.name);
         _chestAnimation.PlayQueued(_chestOpen.name);
         await UniTask.WaitWhile(() => _chestAnimation.isPlaying);
-
+        //почему-то сундук иногда застревает в полупрозрачном состоянии
+        _chestCanvasGroup.alpha = 0;
         int rewardsAmount = _data.Reward.Items.Count;
         if (_data.Reward is RewardWithUnlockable) {
             rewardsAmount++;

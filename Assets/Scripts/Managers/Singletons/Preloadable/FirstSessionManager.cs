@@ -117,8 +117,8 @@ namespace Managers {
 			SaveLoadManager.CurrentSave.IsEditor = true;
 #endif
 			EndFtue();
-			await ShowGetNextLevelSpotlight();
 			UIHud.Instance.QuestsAttention.ShowAttention();
+			await ShowGetNextLevelSpotlight();
 			SendTutorialCustomEvent("08_quests");
 			
 			_endFtueCts.Cancel();
