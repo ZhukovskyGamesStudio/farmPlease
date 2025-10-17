@@ -39,6 +39,7 @@ namespace Managers {
 
             _isAlreadyClicked = false;
             LoseOneEnergy();
+            Handheld.Vibrate();
             TimeManager.Instance.AddDay();
         }
 
