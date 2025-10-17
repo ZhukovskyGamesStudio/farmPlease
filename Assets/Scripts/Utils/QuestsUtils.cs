@@ -63,9 +63,9 @@ public static class QuestsUtils {
         if (data.IsMain) {
             QuestsManager.Instance.ProgressMainQuestline();
 
-            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
+            VibrationsUtils.Vibrate(HapticPatterns.PresetType.Success);
         } else {
-            HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
+            VibrationsUtils.Vibrate(HapticPatterns.PresetType.SoftImpact);
         }
 
         ZhukovskyAnalyticsManager.Instance.SendCustomEvent("quest_complete", new Dictionary<string, object> {

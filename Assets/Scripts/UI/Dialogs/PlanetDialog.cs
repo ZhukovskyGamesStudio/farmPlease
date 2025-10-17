@@ -71,7 +71,7 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
     }
 
     public void PlayImpactVibration() {
-        HapticPatterns.PlayPreset(HapticPatterns.PresetType.HeavyImpact);
+        VibrationsUtils.Vibrate(HapticPatterns.PresetType.HeavyImpact);
     }
 
     public async UniTask ContinueCutscene() {
@@ -83,7 +83,7 @@ public class PlanetDialog : Dialogs.DialogWithData<PlanetDialog.Data> {
     }
 
     public void ClickDunes() {
-        HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
+        VibrationsUtils.Vibrate(HapticPatterns.PresetType.SoftImpact);
         Close();
     }
 }

@@ -86,10 +86,10 @@ public class RewardDialog :  Dialogs.DialogWithData<RewardDialogData> {
         }
 
         _clicksMade++;
-        HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
+        VibrationsUtils.Vibrate(HapticPatterns.PresetType.LightImpact);
         if (_clicksMade >= _clicksNeeded) {
             _isOpening = true;
-            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
+            VibrationsUtils.Vibrate(HapticPatterns.PresetType.Success);
             OpenChest();
         } else {
             _chestAnimation.Stop();

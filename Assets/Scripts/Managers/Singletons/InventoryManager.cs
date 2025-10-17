@@ -176,7 +176,7 @@ namespace Managers {
                 AddSeed(crop, amount);
                 SmartTilemap.Instance.HappeningSequence().Forget();
                 
-                HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
+                VibrationsUtils.Vibrate(HapticPatterns.PresetType.Selection);
                 return true;
             }
 
@@ -299,7 +299,7 @@ namespace Managers {
             }
 
             ToolsStored[buff]--;
-            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
+            VibrationsUtils.Vibrate(HapticPatterns.PresetType.Success);
             if (!ToolsActivated.ContainsKey(buff)) {
                 ToolsActivated.Add(buff, 0);
             }

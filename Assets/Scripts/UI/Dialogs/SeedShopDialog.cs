@@ -149,7 +149,7 @@ public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
             ShowChangeAnimation().Forget();
             ChangeSeedsButtonActive.SetActive(false);
             SaveLoadManager.CurrentSave.SeedShopData.ChangeButtonActive = false;
-            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
+            VibrationsUtils.Vibrate(HapticPatterns.PresetType.Selection);
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Dialogs;
+using Lofelt.NiceVibrations;
 using Tables;
 using UI;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace Managers {
 
             _isAlreadyClicked = false;
             LoseOneEnergy();
-            Handheld.Vibrate();
+            VibrationsUtils.Vibrate(HapticPatterns.PresetType.SoftImpact);
             TimeManager.Instance.AddDay();
         }
 
@@ -63,13 +64,11 @@ namespace Managers {
                 });
             }
         }
-        
+
         private void GiveBatteryReward() {
             DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
                 Reward = OneBatteryReward,
-                OnClaim = () => {
-                    UIHud.Instance.BackpackAttention.ShowAttention();
-                }
+                OnClaim = () => { UIHud.Instance.BackpackAttention.ShowAttention(); }
             });
         }
 
@@ -81,7 +80,6 @@ namespace Managers {
                 }
             }
         };
-        
 
         private IEnumerator ClockRealtimeCoroutine(float timeLeft) {
             float cur = 0;

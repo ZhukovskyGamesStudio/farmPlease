@@ -55,7 +55,7 @@ public class ScalesDialog :  Dialogs.DialogWithData<int> {
         }
 
         IsSellingAnimation = true;
-        HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
+        VibrationsUtils.Vibrate(HapticPatterns.PresetType.SoftImpact);
         StartCoroutine(SellCoroutine(crops));
     }
 
