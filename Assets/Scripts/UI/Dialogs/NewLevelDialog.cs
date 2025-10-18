@@ -79,7 +79,6 @@ public class NewLevelDialog : Dialogs.DialogWithData<NewLevelDialog.Data> {
     protected override UniTask Close() {
         UIHud.Instance.ProfileView.Show();
         VibrationsUtils.Vibrate(HapticPatterns.PresetType.LightImpact);
-        RewardUtils.ClaimUnlockOnly(_data.RewardWithUnlockable);
         return base.Close();
     }
 

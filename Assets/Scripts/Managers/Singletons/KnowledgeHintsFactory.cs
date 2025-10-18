@@ -124,7 +124,7 @@ public class KnowledgeHintsFactory : MonoBehaviour {
     
 
     private void ShowFarmerCommunityHint() {
-        if (KnowledgeUtils.HasKnowledge(Knowledge.FarmerCommunity)) {
+        if (KnowledgeUtils.HasKnowledge(Knowledge.FarmerCommunity) || !FarmerCommunityManager.Instance.IsNextFarmLoaded) {
             return;
         }
         SmartTilemap.Instance.BrobotAnimTilemap.ShowFlyAnimation();

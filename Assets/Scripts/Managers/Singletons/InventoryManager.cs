@@ -141,14 +141,14 @@ namespace Managers {
             };
             DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
                 Reward = onlyReward,
-                OnClaim = OnClaimNewLevel
+                OnClaim = ()=>OnClaimNewLevel(rewardWithUnlockable)
             });
         }
 
-        private void OnClaimNewLevel() {
+        private void OnClaimNewLevel( RewardWithUnlockable rewardWithUnlockable) {
             SaveLoadManager.CurrentSave.CurrentLevel++;
             UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
-
+            RewardUtils.ClaimUnlockOnly(rewardWithUnlockable);
             LevelsUtils.TryUnlockAfterLevel();
             SaveLoadManager.SaveGame();
         }
