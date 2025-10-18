@@ -40,7 +40,7 @@ namespace Managers {
 
             _isAlreadyClicked = false;
             LoseOneEnergy();
-            VibrationsUtils.Vibrate(HapticPatterns.PresetType.SoftImpact);
+            VibrationsUtils.Vibrate(HapticPatterns.PresetType.LightImpact);
             TimeManager.Instance.AddDay();
         }
 
