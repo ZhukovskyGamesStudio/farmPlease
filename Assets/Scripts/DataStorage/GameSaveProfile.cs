@@ -53,6 +53,7 @@ public class GameSaveProfile {
     public List<Knowledge> KnowledgeList = new List<Knowledge>();
     public List<string> Unlocked = new List<string>();
     public List<string> UnseenCroponomPages = new List<string>();
+    public string LastCroponomPage;
 
 
     public QuestsDialogData QuestsData = new QuestsDialogData();

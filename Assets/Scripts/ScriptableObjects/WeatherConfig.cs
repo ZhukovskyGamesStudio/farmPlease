@@ -15,5 +15,8 @@ namespace ScriptableObjects {
         public Sprite DaySprite;
 
         public override string GetUnlockable() => type.ToString();
+        public override int GetPageIndex() {
+            return (int)type + 400;
+        }
     }
 }

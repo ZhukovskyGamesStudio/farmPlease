@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using ZG_Localization;
     public abstract class ConfigWithCroponomPage : ScriptableObject {
@@ -27,5 +28,11 @@ using ZG_Localization;
 
         public Sprite secondSprite;
         
+        
+        [field: SerializeField]
+        public List<Sprite> FactsSprites { get; private set; }
+        
         public abstract string GetUnlockable();
+
+        public abstract int GetPageIndex();
     }

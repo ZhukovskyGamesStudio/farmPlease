@@ -34,5 +34,8 @@ namespace ScriptableObjects
 
         public Sprite FoodMarketSprite;
         public override string GetUnlockable() => buff.ToString();
+        public override int GetPageIndex() {
+            return (int)buff + 200 ;
+        }
     }
 }

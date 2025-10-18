@@ -50,8 +50,7 @@ namespace UI {
             Dialogs.DialogsManager.Instance.OnHideUI += OnDialogShowHide;
 
             int lvl = ConfigsManager.Instance.LevelsConfig.LevelRewards.FindIndex(r => r.Reward.Unlockable == nameof(Unlockable.ToolShop)) + 1;
-            ToolsShopLock.SetLevelToUnlock(lvl+1);
-            
+            ToolsShopLock.SetLevelToUnlock(lvl + 1);
         }
 
         private void OnDialogShowHide(bool isShow) {
@@ -99,7 +98,18 @@ namespace UI {
         }
 
         public void OpenCroponom() {
-            UIHud.Instance.Croponom.Open();
+            string page = SaveLoadManager.CurrentSave.LastCroponomPage;
+            if (string.IsNullOrEmpty(page)) {
+                page = nameof(Crop.Tomato);
+            }
+
+            if (SaveLoadManager.CurrentSave.UnseenCroponomPages.Count > 0) {
+                page = SaveLoadManager.CurrentSave.UnseenCroponomPages.FirstOrDefault();
+            } else {
+                Instance.CroponomAttention.Hide();
+            }
+
+            Instance.Croponom.OpenOnPage(page);
         }
 
         public void OpenSettings() {

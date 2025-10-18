@@ -1,37 +1,43 @@
-﻿using ZG_Localization;
+﻿using System.Collections.Generic;
+using Managers;
+using ZG_Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+namespace UI {
     public class FactsPage : MonoBehaviour {
         [Header("FactsPage")]
         public TextMeshProUGUI FactsHeader;
 
-        public TextMeshProUGUI FactsFirstText;
-        public TextMeshProUGUI FactsSecondText;
-        public Image FactsFirstImage;
-        public Image FactsSecondImage;
+        [SerializeField]
+        private List<GameObject> _iconsContainers;
 
+        [SerializeField]
+        private List<Image> _icons;
+
+        [SerializeField]
+        private TextMeshProUGUI _factsText;
+
+        public ConfigWithCroponomPage Config { get; private set; }
+        
         public void UpdatePage(ConfigWithCroponomPage pageData) {
+            Config = pageData;
             FactsHeader.text = LocalizationUtils.L(pageData.HeaderLoc);
-            FactsFirstText.text = LocalizationUtils.L(pageData.FirstTextLoc);
-            FactsSecondText.text = LocalizationUtils.L(pageData.SecondTextLoc);
-            
-            if (pageData.firstSprite != null) {
-                FactsFirstImage.enabled = true;
-                FactsFirstImage.sprite = pageData.firstSprite;
-            } else {
-                FactsFirstImage.enabled = false;
+            _factsText.text = LocalizationUtils.L(pageData.FirstTextLoc) + "\n" + LocalizationUtils.L(pageData.SecondTextLoc);
+
+            foreach (var iconContainer in _iconsContainers) {
+                iconContainer.SetActive(false);
             }
 
-            if (pageData.secondSprite != null) {
-                FactsSecondImage.enabled = true;
-                FactsSecondImage.sprite = pageData.secondSprite;
-            } else {
-                FactsSecondImage.enabled = false;
+            for (int index = 0; index < pageData.FactsSprites.Count; index++) {
+                _iconsContainers[index].SetActive(true);
+                _icons[index].sprite = pageData.FactsSprites[index];
+                _icons[index].SetNativeSize();
             }
+
+            SaveLoadManager.CurrentSave.LastCroponomPage = pageData.GetUnlockable();
+            SaveLoadManager.SaveGame();
         }
     }
 }

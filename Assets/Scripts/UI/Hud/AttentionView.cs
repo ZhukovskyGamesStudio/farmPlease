@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class AttentionView : MonoBehaviour {
     [SerializeField]
@@ -8,6 +9,7 @@ public class AttentionView : MonoBehaviour {
     private AnimationClip _showClip, _idleClip, _hideClip;
 
     private bool _isShown;
+    private bool _needPlaying;
 
     public void ShowAttention() {
         if (_isShown) {
@@ -17,12 +19,21 @@ public class AttentionView : MonoBehaviour {
         _isShown = true;
         _animation.Play(_showClip.name);
         _animation.PlayQueued(_idleClip.name);
+        _needPlaying = true;
+    }
+
+    private void OnEnable() {
+        if (_needPlaying) {
+            _animation.PlayQueued(_idleClip.name);
+        }
     }
 
     public void Hide() {
         if (!_isShown) {
             return;
         }
+
+        _needPlaying = false;
         _isShown = false;
         _animation.Play(_hideClip.name);
     }

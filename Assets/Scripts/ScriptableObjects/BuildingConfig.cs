@@ -2,6 +2,7 @@ using Tables;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using ZG_Localization;
+
 namespace ScriptableObjects {
     [CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/Building", order = 5)]
     public class BuildingConfig : ConfigWithCroponomPage {
@@ -13,11 +14,16 @@ namespace ScriptableObjects {
         [Header("BuildingOffer")]
         public Sprite offerSprite;
 
-        [LocalizationKey("Croponom")] 
+        [LocalizationKey("Croponom")]
         public string explainTextLoc;
+
         public string offerHeader;
         public string offerText;
 
         public override string GetUnlockable() => type.ToString();
+
+        public override int GetPageIndex() {
+            return (int)type + 800;
+        }
     }
 }

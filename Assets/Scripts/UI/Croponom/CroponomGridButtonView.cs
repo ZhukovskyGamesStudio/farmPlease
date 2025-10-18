@@ -4,7 +4,13 @@ using UnityEngine.UI;
 
 public class CroponomGridButtonView : MonoBehaviour {
     [SerializeField]
-    private Image _image;
+    private Image _icon, _lockedIcon;
+
+    [SerializeField]
+    private Image _backImage;
+
+    [SerializeField]
+    private Sprite _backLockSprite, _backUnlockSprite;
 
     [SerializeField]
     private Button _button;
@@ -24,8 +30,11 @@ public class CroponomGridButtonView : MonoBehaviour {
     }
 
     public void SetLockState(bool isUnlocked) {
-        //_image.sprite = _config.gridIcon;
-        _image.sprite = isUnlocked ? _config.gridIcon : _config.LockedGridIcon;
+        _backImage.sprite = isUnlocked ? _backUnlockSprite : _backLockSprite;
+        _icon.sprite = _config.gridIcon;
+        _icon.gameObject.SetActive(isUnlocked);
+        _lockedIcon.sprite = _config.LockedGridIcon;
+        _lockedIcon.gameObject.SetActive(!isUnlocked);
         _button.interactable = isUnlocked;
         int lvlToUnlock = UnlockableUtils.FindUnlockLvl(_config.GetUnlockable());
         _lockView.SetLevelToUnlock(lvlToUnlock + 1);

@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
+public class SeedShopDialog : Dialogs.DialogWithData<SeedShopData> {
     [SerializeField]
     private Button _closeButton;
 
@@ -50,6 +50,7 @@ public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
             ShowChangeEndAnimation().Forget();
             SaveLoadManager.CurrentSave.SeedShopData.NeedShowChange = false;
         }
+
         await base.Show(onClose, onHideUI);
     }
 
@@ -62,7 +63,7 @@ public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
             SetAmbarCrop(save.AmbarCrop);
         }
 
-        ChangeSeedsButtonActive.SetActive(save.ChangeButtonActive);
+        ChangeSeedsButtonActive.SetActive(save.ChangeButtonActive && GetPossibleCrops().Count > 2);
         _changeSeedsCost.text = ConfigsManager.Instance.CostsConfig.SeedsShopChangeCost.ToString();
     }
 
@@ -90,6 +91,20 @@ public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
     }
 
     private void ChangeSeeds() {
+        List<Crop> possibleCrops = GetPossibleCrops();
+
+        if (possibleCrops.Count == 1) {
+            SetSeedsShop(possibleCrops[0], possibleCrops[0]);
+            return;
+        }
+
+        Crop firstCrop = possibleCrops[Random.Range(0, possibleCrops.Count)];
+        possibleCrops.Remove(firstCrop);
+        Crop secondCrop = possibleCrops[Random.Range(0, possibleCrops.Count)];
+        SetSeedsShop(firstCrop, secondCrop);
+    }
+
+    private static List<Crop> GetPossibleCrops() {
         List<Crop> possibleCrops = new();
         foreach (CropConfig key in CropsTable.Instance.Crops) {
             if (!UnlockableUtils.HasUnlockable(key.type)) {
@@ -103,15 +118,7 @@ public class SeedShopDialog :  Dialogs.DialogWithData<SeedShopData> {
             }
         }
 
-        if (possibleCrops.Count == 1) {
-            SetSeedsShop(possibleCrops[0], possibleCrops[0]);
-            return;
-        }
-
-        Crop firstCrop = possibleCrops[Random.Range(0, possibleCrops.Count)];
-        possibleCrops.Remove(firstCrop);
-        Crop secondCrop = possibleCrops[Random.Range(0, possibleCrops.Count)];
-        SetSeedsShop(firstCrop, secondCrop);
+        return possibleCrops;
     }
 
     private async UniTask ShowUI() {

@@ -56,6 +56,7 @@ namespace Managers {
         }
 
         private static void RewriteGameSavedData() {
+            //TODO optimize
             string jsonData = GenerateJsonString();
             PlayerPrefs.SetString("saveProfile", jsonData);
         }
