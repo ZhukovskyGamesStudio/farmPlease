@@ -95,6 +95,7 @@ public class BigCalendarDialog : Dialogs.DialogWithData<BigCalendarData> {
             },
             Header = ZG_Localization.LocalizationManager.Instance.GetText("know_weather_ad_header"),
             OnClaim = () => {
+                InventoryManager.Instance.AddTool(ToolBuff.Weatherometr, 1);
                 InventoryManager.Instance.ActivateTool(ToolBuff.Weatherometr);
                 SaveLoadManager.CurrentSave.ToolBuffs[ToolBuff.Weatherometr] = _days.Count - _curDay + 1;
                 TimeManager.Instance.ShowBigCalendarDialog();
