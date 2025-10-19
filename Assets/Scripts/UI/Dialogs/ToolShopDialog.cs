@@ -129,7 +129,7 @@ public class ToolShopDialog : Dialogs.DialogWithData<ToolShopData> {
         CloseByButton();
 
         var config1 = ToolsTable.ToolByType(_toolBuff1);
-        var config2 = ToolsTable.ToolByType(_toolBuff1);
+        var config2 = ToolsTable.ToolByType(_toolBuff2);
 
         var reward = new Reward() {
             Items = new List<RewardItem>() {
@@ -154,6 +154,8 @@ public class ToolShopDialog : Dialogs.DialogWithData<ToolShopData> {
     }
 
     private void GiveBothInstrumentsReward(Reward reward) {
-        DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), reward);
+        DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
+            Reward = reward
+        });
     }
 }
