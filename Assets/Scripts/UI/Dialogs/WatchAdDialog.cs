@@ -13,10 +13,12 @@ public class WatchAdDialog : DialogWithData<WatchAdDialog.Data> {
         public Reward Reward;
         public Action OnClaim;
         public string Header;
-        public bool IsJustImage;
-        public Sprite JustSprite;
         public string AdId;
+        public WatchAdRewardView RewardViewPrefab;
     }
+
+    [SerializeField]
+    private Transform _rewardContainer;
 
     [SerializeField]
     private RewardItemView _rewardItemView;
@@ -38,17 +40,25 @@ public class WatchAdDialog : DialogWithData<WatchAdDialog.Data> {
 
     public override void SetData(Data data) {
         _data = data;
-        RewardUtils.SetRewardsView(data.Reward, new List<RewardItemView>() {
-            _rewardItemView
-        }, null);
+
         _header.text = data.Header;
 
+        if (data.RewardViewPrefab != null) {
+            var view = Instantiate(data.RewardViewPrefab, _rewardContainer);
+            view.SetData(data);
+        }
+
+        /*
         if (_data.IsJustImage) {
             _justImage.gameObject.SetActive(true);
             _rewardItemView.gameObject.SetActive(false);
             _justImage.sprite = _data.JustSprite;
             _justImage.SetNativeSize();
-        }
+        } else {
+            RewardUtils.SetRewardsView(data.Reward, new List<RewardItemView>() {
+                _rewardItemView
+            }, null);
+        }*/
     }
 
     public override async UniTask Show(Action onClose, Action<bool> onHideUI) {

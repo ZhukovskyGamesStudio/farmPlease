@@ -22,6 +22,9 @@ namespace Managers {
         private bool _isAlreadyClicked;
         private Coroutine _realtimeClockCoroutine;
 
+        [SerializeField]
+        private WatchAdRewardView _batteryReward;
+        
         public void TryAddDay() {
             if (!PlayerController.CanInteract) {
                 return;
@@ -60,7 +63,8 @@ namespace Managers {
                     Reward = OneBatteryReward,
                     OnClaim = GiveBatteryReward,
                     Header = ZG_Localization.LocalizationManager.Instance.GetText("battery_ad_header"),
-                    AdId = AdsIds.RewardedBattery
+                    AdId = AdsIds.RewardedBattery,
+                    RewardViewPrefab = _batteryReward
                 });
             }
         }

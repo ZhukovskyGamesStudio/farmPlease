@@ -18,6 +18,9 @@ namespace UI {
         [SerializeField]
         private Button _upgradeWeatherButton;
 
+        [SerializeField]
+        private WatchAdRewardView _upgradeWeatherRewardView;
+
         private List<HappeningType> _happeningWithoutUpgrade = new List<HappeningType>() {
             HappeningType.NormalSunnyDay,
             HappeningType.FoodMarket,
@@ -52,8 +55,7 @@ namespace UI {
                     SmartTilemap.Instance.SetHappeningType(HappeningType.NormalSunnyDay);
                     UIHud.Instance.screenEffect.ChangeEffectCoroutine(HappeningType.NormalSunnyDay, false).Forget();
                 },
-                IsJustImage = true,
-                JustSprite = ConfigsManager.Instance.AdRewardsConfig.AdRewardIcons[AdRewards.UpgradeWeather],
+                RewardViewPrefab = _upgradeWeatherRewardView,
                 AdId = AdsIds.RewardedBetterWeather
             });
         }

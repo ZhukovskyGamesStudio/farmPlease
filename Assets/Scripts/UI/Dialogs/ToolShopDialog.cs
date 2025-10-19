@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using Dialogs;
 using Lofelt.NiceVibrations;
 using ZG_Localization;
 using Managers;
@@ -7,11 +9,13 @@ using TMPro;
 using UI;
 using UnityEngine;
 
-public class ToolShopDialog :  Dialogs.DialogWithData<ToolShopData> {
+public class ToolShopDialog : Dialogs.DialogWithData<ToolShopData> {
     [SerializeField]
     private GameObject ChangeButton;
+
     [SerializeField]
     private TextMeshProUGUI _changeToolsCost;
+
     [SerializeField]
     private ToolOffer _toolOffer1, _toolOffer2;
 
@@ -33,6 +37,12 @@ public class ToolShopDialog :  Dialogs.DialogWithData<ToolShopData> {
     [SerializeField]
     private Transform _noToolsText;
 
+    [SerializeField]
+    private Sprite _bothToolsSprite;
+
+    [SerializeField]
+    private WatchAdRewardView _bothToolsRewardView;
+    
     private void BuyTool1(ToolBuff buff) {
         BuyTool(_toolOffer1, buff);
         Audio.Instance.PlaySound(Sounds.Button);
@@ -78,6 +88,7 @@ public class ToolShopDialog :  Dialogs.DialogWithData<ToolShopData> {
                 _secondActive = false;
                 SaveLoadManager.CurrentSave.ToolShopData.SecondOfferActive = false;
             }
+
             VibrationsUtils.Vibrate(HapticPatterns.PresetType.Selection);
             offer.gameObject.SetActive(false);
             StartCoroutine(Buying());
@@ -112,5 +123,37 @@ public class ToolShopDialog :  Dialogs.DialogWithData<ToolShopData> {
         _tabletAnimation.Play("TabletShow");
         _landingPlatformAnimation.Play("LandingPlatformIdle");
         _exitButton.SetActive(true);
+    }
+
+    public void BothForAd() {
+        CloseByButton();
+
+        var config1 = ToolsTable.ToolByType(_toolBuff1);
+        var config2 = ToolsTable.ToolByType(_toolBuff1);
+
+        var reward = new Reward() {
+            Items = new List<RewardItem>() {
+                new RewardItem() {
+                    Type = _toolBuff1.ToString(),
+                    Amount = config1.buyAmount
+                },
+                new RewardItem() {
+                    Type = _toolBuff2.ToString(),
+                    Amount = config2.buyAmount
+                },
+            }
+        };
+
+        DialogsManager.Instance.ShowDialogWithData(typeof(WatchAdDialog), new WatchAdDialog.Data() {
+            AdId = AdsIds.RewardedBothInstruments,
+           RewardViewPrefab = _bothToolsRewardView,
+            Header = ZG_Localization.LocalizationManager.Instance.GetText("both_tools"),
+            Reward = reward,
+            OnClaim = () => GiveBothInstrumentsReward(reward)
+        });
+    }
+
+    private void GiveBothInstrumentsReward(Reward reward) {
+        DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), reward);
     }
 }

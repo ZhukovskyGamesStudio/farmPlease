@@ -20,6 +20,9 @@ public class BigCalendarDialog : Dialogs.DialogWithData<BigCalendarData> {
 
     [SerializeField]
     private TextMeshProUGUI _monthText;
+    
+    [SerializeField]
+    private WatchAdRewardView _knowWeatherRewardView;
 
     protected override bool IsHideProfile => true;
 
@@ -100,8 +103,7 @@ public class BigCalendarDialog : Dialogs.DialogWithData<BigCalendarData> {
                 SaveLoadManager.CurrentSave.ToolBuffs[ToolBuff.Weatherometr] = _days.Count - _curDay + 1;
                 TimeManager.Instance.ShowBigCalendarDialog();
             },
-            IsJustImage = true,
-            JustSprite = ConfigsManager.Instance.AdRewardsConfig.AdRewardIcons[AdRewards.KnowAllWeather],
+            RewardViewPrefab = _knowWeatherRewardView,
             AdId = AdsIds.RewardedWeatherAhead
         });
         CloseByButton();
