@@ -1,3 +1,4 @@
+using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CostsConfig", menuName = "Scriptable Objects/CostsConfig")]
@@ -22,7 +23,11 @@ public class CostsConfig : ScriptableObject {
     public int XpForBuyTool = 3;
     public int XpForBaseAction = 1;
 
-
     public int LevelToRateUs = 3;
     public int LevelToStartInters = 3;
+
+    public int LevelToUnlimitedEnergyBooster = 5;
+    public int UnlimitedEnergySeconds = 30;
+    public int LevelToDoubleXpBooster = 7;
+    public int UnlimitedDoubleXpSeconds = 30;
 }

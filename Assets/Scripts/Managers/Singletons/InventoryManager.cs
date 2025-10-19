@@ -121,6 +121,11 @@ namespace Managers {
                 amount *= 2;
             }
 
+            if (BoostersManager.Instance.IsDoubleXpActive) {
+                _uiHud.SpawnAdditionalXp(amount);
+                amount *= 2;
+            }
+
             SaveLoadManager.CurrentSave.Xp += amount;
             UIHud.Instance.ProfileView.XpProgressBar.ChangeAmount(amount);
             CheckNewLevelDialog();
@@ -403,6 +408,7 @@ namespace Managers {
             if (SaveLoadManager.CurrentSave.ToolBuffsStored[ToolBuff.Fertilizer] == 0) {
                 SaveLoadManager.CurrentSave.ToolBuffs[ToolBuff.Fertilizer] = 0;
             }
+
             _uiHud.FastPanelScript.UpdateToolsImages();
             _backpack.UpdateGrid();
             SaveLoadManager.SaveGame();

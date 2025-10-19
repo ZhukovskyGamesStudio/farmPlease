@@ -46,7 +46,6 @@ public class AnimatedFarmBackground : Singleton<AnimatedFarmBackground> {
         _bridge.SetActive(level >= 3);
         _bridgeShadow.SetActive(level >= 3);
     }
-    
 
     private async UniTaskVoid WiggleDecors(CancellationToken cancellationToken) {
         while (true) {
@@ -66,10 +65,22 @@ public class AnimatedFarmBackground : Singleton<AnimatedFarmBackground> {
             foreach (var decor in _flyArounAnimations) {
                 decor.Stop();
                 decor.Play();
+                decor.gameObject.SetActive(true);
+                if (BoostersManager.Instance.IsNextRewardBig) {
+                    decor.transform.Find("AttentionView")?.gameObject.SetActive(true);
+                } else {
+                    decor.transform.Find("AttentionView")?.gameObject.SetActive(false);
+                }
                 await UniTask.WaitWhile(() => decor.isPlaying, cancellationToken: cancellationToken);
                 await UniTask.Delay(TimeSpan.FromSeconds(10), cancellationToken: cancellationToken);
             }
         }
+    }
+
+    public void OnClickFlyingDecor(GameObject decor) {
+        decor.gameObject.SetActive(false);
+
+        BoostersManager.Instance.OnClickFlyingDecor(decor);
     }
 
     private async UniTask WiggleDecor(Transform decor, CancellationToken cancellationToken) {
@@ -122,8 +133,8 @@ public class AnimatedFarmBackground : Singleton<AnimatedFarmBackground> {
         await UniTask.WaitForSeconds(0.5f);
         _animator.SetBool("Appeared", true);
         await canvasGroup.DOFade(1, 0.35f).AsyncWaitForCompletion();
-       
     }
+
     public async UniTask DisappearAndReappear() {
         var canvasGroup = PlayerController.Instance.GetComponent<CanvasGroup>();
         _animator.SetBool("Appeared", false);

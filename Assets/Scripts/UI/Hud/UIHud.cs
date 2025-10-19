@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Abstract;
+using Dialogs;
 using Managers;
 using Tables;
 using UnityEngine;
@@ -44,7 +45,17 @@ namespace UI {
         public OpenRealShopButtonView OpenRealShopButton;
         public OpenNoAdsButtonView OpenNoAdsButtonView;
 
+        [SerializeField]
+        private CounterChangeFx _changeUpFx;
+        [SerializeField]
+        private Transform _fxContainer;
+        [SerializeField]
+        private Sprite _xpIcon;
+        
         public LockView ToolsShopLock;
+   
+        public GameObject DoubleXpBooster;
+        public GoldenTimer DoubleXpTimer;
 
         private void Start() {
             Dialogs.DialogsManager.Instance.OnHideUI += OnDialogShowHide;
@@ -162,6 +173,15 @@ namespace UI {
 
         public void OpenQuests() {
             QuestsManager.Instance.OpenQuestsDialog();
+        }
+        
+        
+        public void SpawnAdditionalXp(int amount) {
+            if (DialogsManager.Instance.IsDialogShown) {
+                return;
+            }
+            CounterChangeFx fx = Instantiate(_changeUpFx, DoubleXpBooster.transform.position, Quaternion.identity,_fxContainer);
+            fx.Init(_xpIcon, amount);
         }
     }
 }

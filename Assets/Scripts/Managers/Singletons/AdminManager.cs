@@ -11,9 +11,11 @@ public class AdminManager : MonoBehaviour {
     [SerializeField]
     private GameObject _adminPanelToggle, _adminPanel;
 
-    [SerializeField]private Image _adminPanelToggleBackground;
+    [SerializeField]
+    private Image _adminPanelToggleBackground;
+
     private bool _uiEbabled = true;
-    
+
     public static AdminManager Instance { get; private set; }
 
     private void Awake() {
@@ -35,13 +37,14 @@ public class AdminManager : MonoBehaviour {
     public void AddXp(int amount) {
         InventoryManager.Instance.AddXp(amount);
     }
+
     public void AddXpToNextLevel() {
-        int amount =    SaveLoadManager.CurrentSave.Xp;
+        int amount = SaveLoadManager.CurrentSave.Xp;
         int amountToNextLevel = XpUtils.GetNextLevelByXp(SaveLoadManager.CurrentSave.Xp) - amount;
-        if(amountToNextLevel > 10000) {
+        if (amountToNextLevel > 10000) {
             amountToNextLevel = 10000; // Limit to prevent excessive XP addition
         }
-     
+
         SaveLoadManager.CurrentSave.CurrentLevel++;
         UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
         InventoryManager.Instance.AddXp(amountToNextLevel);
@@ -51,7 +54,7 @@ public class AdminManager : MonoBehaviour {
     public void AddCollectedCrops(int amount) {
         InventoryManager.Instance.AddCollectedCrop(Crop.Tomato, amount);
     }
-    
+
     public void AddBattery(int amount) {
         InventoryManager.Instance.AddTool(ToolBuff.WeekBattery, amount);
     }
@@ -64,6 +67,7 @@ public class AdminManager : MonoBehaviour {
         if (!PlayerController.CanInteract) {
             return;
         }
+
         TimeManager.Instance.AddDay();
     }
 
@@ -72,15 +76,15 @@ public class AdminManager : MonoBehaviour {
         foreach (Knowledge knowledge in knowledges) {
             KnowledgeUtils.AddKnowledge(knowledge);
         }
-        List<string>  unlockables = new List<string>(Enum.GetNames(typeof(Unlockable)));
+
+        List<string> unlockables = new List<string>(Enum.GetNames(typeof(Unlockable)));
         unlockables.AddRange(Enum.GetNames(typeof(Crop)));
         unlockables.AddRange(Enum.GetNames(typeof(ToolBuff)));
         unlockables.AddRange(Enum.GetNames(typeof(HappeningType)));
         foreach (string unlockable in unlockables) {
             UnlockableUtils.Unlock(unlockable);
         }
-        
-        
+
         UIHud.Instance.UpdateLockedUI();
     }
 
@@ -90,6 +94,7 @@ public class AdminManager : MonoBehaviour {
             if (crop is Crop.None or Crop.Weed) {
                 continue;
             }
+
             InventoryManager.Instance.AddSeed(crop, amount);
         }
     }
@@ -118,9 +123,17 @@ public class AdminManager : MonoBehaviour {
             _uiEbabled = true;
         }
     }
-    
+
     public void ShowRateUs() {
         RateUsManager.Instance.RateUsSource = "settings";
         DialogsManager.Instance.ShowDialog(typeof(RateUsDialog));
+    }
+
+    public void GetUnlimitedEnergy() {
+        BoostersManager.Instance.ShowWatchForUnlimitedEnergyAd();
+    }
+
+    public void GetDoubleXp() {
+        BoostersManager.Instance.ShowWatchForDoubleXpAd();
     }
 }

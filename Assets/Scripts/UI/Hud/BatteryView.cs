@@ -16,6 +16,8 @@ namespace UI
         [SerializeField]
         private GameObject _normalBattery, _goldenBattery, _normalChargesContainer, _goldenChargesContainer;
     
+        [SerializeField]
+        private  GameObject _normalUnlimited, _goldenUnlimited;
 
         [SerializeField]
         private Animation _animation;
@@ -26,12 +28,21 @@ namespace UI
 
         private List<Image> CurrentChargeImages => _isGolden ? _goldenChargeImages : _chargeImages;
         private bool _isGolden;
+        
+        [SerializeField]
+        public GoldenTimer UnlimitedBoosterTimer;
 
         public void UpdateGoldenState() {
             _isGolden = SaveLoadManager.CurrentSave.RealShopData.HasGoldenBattery;
             _normalBattery.SetActive(!_isGolden);
             _goldenBattery.SetActive(_isGolden);
             UIHud.Instance.SetBattery(SaveLoadManager.CurrentSave.Energy);
+        }
+
+        public void SetUnlimitedEnergyActive(bool isActive) {
+            _normalUnlimited.SetActive(isActive && !_isGolden);
+            _goldenUnlimited.SetActive(isActive && _isGolden);
+            UIHud.Instance.BatteryView.UnlimitedBoosterTimer.gameObject.SetActive(isActive);
         }
         
         public void NoEnergy() {

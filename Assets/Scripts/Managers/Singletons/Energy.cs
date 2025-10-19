@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using Cysharp.Threading.Tasks;
+using Managers;
 using UI;
 using ZhukovskyGamesPlugin;
 
@@ -14,6 +15,9 @@ public class Energy : Singleton<Energy> {
     }
 
     public void LoseOneEnergy() {
+        if (BoostersManager.Instance.IsUmlimitedEnergyActive) {
+            return;
+        }
         SaveLoadManager.CurrentSave.Energy--;
         if (CurEnergy < 0) {
             SaveLoadManager.CurrentSave.Energy = 0;
@@ -50,6 +54,9 @@ public class Energy : Singleton<Energy> {
     }
 
     public bool HasEnergy(bool isShowNoEnergyAnimation = true) {
+        if (BoostersManager.Instance.IsUmlimitedEnergyActive) {
+            return true;
+        }
         if (CurEnergy == 0 && isShowNoEnergyAnimation) {
             UIHud.Instance.NoEnergy();
             Audio.Instance.PlaySound(Sounds.ZeroEnergy);

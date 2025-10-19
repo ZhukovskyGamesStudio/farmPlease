@@ -54,8 +54,7 @@ public class GameSaveProfile {
     public List<string> Unlocked = new List<string>();
     public List<string> UnseenCroponomPages = new List<string>();
     public string LastCroponomPage;
-
-
+    
     public QuestsDialogData QuestsData = new QuestsDialogData();
     
     public DateTime ParsedDate => DateTime.Parse(Date, CultureInfo.InvariantCulture);
