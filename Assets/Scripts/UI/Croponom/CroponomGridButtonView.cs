@@ -32,8 +32,10 @@ public class CroponomGridButtonView : MonoBehaviour {
     public void SetLockState(bool isUnlocked) {
         _backImage.sprite = isUnlocked ? _backUnlockSprite : _backLockSprite;
         _icon.sprite = _config.gridIcon;
+        _icon.SetNativeSize();
         _icon.gameObject.SetActive(isUnlocked);
         _lockedIcon.sprite = _config.LockedGridIcon;
+        _lockedIcon.SetNativeSize();
         _lockedIcon.gameObject.SetActive(!isUnlocked);
         _button.interactable = isUnlocked;
         int lvlToUnlock = UnlockableUtils.FindUnlockLvl(_config.GetUnlockable());

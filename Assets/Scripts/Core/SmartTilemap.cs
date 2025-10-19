@@ -340,6 +340,8 @@ public class SmartTilemap : MonoBehaviour {
         }
 
         switch (actionName) {
+            case "fertilizer":
+                return _tiles[Playercoord].CanbeNewDayed();
             case "building":
                 return _tiles[Playercoord].IsBuilding();
 
@@ -364,7 +366,7 @@ public class SmartTilemap : MonoBehaviour {
     }
 
     public async UniTask NewDayTile() {
-        await _tiles[Playercoord].OnClicked(animtime);
+        await _tiles[Playercoord].OnNeyDayed(animtime);
     }
 
     public async UniTask ClickTile() {

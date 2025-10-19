@@ -35,14 +35,15 @@ public static class UnlockableUtils {
     }
 
     public static void Unlock(string unlockable) {
-        if (unlockable == Unlockable.FoodMarket.ToString()) {
+        if (unlockable == nameof(Unlockable.FoodMarket)) {
             TimeManager.AddMissingFoodMarkets();
-        } else if (unlockable == Unlockable.ToolShop.ToString()) {
-            SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(ToolBuff.Unlimitedwatercan.ToString());
-        } else if (unlockable == Unlockable.Field1.ToString()) {
+        } else if (unlockable == nameof(Unlockable.ToolShop)) {
+            SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(nameof(ToolBuff.Fertilizer));
+            SaveLoadManager.CurrentSave.UnseenCroponomPages.Add(nameof(ToolBuff.Unlimitedwatercan));
+        } else if (unlockable == nameof(Unlockable.Field1)) {
             TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 1));
             GameSceneEntryPoint.UpdateDecorUpgradeState();
-        } else if (unlockable == Unlockable.Field2.ToString()) {
+        } else if (unlockable == nameof(Unlockable.Field2)) {
             TileUtils.UnlockTiles(TileUtils.GenerateCircleTiles(SmartTilemap.STARTING_CIRCLE_RADIUS + 2));
             GameSceneEntryPoint.UpdateDecorUpgradeState();
         }
@@ -73,11 +74,12 @@ public static class UnlockableUtils {
     public static List<string> GetInitialUnlockables() {
         var initialUnlockables = new List<string> {
             // Add initial unlockables here
-            ToolBuff.Unlimitedwatercan.ToString(),
-            Crop.Tomato.ToString(),
-            HappeningType.Rain.ToString(),
-            HappeningType.Unknown.ToString(),
-            HappeningType.NormalSunnyDay.ToString()
+            nameof(ToolBuff.Unlimitedwatercan),
+            nameof(ToolBuff.Fertilizer),
+            nameof(Crop.Tomato),
+            nameof(HappeningType.Rain),
+            nameof(HappeningType.Unknown),
+            nameof(HappeningType.NormalSunnyDay)
         };
 
         return initialUnlockables;
@@ -93,11 +95,11 @@ public static class UnlockableUtils {
     }
 
     public static List<string> NotInCroponom = new List<string> {
-        Unlockable.ToolShop.ToString(),
-        Unlockable.FarmerCommunity.ToString(),
-        Unlockable.None.ToString(),
-        Unlockable.Field1.ToString(),
-        Unlockable.Field2.ToString()
+        nameof(Unlockable.ToolShop),
+        nameof(Unlockable.FarmerCommunity),
+        nameof(Unlockable.None),
+        nameof(Unlockable.Field1),
+        nameof(Unlockable.Field2)
     };
 }
 

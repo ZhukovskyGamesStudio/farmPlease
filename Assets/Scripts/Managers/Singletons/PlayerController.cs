@@ -399,10 +399,22 @@ public class PlayerController : Singleton<PlayerController> {
 
                 break;
             }
-
-            case Tool.Watercan: {
+            case Tool.Watercan when InventoryManager.Instance.IsToolWorking(ToolBuff.Fertilizer): {
+                if (!_smartTilemap.AvailabilityCheck("fertilizer")) {
+                    break;
+                }
+                sequenceId = SaveLoadManager.Instance.StartSequence();
+                didSomething = true;
+                InventoryManager.Instance.AddXp(ConfigsManager.Instance.CostsConfig.XpForBaseAction);
+                InventoryManager.Instance.UseOneFertilizer();
+                _uiHud.FastPanelScript.UpdateToolsImages();
+                await _smartTilemap.NewDayTile();
+                break;
+            }
+            case Tool.Watercan when !InventoryManager.Instance.IsToolWorking(ToolBuff.Fertilizer): {
+              
                 bool hasUnlimited = InventoryManager.Instance.IsToolWorking(ToolBuff.Unlimitedwatercan);
-                if (!hasUnlimited && !Energy.Instance.HasEnergy()) {
+                if (!hasUnlimited  && !Energy.Instance.HasEnergy()) {
                     break;
                 }
 

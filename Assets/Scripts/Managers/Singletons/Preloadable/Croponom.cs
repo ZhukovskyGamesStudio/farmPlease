@@ -132,7 +132,7 @@ namespace UI {
             }
 
             ToolsOpenButton.gameObject.SetActive(UnlockableUtils.HasUnlockable(ToolBuff.WeekBattery));
-            WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.LilCalendar));
+            WeatherOpenButton.gameObject.SetActive(KnowledgeUtils.HasKnowledge(Knowledge.Weather));
             BuildingsOpenButton.gameObject.SetActive(SaveLoadManager.CurrentSave.BuildingShopData.BuildingPriceIndex > 0);
         }
 

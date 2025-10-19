@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using ScriptableObjects;
 using Tables;
@@ -11,7 +12,7 @@ namespace UI {
         public Button[] toolButtons;
         public Sprite HoeNormalSprite, WatercanNormalSprite, SeedNormalSprite, ScytheNormalSprite, CalendarNormalSprite;
         public Image HoeImage, WatercanImage, SeedImage, ScytheImage;
-        public TextMeshProUGUI SeedText;
+        public TextMeshProUGUI SeedText, WatercanText;
         public Image[] SlotsImages;
         public Sprite[] SlotsNormal, SlotsPressed;
 
@@ -23,21 +24,21 @@ namespace UI {
 
         [SerializeField]
         private GoldenTimer _goldenTimer;
+
         private Backpack _backpack;
         private Image _calendarImage;
         private Crop _curCropSeed;
 
-        public void Update()
-        {
-            if (KnowledgeUtils.HasKnowledge(Knowledge.Training)){
+        public void Update() {
+            if (KnowledgeUtils.HasKnowledge(Knowledge.Training)) {
                 UpdateGoldenScytheState();
                 UpdateGoldenTimer();
             }
         }
 
-        private void UpdateGoldenTimer()
-        {
-            _goldenTimer.gameObject.SetActive(!RealShopUtils.IsAllEndless &&RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData));
+        private void UpdateGoldenTimer() {
+            _goldenTimer.gameObject.SetActive(!RealShopUtils.IsAllEndless &&
+                                              RealShopUtils.IsGoldenScytheActive(SaveLoadManager.CurrentSave.RealShopData));
             _goldenTimer.SetTime(RealShopUtils.ScytheTimeLeft(SaveLoadManager.CurrentSave.RealShopData));
         }
 
@@ -62,7 +63,8 @@ namespace UI {
             ScytheImage.sprite = ScytheNormalSprite;
             _calendarImage.sprite = CalendarNormalSprite;
 
-            foreach (ToolBuff type in InventoryManager.ToolsActivated.Keys) {
+            var ordered = InventoryManager.ToolsActivated.Keys.OrderBy(GetOrderByKey);
+            foreach (ToolBuff type in ordered) {
                 ToolConfig tool = ToolsTable.ToolByType(type);
                 Image toChange = null;
                 switch (tool.toolUIType) {
@@ -91,7 +93,19 @@ namespace UI {
                 if (InventoryManager.Instance.IsToolWorking(type) && toChange != null) {
                     toChange.sprite = tool.buffedIcon;
                 }
+
+                WatercanText.text = InventoryManager.Instance.IsToolWorking(ToolBuff.Fertilizer)
+                    ? SaveLoadManager.CurrentSave.ToolBuffsStored[ToolBuff.Fertilizer].ToString()
+                    : "";
             }
+        }
+
+        private int GetOrderByKey(ToolBuff type) {
+            if(type == ToolBuff.Fertilizer) {
+                return 1;
+            }
+
+            return 0;
         }
 
         public void UpdateHover(int index) {
@@ -119,6 +133,11 @@ namespace UI {
                 return;
             }
 
+            if (InventoryManager.Instance.IsToolWorking(ToolBuff.Fertilizer) && (Tool)index != Tool.Watercan) {
+                SaveLoadManager.CurrentSave.ToolBuffs[ToolBuff.Fertilizer] = 0;
+                UpdateToolsImages();
+            }
+            
             PlayerController.Instance.ChangeTool(index);
         }
     }

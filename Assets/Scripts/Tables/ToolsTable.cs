@@ -6,8 +6,7 @@ using Cysharp.Threading.Tasks;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Tables
-{
+namespace Tables {
     public class ToolsTable : PreloadableSingleton<ToolsTable> {
         public ToolConfig[] ToolsSO;
 
@@ -17,12 +16,12 @@ namespace Tables
             for (int i = 0; i < Instance.ToolsSO.Length; i++)
                 if (Instance.ToolsSO[i].buff == buff)
                     return Instance.ToolsSO[i];
-            UnityEngine.Debug.Log("Нет класса Tool под тип " + buff);
+            Debug.Log("Нет класса Tool под тип " + buff);
             return null;
         }
 
-        public static List<ToolBuff> Tools=> Instance.ToolsSO.Select(t => t.buff).ToList();
-        
+        public static List<ToolBuff> Tools => Instance.ToolsSO.Select(t => t.buff).ToList();
+
         public async UniTask LoadToolsAsync() {
             ToolsSO = Resources.LoadAll<ToolConfig>("Configs/Tools");
             await UniTask.Yield();
@@ -38,18 +37,8 @@ namespace Tables
         Carpetseeder,
         Greenscythe,
         Wetscythe,
-        WeekBattery
-    }
-    [Serializable]
-    public enum ToolBuffRussion {
-        Ничто = -1,
-        Двойная_тяпка,
-        Бездонная_лейка,
-        Погодомер,
-        Подшитый_рюкзак,
-        Greenscythe,
-        Wetscythe,
-        WeekBattery
+        WeekBattery,
+        Fertilizer
     }
 
     [Serializable]

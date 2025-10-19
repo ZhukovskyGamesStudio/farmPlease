@@ -8,8 +8,6 @@ namespace ScriptableObjects
     [Serializable]
     public class ToolConfig : ConfigWithCroponomPage {
         [Header("Tool")]
-        public new string name;
-
         public ToolBuff buff;
 
         [Header("ToolShopProperties")]
@@ -17,12 +15,12 @@ namespace ScriptableObjects
 
         [LocalizationKey("Croponom")] 
         public string explainTextLoc;
-        public string explainText;
         [Min(1)]
         public int buyAmount;
         [Min(1)]
         public int workDaysAmount = 1;
         public bool IsInstant;
+        public bool IsInstantUse = true;
 
         [Header("HUDElements")]
         public ToolUIType toolUIType;

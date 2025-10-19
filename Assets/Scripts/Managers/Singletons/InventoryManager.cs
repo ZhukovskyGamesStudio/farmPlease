@@ -53,6 +53,7 @@ namespace Managers {
         }
 
         public void SetInventoryWithData() {
+            SaveLoadManager.CurrentSave.ToolBuffs[ToolBuff.Fertilizer] = 0;
             _fastPanelScript.UpdateToolsImages();
 
             UpdateInventoryUI();
@@ -141,11 +142,11 @@ namespace Managers {
             };
             DialogsManager.Instance.ShowDialogWithData(typeof(RewardDialog), new RewardDialogData() {
                 Reward = onlyReward,
-                OnClaim = ()=>OnClaimNewLevel(rewardWithUnlockable)
+                OnClaim = () => OnClaimNewLevel(rewardWithUnlockable)
             });
         }
 
-        private void OnClaimNewLevel( RewardWithUnlockable rewardWithUnlockable) {
+        private void OnClaimNewLevel(RewardWithUnlockable rewardWithUnlockable) {
             SaveLoadManager.CurrentSave.CurrentLevel++;
             UIHud.Instance.ProfileView.SetData(SaveLoadManager.CurrentSave);
             RewardUtils.ClaimUnlockOnly(rewardWithUnlockable);
@@ -175,7 +176,7 @@ namespace Managers {
                 AddCoins(-1 * cost);
                 AddSeed(crop, amount);
                 SmartTilemap.Instance.HappeningSequence().Forget();
-                
+
                 VibrationsUtils.Vibrate(HapticPatterns.PresetType.Selection);
                 return true;
             }
@@ -298,7 +299,10 @@ namespace Managers {
                 ToolsStored.Add(buff, 0);
             }
 
-            ToolsStored[buff]--;
+            if (config.IsInstantUse) {
+                ToolsStored[buff]--;
+            }
+
             VibrationsUtils.Vibrate(HapticPatterns.PresetType.Success);
             if (!ToolsActivated.ContainsKey(buff)) {
                 ToolsActivated.Add(buff, 0);
@@ -316,6 +320,7 @@ namespace Managers {
 
             switch (buff) {
                 case ToolBuff.Unlimitedwatercan:
+                case ToolBuff.Fertilizer:
                     UIHud.Instance.FastPanelScript.ChangeTool((int)Tool.Watercan);
                     break;
                 case ToolBuff.Doublehoe:
@@ -391,6 +396,16 @@ namespace Managers {
 
         public void UpdateInventoryUI() {
             _backpack.UpdateGrid();
+        }
+
+        public void UseOneFertilizer() {
+            SaveLoadManager.CurrentSave.ToolBuffsStored[ToolBuff.Fertilizer]--;
+            if (SaveLoadManager.CurrentSave.ToolBuffsStored[ToolBuff.Fertilizer] == 0) {
+                SaveLoadManager.CurrentSave.ToolBuffs[ToolBuff.Fertilizer] = 0;
+            }
+            _uiHud.FastPanelScript.UpdateToolsImages();
+            _backpack.UpdateGrid();
+            SaveLoadManager.SaveGame();
         }
     }
 }
